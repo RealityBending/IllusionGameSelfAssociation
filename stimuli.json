@@ -1,0 +1,20 @@
+var stimuli =[
+    {shape:'utils/circle.png', label:'You'
+    },
+    {shape:'utils/circle.png', label:'Friend'
+    },
+    {shape:'utils/circle.png', label:'Stranger'
+    },
+    {shape:'utils/triangle.png', label:'You'
+    },
+    {shape:'utils/triangle.png', label:'Friend'
+    },
+    {shape:'utils/triangle.png', label:'Stranger'
+    },
+    {shape:'utils/square.png', label:'You'
+    },
+    {shape:'utils/square.png', label:'Friend'
+    },
+    {shape:'utils/square.png', label:'Stranger'
+    },
+]
