@@ -140,13 +140,49 @@
         type: jsPsychHtmlButtonResponse,
         stimulus:
             "<p><b>Instructions</b></p>" +
-            "<p>In this matching game, you will be shown some shapes that will be assigned to a label.</p>" +
+            "<p>In this matching game, you will be shown some shapes that will be assigned to a label (You, Your Best Friend and a Stranger).</p>" +
             "<p>Your task is to decide if the presented shape match their assigned labels as quickly and accurately as possible</p>" +
             "<p>If the shape-label pair is a match, press <b>'a'</b>. If they are not a match, press <b>'l'</b></p><br>" +
             "<p>Good luck!</p>",
         choices: ["Continue"],
+        data: {screen: "instructions"}
     }
+
     timeline.push(instructions)
+
+    // Assignment of label
+    var friend_label = {
+        type: jsPsychSurveyText,
+        questions: [
+            {
+                prompt: "To personalize our experiment to individuals, we would like participants to name their best friend:",
+                placeholder: "John Doe",
+                name: "Friend",
+            },
+        ],
+        data: {screen: "friend"},
+    }
+    timeline.push(friend_label)
+
+    var condition = jsPsych.randomization.shuffle(['circle', 'triangle', 'square'])
+
+    // Assign shape-label randomly
+    var training = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: function(){
+            var friend = jsPsych.data.getLastTrialData().values()[0]["response"]["Friend"];
+            var text = "<p><b>Training</b></p>" +
+                "<p><b>You</b> are represented by the <b>" + condition[0] + "</b></p>" +
+                "<p><b>" + friend +  "</b> is represented by the <b>" + condition[1] + "</b></p>" +
+                "<p>A <b>stranger</b> is represented by the <b>" + condition[2] +  "</b></p>";
+            return text;
+        },
+        choices: ['Got it!'],
+        data: {screen: "training"}
+    }
+
+    timeline.push(training)
+
 
     // Create grey fixation screen
     var fixation = {
