@@ -15,7 +15,7 @@
     <script src="utils/jspsych/plugin-survey-text.js"></script>
     <script src="utils/jspsych/plugin-preload.js"></script>
     <script src="https://realitybending.github.io/JSmisc/misc/utils.js"></script>
-    <script src="stimuli.json"></script>
+    <script src="stimuli.js"></script>
 
     <!-- Applying default style here -->
     <link href="utils/jspsych/jspsych.css" rel="stylesheet" type="text/css" />
@@ -180,7 +180,14 @@
         },
         trial_duration: 60*1000,
         choices: ['Got it!'],
-        data: {screen: "training"}
+        data: {screen: "training"},
+        on_finish: function () {
+            jsPsych.data.addProperties({
+                You_shape: condition[0],
+                Friend_shape: condition[1],
+                Stranger_shape: condition[2],
+            })
+        }
     }
 
     timeline.push(training)
@@ -203,7 +210,7 @@
     var trials = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: function(){
-            var rand_shapes= jsPsych.timelineVariable('shape');
+            var rand_shapes= jsPsych.timelineVariable('stimulus');
             var rand_labels= jsPsych.timelineVariable('label');;
             return('<img src='+ rand_shapes + ' height=170></img>' +
                 '<p style ="font-size:80px; padding-bottom:70px;">+</p>' +
@@ -212,7 +219,12 @@
         choices: "NO_KEYS",
         trial_duration: 100,
         data: {screen: "trial"},
-    }
+        on_finish: function(){
+                data.shape= jsPsych.timelineVariable('shape'),
+                data.label= jsPsych.timelineVariable('label')
+            }
+        }
+
 
     // Blank screen for response
     var response ={
@@ -225,9 +237,56 @@
         save_trial_parameters: {
             trial_duration: true,
         },
-        on_finish: function () {
+        on_finish: function (data) {
             document.body.style.backgroundColor = "#0000"  // turn background back to white
             document.body.style.cursor = "none"
+            if (jsPsych.pluginAPI.compareKeys(data.response, 'a')){
+                if (data.label=='You'){
+                    if (data.shape = data.You_shape){
+                        data.correct = true
+                    } else{
+                        data.correct=false
+                    }
+                }
+                if (data.label=='Friend'){
+                    if(data.shape = data.Friend_shape){
+                        data.correct=true
+                    } else{
+                        data.correct = false
+                    }
+                }
+                if (data.label=='Stranger'){
+                    if (data.shape=data.Stranger_shape){
+                        data.correct=true
+                    } else{
+                        data.correct = false
+                    }
+                }
+            }
+            if (jsPsych.pluginAPI.compareKeys(data.response, 'l')){
+                if (data.label=='You'){
+                    if (data.shape != data.You_shape){
+                        data.correct = true
+                    } else{
+                        data.correct=false
+                    }
+                }
+                if (data.label=='Friend'){
+                    if(data.shape != data.Friend_shape){
+                        data.correct=true
+                    } else{
+                        data.correct = false
+                    }
+                }
+                if (data.label=='Stranger'){
+                    if (data.shape!=data.Stranger_shape){
+                        data.correct=true
+                    } else{
+                        data.correct = false
+                    }
+                }
+            }
+           return data.correct
         },
         data: { screen: "response" },
     }
