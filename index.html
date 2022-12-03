@@ -167,6 +167,7 @@
     var condition = jsPsych.randomization.shuffle(['circle', 'triangle', 'square'])
 
     // Assign shape-label randomly
+    // Note that in the original paradigm this training is given verbally
     var training = {
         type: jsPsychHtmlButtonResponse,
         stimulus: function(){
@@ -177,12 +178,12 @@
                 "<p>A <b>stranger</b> is represented by the <b>" + condition[2] +  "</b></p>";
             return text;
         },
+        trial_duration: 60*1000,
         choices: ['Got it!'],
         data: {screen: "training"}
     }
 
     timeline.push(training)
-
 
     // Create grey fixation screen
     var fixation = {
