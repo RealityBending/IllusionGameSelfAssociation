@@ -33,6 +33,11 @@
         Body::-webkit-scrollbar {
             display: none;
         }
+
+        #align-middle img {
+            vertical-align: middle;
+            margin-left: 5px;
+        }
     </style>
 </head>
 
@@ -43,8 +48,8 @@
     var timeline = []
 
     var jsPsych = initJsPsych({
-        show_progress_bar: true,
-        message_progress_bar: "Completion",
+       // show_progress_bar: true,
+        //message_progress_bar: "Completion",
         on_finish: function () {
             jsPsych.data.displayData("json")
             // jsPsych.data
@@ -155,41 +160,59 @@
         type: jsPsychSurveyText,
         questions: [
             {
-                prompt: "To personalize our experiment to individuals, we would like participants to name their best friend:",
+                prompt: "To personalize our experiment to individuals, we would like participants to name their best friend and imagine them:",
                 placeholder: "John Doe",
                 name: "Friend",
             },
         ],
+        on_finish: function(data){
+            jsPsych.data.addProperties({
+                friend_name : data.response["Friend"]
+            })
+        },
         data: {screen: "friend"},
     }
-    timeline.push(friend_label)
-
-
-    const all_label = ['You', 'Friend', 'Stranger']
+    // timeline.push(friend_label)
 
     var randomize_shape = jsPsych.randomization.shuffle(['circle', 'triangle', 'square'])
-    var randomize_labels = jsPsych.randomization.shuffle(all_label)
+    var randomize_labels = jsPsych.randomization.shuffle(["You", "Friend", "Stranger"])
+    // function get_friend(data){
+    //     var friend =jsPsych.data.getLastTrialData().values()[0]["response"]["Friend"]
+    //     var all_labels = ['You', 'Stranger']
+    //     all_labels.push(friend)
+
+    //     var randomize_labels = jsPsych.randomization.shuffle(all_labels)
+    //     return randomize_labels
+    // }
+   // var randomize_labels = get_friend(data)
 
     // Assign shape-label randomly
     // Note that in the original paradigm this training is given verbally
     var training = {
         type: jsPsychHtmlButtonResponse,
         stimulus: function(){
-            var friend =jsPsych.data.getLastTrialData().values()[0]["response"]["Friend"]
+            // var friend =jsPsych.data.getLastTrialData().values()[0]["response"]["Friend"]
+            // var all_labels = ['You', 'Stranger']
+            // all_labels.push(friend)
+            // var randomize_labels = get_friend(data)
             var text = "<p><b>Training</b></p>" +
-                "<p><b>"+ randomize_labels[0] +"</b> represented by the <b>" + randomize_shape[0] + "</b></p>" +
-                "<p><b>"+ randomize_labels[1] +"</b> represented by the <b>" + randomize_shape[1] + "</b></p>" +
-                "<p><b>"+ randomize_labels[2] + "</b> represented by the <b>" + randomize_shape[2] +  "</b></p>";
+                "<div id ='align-middle'><b>"+ randomize_labels[0] + "</b> represented by the <b>" + randomize_shape[0] + "</b>" + "<img src= utils/demo_" + randomize_shape[0] + ".png height=40></img></div><br>" +
+                "<div id ='align-middle'><b>"+ randomize_labels[1] +"</b> represented by the <b>" + randomize_shape[1] + "</b>" + "<img src = utils/demo_" + randomize_shape[1] +".png height=40></img></div><br>" +
+                "<div id = 'align-middle'><b>"+ randomize_labels[2] + "</b> represented by the <b>" + randomize_shape[2] +  "</b>" + "<img src= utils/demo_" + randomize_shape[2] + ".png height=40></img></div><br>"
             return text;
         },
         trial_duration: 60*1000,
         choices: ['Got it!'],
         data: {screen: "training"},
         on_finish: function () {
+          //  var randomize_labels = get_friend(data)
             jsPsych.data.addProperties({
-                answer_1: randomize_labels[0] + '_' + randomize_shape[0],
-                answer_2: randomize_labels[1] + '_' + randomize_shape[1],
-                answer_3: randomize_labels[2] + '_' + randomize_shape[2],
+                qn_1: randomize_labels[0],
+                qn_2: randomize_labels[1],
+                qn_3: randomize_labels[2],
+                answer_1: randomize_shape[0],
+                answer_2: randomize_shape[1],
+                answer_3: randomize_shape[2],
             })
         }
     }
@@ -228,16 +251,35 @@
         trial_duration: 100,
         data: jsPsych.timelineVariable("data"),
         on_finish: function(data) {
-            var trial_answer = data.label_cond + '_' + data.shape
-            data.ppt_answer = trial_answer
+           // var last_trial =jsPsych.data.get().last(1).values()[0]
+            if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_1)){
+                if  (jsPsych.pluginAPI.compareKeys(data.label_cond, data.qn_1)){
+                    data.match ="a"
+                } else {
+                    data.match = "l"
+                }
+            }
+            if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_2)){
+                if (jsPsych.pluginAPI.compareKeys(data.label_cond, data.qn_2)){
+                    data.match = "a"
+                } else {
+                    data.match = "l"
+                }
+            }
+            if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_3)){
+                if (jsPsych.pluginAPI.compareKeys(data.label_cond, data.qn_3)){
+                    data.match = "a"
+                } else {
+                    data.match ="l"
+                }
+            }
         }
     }
 
-
     // Blank screen for response
-    var response_screen ={
+    var response_screen = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus:'',
+        stimulus: '',
         choices: ['a', 'l'],
         trial_duration: function () {
             return randomInteger(800, 1200)
@@ -255,24 +297,37 @@
                 data.timeout = false
             }
             // compute accuracy per trial
-            var last_trial =jsPsych.data.get().last(1).values()[0]
-            if (jsPsych.pluginAPI.compareKeys(data.response, 'a')){
-                if (last_trial.ppt_answer == last_trial.answer_1 ||
-                    last_trial.ppt_answer == last_trial.answer_2 ||
-                    last_trial.ppt_answer == last_trial.answer_3){
-                        data.correct = true
-                } else {
-                    data.correct = false
-                }
-            } else if (jsPsych.pluginAPI.compareKeys(data.response, 'l')){
-                if (last_trial.ppt_answer != last_trial.answer_1 ||
-                    last_trial.ppt_answer != last_trial.answer_2 ||
-                    last_trial.ppt_answer != last_trial.answer_3){
-                        data.correct = true
-                } else {
-                    data.correct = false
-                }
+            var last_trial =jsPsych.data.get().last(2).values()[0]
+            if (jsPsych.pluginAPI.compareKeys(last_trial.match, data.response)){
+                data.correct = true
+            } else {
+                data.correct = false
             }
+            data.block_number = block_number
+            data.trial_number = trial_number
+            trial_number += 1
+        },
+        data: { screen: "response_screen",}
+            //}
+            //if (data.response == "a" &&z
+            //if (jsPsych.pluginAPI.compareKeys(data.response, 'a') &&
+          //      if (//last_trial.ppt_answer == last_trial.answer_1 ||
+                    //last_trial.ppt_answer == last_trial.answer_2 ||
+                //     last_trial.ppt_answer == last_trial.answer_3){
+                //         data.correct = true
+                // } else {
+                //     data.correct = false
+                // }
+           // }
+            // if (jsPsych.pluginAPI.compareKeys(data.response, 'l')){
+            //     if (last_trial.ppt_answer != last_trial.answer_1 ||
+            //         last_trial.ppt_answer != last_trial.answer_2 ||
+            //         last_trial.ppt_answer != last_trial.answer_3){
+            //             data.correct = true
+            //     } else {
+            //         data.correct = false
+            //     }
+            // }
             // No response recorded because response time > 1200ms
             // if (data.response == null){
             //     data.timeout = true
@@ -303,12 +358,7 @@
             //             data.correct = false
             //         }
             // }
-            data.block_number = block_number
-            data.trial_number = trial_number
-            trial_number += 1
-        },
-        data: { screen: "response_screen",}
-    }
+        }
 
     var feedback = {
         type: jsPsychHtmlKeyboardResponse,
