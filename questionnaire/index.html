@@ -1,0 +1,382 @@
+<head>
+    <!-- Customize the title! -->
+    <title>Afterglow</title>
+    <!-- jsPsych Scripts -->
+    <script src="../utils/jspsych/jspsych.js"></script>
+    <script src="../utils/jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="../utils/jspsych/plugin-html-button-response.js"></script>
+    <script src="../utils/jspsych/plugin-fullscreen.js"></script>
+    <script src="../utils/jspsych/plugin-survey-text.js"></script>
+    <script src="../utils/jspsych/plugin-preload.js"></script>
+    <script src="../utils/jspsych/plugin-image-keyboard-response.js"></script>
+    <script src="../utils/jspsych/plugin-survey-multi-choice.js"></script>
+    <script src="../utils/jspsych/plugin-browser-check.js"></script>
+    <script src="../utils/jspsych/plugin-survey-likert.js"></script>
+
+    <!-- Other modules -->
+    <script src="https://realitybending.github.io/JSmisc/misc/utils.js"></script>
+    <!--<script src = "../utils/jspsych/plugin-jsPsychPavlovia.js"></script>-->
+    <!--<script src = "../utils/jspsych/plugin-jspsych-pavlovia-2021.js"></script>-->
+
+    <script src="scales.js"></script>
+    <script src="../utils/jspsych/plugin-survey-multiple-slider.js"></script>
+    <!-- CSS -->
+    <link href="../utils/jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+    <!--<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>-->
+    <!--<script type="text/javascript" src="lib/jspsych-7-pavlovia-2022.1.1.js"></script>-->
+
+    <style>
+        /* set canvas to be full screen */
+        .jspsych-content {
+            max-width: 100%;
+        }
+
+        /*Hide scrollbar while keeping it functional */
+        body {
+            overflow-y: scroll;
+            overflow-x: flow;
+        }
+
+        Body::-webkit-scrollbar {
+            display: none
+        }
+    </style>
+</head>
+
+<body></body>
+
+
+
+<script>
+
+
+    /* ----------------- Initialize experiment ----------------- */
+    var timeline = []
+
+
+    // /* Initialize connection to Pavlovia ----*/
+    // var pavlovia_init = {
+    //     type: jsPsychPavlovia,
+    //     command: "init",
+    //     setPavloviaInfo: function (info) {
+    //         console.log(info);
+    //         pavloviaInfo = info;
+    //     }
+    // }
+
+
+    // timeline.push(pavlovia_init);
+
+    var jsPsych = initJsPsych({
+        show_progress_bar: true,
+        message_progress_bar: "Completion",
+        // exclusions: { min_width: 800, min_height: 600 }, /* exclude browsers that are not at least 800x600 pix */
+        //  on_interaction_data_update: function (data) {console.log(JSON.stringify(data))}, /* record browser interactions */
+        on_finish: function () {
+            jsPsych.data.displayData("json")
+            // jsPsych.data
+            //     .get()
+            //     .localSave(
+            //         "json",
+            //         `${jsPsych
+            //             .data
+            //             .get()
+            //             .filter({screen: "subject_id"})
+            //             .values()[0]["response"]["subject_id"]
+            //         }_IllusionSelfQn.json`
+            //     )
+            // window.location = "https://app.prolific.co/submissions/complete?cc=XXX" /* redirect to prolific when experiment is finished */
+            },
+        }
+    )
+
+    // Fullscreen mode
+    timeline.push({
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+        delay_after: 0,
+    })
+
+    // Retrieve and save browser info
+    var browser_check = {
+        type: jsPsychBrowserCheck,
+        data: {
+            screen: "browser_info",
+            version: "1.0",
+            date: new Date().toLocaleDateString("fr-FR"),
+            time: new Date().toLocaleTimeString("fr-FR"),
+        },
+        on_finish: function () {
+            data = jsPsych.data.get().filter({screen: "browser_info"}).values()[0]
+            jsPsych.data.addProperties({
+                ["screen_height"]: data["height"],
+                ["screen_width"]: data["width"],
+            })
+            for (var key in data) {
+                if (
+                    [
+                        "vsync_rate",
+                        "os",
+                        "mobile",
+                        "browser",
+                        "browser_version",
+                    ].includes(key)
+                ) {
+                    jsPsych.data.addProperties({
+                        [key]: data[key],
+                    })
+                }
+            }
+            jsPsych.data.addProperties()
+        },
+    }
+    timeline.push(browser_check)
+
+    // Participant info
+    var subject_id = {
+        type: jsPsychSurveyText,
+        questions: [
+            {
+                prompt: "Enter the participant's ID:",
+                name: "subject_id",
+                required: false,
+            },
+        ],
+        data: {
+            screen: "subject_id",
+        },
+        on_finish: function () {
+            jsPsych.data.addProperties({
+                subject_id: jsPsych.data.get().last().values()[0][
+                    "response"
+                ]["subject_id"],
+            })
+        },
+    }
+
+    timeline.push(subject_id)
+
+    var participant_info = {
+        type: jsPsychSurveyText,
+        questions: [
+            {
+                prompt: "Please enter your age (in years, e.g., '31')",
+                name: "age",
+                required: false,
+            },
+            {
+                prompt: "What is your sex?",
+                options: ["Male", "Female", "Other", "Prefer not to say"],
+                name: "sex",
+                required: false,
+            },
+        ],
+        data: {
+            screen: "demographics",
+        },
+    }
+
+    timeline.push(participant_info)
+
+    /* ================================================================ */
+    /* --------------------- Psychometric scales----------------------- */
+    /* ================================================================ */
+    /* Five Factor Mindfulness Questionnaire *==========================*/
+    var FFMQ_items = []
+    for (var n = 0; n < 15; n++) {
+        FFMQ_items.push({
+            prompt: FFMQ[n],
+            name: FFMQ_dim[n],
+            labels: ["<br>Never or very rarely true", "<br>Rarely true", "<br>Sometimes true", "<br>Often true", "<br>Very often or always true"],
+            // required: true,
+            required: false,
+        })
+    }
+
+    var ffmq = {
+        type: jsPsychSurveyLikert,
+        questions: FFMQ_items,
+        randomize_question_order: false,
+        preamble:
+            "<p>Please respond based on the extent to which each statement represents your own opinion of what is generally true of you.</p>",
+        // require_movement: true,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: "FFMQ",
+        },
+    }
+
+    /*Depression Anxiety Stress Scale -21 ============================*/
+    var dass_items =[]
+    for (var n = 0; n < 21; n++){
+        dass_items.push({
+            prompt: DASS[n],
+            name: DASS_dim[n],
+            labels: ['<br>Did not apply to me at all', '<br>Applied to me to some degree', '<br>Applied to me to a considerable degree', '<br>Applied to me very much'],
+           // required: true
+            required: false
+        })
+    }
+
+    var dass = {
+        type: jsPsychSurveyLikert,
+        questions: dass_items,
+        randomize_question_order:false,
+        preamble:
+        "<p>Please indicate how much each statement applied to you <b>over the past week.</b></p>" +
+        "<p>There are no right or wrong answers.</p>",
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: "DASS",
+        },
+    }
+
+    /* Watt's Connectedness Scale ========================================*/
+    var wcs_items =[]
+    for (var n = 0; n < 19; n++){
+        wcs_items.push({
+            prompt: WCS[n],
+            name: WCS_dim[n],
+            ticks: [ 'Not at all', 'Entirely'],
+           // required: true,
+            required:false,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5,
+        })
+    }
+
+    var wcs = {
+        type: jsPsychMultipleSlider,
+        questions: wcs_items,
+        randomize_question_order: true,
+        preamble:
+        "<p>Please rate the items according to how you have felt <b>over the past 2 weeks.</b></p>"+
+        "<p>Please answer every item, even if you are unsure or feel the item is unclear or poorly worded.</p>"+
+        "<p>Drag the indicator to a position on the scale that shows how much you agree or disagree with each of the following statements</p>",
+        // require_movement: true,
+        require_movement: false,
+        slider_width: 500,
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: "WCS",
+        },
+    }
+
+    /*Acceptance and Action Questionnaire ============================*/
+    var aaq_items =[]
+    for (var n = 0; n < 7; n++) {
+        aaq_items.push({
+            prompt: AAQ[n],
+            name: 'AAQ_' + n,
+            labels: ['<br>Never<br> true', '<br>Very seldom <br>true', '<br>Seldom <br>true', '<br>Sometimes <br>true', '<br>Frequently <br>true', '<br>Almost always <br>true', '<br>Always <br>true'],
+           // required: true
+            required: false
+        })
+    }
+
+    var aaq = {
+        type: jsPsychSurveyLikert,
+        questions: aaq_items,
+        randomize_question_order:false,
+        preamble:
+        "<p>Please rate how true each statement is of you.</p>",
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: "AAQ",
+        },
+    }
+
+    /*Awe Experience Scale ==========================================*/
+    var aes_items = []
+    for (var n = 0; n < 30; n++) {
+        aes_items.push({
+            prompt: AES[n],
+            name: AES_dim[n],
+            labels: ['<br>Strongly <br>Disagree', '<br>Moderately <br>Disagree', '<br>Somewhat <br>Disagree', '<br>Neutral', '<br>Somewhat <br>Agree', '<br>Moderately <br>Agree', '<br>Strongly <br>Agree'],
+            // required: true,
+            required: false
+        })
+    }
+
+    var aes = {
+        type: jsPsychSurveyLikert,
+        questions: aes_items,
+        randomize_question_order: true,
+        preamble:
+        "<p>Please take a few minutes to think about a particular time, fairly recently, when you felt intense awe.</p>"+
+        "<p>Please rate each statement based on the extent to which it describes the experience</p>",
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: "AES",
+        },
+    }
+
+
+    /*----------------- Display Scales in Random Order-------------------*/
+    for (var t_scale of jsPsych.randomization.shuffleNoRepeats([
+        ffmq,
+        dass,
+        wcs,
+        aaq,
+        aes,
+    ])) {
+        timeline.push(t_scale)
+    }
+
+
+    /*============================================================*/
+    /*==================== End of Experiment =====================*/
+    /*===========================================================*/
+    var end_screen = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus:
+            "<p>You have completed all the questionnaires!</p>" +
+            "<p>Please inform the experimenter.</p>",
+        choices: ["End"],
+        data: {
+            screen: 'end_screen'
+        }
+    }
+
+    timeline.push(end_screen)
+
+    // Fullscreen mode
+    timeline.push({
+        type: jsPsychFullscreen,
+        fullscreen_mode: false,
+    })
+
+    /* Run the experiment=====================================================*/
+
+    jsPsych.run(timeline)
+
+</script>
+
+</html>
