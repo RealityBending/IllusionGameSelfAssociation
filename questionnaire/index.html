@@ -74,17 +74,17 @@
         //  on_interaction_data_update: function (data) {console.log(JSON.stringify(data))}, /* record browser interactions */
         on_finish: function () {
             jsPsych.data.displayData("json")
-            jsPsych.data
-                .get()
-                .localSave(
-                    "json",
-                    `${jsPsych
-                        .data
-                        .get()
-                        .filter({screen: "subject_id"})
-                        .values()[0]["response"]["subject_id"]
-                    }_IllusionSelfQn.json`
-                )
+            // jsPsych.data
+            //     .get()
+            //     .localSave(
+            //         "json",
+            //         `${jsPsych
+            //             .data
+            //             .get()
+            //             .filter({screen: "subject_id"})
+            //             .values()[0]["response"]["subject_id"]
+            //         }_IllusionSelfQn.json`
+            //     )
             // window.location = "https://app.prolific.co/submissions/complete?cc=XXX" /* redirect to prolific when experiment is finished */
             },
         }
