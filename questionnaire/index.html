@@ -181,7 +181,7 @@
     /* ================================================================ */
     /* --------------------- Psychometric scales----------------------- */
     /* ================================================================ */
-    /* FFMQ *==========================*/
+    /* Five Factor Mindfulness Questionnaire *==========================*/
     var FFMQ_items = []
     for (var n = 0; n < 15; n++) {
         FFMQ_items.push({
@@ -211,7 +211,7 @@
         },
     }
 
-    /*DASS-21============================*/
+    /*Depression Anxiety Stress Scale -21 ============================*/
     var dass_items =[]
     for (var n = 0; n < 21; n++){
         dass_items.push({
@@ -241,7 +241,7 @@
         },
     }
 
-    /* Watt's Connectedness Scale =============================*/
+    /* Watt's Connectedness Scale ========================================*/
     var wcs_items =[]
     for (var n = 0; n < 19; n++){
         wcs_items.push({
@@ -279,7 +279,7 @@
         },
     }
 
-    /*AAQ ============================*/
+    /*Acceptance and Action Questionnaire ============================*/
     var aaq_items =[]
     for (var n = 0; n < 7; n++) {
         aaq_items.push({
@@ -304,7 +304,37 @@
                 ).style.display = "inline")
         },
         data: {
-            screen: "aaq",
+            screen: "AAQ",
+        },
+    }
+
+    /*Awe Experience Scale ==========================================*/
+    var aes_items = []
+    for (var n = 0; n < 30; n++) {
+        aes_items.push({
+            prompt: AES[n],
+            name: AES_dim[n],
+            labels: ['<br>Strongly <br>Disagree', '<br>Moderately <br>Disagree', '<br>Somewhat <br>Disagree', '<br>Neutral', '<br>Somewhat <br>Agree', '<br>Moderately <br>Agree', '<br>Strongly <br>Agree'],
+            // required: true,
+            required: false
+        })
+    }
+
+    var aes = {
+        type: jsPsychSurveyLikert,
+        questions: aes_items,
+        randomize_question_order: true,
+        preamble:
+        "<p>Please take a few minutes to think about a particular time, fairly recently, when you felt intense awe.</p>"+
+        "<p>Please rate each statement based on the extent to which it describes the experience</p>",
+        on_start: function () {
+            ; (document.body.style.cursor = "auto"),
+                (document.querySelector(
+                    "#jspsych-progressbar-container"
+                ).style.display = "inline")
+        },
+        data: {
+            screen: "AES",
         },
     }
 
@@ -315,6 +345,7 @@
         dass,
         wcs,
         aaq,
+        aes,
     ])) {
         timeline.push(t_scale)
     }
