@@ -290,6 +290,7 @@
     /* ----------------- Training Block ----------------- */
 
     var practice_trial_number = 1
+    var correct_count = 0
 
     // Create grey fixation screen
     var fixation = {
@@ -342,14 +343,14 @@
                 var practice_label3 = jsPsych.timelineVariable('label3');
             }
             return ('<img src=' + practice_stim + ' height=170></img>' +
-                '<p style ="font-size:80px; padding-bottom:70px;">+</p>' +
-                '<div style = "font-size:60px; position:fixed; top:700px; left:150px">'+
+                '<p style ="font-size:80px;padding-bottom:145px;">+</p>' +
+                '<div style = "font-size:40px; position:fixed; top:600px; left:150px">'+
                     practice_label1 +
                 '</div>' +
-                '<div style = "font-size:60px; position:fixed; left:350px; right:350px; top:700px">'+
+                '<div style = "font-size:40px; position:fixed; left:500px; right:500px; top:600px">'+
                     practice_label2 +
                 '</div>' +
-                '<div style = "font-size:60px; position:fixed; top:700px; right:150px">' +
+                '<div style = "font-size:40px; position:fixed; top:600px; right:150px">' +
                     practice_label3 +
                 '</div>')
         },
@@ -368,91 +369,44 @@
             }
             // var last_trial =jsPsych.data.get().last(1).values()[0]
             if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_1)) {
-                if (jsPsych.pluginAPI.compareKeys(data.response, "b")){
-                    if (data.label_cond == 'YFS'|| data.label_cond == 'YSF')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                        data.correct = false
-                    }
+                if (data.label_cond == 'YFS'|| data.label_cond == 'YSF'){
+                        data.correct_answer = 'b'
                 }
-                if (jsPsych.pluginAPI.compareKeys(data.response, "n")){
-                    if (data.label_cond == 'FYS'|| data.label_cond == 'SYF')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                        data.correct = false
-                    }
+                if (data.label_cond == 'FYS'|| data.label_cond == 'SYF') {
+                        data.correct_answer = 'n'
                 }
-                if (jsPsych.pluginAPI.compareKeys(data.response, "m")){
-                    if (data.label_cond == 'SFY'|| data.label_cond == 'YSF')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                            data.correct = false
-                    }
+                if (data.label_cond == 'FSY'|| data.label_cond == 'SFY'){
+                        data.correct_answer = 'm'
                 }
             }
-            if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_2)) {
-                if (jsPsych.pluginAPI.compareKeys(data.response, "b")){
-                    if (data.label_cond == 'FSY'|| data.label_cond == 'FSY')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                            data.correct = false
-                    }
+            if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_2)){
+                if (data.label_cond == 'FYS'|| data.label_cond == 'FSY'){
+                        data.correct_answer = 'b'
                 }
-                if (jsPsych.pluginAPI.compareKeys(data.response, "n")){
-                    if (data.label_cond == 'YFS'|| data.label_cond == 'SFY')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                        data.correct = false
-                    }
+                if (data.label_cond == 'YFS'|| data.label_cond == 'SFY') {
+                        data.correct_answer = 'n'
                 }
-                if (jsPsych.pluginAPI.compareKeys(data.response, "m")){
-                    if (data.label_cond == 'SYF'|| data.label_cond == 'YSF')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                            data.correct = false
-                    }
+                if (data.label_cond == 'YSF'|| data.label_cond == 'SYF'){
+                        data.correct_answer = 'm'
                 }
             }
-            if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_3)) {
-                if (jsPsych.pluginAPI.compareKeys(data.response, "b")){
-                    if (data.label_cond == 'YFS'|| data.label_cond == 'FYS')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                            data.correct = false
-                    }
+            if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_3)){
+                if (data.label_cond == 'SFY'|| data.label_cond == 'SYF'){
+                        data.correct_answer = 'b'
                 }
-                if (jsPsych.pluginAPI.compareKeys(data.response, "n")){
-                    if (data.label_cond == 'FSY'|| data.label_cond == 'YSF')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                        data.correct = false
-                    }
+                if (data.label_cond == 'FSY'|| data.label_cond == 'YSF') {
+                        data.correct_answer = 'n'
                 }
-                if (jsPsych.pluginAPI.compareKeys(data.response, "m")){
-                    if (data.label_cond == 'FYS'|| data.label_cond == 'YFS')
-                        {
-                            data.correct = true
-                        }
-                    else {
-                            data.correct = false
-                    }
+                if (data.label_cond == 'FYS'|| data.label_cond == 'YFS'){
+                        data.correct_answer = 'm'
                 }
+            }
+            if (jsPsych.pluginAPI.compareKeys(data.response, data.correct_answer)){
+                data.correct = true
+                data.correct_count = correct_count
+                correct_count += 1
+            } else {
+                data.correct = false
             }
             data.practice_trial_number = practice_trial_number
             practice_trial_number += 1
@@ -481,23 +435,20 @@
             }
         },
         trial_duration: 500,
-        data: {screen: "feedback"}
+        data: {screen: "feedback"},
+
     }
 
     // Create block of trials
     var practice_block = {
-        conditional_function: function(data){
-            var correct_trial = jsPsych.data.get().filter({ screen: "practice_trial" })
-            var correct_count = correct_trial.filter({ correct: true })
-            if(correct_count.count() < 6) {
-                return true;
-            } else {
-                return false;
-            }
-        },
         timeline_variables: stimuli_training,
         randomize_order: true,
-        timeline: [fixation, practice_trials, practice_feedback]
+        timeline: [fixation, practice_trials, practice_feedback],
+        on_finish: function(){
+            if (jsPsych.data.get().last(1).values()[0].correct_count > 5){
+                jsPysch.endCurrentTimeline()
+            }
+        }
         // loop_function: function(data){
         //     if(data.filter({correct: true}).count() < 6) {
         //         return true;
@@ -506,6 +457,15 @@
         //     }
         // }
     }
+
+    // var if_node ={
+    //     timeline: [practice_block],
+    //     conditional_function: function(data){
+    //         if (jsPsych.data.get().last(1).values()[0].correct_count > 5){
+    //             jsPysch.endCurrentTimeline()
+    //         }
+    //     }
+    // }
 
     timeline.push(practice_block)
 
@@ -551,9 +511,9 @@
             data = jsPsych.data.get().filter({screen: "friend"}).values()[0]
             jsPsych.data.addProperties({
                 //    randomize_labels: data.stimulus['randomize_labels'],
-                qn_1: data.stim_label[1],
-                qn_2: data.stim_label[2],
-                qn_3: data.stim_label[0],
+                qn_1: "Friend",
+                qn_2: "Stranger",
+                qn_3: "You",
                 answer_1: randomize_shape[0],
                 answer_2: randomize_shape[1],
                 answer_3: randomize_shape[2],
