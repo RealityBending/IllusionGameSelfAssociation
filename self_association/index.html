@@ -343,7 +343,7 @@
                 var practice_label3 = jsPsych.timelineVariable('label3');
             }
             return ('<img src=' + practice_stim + ' height=170></img>' +
-                '<p style ="font-size:80px;padding-bottom:145px;">+</p>' +
+                '<p style ="font-size:80px;padding-bottom:160px;">+</p>' +
                 '<div style = "font-size:40px; position:fixed; top:600px; left:150px">'+
                     practice_label1 +
                 '</div>' +
@@ -444,11 +444,6 @@
         timeline_variables: stimuli_training,
         randomize_order: true,
         timeline: [fixation, practice_trials, practice_feedback],
-        on_finish: function(){
-            if (jsPsych.data.get().last(1).values()[0].correct_count > 5){
-                jsPysch.endCurrentTimeline()
-            }
-        }
         // loop_function: function(data){
         //     if(data.filter({correct: true}).count() < 6) {
         //         return true;
@@ -458,16 +453,18 @@
         // }
     }
 
-    // var if_node ={
-    //     timeline: [practice_block],
-    //     conditional_function: function(data){
-    //         if (jsPsych.data.get().last(1).values()[0].correct_count > 5){
-    //             jsPysch.endCurrentTimeline()
-    //         }
-    //     }
-    // }
+    var if_node ={
+        timeline: [practice_block],
+        conditional_function: function(){
+            var practice_results = jsPsych.data.get().filter({screen: "practice_trial"})
+            var correct_practice = practice_results.filter({correct: true})
+            if (correct_practice.count() > 5){
+                jsPysch.endCurrentTimeline()
+            }
+        }
+    }
 
-    timeline.push(practice_block)
+    timeline.push(if_node)
 
 
     /* ----------------- Experiment Block ----------------- */
