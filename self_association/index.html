@@ -151,7 +151,7 @@
 
 
     /* ----------------- Preloading ----------------- */
-    // Preload audio variables
+    // Preload stimuli
     timeline.push({
         type: jsPsychPreload,
         auto_preload: true,
@@ -173,7 +173,7 @@
     timeline.push(general_instructions)
 
     // Assignment of Friend and Stranger labels
-    //Stranger names for participants to choose from can be customized below
+    //Stranger names for participants to choose from can be customized below (consider using a single word name instead of first and last name to be consistent with self and friend condition ?)
     var stranger_label = {
         type: jsPsychSurveyMultiChoice,
         questions: [
@@ -208,7 +208,7 @@
         type: jsPsychSurveyText,
         questions: [
             {
-                prompt: "Please enter your best friend's name to assign to a shape:",
+                prompt: "To personalize this game to your own experience, please enter your best friend's name to assign to a shape:",
                 placeholder: "John Doe",
                 name: "Friend",
             },
@@ -241,8 +241,9 @@
     var training_instructions = {
         type: jsPsychHtmlButtonResponse,
         stimulus:
-            "<p><b>Instructions</b></p>" +
-            "<p>Each label will be assigned to a specific shape</p>" +
+            "<p><b>Training Instructions</b></p>" +
+            "<p>Each label (i.e., You, Best Friend, Stranger) will be assigned to a specific shape</p>" +
+            "<p>During the training, you will be presented with one of the shapes above a fixation cross, together with the three labels below the fixation cross.</p>" +
             "<p>Your task is to select the label that corresponds with the presented shape as quickly and accurately as possible</p>" +
             "<p>If the correct label is on the <b>left</b>, press <b>'b'</b>.</p>" +
             "<p>If the correct label is in the <b>middle</b>, press <b>'m'</b>.</p>" +
@@ -344,7 +345,7 @@
                     var practice_label3 = jsPsych.timelineVariable('label3');
                 }
                 return ('<img src=' + practice_stim + ' height=170></img>' +
-                    '<p style ="font-size:80px;padding-bottom:130px;">+</p>' +
+                    '<p style ="font-size:80px;padding-bottom:100px;">+</p>' +
                     '<div style = "font-size:40px; position:fixed; top:600px; left:150px">'+
                         practice_label1 +
                     '</div>' +
@@ -505,9 +506,10 @@
         type: jsPsychHtmlButtonResponse,
         stimulus:
             "<p><b>Instructions</b></p>" +
-            "<p>In this matching game, the previous shapes will be re-assigned to a new label (You, Your Best Friend or the selected Stranger).</p>" +
+            "<p>In this part of the game, the previous shapes will be re-assigned to a new label (You, Your Best Friend or the selected Stranger).</p>" +
             "<p>Your task is to decide if the presented shape match their newly assigned labels as quickly and accurately as possible</p>" +
-            "<p>If the shape-label pair is a match, press <b>'z'</b>. If they are not a match, press <b>'m'</b></p><br>" +
+            "<p>If the shape-label pair is a match, press <b>'z'</b>.</p>"+
+            "<p>If the shape-label pair is not a match, press <b>'m'</b></p><br>" +
             "<p>Good luck!</p>",
         choices: ["Continue"],
         data: {screen: "matching_instructions"}
