@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>Self-Association Task</title>
 
     <script src="../utils/jspsych/jspsych.js"></script>
@@ -19,32 +18,36 @@
     <script src="stimuli.js"></script>
 
     <!-- Applying default style here -->
-    <link href="../utils/jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../utils/jspsych/jspsych.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <style>
-        /* set canvas to be full screen */
-        .jspsych-content {
-            max-width: 100%;
-        }
+      /* set canvas to be full screen */
+      .jspsych-content {
+          max-width: 100%;
+      }
 
-        /*Hide scrollbar */
-        body {
-            overflow-y: scroll;
-        }
+      /*Hide scrollbar */
+      body {
+          overflow-y: scroll;
+      }
 
-        Body::-webkit-scrollbar {
-            display: none;
-        }
+      Body::-webkit-scrollbar {
+          display: none;
+      }
 
-        #align-middle img {
-            vertical-align: middle;
-            margin-left: 5px;
-        }
+      #align-middle img {
+          vertical-align: middle;
+          margin-left: 5px;
+      }
     </style>
-</head>
+  </head>
 
-<body></body>
+  <body></body>
 
-<script>
+  <script>
     /* ----------------- Initialize experiment ----------------- */
     var timeline = []
 
@@ -137,9 +140,9 @@
         questions: [
             {
                 prompt: 'What is your gender?',
-                options: ["Male", "Female"],    // Prefer not to say/ Non-binary options??
+                options: ["Male", "Female"], // I eventually have chosen to remove the non-binary option because it was hard to find non-binoray personnality
                 name: "sex",
-                //required: true,
+                required: true,
             },
         ],
         data: {
@@ -173,7 +176,6 @@
     timeline.push(general_instructions)
 
     // Assignment of Friend and Stranger labels
-    //Stranger names for participants to choose from can be customized below (consider using a single word name instead of first and last name to be consistent with self and friend condition ?)
     var stranger_label = {
         type: jsPsychSurveyMultiChoice,
         questions: [
@@ -181,14 +183,14 @@
                 prompt: "Please choose a stranger's name to assign to a shape:",
                 options: function () {
                     if (jsPsych.data.get().filter({screen: "demographics"}).values()[0]["response"]["sex"] == "Male") {
-                        return jsPsych.randomization.shuffle(["Elon Musk", "Joe Biden", "Usain Bolt"])
+                        return jsPsych.randomization.shuffle(["Elvis", "Seal", "Sting", "Eminem", "Bono"])
                     }
                     else {
-                        return jsPsych.randomization.shuffle(["Beyonce", "Michelle Obama", "Greta Thunberg"])
+                        return jsPsych.randomization.shuffle(["Beyonce", "Madonna", "Rihanna", "Pink", "Shakira"])
                     }
                 },
                 name: "stranger_name",
-                //required: true,
+                required: true,
             },
         ],
         on_finish: function(data){
@@ -208,8 +210,8 @@
         type: jsPsychSurveyText,
         questions: [
             {
-                prompt: "To personalize this game to your own experience, please enter your best friend's name to assign to a shape:",
-                placeholder: "John Doe",
+                prompt: "To personalize this game to your own experience, please enter your best — gender-matched — friend's forename to assign to a shape:",
+                placeholder: "John",
                 name: "Friend",
             },
         ],
@@ -246,8 +248,8 @@
             "<p>During the training, you will be presented with one of the shapes above a fixation cross, together with the three labels below the fixation cross.</p>" +
             "<p>Your task is to select the label that corresponds with the presented shape as quickly and accurately as possible</p>" +
             "<p>If the correct label is on the <b>left</b>, press <b>'b'</b>.</p>" +
-            "<p>If the correct label is in the <b>middle</b>, press <b>'m'</b>.</p>" +
-            "<p>If the correct label is on the <b>right</b>, press <b>'n'</b>.</p><br>",
+            "<p>If the correct label is in the <b>middle</b>, press <b>'n'</b>.</p>" +
+            "<p>If the correct label is on the <b>right</b>, press <b>'m'</b>.</p><br>",
         choices: ["Continue"],
         data: {screen: "training_instructions"}
     }
@@ -291,7 +293,9 @@
     /* ----------------- Training Block ----------------- */
 
     var practice_trial_number = 1
-    var correct_count = 0
+    var correct_count1 = 0
+    var correct_count2 =0
+    var correct_count3 = 0
 
     // Create grey fixation screen
     var fixation = {
@@ -357,13 +361,13 @@
                     '</div>')
             },
             choices: ['b', 'n', 'm'],
-            stimulus_duration: 1000,
-            trial_duration: 3000,
+            stimulus_duration: 6000, // I have changed this in order that the stimulus remains visible during the entire trial duration
+            trial_duration: 6000, // I have extended the trial duration (3000 -> 6000ms) to make the task easier
             data: jsPsych.timelineVariable("data"),
             on_finish: function (data) {
                 document.body.style.backgroundColor = "#0000"  // turn background back to white
                 document.body.style.cursor = "none"
-                // No response if RT >3000s
+                // No response if RT >6000s
                 if (data.response == null) {
                     data.timeout = true
                 } else {
@@ -372,48 +376,64 @@
                 // var last_trial =jsPsych.data.get().last(1).values()[0]
                 if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_1)) {
                     if (data.label_cond == 'YFS'|| data.label_cond == 'YSF'){
-                            data.correct_answer = 'b'
+                            data.correct_answer1 = 'b'
                     }
                     if (data.label_cond == 'FYS'|| data.label_cond == 'SYF') {
-                            data.correct_answer = 'n'
+                            data.correct_answer1 = 'n'
                     }
                     if (data.label_cond == 'FSY'|| data.label_cond == 'SFY'){
-                            data.correct_answer = 'm'
+                            data.correct_answer1 = 'm'
+                    }
+                    if (jsPsych.pluginAPI.compareKeys(data.response, data.correct_answer1)){
+                        data.correct1=true
+                        data.correct_count1=correct_count1
+                        correct_count1 += 1
+                    }
+                    else{
+                        data.correct1=false
                     }
                 }
                 if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_2)){
                     if (data.label_cond == 'FYS'|| data.label_cond == 'FSY'){
-                            data.correct_answer = 'b'
+                            data.correct_answer2 = 'b'
                     }
                     if (data.label_cond == 'YFS'|| data.label_cond == 'SFY') {
-                            data.correct_answer = 'n'
+                            data.correct_answer2 = 'n'
                     }
                     if (data.label_cond == 'YSF'|| data.label_cond == 'SYF'){
-                            data.correct_answer = 'm'
+                            data.correct_answer2 = 'm'
+                    }
+                    if (jsPsych.pluginAPI.compareKeys(data.response, data.correct_answer2)){
+                        data.correct2=true
+                        data.correct_count2=correct_count2
+                        correct_count2 += 1
+                    }
+                    else{
+                        data.correct2=false
                     }
                 }
                 if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_3)){
                     if (data.label_cond == 'SFY'|| data.label_cond == 'SYF'){
-                            data.correct_answer = 'b'
+                            data.correct_answer3 = 'b'
                     }
                     if (data.label_cond == 'FSY'|| data.label_cond == 'YSF') {
-                            data.correct_answer = 'n'
+                            data.correct_answer3 = 'n'
                     }
                     if (data.label_cond == 'FYS'|| data.label_cond == 'YFS'){
-                            data.correct_answer = 'm'
+                            data.correct_answer3 = 'm'
                     }
-                }
-                if (jsPsych.pluginAPI.compareKeys(data.response, data.correct_answer)){
-                    data.correct = true
-                    data.correct_count = correct_count
-                    correct_count += 1
-                } else {
-                    data.correct = false
+                    if (jsPsych.pluginAPI.compareKeys(data.response, data.correct_answer3)){
+                        data.correct3 = true
+                        data.correct_count3 = correct_count3
+                        correct_count3 += 1
+                    } else {
+                        data.correct3 = false
+                    }
                 }
                 data.practice_trial_number = practice_trial_number
                 practice_trial_number += 1
                 // Auto end training if more than 6 continuous responses
-                if (correct_count > 6){
+                if (correct_count1 > 6 && correct_count2 > 6 && correct_count3 > 6){
                     jsPsych.endCurrentTimeline()
                     }
                 }
@@ -432,9 +452,11 @@
                 return "<p style = 'font-size: 80px'>Out of Time!</p>"
             } else {
                 //return "<p style = 'font-size: 80px'>All Good!</p>"
-                var last_trial_correct = jsPsych.data.get().last(1).values()[0].correct;
+                var last_trial_correct1 = jsPsych.data.get().last(1).values()[0].correct1
+                var last_trial_correct2 = jsPsych.data.get().last(1).values()[0].correct2
+                var last_trial_correct3 = jsPsych.data.get().last(1).values()[0].correct3
                 //return "<p>" + last_trial_correct.answer_1 + "</p>"
-                if (last_trial_correct) {
+                if (last_trial_correct1|| last_trial_correct2 || last_trial_correct3) {
                     return "<p style='font-size:80px'>Correct!</p>";
                 } else {
                     return "<p style='font-size:80px'>Wrong</p>";
@@ -571,10 +593,11 @@
                 '<p style ="font-size:80px; padding-bottom:70px;">+</p>' +
                 '<p style ="font-size:80px;">' + rand_labels + '</p>')
         },
-        choices: "NO_KEYS",
-        trial_duration: 100,
+        choices: ['z', 'm'],
+        trial_duration: 1000, // I have extended the trial duration (100ms -> 1000ms) in order to make the task easier
         data: jsPsych.timelineVariable("data"),
         on_finish: function (data) {
+
             // var last_trial =jsPsych.data.get().last(1).values()[0]
             if (jsPsych.pluginAPI.compareKeys(data.shape, data.answer_1)) {
                 if (jsPsych.pluginAPI.compareKeys(data.label_cond, data.qn_1)) {
@@ -597,6 +620,20 @@
                     data.match = "m"
                 }
             }
+            if (jsPsych.pluginAPI.compareKeys(data.response, data.match)){
+                data.correct = true
+            } else{
+                data.correct = false
+            }
+            if (data.response==null){
+                data.timeout=true
+            } else{
+                document.body.style.backgroundColor = "#0000"
+                data.timeout = false
+                data.block_number = block_number
+                data.trial_number = trial_number
+                trial_number +=1
+            }
         }
     }
 
@@ -606,7 +643,7 @@
         stimulus: '',
         choices: ['z', 'm'],
         trial_duration: function () {
-            return randomInteger(800, 1200)
+            return randomInteger(3000, 3400) // I have extended the response time (800, 1200 -> 3000, 3400) in order to make the task easier
         },
         save_trial_parameters: {
             trial_duration: true,
@@ -614,7 +651,7 @@
         on_finish: function (data) {
             document.body.style.backgroundColor = "#0000"  // turn background back to white
             document.body.style.cursor = "none"
-            // No response if RT >1200s
+            // No response if RT >3400s
             if (data.response == null) {
                 data.timeout = true
             } else {
@@ -633,7 +670,7 @@
         },
         data: {screen: "response_screen", }
         //}
-        //if (data.response == "a" &&z
+        //if (data.response == "a" &&
         //if (jsPsych.pluginAPI.compareKeys(data.response, 'a') &&
         //      if (//last_trial.ppt_answer == last_trial.answer_1 ||
         //last_trial.ppt_answer == last_trial.answer_2 ||
@@ -683,6 +720,27 @@
         //         }
         // }
     }
+
+    var response_screen_loop ={
+        timeline: [response_screen],
+        conditional_function: function(){
+            if (jsPsych.data.get().last(1).values()[0].timeout){
+                show_response_screen = true
+                return true
+            } else{
+                show_response_screen = false
+                return false
+            }
+        }
+    }
+
+    //var trial_response_loop ={
+      //  timeline: [trials, response_screen_loop],
+        //loop_function: function(){
+          //  return show_response_screen
+        //}
+    //}
+
 
     var feedback = {
         type: jsPsychHtmlKeyboardResponse,
@@ -739,7 +797,7 @@
     var block = {
         timeline_variables: stimuli,
         randomize_order: true,
-        timeline: [fixation, trials, response_screen, feedback]
+        timeline: [fixation, trials, response_screen_loop, feedback]
     }
 
 
@@ -748,7 +806,5 @@
 
     /* ----------------- Run the timeline ----------------- */
     jsPsych.run(timeline)
-
-</script>
-
+  </script>
 </html>
