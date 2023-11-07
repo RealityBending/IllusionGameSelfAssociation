@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Title shown in tab -->
+        <title>Experiment</title>
+
+        <!-- Load plugins used in Demographics -->
+        <script src="https://unpkg.com/jspsych@7.3.3"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.0.0"></script>
+
+        <!-- Load plugins used in Task -->
+        <script src="https://unpkg.com/@jspsych/plugin-preload@1.0.0"></script>
+
+        <link
+            href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <style>
+            /* set canvas to be full screen */
+            .jspsych-content {
+                max-width: 100%;
+            }
+
+            /*Hide scrollbar while keeping it functional */
+            body {
+                overflow-y: scroll;
+            }
+
+            Body::-webkit-scrollbar {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body></body>
+
+    <script>
+        // Initialize experiment =================================================
+        var timeline = []
+
+        var jsPsych = initJsPsych({
+            on_finish: function () {
+                // Display data in browser (useful for debugging)
+                jsPsych.data.displayData("json")
+            },
+        })
+
+        // Enter fullscreen mode
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: true,
+            delay_after: 0,
+        })
+
+        // End =================================================================
+        // Exit fullscreen mode
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+        })
+
+        /* ----------------- Run the timeline ----------------- */
+        jsPsych.run(timeline)
+    </script>
+</html>
