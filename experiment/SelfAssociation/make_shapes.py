@@ -1,6 +1,6 @@
 import pyllusion as ill
 
-path = "C:/Users/anshu/Documents/GitHub/IllusionSelf/utils/"
+path = "stimuli/"
 
 # Generate Stimuli
 ## Circle
@@ -11,7 +11,14 @@ circle.save(path + "circle.png")
 
 ## Square
 square = ill.image_rectangle(
-    width=250, height=250, x=0, y=0, size_width=1.5, size_height=1.5, color="red", background="grey"
+    width=250,
+    height=250,
+    x=0,
+    y=0,
+    size_width=1.5,
+    size_height=1.5,
+    color="red",
+    background="grey",
 )
 square.save(path + "square.png")
 
@@ -41,7 +48,14 @@ circle.save(path + "demo_circle.png")
 
 ## Square
 square = ill.image_rectangle(
-    width=250, height=250, x=0, y=0, size_width=1.5, size_height=1.5, color="red", background="white"
+    width=250,
+    height=250,
+    x=0,
+    y=0,
+    size_width=1.5,
+    size_height=1.5,
+    color="red",
+    background="white",
 )
 square.save(path + "demo_square.png")
 
