@@ -1,4 +1,3 @@
 # Illusion and Self
 
-- [**Try the experiment**](https://github.com/RealityBending/IllusionSelf/experiment)
-
+- [**Try the experiment**](realitybending.github.io/IllusionSelf/experiment/)
