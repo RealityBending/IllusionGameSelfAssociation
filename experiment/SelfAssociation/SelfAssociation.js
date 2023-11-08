@@ -1,13 +1,27 @@
 const path =
     "https://realitybending.github.io/IllusionSelf/experiment/SelfAssociation/"
 var sat_shapes = ["circle", "triangle", "square"]
-// var sat_labels = ["You"]
-var sat_labels = ["You", "Dupa", "Rihanna"]
+var sat_labels = ["You"]
+var sat_characters = [
+    "Elvis",
+    "Seal",
+    "Sting",
+    "Eminem",
+    "Bono",
+    "Beyonce",
+    "Madonna",
+    "Rihanna",
+    "Pink",
+    "Shakira",
+]
+var sat_conditions = {}
+var sat_labelconditions = {}
 var sat_answers = { v: 0, b: 1, n: 2 }
 var correct_count1 = 0
 var correct_count2 = 0
 var correct_count3 = 0
 var sat_trialnumber = 1
+var sat_blocknumber = 1
 
 // Stimuli ========================================================================
 var stimuli = [
@@ -24,6 +38,15 @@ var stimuli = [
         data: { shape: "square" },
     },
 ]
+// Generate stimuli list with balanced labels
+var stimuli_block = []
+for (var i = 0; i < stimuli.length; i++) {
+    for (var y = 0; y < 3; y++) {
+        let s = structuredClone(stimuli[i])
+        s.data.label_condition = ["Self", "Friend", "Stranger"][y]
+        stimuli_block.push(s)
+    }
+}
 
 // Function to repeat arrays
 const repeat = (arr, n) => [].concat(...Array(n).fill(arr))
@@ -61,6 +84,20 @@ var sat_instructions_practice = {
         "<p>If the correct label is on the <b>right</b>, press <b>'n'</b>.</p><br>",
     choices: ["Continue"],
     data: { screen: "SAT_instructions_practice" },
+}
+
+// Matching Task Instructions
+var sat_instructions_matching = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+        "<h1>Instructions</h1>" +
+        "<p>In this part of the game, the previous shapes will be re-assigned to the labels.</p>" +
+        "<p>Your task will be then to decide if the presented shape matches their newly assigned label as quickly and accurately as possible.</p>" +
+        "<p>If the shape-label pair is a match, press <b>'e'</b>.</p>" +
+        "<p>If the shape-label pair is not a match, press <b>'i'</b></p>" +
+        "<br><p>Good luck!</p>",
+    choices: ["Continue"],
+    data: { screen: "matching_instructions" },
 }
 
 // Labels personalization ========================================================================
@@ -135,10 +172,31 @@ var sat_assignmentscreen = {
     on_start: function () {
         sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
         // sat_labels = jsPsych.randomization.shuffle(sat_labels)
+        sat_conditions = Object.fromEntries(
+            sat_shapes.map((key, index) => [key, sat_labels[index]])
+        )
+        sat_conditions = Object.fromEntries(
+            sat_shapes.map(function (key, index) {
+                lab = sat_labels[index]
+                if (lab == "You") {
+                    cond = "Self"
+                } else if (sat_characters.includes(lab)) {
+                    cond = "Stranger"
+                } else {
+                    cond = "Friend"
+                }
+                return [key, cond]
+            })
+        )
+        sat_labelconditions = {
+            Self: "You",
+            Friend: sat_labels[1],
+            Stranger: sat_labels[2],
+        }
     },
     stimulus: function () {
         var text =
-            "<h1>Learning Phase</h1>" +
+            "<h1>Instructions</h1>" +
             "<div id ='align-middle'><b>" +
             sat_labels[0] +
             "</b> will be represented by a <b>" +
@@ -172,23 +230,24 @@ var sat_fixationcross = {
     on_start: function () {
         document.body.style.cursor = "none"
     },
-    stimulus: "<p style='font-size:500%;'>+</p>",
+    stimulus:
+        "<div  style='font-size:500%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%'>+</div>",
     choices: "NO_KEYS",
     trial_duration: 500,
     save_trial_parameters: { trial_duration: true },
     data: { screen: "sat_fixationcross" },
 }
 
-var sat_practicetrial = {
+var sat_practice_trial = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
         var stim = jsPsych.timelineVariable("stimulus")
 
         return (
-            "<img src=" +
+            "<div style='bottom:60%; right:20%; left:20%; position:fixed'><img src=" +
             stim +
-            " height=20%></img>" +
-            "<p style='font-size:500%;'>+</p>" +
+            " height=20%></img></div>" +
+            "<div  style='font-size:500%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%'>+</div>" +
             '<div style = "font-size:300%; text-align: center; position:fixed; top:70%; left:20%"><b>' +
             sat_labels[0] +
             "</b></br></br></br></br>v</div>" +
@@ -224,6 +283,7 @@ var sat_practicetrial = {
             data.answer,
             data.answer_correct
         )
+        data.condition = sat_conditions[stim]
 
         // Compute consecutive correct
         var n_consecutive = jsPsych.data
@@ -241,8 +301,125 @@ var sat_practicetrial = {
     },
 }
 
+var sat_feedback = {
+    type: jsPsychHtmlKeyboardResponse,
+    choice: "NO_KEYS",
+    stimulus: function (data) {
+        var last_trial = jsPsych.data.get().last().values()[0]
+        if (last_trial.answer == null) {
+            return "<p style = 'font-size: 300%; color:blue'>Out of Time!</p>"
+        } else if (last_trial.correct == true) {
+            return "<p style = 'font-size: 300%; color:green'>Correct!</p>"
+        } else {
+            return "<p style = 'font-size: 300%; color:red'>Incorrect!</p>"
+        }
+    },
+    trial_duration: 500,
+    data: { screen: "sat_feedback" },
+}
+
 var sat_practice = {
     timeline_variables: repeat(stimuli, 2),
     randomize_order: true,
-    timeline: [sat_fixationcross, sat_practicetrial],
+    timeline: [sat_fixationcross, sat_practice_trial, sat_feedback],
+}
+
+var sat_practice_end = {
+    type: jsPsychHtmlButtonResponse,
+    on_start: function () {
+        document.body.style.cursor = "Auto"
+    },
+    stimulus:
+        "<h1>Congratulations!</h1>" + "<p>You have completed the training.</p>",
+    choices: ["Continue"],
+    data: { screen: "sat_practice_end" },
+    on_finish: function () {
+        sat_trialnumber = 1 // reset trial number
+    },
+}
+
+// Matching Task ========================================================================
+var sat_trial = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function () {
+        var stim = jsPsych.timelineVariable("stimulus")
+        var cond = jsPsych.timelineVariable("data")["label_condition"]
+        var label = sat_labelconditions[cond]
+
+        return (
+            "<div style='bottom:60%; right:20%; left:20%; position:fixed'><img src=" +
+            stim +
+            " height=20%></img></div>" +
+            "<div  style='font-size:500%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%'>+</div>" +
+            '<div style = "font-size:300%; text-align: center; position:fixed; top:70%; right:20%; left:20%"><b>' +
+            label +
+            "</div>"
+        )
+    },
+    choices: ["e", "i"],
+    stimulus_duration: 1000, // I have extended the trial duration (100ms -> 1000ms) in order to make the task easier
+    trial_duration: 4200,
+    data: function () {
+        return jsPsych.timelineVariable("data")
+    },
+    on_finish: function (data) {
+        data.trial_number = sat_trialnumber
+        sat_trialnumber += 1
+        data.block_number = sat_blocknumber
+        data.screen = "sat_trial"
+
+        var resp = jsPsych.data.get().last().values()[0]["response"]
+        var stim = jsPsych.data.get().last().values()[0]["shape"]
+        var lab_cond = jsPsych.data.get().last().values()[0]["label_condition"]
+        var stim_cond = sat_conditions[stim]
+        if (stim_cond == lab_cond) {
+            data.answer_correct = "match"
+        } else {
+            data.answer_correct = "mismatch"
+        }
+        if (resp == "e") {
+            data.answer = "match"
+        } else if (resp == "i") {
+            data.answer = "mismatch"
+        } else {
+            data.answer = null
+        }
+        if (data.answer == data.answer_correct) {
+            data.correct = true
+        } else {
+            data.correct = false
+        }
+    },
+}
+
+var sat_block = {
+    timeline_variables: stimuli_block,
+    randomize_order: true,
+    timeline: [sat_fixationcross, sat_trial, sat_feedback],
+}
+
+var sat_block_debrief = {
+    type: jsPsychHtmlButtonResponse,
+    choices: ["Ready for the next round!"],
+    on_start: function () {
+        document.body.style.cursor = "Auto"
+    },
+    stimulus: function () {
+        var results = jsPsych.data
+            .get()
+            .filter({ screen: "sat_trial", block_number: sat_blocknumber })
+        var correct_results = results.filter({ correct: true })
+        var proportion_correct = correct_results.count() / results.count()
+        return (
+            "<p>You responded correctly on <b>" +
+            Math.round(proportion_correct * 100 * 100) / 100 +
+            "" +
+            "%</b> of the trials.</p>"
+        )
+    },
+    data: { screen: "sat_block_debrief" },
+    on_finish: function () {
+        // Reset block number
+        sat_blocknumber += 1
+    },
 }
