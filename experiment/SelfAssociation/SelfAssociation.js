@@ -84,6 +84,10 @@ var sat_instructions_practice = {
         "<p>If the correct label is on the <b>right</b>, press <b>'n'</b>.</p><br>",
     choices: ["Continue"],
     data: { screen: "SAT_instructions_practice" },
+    on_finish: function () {
+        // Randomize shapes
+        sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+    },
 }
 
 // Matching Task Instructions
@@ -98,6 +102,10 @@ var sat_instructions_matching = {
         "<br><p>Good luck!</p>",
     choices: ["Continue"],
     data: { screen: "matching_instructions" },
+    on_finish: function () {
+        // Randomize shapes
+        sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+    },
 }
 
 // Labels personalization ========================================================================
@@ -170,8 +178,6 @@ var sat_friendlabel = {
 var sat_assignmentscreen = {
     type: jsPsychHtmlButtonResponse,
     on_start: function () {
-        sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
-        // sat_labels = jsPsych.randomization.shuffle(sat_labels)
         sat_conditions = Object.fromEntries(
             sat_shapes.map((key, index) => [key, sat_labels[index]])
         )
