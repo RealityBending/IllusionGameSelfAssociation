@@ -1,5 +1,5 @@
 const path =
-    "https://realitybending.github.io/IllusionSelf/experiment/SelfAssociation/"
+    "https://realitybending.github.io/IllusionGameSelfAssociation/experiment/SelfAssociation/"
 var sat_shapes = ["circle", "triangle", "square"]
 var sat_labels = ["You"]
 var sat_characters = [

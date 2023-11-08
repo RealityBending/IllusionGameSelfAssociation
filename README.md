@@ -1,3 +1,3 @@
-# Illusion and Self
+# Illusion Sensitivity and Self-Association
 
-- [**Try the experiment**](realitybending.github.io/IllusionSelf/experiment/)
+- [**Try the experiment**](realitybending.github.io/IllusionGameSelfAssociaton/experiment/)
