@@ -203,8 +203,8 @@ var sat_assignmentscreen = {
         )
         sat_labelconditions = {
             Self: "You",
-            Stranger: sat_labels[2],
-            Friend: sat_labels[1],
+            Stranger: sat_labels[1],
+            Friend: sat_labels[2],
         }
     },
     stimulus: function () {
