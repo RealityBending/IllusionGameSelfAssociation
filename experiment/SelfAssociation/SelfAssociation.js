@@ -103,8 +103,15 @@ var sat_instructions_matching = {
     choices: ["Continue"],
     data: { screen: "matching_instructions" },
     on_finish: function () {
-        // Randomize shapes
-        sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+        // Randomize shapes so that no assignment is the same as before
+        let old_order = structuredClone(sat_shapes)
+        while (
+            sat_shapes[0] == old_order[0] ||
+            sat_shapes[1] == old_order[1] ||
+            sat_shapes[2] == old_order[2]
+        ) {
+            sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+        }
     },
 }
 
@@ -196,8 +203,8 @@ var sat_assignmentscreen = {
         )
         sat_labelconditions = {
             Self: "You",
-            Friend: sat_labels[1],
             Stranger: sat_labels[2],
+            Friend: sat_labels[1],
         }
     },
     stimulus: function () {
