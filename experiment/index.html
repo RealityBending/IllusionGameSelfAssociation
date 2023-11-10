@@ -74,11 +74,11 @@
         timeline.push(sat_strangerlabel)
         timeline.push(sat_friendlabel)
 
-        // Practice
-        timeline.push(sat_instructions_practice)
-        timeline.push(sat_assignmentscreen)
-        timeline.push(sat_practice)
-        timeline.push(sat_practice_end)
+        // // Practice
+        // timeline.push(sat_instructions_practice)
+        // timeline.push(sat_assignmentscreen)
+        // timeline.push(sat_practice)
+        // timeline.push(sat_practice_end)
 
         // Matching task
         timeline.push(sat_instructions_matching)
@@ -102,6 +102,7 @@
         //     data_string: () => jsPsych.data.get().csv(),
         // })
         /* ----------------- Run the timeline ----------------- */
+        // jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
         jsPsych.run(timeline)
     </script>
 </html>

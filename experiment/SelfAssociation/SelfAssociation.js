@@ -22,8 +22,14 @@ var correct_count2 = 0
 var correct_count3 = 0
 var sat_trialnumber = 1
 var sat_blocknumber = 1
+var sat_answerstrials = ["e", "i"]
+var n_practice = 2 // Max number of practice trials (multiplied by 3)
+var n_trials = 2 // Number of trials (multiplied by 9)
 
 // Stimuli ========================================================================
+// Function to repeat arrays
+const repeat = (arr, n) => [].concat(...Array(n).fill(arr))
+
 var stimuli = [
     {
         stimulus: path + "stimuli/circle.png",
@@ -40,16 +46,15 @@ var stimuli = [
 ]
 // Generate stimuli list with balanced labels
 var stimuli_block = []
-for (var i = 0; i < stimuli.length; i++) {
-    for (var y = 0; y < 3; y++) {
-        let s = structuredClone(stimuli[i])
-        s.data.label_condition = ["Self", "Friend", "Stranger"][y]
-        stimuli_block.push(s)
+for (var n = 0; n < n_trials; n++) {
+    for (var i = 0; i < stimuli.length; i++) {
+        for (var y = 0; y < 3; y++) {
+            let s = structuredClone(stimuli[i])
+            s.data.label_condition = ["Self", "Friend", "Stranger"][y]
+            stimuli_block.push(s)
+        }
     }
 }
-
-// Function to repeat arrays
-const repeat = (arr, n) => [].concat(...Array(n).fill(arr))
 
 var sat_preload = {
     type: jsPsychPreload,
@@ -70,6 +75,9 @@ var sat_instructions_general = {
         "<p>To personalize this game to your own experience, you will first select who you want the friend and the stranger to be.</p>",
     choices: ["Continue"],
     data: { screen: "SAT_instructions_general" },
+    on_finish: function () {
+        sat_answerstrials = jsPsych.randomization.shuffle(sat_answerstrials)
+    },
 }
 
 var sat_instructions_practice = {
@@ -93,13 +101,20 @@ var sat_instructions_practice = {
 // Matching Task Instructions
 var sat_instructions_matching = {
     type: jsPsychHtmlButtonResponse,
-    stimulus:
-        "<h1>Instructions</h1>" +
-        "<p>In this part of the game, the previous shapes will be re-assigned to the labels.</p>" +
-        "<p>Your task will be then to decide if the presented shape matches their newly assigned label as quickly and accurately as possible.</p>" +
-        "<p>If the shape-label pair is a match, press <b>'e'</b>.</p>" +
-        "<p>If the shape-label pair is not a match, press <b>'i'</b></p>" +
-        "<br><p>Good luck!</p>",
+    stimulus: function () {
+        return (
+            "<h1>Instructions</h1>" +
+            "<p>In this part of the game, the previous shapes will be re-assigned to the labels.</p>" +
+            "<p>Your task will be then to decide if the presented shape matches their newly assigned label as quickly and accurately as possible.</p>" +
+            "<p>If the shape-label pair is a <b>match</b>, press <b>'" +
+            sat_answerstrials[0] +
+            "'</b>.</p>" +
+            "<p>If the shape-label pair is <b>not a match</b>, press <b>'" +
+            sat_answerstrials[1] +
+            "'</b></p>" +
+            "<br><p>Good luck!</p>"
+        )
+    },
     choices: ["Continue"],
     data: { screen: "matching_instructions" },
     on_finish: function () {
@@ -332,7 +347,7 @@ var sat_feedback = {
 }
 
 var sat_practice = {
-    timeline_variables: repeat(stimuli, 2),
+    timeline_variables: repeat(stimuli, n_practice),
     randomize_order: true,
     timeline: [sat_fixationcross, sat_practice_trial, sat_feedback],
 }
@@ -369,7 +384,7 @@ var sat_trial = {
             "</div>"
         )
     },
-    choices: ["e", "i"],
+    choices: sat_answerstrials,
     stimulus_duration: 1000, // I have extended the trial duration (100ms -> 1000ms) in order to make the task easier
     trial_duration: 4200,
     data: function () {
@@ -390,9 +405,9 @@ var sat_trial = {
         } else {
             data.answer_correct = "mismatch"
         }
-        if (resp == "e") {
+        if (resp == sat_answerstrials[0]) {
             data.answer = "match"
-        } else if (resp == "i") {
+        } else if (resp == sat_answerstrials[1]) {
             data.answer = "mismatch"
         } else {
             data.answer = null
