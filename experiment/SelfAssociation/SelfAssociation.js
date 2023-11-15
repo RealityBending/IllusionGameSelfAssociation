@@ -1,7 +1,7 @@
 const path =
     "https://realitybending.github.io/IllusionGameSelfAssociation/experiment/SelfAssociation/"
 var sat_shapes = ["circle", "triangle", "square"]
-var sat_labels = ["You"]
+var sat_labels = [text_you_fr]
 var sat_characters = [
     "Elvis",
     "Seal",
@@ -69,11 +69,8 @@ var sat_preload = {
 // Instructions ========================================================================
 var sat_instructions_general = {
     type: jsPsychHtmlButtonResponse,
-    stimulus:
-        "<h1>Shape-Label Association Game</h1>" +
-        "<p>In this task, you will be shown some <b>shapes</b> that will be assigned to a <b>label</b> (You, Your Best Friend and a Stranger).</p>" +
-        "<p>To personalize this game to your own experience, you will first select who you want the friend and the stranger to be.</p>",
-    choices: ["Continue"],
+    stimulus: text_instructions_general_fr,
+    choices: [text_continue_fr],
     data: { screen: "SAT_instructions_general" },
     on_finish: function () {
         sat_answerstrials = jsPsych.randomization.shuffle(sat_answerstrials)
@@ -82,15 +79,8 @@ var sat_instructions_general = {
 
 var sat_instructions_practice = {
     type: jsPsychHtmlButtonResponse,
-    stimulus:
-        "<h1>Practice</h1>" +
-        "<p>Each label (i.e., You, Best Friend, Stranger) will be assigned to a specific shape (circle, square or triangle)</p>" +
-        "<p>During the practice phase, you will be presented with one of the shapes above a fixation cross, together with the three labels below the fixation cross.</p>" +
-        "<p>Your task is to select the label that corresponds with the presented shape as quickly and accurately as possible</p>" +
-        "<p>If the correct label is on the <b>left</b>, press <b>'v'</b>.</p>" +
-        "<p>If the correct label is in the <b>middle</b>, press <b>'b'</b>.</p>" +
-        "<p>If the correct label is on the <b>right</b>, press <b>'n'</b>.</p><br>",
-    choices: ["Continue"],
+    stimulus: text_instructions_practice_fr,
+    choices: [text_continue_fr],
     data: { screen: "SAT_instructions_practice" },
     on_finish: function () {
         // Randomize shapes
@@ -103,19 +93,14 @@ var sat_instructions_matching = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function () {
         return (
-            "<h1>Instructions</h1>" +
-            "<p>In this part of the game, the previous shapes will be re-assigned to the labels.</p>" +
-            "<p>Your task will be then to decide if the presented shape matches their newly assigned label as quickly and accurately as possible.</p>" +
-            "<p>If the shape-label pair is a <b>match</b>, press <b>'" +
+            text_instructions_matching1_fr +
             sat_answerstrials[0] +
-            "'</b>.</p>" +
-            "<p>If the shape-label pair is <b>not a match</b>, press <b>'" +
+            text_instructions_matching2_fr +
             sat_answerstrials[1] +
-            "'</b></p>" +
-            "<br><p>Good luck!</p>"
+            text_instructions_matching3_fr
         )
     },
-    choices: ["Continue"],
+    choices: [text_continue_fr],
     data: { screen: "matching_instructions" },
     on_finish: function () {
         // Randomize shapes so that no assignment is the same as before
@@ -135,7 +120,7 @@ var sat_strangerlabel = {
     type: jsPsychSurveyMultiChoice,
     questions: [
         {
-            prompt: "<b>Please choose a stranger's name:</b>",
+            prompt: text_strangerlabel_fr,
             options: function () {
                 if (
                     jsPsych.data
@@ -178,7 +163,7 @@ var sat_friendlabel = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "<b>Now, please enter your best friend's first name (gender-matched)</b>:",
+            prompt: text_friendlabel_fr,
             placeholder: "e.g., John",
             name: "label_friend",
             required: true,
@@ -206,7 +191,7 @@ var sat_assignmentscreen = {
         sat_conditions = Object.fromEntries(
             sat_shapes.map(function (key, index) {
                 lab = sat_labels[index]
-                if (lab == "You") {
+                if (lab == text_you_fr) {
                     cond = "Self"
                 } else if (sat_characters.includes(lab)) {
                     cond = "Stranger"
@@ -217,7 +202,7 @@ var sat_assignmentscreen = {
             })
         )
         sat_labelconditions = {
-            Self: "You",
+            Self: text_you_fr,
             Stranger: sat_labels[1],
             Friend: sat_labels[2],
         }
@@ -227,32 +212,32 @@ var sat_assignmentscreen = {
             "<h1>Instructions</h1>" +
             "<div id ='align-middle'><b>" +
             sat_labels[0] +
-            "</b> will be represented by a <b>" +
+            text_isrepresented_fr +
             sat_shapes[0] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes[0]}` +
             ".png height=40></img></div><br>" +
             "<div id ='align-middle'><b>" +
             sat_labels[1] +
-            "</b> will be represented by a <b>" +
+            text_isrepresented_fr +
             sat_shapes[1] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes[1]}` +
             ".png height=40></img></div><br>" +
             "<div id = 'align-middle'><b>" +
             sat_labels[2] +
-            "</b> will be represented by a <b>" +
+            text_isrepresented_fr +
             sat_shapes[2] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes[2]}` +
             ".png height=40></img></div><br>"
         return text
     },
-    choices: ["I memorized it!"],
+    choices: [text_memorize],
     data: { screen: "SAT_assignmentscreen" },
 }
 
-// Create grey fixation screen
+// Create fixation screen
 var sat_fixationcross = {
     type: jsPsychHtmlKeyboardResponse,
     on_start: function () {
@@ -335,7 +320,7 @@ var sat_feedback = {
     stimulus: function (data) {
         var last_trial = jsPsych.data.get().last().values()[0]
         if (last_trial.answer == null) {
-            return "<p style = 'font-size: 300%; color:blue'>Out of Time!</p>"
+            return `<p style = 'font-size: 300%; color:blue'>${text_outoftime_fr}</p>`
         } else if (last_trial.correct == true) {
             return "<p style = 'font-size: 300%; color:green'>Correct!</p>"
         } else {
@@ -357,9 +342,8 @@ var sat_practice_end = {
     on_start: function () {
         document.body.style.cursor = "Auto"
     },
-    stimulus:
-        "<h1>Congratulations!</h1>" + "<p>You have completed the training.</p>",
-    choices: ["Continue"],
+    stimulus: text_practice_end_fr,
+    choices: [text_continue_fr],
     data: { screen: "sat_practice_end" },
     on_finish: function () {
         sat_trialnumber = 1 // reset trial number
@@ -428,7 +412,7 @@ var sat_block = {
 
 var sat_block_debrief = {
     type: jsPsychHtmlButtonResponse,
-    choices: ["Ready for the next round!"],
+    choices: [text_readyround_fr],
     on_start: function () {
         document.body.style.cursor = "Auto"
     },
@@ -439,10 +423,9 @@ var sat_block_debrief = {
         var correct_results = results.filter({ correct: true })
         var proportion_correct = correct_results.count() / results.count()
         return (
-            "<p>You responded correctly on <b>" +
+            text_respondedcorrectly_fr +
             Math.round(proportion_correct * 100 * 100) / 100 +
-            "" +
-            "%</b> of the trials.</p>"
+            text_respondedcorrectly2_fr
         )
     },
     data: { screen: "sat_block_debrief" },

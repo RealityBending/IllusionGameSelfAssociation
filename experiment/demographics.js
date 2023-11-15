@@ -36,7 +36,7 @@ var demographics_participant_id = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "Enter participant ID:",
+            prompt: "Entrer le code particpant:",
             placeholder: "001",
             name: "Participant_ID",
         },
@@ -61,47 +61,47 @@ var demographics_consent = {
         // Logo
         "<img src='https://u-paris.fr/wp-content/uploads/2022/03/Universite_Paris-Cite-logo.jpeg' width='300px' align='right'/><br><br><br><br><br>" +
         // Title
-        "<h1>Informed Consent</h1>" +
-        "<p align='left'>In this study, you will be asked to complete [TODO].</p>" +
-        "<p align='left'>Your participation in this research will be kept completely confidential. <b>Your responses are entirely anonymous</b>, and no IP address or any identifiers are collected.</p>" +
-        "<p align='left'>Your participation contributes to scientific advancement. <b>By participating, you agree to follow the instructions and provide honest answers.</b> If you do not wish to participate this survey, simply close your browser.</p>" +
-        // "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).</p>"
-        "<p align='left'><br><sub><sup>If you have any questions about the project, please contact [TODO] This project has been reviewed and approved by the Ethics Comitee of the University of [TODO].</sup></sub></p>",
+        "<h1>Consentement éclairé</h1>" +
+        "<p align='left'>Dans cette étude, vous allez devoir compléter [TODO].</p>" +
+        "<p align='left'>Votre participation à cette recherche est confidentielle. <b>Vos réponses seront totalement anonymisées</b>, et votre adresse IP ni aucune autres informations identifiantes ne sont collectées.</p>" +
+        "<p align='left'>Votre participation contribue aux avancées scientifiques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
+        // "<p>Notez que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
+        "<p align='left'><br><sub><sup>Si vous avez des questions sur le projets, veuillez contacter Baptiste Fauvel (baptiste.fauvel@u-paris.fr). Cette étude a été expertisée et validée par le comité d'éthique de l'université de Paris.</sup></sub></p>",
 
-    choices: ["I read and consent"],
+    choices: ["J'ai lu et j'accepte les conditions de l'étude"],
     data: { screen: "consent" },
 }
 
 // Demographic info ========================================================================
 var demographics_multichoice = {
     type: jsPsychSurveyMultiChoice,
-    preamble: "<b>Please answer the following questions:</b>",
+    preamble: "<b>Veuillez répondre aux questions suivantes:</b>",
     questions: [
         {
-            prompt: "What is your sex?",
-            options: ["Male", "Female"],
+            prompt: "Quel est votre genre",
+            options: ["Homme", "Femme"],
             name: "sex",
             required: true,
         },
         // {
-        //     prompt: "Are you currently a student?",
-        //     options: ["Yes", "No"],
+        //     prompt: "Etes vous actuellement étudiant?",
+        //     options: ["Oui", "Non"],
         //     name: "student",
         // },
         // {
-        //     prompt: "What is your highest completed education level?",
+        //     prompt: "Quel est votre niveau d'étude?",
         //     options: [
-        //         "University (doctorate)",
-        //         "University (master) <sub><sup>or equivalent</sup></sub>",
-        //         "University (bachelor) <sub><sup>or equivalent</sup></sub>",
-        //         "High school",
-        //         "Other",
+        //         "Université (doctorat)",
+        //         "Université (master) <sub><sup>or equivalent</sup></sub>",
+        //         "Université (licence) <sub><sup>or equivalent</sup></sub>",
+        //         "Lycée",
+        //         "Autre",
         //     ],
         //     name: "education",
         // },
         // {
-        //     prompt: "English level",
-        //     options: ["native", "fluent", "intermediate", "beginner"],
+        //     prompt: "Quel est votre niveau de Français?",
+        //     options: ["langue maternelle", "courant", "intermédiaire", "débutant"],
         //     name: "english",
         // },
     ],
@@ -114,13 +114,13 @@ var demographics_freetext = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "Please enter your age (in years)",
+            prompt: "Entrer votre âge (en années)",
             placeholder: "e.g., '31'",
             name: "age",
         },
         {
-            prompt: "Please enter your ethnicity",
-            placeholder: "e.g., Caucasian",
+            prompt: "Quel est votre groupe ethnique",
+            placeholder: "e.g., Caucasien",
             name: "ethnicity",
         },
     ],

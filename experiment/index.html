@@ -20,6 +20,7 @@
         <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.0.0"></script>
         <!-- Load scripts -->
         <script src="demographics.js"></script>
+        <script src="SelfAssociation/instructions.js"></script>
         <script src="SelfAssociation/SelfAssociation.js"></script>
 
         <link
@@ -65,6 +66,7 @@
         // })
 
         // Demographics ========================================================
+        // Force encodage français éè
         timeline.push(demographics_consent)
         timeline.push(demographics_multichoice)
 
@@ -74,11 +76,11 @@
         timeline.push(sat_strangerlabel)
         timeline.push(sat_friendlabel)
 
-        // // Practice
-        // timeline.push(sat_instructions_practice)
-        // timeline.push(sat_assignmentscreen)
-        // timeline.push(sat_practice)
-        // timeline.push(sat_practice_end)
+        // Practice
+        timeline.push(sat_instructions_practice)
+        timeline.push(sat_assignmentscreen)
+        timeline.push(sat_practice)
+        timeline.push(sat_practice_end)
 
         // Matching task
         timeline.push(sat_instructions_matching)
