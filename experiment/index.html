@@ -59,11 +59,11 @@
         })
 
         // Enter fullscreen mode
-        // timeline.push({
-        //     type: jsPsychFullscreen,
-        //     fullscreen_mode: true,
-        //     delay_after: 0,
-        // })
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: true,
+            delay_after: 0,
+        })
 
         // Demographics ========================================================
         // Force encodage français éè
@@ -89,20 +89,22 @@
         timeline.push(sat_block_debrief)
 
         // End =================================================================
+        timeline.push(demographics_endscreen)
+
         // Exit fullscreen mode
-        // timeline.push({
-        //     type: jsPsychFullscreen,
-        //     fullscreen_mode: false,
-        // })
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+        })
 
         // Save data via DataPipe
-        // timeline.push({
-        //     type: jsPsychPipe,
-        //     action: "save",
-        //     experiment_id: "S66gI840EBvH", // This in generated in the DataPipe interface
-        //     filename: `${jsPsych.randomization.randomID(10)}.csv`,
-        //     data_string: () => jsPsych.data.get().csv(),
-        // })
+        timeline.push({
+            type: jsPsychPipe,
+            action: "save",
+            experiment_id: "S66gI840EBvH", // This in generated in the DataPipe interface
+            filename: `${jsPsych.randomization.randomID(10)}.csv`,
+            data_string: () => jsPsych.data.get().csv(),
+        })
         /* ----------------- Run the timeline ----------------- */
         // jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
         jsPsych.run(timeline)

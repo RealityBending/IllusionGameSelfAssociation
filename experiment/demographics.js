@@ -72,6 +72,17 @@ var demographics_consent = {
     data: { screen: "consent" },
 }
 
+// Thank you ========================================================================
+var demographics_endscreen = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+        "<h1>Merci beaucoup pour votre participation <3</h1>" +
+        "<p>N'hésitez pas à partager l'expérience avec d'autres!</p>" +
+        "<p>Cliquez sur 'Continuer' et <b>attendez que vos données soient enregistrées</b> avant de fermer l'onglet.</p> ",
+    choices: ["Continuer"],
+    data: { screen: "endscreen" },
+}
+
 // Demographic info ========================================================================
 var demographics_multichoice = {
     type: jsPsychSurveyMultiChoice,
