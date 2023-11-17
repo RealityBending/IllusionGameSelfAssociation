@@ -56,6 +56,7 @@ var demographics_participant_id = {
 
 // Consent form ========================================================================
 var demographics_consent = {
+    css_classes: ["multichoice-narrow"],
     type: jsPsychHtmlButtonResponse,
     stimulus:
         // Logo

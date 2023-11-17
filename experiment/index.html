@@ -9,6 +9,7 @@
         <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.0.0"></script>
 
@@ -19,6 +20,7 @@
         <script src="https://unpkg.com/@jspsych/plugin-preload@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.0.0"></script>
         <!-- Load scripts -->
+        <script src="questionnaires.js"></script>
         <script src="demographics.js"></script>
         <script src="SelfAssociation/instructions.js"></script>
         <script src="SelfAssociation/SelfAssociation.js"></script>
@@ -34,13 +36,8 @@
                 max-width: 100%;
             }
 
-            /*Hide scrollbar while keeping it functional */
-            body {
-                overflow-y: scroll;
-            }
-
-            Body::-webkit-scrollbar {
-                display: none;
+            .multichoice-narrow {
+                max-width: 50%;
             }
         </style>
     </head>
@@ -65,6 +62,12 @@
             delay_after: 0,
         })
 
+        // Questionnaires =======================================================
+        var Qs = [aaq, dass, meq]
+        Qs = jsPsych.randomization.shuffle(Qs) // Randomize
+        for (var i = 0; i < Qs.length; i++) {
+            timeline.push(Qs[i]) // Push each element to timeline
+        }
         // Demographics ========================================================
         // Force encodage français éè
         timeline.push(demographics_consent)
