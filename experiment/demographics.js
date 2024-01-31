@@ -144,3 +144,182 @@ var demographics_freetext = {
 var demographics_info = {
     timeline: [demographics_multichoice, demographics_freetext],
 }
+
+//more demographics info
+//email address
+var email = {
+    type: jsPsychSurveyText,
+    questions: [
+        {prompt: 'Please enter your email address', required: true},
+    ]
+}
+//age
+var age = {
+    type: jsPsychSurveyText,
+    questions: [
+        {prompt: 'Please enter your age in years', required: true },
+    ]
+}
+//education level
+var socio_cultural = {
+    type: jsPsychSurveyMultiChoice,
+    questions: [
+        {
+            prompt: "Please indicate your education level",
+            name: 'genderWhat',
+            options: ['High School', 'High school diploma', 'Bachelor', 'Masters', 'Doctorate'],
+            required: true,
+            horizontal: true
+        },
+    ],
+}
+//past psychatric diagnoses and if node
+var past_psych = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p style="font-size:18px; color:black;">Have you <b>ever</b> been diagnosed with any of the following pathologies ?</p>',
+    choices: ['Yes', 'No'],
+    prompt: "<p>Depression, post-traumatic stress disorder, obsessional-compulsive disorder, anxiety disorder, substance use disorder (other than nicotine) schizophrenia</p>",
+    on_finish: function (data) {
+        console.log("past_psych response:", data.button_pressed);
+    }
+}
+
+var psych_which_ever = {
+    type: jsPsychSurveyText,
+    questions: [
+        { prompt: 'Please specify which', required: true },
+    ]
+}
+
+var if_node = {
+    timeline: [psych_which_ever],
+    conditional_function: function(){
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.response == '1'){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+//current psychiatric diagnoses and if node 
+var current_psych = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p style="font-size:18px; color:black;">Are you <b>currently</b> diagnosed with any of the following pathologies ?</p>',
+    choices: ['Yes', 'No'],
+    prompt: "<p>Depression, post-traumatic stress disorder, obsessional-compulsive disorder, anxiety disorder, substance use disorder (other than nicotine) schizophrenia</p>",
+    on_finish: function (data) {
+        console.log("current_psych response:", data.button_pressed);
+    }
+}
+
+var psych_which_current = {
+    type: jsPsychSurveyText,
+    questions: [
+        { prompt: 'Please specify which', required: true },
+    ]
+}
+
+var if_node1 = {
+    timeline: [psych_which_current],
+    conditional_function: function(){
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.response == '1'){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+//Meditation background 
+var meditation = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p style="font-size:18px; color:black;">Do you meditate regularly? E.g. at least once a week?</p>',
+    choices: ['Yes', 'No'],
+    on_finish: function (data) {
+        console.log("Meditation response:", data.button_pressed);
+    }
+}
+var meditation_times = {
+    type: jsPsychSurveyText,
+    questions: [
+        { prompt: 'How many times per week have you mediated on average in the last year? ', required: true },
+    ]
+}
+
+var meditation_length = {
+    type: jsPsychSurveyText,
+    questions: [
+        { prompt: 'On average, how long have you been meditating? Answer in number of months (e.g. 1 year = 12) ', required: true },
+    ]
+}
+
+var meditation_duration = {
+    type: jsPsychSurveyText,
+    questions: [
+        { prompt: 'On average, how long is each meditation session. Answer in number of minutes (e.g. 1 hour = 60) ', required: true },
+    ]
+}
+
+var meditation_type = {
+    type: jsPsychSurveyMultiSelect,
+    questions: [
+        {
+            prompt: "In which tradition do you meditate? You may choose more than one",
+            name: 'medTrad',
+            options: ['Zen', 'Vipassana', 'Tibetan Buddhism', 'Yoga', 'Mindfulness', 'Qi-gong', 'Other'],
+            required: true,
+            horizontal: true
+        },
+    ],
+}
+
+var if_node2 = {
+    timeline: [meditation_times, meditation_length, meditation_duration, meditation_type],
+    conditional_function: function(){
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.response == '1'){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+//Psychedelics history
+var psychedelics = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p style="font-size:18px; color:black;">Have you taken a psychedelic drug in the last 6 months? (E.g. LSD, psilocybin mushrooms, ayahausca)</p>',
+    choices: ['Yes', 'No'],
+    on_finish: function (data) {
+        console.log("Meditation response:", data.button_pressed);
+    }
+} 
+
+var psychedelics_freq = {
+    type: jsPsychSurveyMultiChoice,
+    questions: [
+        {
+            prompt: "Please indicate approximately how many times you have used a psychedelic drug in your life",
+            name: 'psych_freq',
+            options: ['Never', 'Between 2 and 5 times', 'Between 6 and 10 times', 'Between 11 and 50 times', 'Between 50 and 100 times', 'More than 100 times'],
+            required: true,
+            horizontal: true
+        },
+    ],
+}
+//English level
+//var english = {
+//  type: jsPsychSurveyMultiChoice,
+//questions: [
+//  {
+//    prompt: "What is your English level",
+//  name: 'english',
+//options: ['Native', 'Fluent', 'Intermediate', 'Beginner'],
+//required: true,
+//horizontal: true
+//},
+//],
+//}
