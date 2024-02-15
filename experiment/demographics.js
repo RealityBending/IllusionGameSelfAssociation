@@ -103,12 +103,12 @@ var demographics_participant_id_english = {
         },
     ],
     data: {
-        screen: "participant_id",
+        screen: "participant_id_english",
     },
     on_finish: function () {
         // Store `participant_id` so that it can be reused later
         jsPsych.data.addProperties({
-            participant_id: jsPsych.data.get().last().values()[0]["response"][
+            participant_id_english: jsPsych.data.get().last().values()[0]["response"][
                 "Participant_ID"
             ],
         })
@@ -342,7 +342,7 @@ var current_psych_english = {
     choices: ['Yes', 'No'],
     prompt: "<p>Depression, post-traumatic stress disorder, obsessional-compulsive disorder, anxiety disorder, substance use disorder (other than nicotine) schizophrenia</p>",
     on_finish: function (data) {
-        console.log("current_psych response:", data.button_pressed);
+        console.log("current_psych_english response:", data.button_pressed);
     }
 }
 
@@ -426,7 +426,7 @@ var meditation_english = {
     stimulus: '<p style="font-size:18px; color:black;">Do you meditate regularly? E.g. at least once a week?</p>',
     choices: ['Yes', 'No'],
     on_finish: function (data) {
-        console.log("Meditation response:", data.button_pressed);
+        console.log("Meditation_english response:", data.button_pressed);
     }
 }
 var meditation_times_english = {
@@ -521,13 +521,6 @@ var psychedelics_freq_english = {
         },
     ],
 }
-
-
-
-
-
-
-
 
 // Thank you ========================================================================
 var demographics_endscreen = {
