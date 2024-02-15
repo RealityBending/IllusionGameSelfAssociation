@@ -63,15 +63,17 @@
             delay_after: 0,
         })
 
-        //PreDemographics 
-        timeline.push(email)
-        timeline.push(age)
-        timeline.push(socio_cultural)
-        timeline.push(past_psych, if_node)
-        timeline.push(current_psych, if_node1)
-        timeline.push(meditation, if_node2)
-        timeline.push(psychedelics)
-        timeline.push(psychedelics_freq)
+        // Demographics ========================================================
+        // Force encodage français éè
+        timeline.push(demographics_consent_english)
+        timeline.push(demographics_participant_id_english)
+        timeline.push(email_english)
+        timeline.push(demographics_info_english)
+        timeline.push(past_psych_english, if_node_english)
+        timeline.push(current_psych_english, if_node1_english)
+        timeline.push(meditation_english, if_node2_english)
+        timeline.push(psychedelics_english)
+        timeline.push(psychedelics_freq_english)
        
 
 
@@ -81,10 +83,6 @@
         for (var i = 0; i < Qs.length; i++) {
             timeline.push(Qs[i]) // Push each element to timeline
         }
-        // Demographics ========================================================
-        // Force encodage français éè
-        timeline.push(demographics_consent)
-        timeline.push(demographics_multichoice)
 
         // Self-Association Task (SAT) =========================================
         timeline.push(sat_preload)
