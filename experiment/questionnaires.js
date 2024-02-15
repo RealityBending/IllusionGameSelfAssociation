@@ -92,9 +92,9 @@ var dass_instructions_fr =
     "<p>Indiquez à quel point chaque affirmation s'applique à vous <b>au cours de la dernière semaine.</b></p>" +
     "<p>Il n'y a pas de bonnes ou mauvaises réponses.</p>"
 
-var dass_questions = []
+var dass_questions_fr = []
 for (var n = 0; n < 21; n++) {
-    dass_questions.push({
+    dass_questions_fr.push({
         prompt: "<b>" + dass_items_fr[n] + "</b>",
         name: dass_dimensions[n],
         labels: dass_labels_fr,
@@ -102,13 +102,33 @@ for (var n = 0; n < 21; n++) {
     })
 }
 
-var dass = {
+var dass_questions_english = []
+for (var n = 0; n < 21; n++) {
+    dass_questions_english.push({
+        prompt: "<b>" + dass_items[n] + "</b>",
+        name: dass_dimensions[n],
+        labels: dass_labels,
+        required: false,
+    })
+}
+
+var dass_fr = {
     type: jsPsychSurveyLikert,
-    questions: dass_questions,
+    questions: dass_questions_fr,
     randomize_question_order: false,
     preamble: dass_instructions_fr,
     data: {
-        screen: "questionnaire_dass21",
+        screen: "questionnaire_dass21_fr",
+    },
+}
+
+var dass_english = {
+    type: jsPsychSurveyLikert,
+    questions: dass_questions_english,
+    randomize_question_order: false,
+    preamble: dass_instructions,
+    data: {
+        screen: "questionnaire_dass21_english",
     },
 }
 
@@ -167,22 +187,43 @@ var aaq_instructions = "<p>Please rate how true each statement is of you.</p>"
 var aaq_instructions_fr =
     "<p>Merci d'évaluer à quel point chaque affirmation est vraie pour vous.</p>"
 
-var aaq_questions = []
+var aaq_questions_fr = []
 for (var n = 0; n < 7; n++) {
-    aaq_questions.push({
+    aaq_questions_fr.push({
         prompt: "<b>" + aaq_items_fr[n] + "</b>",
         name: aaq_dimensions[n],
         labels: aaq_labels_fr,
         required: false,
     })
 }
-var aaq = {
+
+var aaq_questions_english = []
+for (var n = 0; n < 7; n++) {
+    aaq_questions_english.push({
+        prompt: "<b>" + aaq_items[n] + "</b>",
+        name: aaq_dimensions[n],
+        labels: aaq_labels,
+        required: false,
+    })
+}
+
+var aaq_fr = {
     type: jsPsychSurveyLikert,
-    questions: aaq_questions,
+    questions: aaq_questions_fr,
     randomize_question_order: false,
     preamble: aaq_instructions_fr,
     data: {
-        screen: "questionnaire_aaq",
+        screen: "questionnaire_aaq_fr",
+    },
+}
+
+var aaq_english = {
+    type: jsPsychSurveyLikert,
+    questions: aaq_questions_english,
+    randomize_question_order: false,
+    preamble: aaq_instructions,
+    data: {
+        screen: "questionnaire_aaq_english",
     },
 }
 

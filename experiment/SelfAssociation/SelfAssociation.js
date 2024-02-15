@@ -1,7 +1,8 @@
 const path =
     "https://realitybending.github.io/IllusionGameSelfAssociation/experiment/SelfAssociation/"
 var sat_shapes = ["circle", "triangle", "square"]
-var sat_labels = [text_you_fr]
+var sat_labels = [text_you]
+var sat_labels_fr = [text_you_fr]
 var sat_characters = [
     "Elvis",
     "Seal",
@@ -69,9 +70,19 @@ var sat_preload = {
 // Instructions ========================================================================
 var sat_instructions_general = {
     type: jsPsychHtmlButtonResponse,
+    stimulus: text_instructions_general,
+    choices: [text_continue],
+    data: { screen: "SAT_instructions_general" },
+    on_finish: function () {
+        sat_answerstrials = jsPsych.randomization.shuffle(sat_answerstrials)
+    },
+}
+
+var sat_instructions_general_fr = {
+    type: jsPsychHtmlButtonResponse,
     stimulus: text_instructions_general_fr,
     choices: [text_continue_fr],
-    data: { screen: "SAT_instructions_general" },
+    data: { screen: "SAT_instructions_general_fr" },
     on_finish: function () {
         sat_answerstrials = jsPsych.randomization.shuffle(sat_answerstrials)
     },
@@ -79,9 +90,20 @@ var sat_instructions_general = {
 
 var sat_instructions_practice = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: text_instructions_practice_fr,
+    stimulus: text_instructions_practice,
     choices: [text_continue_fr],
     data: { screen: "SAT_instructions_practice" },
+    on_finish: function () {
+        // Randomize shapes
+        sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+    },
+}
+
+var sat_instructions_practice_fr = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: text_instructions_practice_fr,
+    choices: [text_continue_fr],
+    data: { screen: "SAT_instructions_practice_fr" },
     on_finish: function () {
         // Randomize shapes
         sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
@@ -93,14 +115,14 @@ var sat_instructions_matching = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function () {
         return (
-            text_instructions_matching1_fr +
+            text_instructions_matching1 +
             sat_answerstrials[0] +
-            text_instructions_matching2_fr +
+            text_instructions_matching2 +
             sat_answerstrials[1] +
-            text_instructions_matching3_fr
+            text_instructions_matching3
         )
     },
-    choices: [text_continue_fr],
+    choices: [text_continue],
     data: { screen: "matching_instructions" },
     on_finish: function () {
         // Randomize shapes so that no assignment is the same as before
@@ -115,12 +137,81 @@ var sat_instructions_matching = {
     },
 }
 
+var sat_instructions_matching_fr = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function () {
+        return (
+            text_instructions_matching1_fr +
+            sat_answerstrials[0] +
+            text_instructions_matching2_fr +
+            sat_answerstrials[1] +
+            text_instructions_matching3_fr
+        )
+    },
+    choices: [text_continue_fr],
+    data: { screen: "matching_instructions_fr" },
+    on_finish: function () {
+        // Randomize shapes so that no assignment is the same as before
+        let old_order = structuredClone(sat_shapes)
+        while (
+            sat_shapes[0] == old_order[0] ||
+            sat_shapes[1] == old_order[1] ||
+            sat_shapes[2] == old_order[2]
+        ) {
+            sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+        }
+    },
+}
+
 // Labels personalization ========================================================================
-var sat_strangerlabel = {
+var sat_strangerlabel_fr = {
     type: jsPsychSurveyMultiChoice,
     questions: [
         {
             prompt: text_strangerlabel_fr,
+            options: function () {
+                if (
+                    jsPsych.data
+                        .get()
+                        .filter({ screen: "demographics_1" })
+                        .values()[0]["response"]["sex"] == "Homme"
+                ) {
+                    return jsPsych.randomization.shuffle([
+                        "Elvis",
+                        "Seal",
+                        "Sting",
+                        "Eminem",
+                        "Bono",
+                    ])
+                } else {
+                    return jsPsych.randomization.shuffle([
+                        "Beyonce",
+                        "Madonna",
+                        "Rihanna",
+                        "Pink",
+                        "Shakira",
+                    ])
+                }
+            },
+            name: "label_stranger",
+            required: true,
+        },
+    ],
+    on_finish: function () {
+        var stranger = jsPsych.data.get().last().values()[0]["response"][
+            "label_stranger"
+        ]
+        jsPsych.data.addProperties({ label_stranger: stranger })
+        sat_labels.push(stranger)
+    },
+    data: { screen: "SAT_strangerlabel" },
+}
+
+var sat_strangerlabel = {
+    type: jsPsychSurveyMultiChoice,
+    questions: [
+        {
+            prompt: text_strangerlabel,
             options: function () {
                 if (
                     jsPsych.data
@@ -159,7 +250,7 @@ var sat_strangerlabel = {
     data: { screen: "SAT_strangerlabel" },
 }
 
-var sat_friendlabel = {
+var sat_friendlabel_fr = {
     type: jsPsychSurveyText,
     questions: [
         {
@@ -179,10 +270,30 @@ var sat_friendlabel = {
     data: { screen: "SAT_friendlabel" },
 }
 
+var sat_friendlabel = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: text_friendlabel,
+            placeholder: "e.g., John",
+            name: "label_friend",
+            required: true,
+        },
+    ],
+    on_finish: function () {
+        var friend = jsPsych.data.get().last().values()[0]["response"][
+            "label_friend"
+        ]
+        jsPsych.data.addProperties({ label_friend: friend })
+        sat_labels.push(friend)
+    },
+    data: { screen: "SAT_friendlabel" },
+}
+
 // Practice ========================================================================
 // Assign shape-label randomly
 // Note that in the original paradigm this training is given verbally
-var sat_assignmentscreen = {
+var sat_assignmentscreen_fr = {
     type: jsPsychHtmlButtonResponse,
     on_start: function () {
         sat_conditions = Object.fromEntries(
@@ -227,6 +338,61 @@ var sat_assignmentscreen = {
             "<div id = 'align-middle'><b>" +
             sat_labels[2] +
             text_isrepresented_fr +
+            sat_shapes[2] +
+            "</b>  " +
+            `<img src= ${path + "stimuli/" + sat_shapes[2]}` +
+            ".png height=40></img></div><br>"
+        return text
+    },
+    choices: [text_memorize],
+    data: { screen: "SAT_assignmentscreen" },
+}
+
+var sat_assignmentscreen = {
+    type: jsPsychHtmlButtonResponse,
+    on_start: function () {
+        sat_conditions = Object.fromEntries(
+            sat_shapes.map((key, index) => [key, sat_labels[index]])
+        )
+        sat_conditions = Object.fromEntries(
+            sat_shapes.map(function (key, index) {
+                lab = sat_labels[index]
+                if (lab == text_you) {
+                    cond = "Self"
+                } else if (sat_characters.includes(lab)) {
+                    cond = "Stranger"
+                } else {
+                    cond = "Friend"
+                }
+                return [key, cond]
+            })
+        )
+        sat_labelconditions = {
+            Self: text_you,
+            Stranger: sat_labels[1],
+            Friend: sat_labels[2],
+        }
+    },
+    stimulus: function () {
+        var text =
+            "<h1>Instructions</h1>" +
+            "<div id ='align-middle'><b>" +
+            sat_labels[0] +
+            text_isrepresented +
+            sat_shapes[0] +
+            "</b>  " +
+            `<img src= ${path + "stimuli/" + sat_shapes[0]}` +
+            ".png height=40></img></div><br>" +
+            "<div id ='align-middle'><b>" +
+            sat_labels[1] +
+            text_isrepresented +
+            sat_shapes[1] +
+            "</b>  " +
+            `<img src= ${path + "stimuli/" + sat_shapes[1]}` +
+            ".png height=40></img></div><br>" +
+            "<div id = 'align-middle'><b>" +
+            sat_labels[2] +
+            text_isrepresented +
             sat_shapes[2] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes[2]}` +
@@ -320,6 +486,23 @@ var sat_feedback = {
     stimulus: function (data) {
         var last_trial = jsPsych.data.get().last().values()[0]
         if (last_trial.answer == null) {
+            return `<p style = 'font-size: 300%; color:blue'>${text_outoftime}</p>`
+        } else if (last_trial.correct == true) {
+            return "<p style = 'font-size: 300%; color:green'>Correct!</p>"
+        } else {
+            return "<p style = 'font-size: 300%; color:red'>Incorrect!</p>"
+        }
+    },
+    trial_duration: 500,
+    data: { screen: "sat_feedback" },
+}
+
+var sat_feedback_fr = {
+    type: jsPsychHtmlKeyboardResponse,
+    choice: "NO_KEYS",
+    stimulus: function (data) {
+        var last_trial = jsPsych.data.get().last().values()[0]
+        if (last_trial.answer == null) {
             return `<p style = 'font-size: 300%; color:blue'>${text_outoftime_fr}</p>`
         } else if (last_trial.correct == true) {
             return "<p style = 'font-size: 300%; color:green'>Correct!</p>"
@@ -337,7 +520,26 @@ var sat_practice = {
     timeline: [sat_fixationcross, sat_practice_trial, sat_feedback],
 }
 
+var sat_practice_fr = {
+    timeline_variables: repeat(stimuli, n_practice),
+    randomize_order: true,
+    timeline: [sat_fixationcross, sat_practice_trial, sat_feedback_fr],
+}
+
 var sat_practice_end = {
+    type: jsPsychHtmlButtonResponse,
+    on_start: function () {
+        document.body.style.cursor = "Auto"
+    },
+    stimulus: text_practice_end,
+    choices: [text_continue],
+    data: { screen: "sat_practice_end" },
+    on_finish: function () {
+        sat_trialnumber = 1 // reset trial number
+    },
+}
+
+var sat_practice_end_fr = {
     type: jsPsychHtmlButtonResponse,
     on_start: function () {
         document.body.style.cursor = "Auto"
@@ -410,7 +612,13 @@ var sat_block = {
     timeline: [sat_fixationcross, sat_trial, sat_feedback],
 }
 
-var sat_block_debrief = {
+var sat_block_fr = {
+    timeline_variables: stimuli_block,
+    randomize_order: true,
+    timeline: [sat_fixationcross, sat_trial, sat_feedback_fr],
+}
+
+var sat_block_debrief_fr = {
     type: jsPsychHtmlButtonResponse,
     choices: [text_readyround_fr],
     on_start: function () {
@@ -426,6 +634,31 @@ var sat_block_debrief = {
             text_respondedcorrectly_fr +
             Math.round(proportion_correct * 100 * 100) / 100 +
             text_respondedcorrectly2_fr
+        )
+    },
+    data: { screen: "sat_block_debrief" },
+    on_finish: function () {
+        // Reset block number
+        sat_blocknumber += 1
+    },
+}
+
+var sat_block_debrief = {
+    type: jsPsychHtmlButtonResponse,
+    choices: [text_readyround],
+    on_start: function () {
+        document.body.style.cursor = "Auto"
+    },
+    stimulus: function () {
+        var results = jsPsych.data
+            .get()
+            .filter({ screen: "sat_trial", block_number: sat_blocknumber })
+        var correct_results = results.filter({ correct: true })
+        var proportion_correct = correct_results.count() / results.count()
+        return (
+            text_respondedcorrectly +
+            Math.round(proportion_correct * 100 * 100) / 100 +
+            text_respondedcorrectly2
         )
     },
     data: { screen: "sat_block_debrief" },
