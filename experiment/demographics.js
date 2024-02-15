@@ -36,7 +36,7 @@ var demographics_participant_id = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "Entrer le code particpant:",
+            prompt: "Enter participant ID:",
             placeholder: "001",
             name: "Participant_ID",
         },
@@ -62,7 +62,7 @@ var demographics_consent = {
         // Logo
         "<img src='https://u-paris.fr/wp-content/uploads/2022/03/Universite_Paris-Cite-logo.jpeg' width='300px' align='right'/><br><br><br><br><br>" +
         // Title
-        "<h1>Consentement éclairé</h1>" +
+        "<h1>Consent form</h1>" +
         "<p align='left'>Dans cette étude, vous allez devoir compléter [TODO].</p>" +
         "<p align='left'>Votre participation à cette recherche est confidentielle. <b>Vos réponses seront totalement anonymisées</b>, et votre adresse IP ni aucune autres informations identifiantes ne sont collectées.</p>" +
         "<p align='left'>Votre participation contribue aux avancées scientifiques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
