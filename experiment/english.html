@@ -62,7 +62,7 @@
                 // jsPsych.data.displayData("json") // Display data in browser
                 let info = jsPsych.data.get().filter({ screen: "browser_info" }).values()[0]
                 if (info["prolific_id"] != undefined) {
-                    window.location = ""
+                    window.location = "https://app.prolific.com/submissions/complete?cc=C1HX19EK"
                 } else {
                     window.location = "https://realitybending.github.io/research/#participate"
                 }
@@ -78,6 +78,7 @@
 
         // Demographics ========================================================
         // Force encodage français éè
+        timeline.push(demographics_browser_info)
         timeline.push(demographics_consent_english)
         timeline.push(demographics_participant_id_english)
         timeline.push(email_english)
