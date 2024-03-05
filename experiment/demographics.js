@@ -184,6 +184,11 @@ var demographics_freetext_english = {
             placeholder: "e.g., '31'",
             name: "age",
         },
+        {
+            prompt: "What is your country of residence",
+            placeholder: "France",
+            name: "country",
+        },
     ],
     data: {
         screen: "demographics_2",
