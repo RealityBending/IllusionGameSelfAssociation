@@ -25,7 +25,7 @@ var sat_trialnumber = 1
 var sat_blocknumber = 1
 var sat_answerstrials = ["e", "i"]
 var n_practice = 2 // Max number of practice trials (multiplied by 3)
-var n_trials = 2 // Number of trials (multiplied by 9)
+var n_trials = 36 // Number of trials (multiplied by 9)
 
 // Stimuli ========================================================================
 // Function to repeat arrays
@@ -171,10 +171,9 @@ var sat_strangerlabel_fr = {
             prompt: text_strangerlabel_fr,
             options: function () {
                 if (
-                    jsPsych.data
-                        .get()
-                        .filter({ screen: "demographics_1" })
-                        .values()[0]["response"]["sex"] == "Homme"
+                    jsPsych.data.get().filter({ screen: "demographics_1" }).values()[0]["response"][
+                        "sex"
+                    ] == "Homme"
                 ) {
                     return jsPsych.randomization.shuffle([
                         "Elvis",
@@ -198,9 +197,7 @@ var sat_strangerlabel_fr = {
         },
     ],
     on_finish: function () {
-        var stranger = jsPsych.data.get().last().values()[0]["response"][
-            "label_stranger"
-        ]
+        var stranger = jsPsych.data.get().last().values()[0]["response"]["label_stranger"]
         jsPsych.data.addProperties({ label_stranger: stranger })
         sat_labels.push(stranger)
     },
@@ -214,10 +211,9 @@ var sat_strangerlabel = {
             prompt: text_strangerlabel,
             options: function () {
                 if (
-                    jsPsych.data
-                        .get()
-                        .filter({ screen: "demographics_1" })
-                        .values()[0]["response"]["sex"] == "Male"
+                    jsPsych.data.get().filter({ screen: "demographics_1" }).values()[0]["response"][
+                        "sex"
+                    ] == "Male"
                 ) {
                     return jsPsych.randomization.shuffle([
                         "Elvis",
@@ -241,9 +237,7 @@ var sat_strangerlabel = {
         },
     ],
     on_finish: function () {
-        var stranger = jsPsych.data.get().last().values()[0]["response"][
-            "label_stranger"
-        ]
+        var stranger = jsPsych.data.get().last().values()[0]["response"]["label_stranger"]
         jsPsych.data.addProperties({ label_stranger: stranger })
         sat_labels.push(stranger)
     },
@@ -261,9 +255,7 @@ var sat_friendlabel_fr = {
         },
     ],
     on_finish: function () {
-        var friend = jsPsych.data.get().last().values()[0]["response"][
-            "label_friend"
-        ]
+        var friend = jsPsych.data.get().last().values()[0]["response"]["label_friend"]
         jsPsych.data.addProperties({ label_friend: friend })
         sat_labels.push(friend)
     },
@@ -281,9 +273,7 @@ var sat_friendlabel = {
         },
     ],
     on_finish: function () {
-        var friend = jsPsych.data.get().last().values()[0]["response"][
-            "label_friend"
-        ]
+        var friend = jsPsych.data.get().last().values()[0]["response"]["label_friend"]
         jsPsych.data.addProperties({ label_friend: friend })
         sat_labels.push(friend)
     },
@@ -458,10 +448,7 @@ var sat_practice_trial = {
         }
         var stim = jsPsych.data.get().last().values()[0]["shape"]
         data.answer_correct = sat_labels[sat_shapes.indexOf(stim)]
-        data.correct = jsPsych.pluginAPI.compareKeys(
-            data.answer,
-            data.answer_correct
-        )
+        data.correct = jsPsych.pluginAPI.compareKeys(data.answer, data.answer_correct)
         data.condition = sat_conditions[stim]
 
         // Compute consecutive correct
