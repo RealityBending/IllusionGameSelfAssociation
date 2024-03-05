@@ -52,7 +52,7 @@ var demographics_consent_english = {
         // Title
         "<h1>Consent form</h1>" +
         "<p align='left'>In this study, you will have to complete two questionnaires and two tasks.</p>" +
-        "<p align='left'>The questionnaires and tasks must be completed alone. <b>Your participation is confidential and your answers will be anonymized.</b> We do not collect you IP address or any other identifying information.</p>" +
+        "<p align='left'>The questionnaires and tasks must be completed alone. <b>Your participation is confidential and your answers will be anonymized.</b> We do not collect your IP address or any other identifying information.</p>" +
         "<p align='left'>Your data are very valuable for us. In participating, you will contribute to scientific progress. <b>In participating, you accept to follow the instructions and to supply honest answers.</b> If you don't want to participate, you can simply close your browser.</p>" +
         // "<p>Notez que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
         "<p align='left'><br><sub><sup>If you have any question regarding the study, you can email Baptiste Fauvel (baptiste.fauvel@u-paris.fr). This study has been reviewed and approved by the ethical committee of the University of Paris .</sup></sub></p>",
@@ -80,41 +80,6 @@ var demographics_participant_id = {
             participant_id: jsPsych.data.get().last().values()[0]["response"]["Participant_ID"],
         })
     },
-}
-
-// Participant ID english ========================================================================
-var demographics_participant_id_english = {
-    type: jsPsychSurveyText,
-    questions: [
-        {
-            prompt: "Enter participant ID:",
-            placeholder: "001",
-            name: "Participant_ID",
-        },
-    ],
-    data: {
-        screen: "participant_id_english",
-    },
-    on_finish: function () {
-        // Store `participant_id` so that it can be reused later
-        jsPsych.data.addProperties({
-            participant_id_english: jsPsych.data.get().last().values()[0]["response"][
-                "Participant_ID"
-            ],
-        })
-    },
-}
-
-//email address
-var email = {
-    type: jsPsychSurveyText,
-    questions: [{ prompt: "Veuillez renseigner votre adresse email", required: true }],
-}
-
-//email address English
-var email_english = {
-    type: jsPsychSurveyText,
-    questions: [{ prompt: "Please enter your email address", required: true }],
 }
 
 // Demographic info ========================================================================
