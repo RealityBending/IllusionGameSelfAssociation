@@ -59,8 +59,13 @@
 
         var jsPsych = initJsPsych({
             on_finish: function () {
-                // Display data in browser (useful for debugging)
-                jsPsych.data.displayData("json")
+                // jsPsych.data.displayData("json") // Display data in browser
+                let info = jsPsych.data.get().filter({ screen: "browser_info" }).values()[0]
+                if (info["prolific_id"] != undefined) {
+                    window.location = ""
+                } else {
+                    window.location = "https://realitybending.github.io/research/#participate"
+                }
             },
         })
 
@@ -124,13 +129,7 @@
         timeline.push(sat_block_debrief)
 
         // End =================================================================
-        timeline.push(demographics_endscreen)
-
-        // Exit fullscreen mode
-        timeline.push({
-            type: jsPsychFullscreen,
-            fullscreen_mode: false,
-        })
+        timeline.push(demographics_waitdatasaving_english)
 
         // Save data via DataPipe
         timeline.push({
@@ -140,6 +139,14 @@
             filename: `${jsPsych.randomization.randomID(10)}.csv`,
             data_string: () => jsPsych.data.get().csv(),
         })
+
+        // Exit fullscreen mode
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+        })
+
+        timeline.push(demographics_waitdatasaving_english)
         /* ----------------- Run the timeline ----------------- */
         // jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
         jsPsych.run(timeline)
