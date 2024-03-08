@@ -24,7 +24,7 @@ var correct_count3 = 0
 var sat_trialnumber = 1
 var sat_blocknumber = 1
 var sat_answerstrials = ["e", "i"]
-var n_practice = 2 // Max number of practice trials (multiplied by 3)
+var n_practice = 36 // Max number of practice trials (multiplied by 3)
 var n_trials = 36 // Number of trials (multiplied by 9)
 
 // Stimuli ========================================================================
