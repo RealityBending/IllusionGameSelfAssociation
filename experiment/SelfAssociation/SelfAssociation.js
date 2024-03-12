@@ -461,7 +461,7 @@ var sat_practice_trial = {
             .reduce((a, b) => a + b)
 
         // Autoend training if more than 6 continuous responses
-        if (n_consecutive > 5) {
+        if (n_consecutive > 5){  
             jsPsych.endCurrentTimeline()
         }
     },
@@ -618,7 +618,7 @@ var sat_block_debrief_fr = {
         var correct_results = results.filter({ correct: true })
         var proportion_correct = correct_results.count() / results.count()
         return (
-            text_respondedcorrectly_fr +
+            text_respondedcorrectly1_fr +
             Math.round(proportion_correct * 100 * 100) / 100 +
             text_respondedcorrectly2_fr
         )
@@ -643,7 +643,7 @@ var sat_block_debrief = {
         var correct_results = results.filter({ correct: true })
         var proportion_correct = correct_results.count() / results.count()
         return (
-            text_respondedcorrectly +
+            text_respondedcorrectly1 +
             Math.round(proportion_correct * 100 * 100) / 100 +
             text_respondedcorrectly2
         )
