@@ -139,6 +139,20 @@ var demographics_info = {
 }
 
 // Demographic info English ========================================================================
+var email = {
+    type: jsPsychSurveyText,
+    questions: [
+        {prompt: 'Please enter your email address', required: true},
+    ]
+};
+
+var email_T1 = {
+    type: jsPsychSurveyText,
+    questions: [
+        {prompt: 'Please enter the same email address as last time', required: true},
+    ]
+};
+
 var demographics_multichoice_english = {
     type: jsPsychSurveyMultiChoice,
     preamble: "<b>Please answer the following questions:</b>",
@@ -528,6 +542,87 @@ var psychedelics_freq_english = {
             horizontal: true,
         },
     ],
+}
+
+//T1 passive control questions
+var Passive_Control_Multichoice = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Please respond to the following questions before the tasks begin:</b>",
+    questions: [
+        {
+            prompt: "Did you meditiate last week",
+            options: ["Yes", "No"],
+            name: "meditation",
+            required: true,
+        },
+        {
+            prompt: "Did you take any psychedelic substances (LSD, ayahuasca, psilocybin mushrooms) last week?",
+            options: ["Yes", "No"],
+            name: "psychedelics",
+        },
+        
+    ],
+    data: {
+        screen: "passiveControl_1",
+    },
+}
+
+//T1 meditation questions
+var meditation_retreat_date = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Please enter the date your retreat ended ",
+            required: true,
+        },
+    ],
+}
+
+
+var Meditation_Control_psych = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Please respond to the following question before the tasks begin:</b>",
+    questions: [
+        {
+            prompt: "Did you take any psychedelic substances (LSD, ayahuasca, psilocybin mushrooms) last week?",
+            options: ["Yes", "No"],
+            name: "psychedelics",
+        },
+
+        
+    ],
+    data: {
+        screen: "MeditationControl_1",
+    },
+}
+
+//T1 psychedelics questions
+var psychedelics_retreat_date = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Please enter the date your retreat ended ",
+            required: true,
+        },
+    ],
+}
+
+
+var psychedelics_meditation_T1 = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Please respond to the following question before the tasks begin:</b>",
+    questions: [
+        {
+            prompt: "Did you meditate last week?",
+            options: ["Yes", "No"],
+            name: "meditate",
+        },
+
+        
+    ],
+    data: {
+        screen: "psychedelics_1",
+    },
 }
 
 // Thank you ========================================================================
