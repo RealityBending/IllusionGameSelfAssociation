@@ -455,13 +455,13 @@ var sat_practice_trial = {
         var n_consecutive = jsPsych.data
             .get()
             .filter({ screen: "sat_practicetrial" })
-            .last(6)
+            .last(15)
             .values()
             .map((x) => x["correct"])
             .reduce((a, b) => a + b)
 
         // Autoend training if more than 6 continuous responses
-        if (n_consecutive > 5){  
+        if (n_consecutive > 14){  
             jsPsych.endCurrentTimeline()
         }
     },
