@@ -352,6 +352,19 @@ var meq_instructions =
 var meq_instructions_fr =
     "<p>En vous référant à l'ensemble de votre session, veuillez évaluer le degré avec lequel vous avez vécu les phénomènes suivants.</p>" +
     "<p>Répondez à chaque question en fonction de vos ressentis, pensées et expériences durant la session.</p>"
+   
+ var meq_instructions_control = 
+ "<p>Think of a moment over your past week where you felt the most spiritual, mystical or religious.</p>" +
+ "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
+
+ var meq_instructions_meditation = 
+ "<p>Think of a moment over your past week where you felt the most spiritual, mystical or religious.</p>" +
+ "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
+
+ var meq_instructions_psilocybin = 
+ "<p>Think of a moment over your past week where you felt the most spiritual, mystical or religious.</p>" +
+ "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
+
 
 var meq_questions = []
 for (var n = 0; n < 30; n++) {
@@ -363,11 +376,31 @@ for (var n = 0; n < 30; n++) {
     })
 }
 
-var meq = {
+var meq_control = {
     type: jsPsychSurveyLikert,
     questions: meq_questions,
     randomize_question_order: true,
-    preamble: meq_instructions_fr,
+    preamble: meq_instructions_control,
+    data: {
+        screen: "questionnaire_meq",
+    },
+}
+
+var meq_meditation = {
+    type: jsPsychSurveyLikert,
+    questions: meq_questions,
+    randomize_question_order: true,
+    preamble: meq_instructions_meditation,
+    data: {
+        screen: "questionnaire_meq",
+    },
+}
+
+var meq_psilocybin = {
+    type: jsPsychSurveyLikert,
+    questions: meq_questions,
+    randomize_question_order: true,
+    preamble: meq_instructions_psilocybin,
     data: {
         screen: "questionnaire_meq",
     },

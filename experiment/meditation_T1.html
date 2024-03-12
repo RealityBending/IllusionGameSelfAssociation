@@ -74,20 +74,21 @@
             type: jsPsychFullscreen,
             fullscreen_mode: true,
             delay_after: 0,
-            data: { screen: "fullscreen", group: "control_T0" },
         })
 
         // Demographics ========================================================
         // Force encodage français éè
         timeline.push(demographics_browser_info)
-        timeline.push(demographics_consent_english)
-        timeline.push(email)
-        timeline.push(demographics_info_english)
-        timeline.push(past_psych_english, if_node_english)
-        timeline.push(current_psych_english, if_node1_english)
-        timeline.push(meditation_english, if_node2_english)
-        timeline.push(psychedelics_english)
-        timeline.push(psychedelics_freq_english)
+        timeline.push(email_T1)
+        timeline.push(meditation_retreat_date)
+        timeline.push(Meditation_Control_psych)
+        //timeline.push(demographics_consent_english)
+        //timeline.push(demographics_info_english)
+        //timeline.push(past_psych_english, if_node_english)
+        //timeline.push(current_psych_english, if_node1_english)
+        //timeline.push(meditation_english, if_node2_english)
+        //timeline.push(psychedelics_english)
+        //timeline.push(psychedelics_freq_english)
 
         // Self-Association Task (SAT) =========================================
         timeline.push(sat_preload)
@@ -121,13 +122,31 @@
         timeline.push(ig_parts[0])
 
         // Questionnaires =======================================================
-        var Qs = [aaq_english, dass_english]
+        var Qs = [aaq_english, dass_english, meq_meditation]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
         for (var i = 0; i < Qs.length; i++) {
             timeline.push(Qs[i]) // Push each element to timeline
         }
 
         timeline.push(ig_parts[1])
+
+        // Self-Association Task (SAT) =========================================
+        timeline.push(sat_preload)
+        timeline.push(sat_instructions_general)
+        timeline.push(sat_strangerlabel)
+        timeline.push(sat_friendlabel)
+
+        // Practice
+        timeline.push(sat_instructions_practice)
+        timeline.push(sat_assignmentscreen)
+        timeline.push(sat_practice)
+        timeline.push(sat_practice_end)
+
+        // Matching task
+        timeline.push(sat_instructions_matching)
+        timeline.push(sat_assignmentscreen)
+        timeline.push(sat_block)
+        timeline.push(sat_block_debrief)
 
         // End =================================================================
         timeline.push(demographics_waitdatasaving_english)
@@ -149,7 +168,7 @@
 
         timeline.push(demographics_endscreen_english)
         /* ----------------- Run the timeline ----------------- */
-        //jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
+        // jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
         jsPsych.run(timeline)
     </script>
 </html>
