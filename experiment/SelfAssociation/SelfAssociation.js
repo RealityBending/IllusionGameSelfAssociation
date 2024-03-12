@@ -24,7 +24,7 @@ var correct_count3 = 0
 var sat_trialnumber = 1
 var sat_blocknumber = 1
 var sat_answerstrials = ["e", "i"]
-var n_practice = 2 // Max number of practice trials (multiplied by 3)
+var n_practice = 36 // Max number of practice trials (multiplied by 3)
 var n_trials = 36 // Number of trials (multiplied by 9)
 
 // Stimuli ========================================================================
@@ -461,7 +461,7 @@ var sat_practice_trial = {
             .reduce((a, b) => a + b)
 
         // Autoend training if more than 6 continuous responses
-        if (correct_count1 > 5 && correct_count2 > 5 && correct_count3 > 5){
+        if (n_consecutive > 5){  
             jsPsych.endCurrentTimeline()
         }
     },
@@ -618,7 +618,7 @@ var sat_block_debrief_fr = {
         var correct_results = results.filter({ correct: true })
         var proportion_correct = correct_results.count() / results.count()
         return (
-            text_respondedcorrectly_fr +
+            text_respondedcorrectly1_fr +
             Math.round(proportion_correct * 100 * 100) / 100 +
             text_respondedcorrectly2_fr
         )
@@ -643,7 +643,7 @@ var sat_block_debrief = {
         var correct_results = results.filter({ correct: true })
         var proportion_correct = correct_results.count() / results.count()
         return (
-            text_respondedcorrectly +
+            text_respondedcorrectly1 +
             Math.round(proportion_correct * 100 * 100) / 100 +
             text_respondedcorrectly2
         )
