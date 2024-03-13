@@ -358,11 +358,11 @@ var meq_instructions_fr =
  "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
 
  var meq_instructions_meditation = 
- "<p>Think of a moment over your past week where you felt the most spiritual, mystical or religious.</p>" +
+ "<p>Looking back to the entirety of your strongest meditation session, please rate the degree to which any time during that session, you experienced the following phenomena.</p>" +
  "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
 
  var meq_instructions_psilocybin = 
- "<p>Think of a moment over your past week where you felt the most spiritual, mystical or religious.</p>" +
+ "<p>Looking back to the entirety of your strongest psilocybin session, please rate the degree to which any time during that session, you experienced the following phenomena.</p>" +
  "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
 
 
