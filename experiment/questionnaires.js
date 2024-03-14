@@ -349,7 +349,8 @@ var meq_labels_fr = [
 var meq_instructions =
     "<p>Looking back on the entirety of your session, please rate the degree to which at any time during that session you experienced the following phenomena.</p>" +
     "<p>Answer each question according to your feelings, thoughts, and experiences at the time of the session</p>"
-var meq_instructions_fr =
+
+    var meq_instructions_fr =
     "<p>En vous référant à l'ensemble de votre session, veuillez évaluer le degré avec lequel vous avez vécu les phénomènes suivants.</p>" +
     "<p>Répondez à chaque question en fonction de vos ressentis, pensées et expériences durant la session.</p>"
    
@@ -369,12 +370,23 @@ var meq_instructions_fr =
 var meq_questions = []
 for (var n = 0; n < 30; n++) {
     meq_questions.push({
+        prompt: "<b>" + meq_items[n] + "</b>",
+        name: meq_dimensions[n],
+        labels: meq_labels,
+        required: false,
+    })
+}
+
+var meq_questions_fr = []
+for (var n = 0; n < 30; n++) {
+    meq_questions.push({
         prompt: "<b>" + meq_items_fr[n] + "</b>",
         name: meq_dimensions[n],
         labels: meq_labels_fr,
         required: false,
     })
 }
+
 
 var meq_control = {
     type: jsPsychSurveyLikert,
@@ -405,3 +417,5 @@ var meq_psilocybin = {
         screen: "questionnaire_meq",
     },
 }
+
+

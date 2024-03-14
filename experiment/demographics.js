@@ -242,6 +242,11 @@ var if_node = {
     },
 }
 
+var past_psych_french = {
+    timeline: [past_psych, if_node],
+}
+
+
 //past psychatric diagnoses and if node english
 var past_psych_english = {
     type: jsPsychHtmlButtonResponse,
@@ -275,7 +280,7 @@ var if_node_english = {
 var current_psych = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;"Etes-vous <b>en ce moment</b> diagnostiqué pour une des pathologies suivantes?</p>',
+        '<p style="font-size:18px; color:black;">Etes-vous <b>en ce moment</b> diagnostiqué pour une des pathologies suivantes?</p>',
     prompt: "<p>Dépression, syndrôme de stress post-traumatique, trouble obsessionel compulsif, anxiété, trouble de l'usage de substance (autre que la nicotine), schizophrénie</p>",
     choices: ["Yes", "No"],
     on_finish: function (data) {
@@ -298,6 +303,10 @@ var if_node1 = {
             return true
         }
     },
+}
+
+var current_psych_french = {
+    timeline: [current_psych, if_node1],
 }
 
 //current psychiatric diagnoses and if node english
@@ -402,6 +411,11 @@ var if_node2 = {
     },
 }
 
+var meditation_french = {
+    timeline: [meditation, if_node2],
+}
+
+
 //Meditation background English
 var meditation_english = {
     type: jsPsychHtmlButtonResponse,
@@ -484,14 +498,92 @@ var if_node2_english = {
 var psychedelics = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;">Avez-vous pris une drogue psychédélique au cours des 6 derniers mois? (E.g. LSD, champignons à psilocybe, ayahuasca)</p>',
+        '<p style="font-size:18px; color:black;">Avez-vous pris une drogue psychédélique au cours de le dernier mois? (E.g. LSD, champignons à psilocybe, ayahuasca)</p>',
     choices: ["Oui", "Non"],
     on_finish: function (data) {
         console.log("Psychedelic response:", data.button_pressed)
     },
 }
 
-var psychedelics_freq_english = {
+var psychedelics_days_ago = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Veuillez indiquer combien de jours se sont écoulés depuis votre dernière prise de drogue psychédélique ",
+            required: true,
+        },
+    ],
+}
+
+
+var psychedelics_multichoice_fr = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>A propos de votre dernière expérience psychédélique:</b>",
+    questions: [
+        {
+            prompt: "Quelle était votre intention principale pour cette expérience?",
+            options: ["Récréative", "Thérapeutique", "Curiosité", "Spirituelle/religieuse", "Other",],
+            add_other_option: true,
+            name: "intention",
+            required: true,
+                },
+               
+                {prompt: "Quelle est la principale substance psychédélique que vous avez pris pour cette expérience?",
+                options: ["Psilocybine/champignons/truffes", "LSD/IP-LSD/ALD-52", "Ayahuasca", "N,N-DMT", "Mescaline (Peyote, San Pedro)", "Iboga/Ibogaine", "5-MeO-DMT (Bufo)", "Salvia/Salvinorin A", "Autre:",],
+                add_other_option: true,
+                name: "substance",
+                required: true,
+            },
+            {prompt: "Indiquez le niveau subjectif de la dose que vous avez pris pour cette expérience?",
+            options: ["Très faible", "Plus faible qu'une dose typique", "Typique", "Plus élevée qu'une dose typique", "Très élevée", "Ne sais pas",],
+            add_other_option: true,
+            name: "dose",
+            required: true,
+        }
+    ]
+};
+
+var psychedelics_others_fr = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Avez-vous utilisé ces autres substances pendant votre expérience </b>",
+    questions: [
+        {
+            prompt: "Cannabis",
+            options: ["Oui", "Non", "Incertain"],
+            name: "cannabis",
+            required: true,
+                },
+               
+                {prompt: "Alcool",
+                options: ["Oui", "Non", "Incertain"],
+                name: "Alcool",
+                required: true,
+            },
+            {prompt: "Stimulants (e.g. cocaine, amphetamine, cathinones)",
+            options: ["Oui", "No", "Incertain"],
+            name: "stimulants",
+            required: true,
+        },
+        {prompt: "MDMA/ecstasy",
+        options: ["Oui", "No", "Incertain"],
+        name: "MDMA",
+        required: true,
+    },
+    {prompt: "Opiacés",
+    options: ["Oui", "No", "Incertain"],
+    name: "Opiacés",
+    required: true,
+},
+{prompt: "Dissociatifs (e.g., kétamine)",
+    options: ["Oui", "No", "Incertain"],
+    name: "Dissociatifs",
+    required: true,
+},
+    ]
+};
+
+
+var psychedelics_freq_french = {
     type: jsPsychSurveyMultiChoice,
     questions: [
         {
@@ -511,6 +603,13 @@ var psychedelics_freq_english = {
         },
     ],
 }
+
+
+var psychedelics_french = {
+    timeline: [psychedelics, psychedelics_days_ago, psychedelics_multichoice_fr, psychedelics_others_fr, psychedelics_freq_french,],
+}
+
+
 
 //Psychedelics history English
 var psychedelics_english = {
