@@ -522,7 +522,7 @@ var psychedelics_multichoice_fr = {
     questions: [
         {
             prompt: "Quelle était votre intention principale pour cette expérience?",
-            options: ["Récréative", "Thérapeutique", "Curiosité", "Spirituelle/religieuse", "Other",],
+            options: ["Récréative", "Thérapeutique", "Curiosité", "Spirituelle/religieuse", "Autre",],
             add_other_option: true,
             name: "intention",
             required: true,
