@@ -32,9 +32,12 @@ var demographics_consent = {
         "<img src='https://u-paris.fr/wp-content/uploads/2022/03/Universite_Paris-Cite-logo.jpeg' width='300px' align='right'/><br><br><br><br><br>" +
         // Title
         "<h1>Consentement éclairé</h1>" +
-        "<p align='left'>Dans cette étude, vous allez devoir compléter [TODO].</p>" +
+        "<p align='left'>Dans cette étude, vous allez devoir compléter deux tâches sous forme de jeux pour mesurer (i) <b>vos capacités d'associations<b> et (ii) votre <b>sensibilité aux illusions visuelles<b>.</p>" +
+        "<p align='left'>Vous aurez aussi à compléter trois questionnaires à propos de (i) <b>votre fonctionnement psychologique<b> et (ii) votre <b>dernière expérience avec une substance psychédélique classique<b>.</p>" +
+        "<p align='left'>L'étude dure environ 40 minutes au total. Nous vous demandons de veiller à bien rester concentré et à fournir des réponses authentiques.</p>" +
         "<p align='left'>Votre participation à cette recherche est confidentielle. <b>Vos réponses seront totalement anonymisées</b>, et votre adresse IP ni aucune autres informations identifiantes ne sont collectées.</p>" +
-        "<p align='left'>Votre participation contribue aux avancées scientifiques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
+        "<p align='left'>Vos données sont essentielles pour nous. Elles contribuent aux avancées scientifiques sur les thérapies-assistées par psychédéliques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
+        "<p align='left'>Vous avez également le droit de vous retirer de l'étude à n'importe quel moment, pour cela, vous pouvez simplement fermer votre navigateur web.</p>" +
         // "<p>Notez que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
         "<p align='left'><br><sub><sup>Si vous avez des questions sur le projets, veuillez contacter Baptiste Fauvel (baptiste.fauvel@u-paris.fr). Cette étude a été expertisée et validée par le comité d'éthique de l'université de Paris.</sup></sub></p>",
 
