@@ -1,6 +1,6 @@
 const path =
     "https://realitybending.github.io/IllusionGameSelfAssociation/experiment/SelfAssociation/"
-var sat_shapes = ["circle", "triangle", "square"]
+var shapes = ["circle", "triangle", "square"]
 var sat_shapes_fr = ["cercle", "triangle", "carré"] 
 var sat_labels = [text_you]
 var sat_labels_fr = [text_you_fr]
