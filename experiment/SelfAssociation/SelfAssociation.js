@@ -315,21 +315,21 @@ var sat_assignmentscreen_fr = {
             "<div id ='align-middle'><b>" +
             sat_labels[0] +
             text_isrepresented_fr +
-            sat_shapes[0] +
+            sat_shapes_fr[0] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes[0]}` +
             ".png height=40></img></div><br>" +
             "<div id ='align-middle'><b>" +
             sat_labels[1] +
             text_isrepresented_fr +
-            sat_shapes[1] +
+            sat_shapes_fr[1] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes[1]}` +
             ".png height=40></img></div><br>" +
             "<div id = 'align-middle'><b>" +
             sat_labels[2] +
             text_isrepresented_fr +
-            sat_shapes[2] +
+            sat_shapes_fr[2] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes[2]}` +
             ".png height=40></img></div><br>"
