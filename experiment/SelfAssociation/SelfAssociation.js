@@ -47,21 +47,22 @@ var stimuli = [
     },
 ]
 
-// Stimuli_FR ========================================================================
-var stimuli_fr = [
+// Stimuli_FR =======================================================================
+const repeat_fr = (arr, n) => [].concat(...Array(n).fill(arr))
+var stimuli_fr =[
     {
         stimulus_fr: path + "stimuli_fr/cercle.png",
         data: { shape: "cercle" },
     },
     {
-        stimulus_fr: path + "stimuli_fr/triangle.png",
+        stimulus_fr: path + "stimuli/triangle.png",
         data: { shape: "triangle" },
     },
     {
-        stimulus_fr: path + "stimuli_fr/carré.png",
+        stimulus_fr: path + "stimuli/carré.png",
         data: { shape: "carré" },
     },
-]
+] 
 
 // Generate stimuli list with balanced labels
 var stimuli_block = []
@@ -603,7 +604,7 @@ var sat_practice = {
 }
 
 var sat_practice_fr = {
-    timeline_variables: repeat(stimuli_fr, n_practice),
+    timeline_variables: repeat_fr(stimuli_fr, n_practice),
     randomize_order: true,
     timeline: [sat_fixationcross, sat_practice_trial_fr, sat_feedback_fr],
 }
