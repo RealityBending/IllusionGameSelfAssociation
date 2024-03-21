@@ -48,20 +48,17 @@ var stimuli = [
 ]
 
 // Stimuli_FR ========================================================================
-// Function to repeat arrays for french shapes
-const repeat = (arr, n) => [].concat(...Array(n).fill(arr))
-
 var stimuli_fr = [
     {
-        stimulus: path + "stimuli_fr/cercle.png",
+        stimulus_fr: path + "stimuli_fr/cercle.png",
         data: { shape: "cercle" },
     },
     {
-        stimulus: path + "stimuli_fr/triangle.png",
+        stimulus_fr: path + "stimuli_fr/triangle.png",
         data: { shape: "triangle" },
     },
     {
-        stimulus: path + "stimuli_fr/carré.png",
+        stimulus_fr: path + "stimuli_fr/carré.png",
         data: { shape: "carré" },
     },
 ]
@@ -77,7 +74,16 @@ for (var n = 0; n < n_trials; n++) {
         }
     }
 }
-
+var stimuli_block_fr = []
+for (var n = 0; n < n_trials; n++) {
+    for (var i = 0; i < stimuli_fr.length; i++) {
+        for (var y = 0; y < 3; y++) {
+            let s = structuredClone(stimuli_fr[i])
+            s.data.label_condition = ["Self", "Friend", "Stranger"][y]
+            stimuli_block_fr.push(s)
+        }
+    }
+}
 var sat_preload = {
     type: jsPsychPreload,
     auto_preload: true,
@@ -230,9 +236,9 @@ var sat_strangerlabel_fr = {
     on_finish: function () {
         var stranger = jsPsych.data.get().last().values()[0]["response"]["label_stranger"]
         jsPsych.data.addProperties({ label_stranger: stranger })
-        sat_labels.push(stranger)
+        sat_labels_fr.push(stranger)
     },
-    data: { screen: "SAT_strangerlabel" },
+    data: { screen: "SAT_strangerlabel_fr" },
 }
 
 var sat_strangerlabel = {
@@ -288,9 +294,9 @@ var sat_friendlabel_fr = {
     on_finish: function () {
         var friend = jsPsych.data.get().last().values()[0]["response"]["label_friend"]
         jsPsych.data.addProperties({ label_friend: friend })
-        sat_labels.push(friend)
+        sat_labels_fr.push(friend)
     },
-    data: { screen: "SAT_friendlabel" },
+    data: { screen: "SAT_friendlabel_fr" },
 }
 
 var sat_friendlabel = {
@@ -318,7 +324,7 @@ var sat_assignmentscreen_fr = {
     type: jsPsychHtmlButtonResponse,
     on_start: function () {
         sat_conditions = Object.fromEntries(
-            sat_shapes_fr.map((key, index) => [key, sat_labels[index]])
+            sat_shapes_fr.map((key, index) => [key, sat_labels_fr[index]])
         )
         sat_conditions = Object.fromEntries(
             sat_shapes_fr.map(function (key, index) {
@@ -335,8 +341,8 @@ var sat_assignmentscreen_fr = {
         )
         sat_labelconditions = {
             Self: text_you_fr,
-            Stranger: sat_labels[1],
-            Friend: sat_labels[2],
+            Stranger: sat_labels_fr[1],
+            Friend: sat_labels_fr[2],
         }
     },
     stimulus: function () {
@@ -347,21 +353,21 @@ var sat_assignmentscreen_fr = {
             text_isrepresented_fr +
             sat_shapes_fr[0] +
             "</b>  " +
-            `<img src= ${path + "stimuli/" + sat_shapes_fr[0]}` +
+            `<img src= ${path + "stimuli_fr/" + sat_shapes_fr[0]}` +
             ".png height=40></img></div><br>" +
             "<div id ='align-middle'><b>" +
-            sat_labels[1] +
+            sat_labels_fr[1] +
             text_isrepresented_fr +
             sat_shapes_fr[1] +
             "</b>  " +
-            `<img src= ${path + "stimuli/" + sat_shapes_fr[1]}` +
+            `<img src= ${path + "stimuli_fr/" + sat_shapes_fr[1]}` +
             ".png height=40></img></div><br>" +
             "<div id = 'align-middle'><b>" +
-            sat_labels[2] +
+            sat_labels_fr[2] +
             text_isrepresented_fr +
             sat_shapes_fr[2] +
             "</b>  " +
-            `<img src= ${path + "stimuli/" + sat_shapes_fr[2]}` +
+            `<img src= ${path + "stimuli_fr/" + sat_shapes_fr[2]}` +
             ".png height=40></img></div><br>"
         return text
     },
@@ -497,7 +503,65 @@ var sat_practice_trial = {
         }
     },
 }
+var sat_practice_trial_fr = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function () {
+        var stim = jsPsych.timelineVariable("stimulus_fr")
 
+        return (
+            "<div style='bottom:60%; right:20%; left:20%; position:fixed'><img src=" +
+            stim +
+            " height=20%></img></div>" +
+            "<div  style='font-size:500%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%'>+</div>" +
+            '<div style = "font-size:300%; text-align: center; position:fixed; top:70%; left:20%"><b>' +
+            sat_labels_fr[0] +
+            "</b></br></br></br></br>v</div>" +
+            '<div style = "font-size:300%; text-align: center; position:fixed; top:70%; right:20%; left:20%"><b>' +
+            sat_labels_fr[1] +
+            "</b></br></br></br></br>b</div>" +
+            '<div style = "font-size:300%; text-align: center; position:fixed; top:70%; right:20%"><b>' +
+            sat_labels_fr[2] +
+            "</b></br></br></br></br>n</div>"
+        )
+    },
+    choices: ["v", "b", "n"],
+    // stimulus_duration: 6000, // I have changed this in order that the stimulus remains visible during the entire trial duration
+    trial_duration: 6000, // I have extended the trial duration (3000 -> 6000ms) to make the task easier
+    data: function () {
+        return jsPsych.timelineVariable("data")
+    },
+    on_finish: function (data) {
+        data.trial_number = sat_trialnumber
+        sat_trialnumber += 1
+        data.screen = "sat_practicetrial"
+
+        // Process answers
+        var resp = jsPsych.data.get().last().values()[0]["response"]
+        if (resp == null) {
+            data.answer = null
+        } else {
+            data.answer = sat_labels_fr[sat_answers[resp]]
+        }
+        var stim = jsPsych.data.get().last().values()[0]["shape"]
+        data.answer_correct = sat_labels_fr[sat_shapes_fr.indexOf(stim)]
+        data.correct = jsPsych.pluginAPI.compareKeys(data.answer, data.answer_correct)
+        data.condition = sat_conditions[stim]
+
+        // Compute consecutive correct
+        var n_consecutive = jsPsych.data
+            .get()
+            .filter({ screen: "sat_practicetrial" })
+            .last(19)
+            .values()
+            .map((x) => x["correct"])
+            .reduce((a, b) => a + b)
+
+        // Autoend training if more than 6 continuous responses
+        if (n_consecutive > 18){  
+            jsPsych.endCurrentTimeline()
+        }
+    },
+}
 var sat_feedback = {
     type: jsPsychHtmlKeyboardResponse,
     choice: "NO_KEYS",
@@ -539,9 +603,9 @@ var sat_practice = {
 }
 
 var sat_practice_fr = {
-    timeline_variables: repeat(stimuli, n_practice),
+    timeline_variables: repeat(stimuli_fr, n_practice),
     randomize_order: true,
-    timeline: [sat_fixationcross, sat_practice_trial, sat_feedback_fr],
+    timeline: [sat_fixationcross, sat_practice_trial_fr, sat_feedback_fr],
 }
 
 var sat_practice_end = {
@@ -624,6 +688,59 @@ var sat_trial = {
     },
 }
 
+var sat_trial_fr = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function () {
+        var stim = jsPsych.timelineVariable("stimulus_fr")
+        var cond = jsPsych.timelineVariable("data")["label_condition"]
+        var label = sat_labelconditions[cond]
+
+        return (
+            "<div style='bottom:60%; right:20%; left:20%; position:fixed'><img src=" +
+            stim +
+            " height=20%></img></div>" +
+            "<div  style='font-size:500%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%'>+</div>" +
+            '<div style = "font-size:300%; text-align: center; position:fixed; top:70%; right:20%; left:20%"><b>' +
+            label +
+            "</div>"
+        )
+    },
+    choices: sat_answerstrials,
+    stimulus_duration: 1000, // I have extended the trial duration (100ms -> 1000ms) in order to make the task easier
+    trial_duration: 4200,
+    data: function () {
+        return jsPsych.timelineVariable("data")
+    },
+    on_finish: function (data) {
+        data.trial_number = sat_trialnumber
+        sat_trialnumber += 1
+        data.block_number = sat_blocknumber
+        data.screen = "sat_trial"
+
+        var resp = jsPsych.data.get().last().values()[0]["response"]
+        var stim = jsPsych.data.get().last().values()[0]["shape"]
+        var lab_cond = jsPsych.data.get().last().values()[0]["label_condition"]
+        var stim_cond = sat_conditions[stim]
+        if (stim_cond == lab_cond) {
+            data.answer_correct = "match"
+        } else {
+            data.answer_correct = "mismatch"
+        }
+        if (resp == sat_answerstrials[0]) {
+            data.answer = "match"
+        } else if (resp == sat_answerstrials[1]) {
+            data.answer = "mismatch"
+        } else {
+            data.answer = null
+        }
+        if (data.answer == data.answer_correct) {
+            data.correct = true
+        } else {
+            data.correct = false
+        }
+    },
+}
+
 var sat_block = {
     timeline_variables: stimuli_block,
     randomize_order: true,
@@ -631,9 +748,9 @@ var sat_block = {
 }
 
 var sat_block_fr = {
-    timeline_variables: stimuli_block,
+    timeline_variables: stimuli_block_fr,
     randomize_order: true,
-    timeline: [sat_fixationcross, sat_trial, sat_feedback_fr],
+    timeline: [sat_fixationcross, sat_trial_fr, sat_feedback_fr],
 }
 
 var sat_block_debrief_fr = {
