@@ -49,9 +49,10 @@ var stimuli = [
 
 // Stimuli_FR =======================================================================
 const repeat_fr = (arr, n) => [].concat(...Array(n).fill(arr))
+
 var stimuli_fr =[
     {
-        stimulus_fr: path + "stimuli_fr/cercle.png",
+        stimulus_fr: path + "stimuli/cercle.png",
         data: { shape: "cercle" },
     },
     {
@@ -99,9 +100,9 @@ var sat_preload_fr = {
     type: jsPsychPreload,
     auto_preload: true,
     images: [
-        path + "stimuli_fr/cercle.png",
-        path + "stimuli_fr/carré.png",
-        path + "stimuli_fr/triangle.png",
+        path + "stimuli/cercle.png",
+        path + "stimuli/carré.png",
+        path + "stimuli/triangle.png",
     ],
 }
 
@@ -354,21 +355,21 @@ var sat_assignmentscreen_fr = {
             text_isrepresented_fr +
             sat_shapes_fr[0] +
             "</b>  " +
-            `<img src= ${path + "stimuli_fr/" + sat_shapes_fr[0]}` +
+            `<img src= ${path + "stimuli/" + sat_shapes_fr[0]}` +
             ".png height=40></img></div><br>" +
             "<div id ='align-middle'><b>" +
             sat_labels_fr[1] +
             text_isrepresented_fr +
             sat_shapes_fr[1] +
             "</b>  " +
-            `<img src= ${path + "stimuli_fr/" + sat_shapes_fr[1]}` +
+            `<img src= ${path + "stimuli/" + sat_shapes_fr[1]}` +
             ".png height=40></img></div><br>" +
             "<div id = 'align-middle'><b>" +
             sat_labels_fr[2] +
             text_isrepresented_fr +
             sat_shapes_fr[2] +
             "</b>  " +
-            `<img src= ${path + "stimuli_fr/" + sat_shapes_fr[2]}` +
+            `<img src= ${path + "stimuli/" + sat_shapes_fr[2]}` +
             ".png height=40></img></div><br>"
         return text
     },
