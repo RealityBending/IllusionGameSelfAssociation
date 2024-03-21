@@ -498,7 +498,7 @@ var if_node2_english = {
 var psychedelics = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;">Avez-vous pris une drogue psychédélique au cours de le dernier mois? (E.g. LSD, champignons à psilocybe, ayahuasca)</p>',
+        '<p style="font-size:18px; color:black;">Avez-vous consommé une substance psychédélique classique (e.g., LSD, champignons à psilocybe, ayahuasca) au cours du derniers mois ?</p>',
     choices: ["Oui", "Non"],
     on_finish: function (data) {
         console.log("Psychedelic response:", data.button_pressed)
@@ -509,7 +509,7 @@ var psychedelics_days_ago = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "Veuillez indiquer combien de jours se sont écoulés depuis votre dernière prise de drogue psychédélique ",
+            prompt: "Veuillez indiquer le plus précisément possible combien de jours se sont écoulés depuis votre dernière prise d'une substance psychédélique classique ? (Si l'expérience date vous pouvez indiquer une approximation)",
             required: true,
         },
     ],
@@ -518,7 +518,7 @@ var psychedelics_days_ago = {
 
 var psychedelics_multichoice_fr = {
     type: jsPsychSurveyMultiChoice,
-    preamble: "<b>A propos de votre dernière expérience psychédélique:</b>",
+    preamble: "<b>A propos de votre dernière prise d'une substance psychédélique classique:</b>",
     questions: [
         {
             prompt: "Quelle était votre intention principale pour cette expérience?",
@@ -545,7 +545,7 @@ var psychedelics_multichoice_fr = {
 
 var psychedelics_others_fr = {
     type: jsPsychSurveyMultiChoice,
-    preamble: "<b>Avez-vous utilisé ces autres substances pendant votre expérience </b>",
+    preamble: "<b>Avez-vous utilisé ces autres substances pendant cette expérience? </b>",
     questions: [
         {
             prompt: "Cannabis",
@@ -606,7 +606,7 @@ var psychedelics_freq_french = {
 
 
 var psychedelics_french = {
-    timeline: [psychedelics, psychedelics_days_ago, psychedelics_multichoice_fr, psychedelics_others_fr, psychedelics_freq_french,],
+    timeline: [psychedelics_freq_french, psychedelics, psychedelics_days_ago, psychedelics_multichoice_fr, psychedelics_others_fr,],
 }
 
 
