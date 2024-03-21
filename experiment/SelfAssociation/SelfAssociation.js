@@ -107,7 +107,7 @@ var sat_instructions_practice_fr = {
     data: { screen: "SAT_instructions_practice_fr" },
     on_finish: function () {
         // Randomize shapes
-        sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+        sat_shapes_fr = jsPsych.randomization.shuffle(sat_shapes_fr)
     },
 }
 
@@ -153,13 +153,13 @@ var sat_instructions_matching_fr = {
     data: { screen: "matching_instructions_fr" },
     on_finish: function () {
         // Randomize shapes so that no assignment is the same as before
-        let old_order = structuredClone(sat_shapes)
+        let old_order_fr = structuredClone(sat_shapes_fr)
         while (
-            sat_shapes[0] == old_order[0] ||
-            sat_shapes[1] == old_order[1] ||
-            sat_shapes[2] == old_order[2]
+            sat_shapes_fr[0] == old_order_fr[0] ||
+            sat_shapes_fr[1] == old_order_fr[1] ||
+            sat_shapes_fr[2] == old_order_fr[2]
         ) {
-            sat_shapes = jsPsych.randomization.shuffle(sat_shapes)
+            sat_shapes_fr = jsPsych.randomization.shuffle(sat_shapes_fr)
         }
     },
 }
@@ -288,10 +288,10 @@ var sat_assignmentscreen_fr = {
     type: jsPsychHtmlButtonResponse,
     on_start: function () {
         sat_conditions = Object.fromEntries(
-            sat_shapes.map((key, index) => [key, sat_labels[index]])
+            sat_shapes_fr.map((key, index) => [key, sat_labels[index]])
         )
         sat_conditions = Object.fromEntries(
-            sat_shapes.map(function (key, index) {
+            sat_shapes_fr.map(function (key, index) {
                 lab = sat_labels_fr[index]
                 if (lab == text_you_fr) {
                     cond = "Self"
@@ -317,21 +317,21 @@ var sat_assignmentscreen_fr = {
             text_isrepresented_fr +
             sat_shapes_fr[0] +
             "</b>  " +
-            `<img src= ${path + "stimuli/" + sat_shapes[0]}` +
+            `<img src= ${path + "stimuli/" + sat_shapes_fr[0]}` +
             ".png height=40></img></div><br>" +
             "<div id ='align-middle'><b>" +
             sat_labels[1] +
             text_isrepresented_fr +
             sat_shapes_fr[1] +
             "</b>  " +
-            `<img src= ${path + "stimuli/" + sat_shapes[1]}` +
+            `<img src= ${path + "stimuli/" + sat_shapes_fr[1]}` +
             ".png height=40></img></div><br>" +
             "<div id = 'align-middle'><b>" +
             sat_labels[2] +
             text_isrepresented_fr +
             sat_shapes_fr[2] +
             "</b>  " +
-            `<img src= ${path + "stimuli/" + sat_shapes[2]}` +
+            `<img src= ${path + "stimuli/" + sat_shapes_fr[2]}` +
             ".png height=40></img></div><br>"
         return text
     },
@@ -359,7 +359,7 @@ var sat_assignmentscreen = {
             })
         )
         sat_labelconditions = {
-            Self: text_you,
+            Self: text_you_fr,
             Stranger: sat_labels[1],
             Friend: sat_labels[2],
         }
