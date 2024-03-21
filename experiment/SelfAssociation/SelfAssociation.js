@@ -46,6 +46,26 @@ var stimuli = [
         data: { shape: "square" },
     },
 ]
+
+// Stimuli_FR ========================================================================
+// Function to repeat arrays for french shapes
+const repeat = (arr, n) => [].concat(...Array(n).fill(arr))
+
+var stimuli_fr = [
+    {
+        stimulus path + "stimuli_fr/cercle.png",
+        data: { shape: "cercle" },
+    },
+    {
+        stimulus: path + "stimuli_fr/triangle.png",
+        data: { shape: "triangle" },
+    },
+    {
+        stimulus: path + "stimuli_fr/carré.png",
+        data: { shape: "carré" },
+    },
+]
+
 // Generate stimuli list with balanced labels
 var stimuli_block = []
 for (var n = 0; n < n_trials; n++) {
@@ -65,6 +85,16 @@ var sat_preload = {
         path + "stimuli/circle.png",
         path + "stimuli/square.png",
         path + "stimuli/triangle.png",
+    ],
+}
+
+var sat_preload_fr = {
+    type: jsPsychPreload,
+    auto_preload: true,
+    images: [
+        path + "stimuli_fr/cercle.png",
+        path + "stimuli_fr/carré.png",
+        path + "stimuli_fr/triangle.png",
     ],
 }
 
