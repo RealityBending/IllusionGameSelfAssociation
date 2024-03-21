@@ -292,7 +292,7 @@ var sat_assignmentscreen_fr = {
         )
         sat_conditions = Object.fromEntries(
             sat_shapes.map(function (key, index) {
-                lab = sat_labels[index]
+                lab = sat_labels_fr[index]
                 if (lab == text_you_fr) {
                     cond = "Self"
                 } else if (sat_characters.includes(lab)) {
@@ -313,7 +313,7 @@ var sat_assignmentscreen_fr = {
         var text =
             "<h1>Instructions</h1>" +
             "<div id ='align-middle'><b>" +
-            sat_labels[0] +
+            sat_labels_fr[0] +
             text_isrepresented_fr +
             sat_shapes_fr[0] +
             "</b>  " +
@@ -335,7 +335,7 @@ var sat_assignmentscreen_fr = {
             ".png height=40></img></div><br>"
         return text
     },
-    choices: [text_memorize],
+    choices: [text_memorize_fr],
     data: { screen: "SAT_assignmentscreen" },
 }
 
