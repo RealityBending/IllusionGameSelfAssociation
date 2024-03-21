@@ -32,8 +32,8 @@ var demographics_consent = {
         "<img src='https://u-paris.fr/wp-content/uploads/2022/03/Universite_Paris-Cite-logo.jpeg' width='300px' align='right'/><br><br><br><br><br>" +
         // Title
         "<h1>Consentement éclairé</h1>" +
-        "<p align='left'>Dans cette étude, vous allez devoir compléter deux tâches sous forme de jeux pour mesurer (i) <b>vos capacités d'associations<b> et (ii) votre <b>sensibilité aux illusions visuelles<b>.</p>" +
-        "<p align='left'>Vous aurez aussi à compléter trois questionnaires à propos de (i) <b>votre fonctionnement psychologique<b> et (ii) votre <b>dernière expérience avec une substance psychédélique classique<b>.</p>" +
+        "<p align='left'>Dans cette étude, vous allez devoir compléter deux tâches sous forme de jeux pour mesurer (i) <b>vos capacités d'associations</b> et (ii) votre <b>sensibilité aux illusions visuelles</b>.</p>" +
+        "<p align='left'>Vous aurez aussi à compléter trois questionnaires à propos de (i) <b>votre fonctionnement psychologique</b> et (ii) votre <b>dernière expérience avec une substance psychédélique classique</b>.</p>" +
         "<p align='left'>L'étude dure environ 40 minutes au total. Nous vous demandons de veiller à bien rester concentré et à fournir des réponses authentiques.</p>" +
         "<p align='left'>Votre participation à cette recherche est confidentielle. <b>Vos réponses seront totalement anonymisées</b>, et votre adresse IP ni aucune autres informations identifiantes ne sont collectées.</p>" +
         "<p align='left'>Vos données sont essentielles pour nous. Elles contribuent aux avancées scientifiques sur les thérapies-assistées par psychédéliques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
@@ -532,7 +532,7 @@ var psychedelics_multichoice_fr = {
                 },
                
                 {prompt: "Quelle est la principale substance psychédélique que vous avez pris pour cette expérience?",
-                options: ["Psilocybine/champignons/truffes", "LSD/IP-LSD/ALD-52", "Ayahuasca", "N,N-DMT", "Mescaline (Peyote, San Pedro)", "Iboga/Ibogaine", "5-MeO-DMT (Bufo)", "Salvia/Salvinorin A", "Autre:",],
+                options: ["Psilocybine/champignons/truffes", "LSD/1P-LSD/ALD-52", "Ayahuasca", "N,N-DMT", "Mescaline (Peyote, San Pedro)", "Iboga/Ibogaine", "5-MeO-DMT (Bufo)", "Salvia/Salvinorin A", "Autre:",],
                 add_other_option: true,
                 name: "substance",
                 required: true,
@@ -563,22 +563,22 @@ var psychedelics_others_fr = {
                 required: true,
             },
             {prompt: "Stimulants (e.g. cocaine, amphetamine, cathinones)",
-            options: ["Oui", "No", "Incertain"],
+            options: ["Oui", "Non", "Incertain"],
             name: "stimulants",
             required: true,
         },
         {prompt: "MDMA/ecstasy",
-        options: ["Oui", "No", "Incertain"],
+        options: ["Oui", "Non", "Incertain"],
         name: "MDMA",
         required: true,
     },
     {prompt: "Opiacés",
-    options: ["Oui", "No", "Incertain"],
+    options: ["Oui", "Non", "Incertain"],
     name: "Opiacés",
     required: true,
 },
 {prompt: "Dissociatifs (e.g., kétamine)",
-    options: ["Oui", "No", "Incertain"],
+    options: ["Oui", "Non", "Incertain"],
     name: "Dissociatifs",
     required: true,
 },
@@ -611,8 +611,6 @@ var psychedelics_freq_french = {
 var psychedelics_french = {
     timeline: [psychedelics_freq_french, psychedelics, psychedelics_days_ago, psychedelics_multichoice_fr, psychedelics_others_fr,],
 }
-
-
 
 //Psychedelics history English
 var psychedelics_english = {
