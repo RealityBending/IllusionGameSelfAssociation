@@ -53,7 +53,7 @@ const repeat = (arr, n) => [].concat(...Array(n).fill(arr))
 
 var stimuli_fr = [
     {
-        stimulus path + "stimuli_fr/cercle.png",
+        stimulus: path + "stimuli_fr/cercle.png",
         data: { shape: "cercle" },
     },
     {
