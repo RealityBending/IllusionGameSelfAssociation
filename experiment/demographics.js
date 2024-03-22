@@ -245,11 +245,6 @@ var if_node = {
     },
 }
 
-var past_psych_french = {
-    timeline: [past_psych, if_node],
-}
-
-
 //past psychatric diagnoses and if node english
 var past_psych_english = {
     type: jsPsychHtmlButtonResponse,
@@ -306,10 +301,6 @@ var if_node1 = {
             return true
         }
     },
-}
-
-var current_psych_french = {
-    timeline: [current_psych, if_node1],
 }
 
 //current psychiatric diagnoses and if node english
@@ -413,11 +404,6 @@ var if_node2 = {
         }
     },
 }
-
-var meditation_french = {
-    timeline: [meditation, if_node2],
-}
-
 
 //Meditation background English
 var meditation_english = {
