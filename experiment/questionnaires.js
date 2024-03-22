@@ -377,14 +377,14 @@ for (var n = 0; n < 30; n++) {
     })
 }
 
-var meq_questions_fr = []
+var meq_questions_fr = [];
 for (var n = 0; n < 30; n++) {
     meq_questions_fr.push({
         prompt: "<b>" + meq_items_fr[n] + "</b>",
         name: meq_dimensions[n],
         labels: meq_labels_fr,
         required: false,
-    })
+    });
 }
 
 var meq_psychedelic_soc = {
