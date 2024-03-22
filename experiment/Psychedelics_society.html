@@ -82,30 +82,30 @@
         timeline.push(demographics_browser_info)
         timeline.push(demographics_consent)
         timeline.push(demographics_info)
-        timeline.push(past_psych_french)
-        timeline.push(current_psych_french)
-        timeline.push(meditation_french)
+        timeline.push(past_psych, if_node)
+        timeline.push(current_psych, if_node1)
+        timeline.push(meditation, if_node2)
         timeline.push(psychedelics_french)
        
 
 
         // Self-Association Task (SAT) =========================================
-        timeline.push(sat_preload_fr)
-        timeline.push(sat_instructions_general_fr)
-        timeline.push(sat_strangerlabel_fr)
-        timeline.push(sat_friendlabel_fr)
+        //timeline.push(sat_preload_fr)
+        //timeline.push(sat_instructions_general_fr)
+        //timeline.push(sat_strangerlabel_fr)
+        //timeline.push(sat_friendlabel_fr)
 
         // Practice
-        timeline.push(sat_instructions_practice_fr)
-        timeline.push(sat_assignmentscreen_fr)
-        timeline.push(sat_practice_fr)
-        timeline.push(sat_practice_end_fr)
+        //timeline.push(sat_instructions_practice_fr)
+        //timeline.push(sat_assignmentscreen_fr)
+        //timeline.push(sat_practice_fr)
+        //timeline.push(sat_practice_end_fr)
 
         // Matching task
-        timeline.push(sat_instructions_matching_fr)
-        timeline.push(sat_assignmentscreen_fr)
-        timeline.push(sat_block_fr)
-        timeline.push(sat_block_debrief_fr)
+        //timeline.push(sat_instructions_matching_fr)
+        //timeline.push(sat_assignmentscreen_fr)
+        //timeline.push(sat_block_fr)
+        //timeline.push(sat_block_debrief_fr)
 
         // Illusion Game =======================================================
 
@@ -149,7 +149,7 @@
 
         timeline.push(demographics_endscreen)
         /* ----------------- Run the timeline ----------------- */
-        //jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
+        jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
         jsPsych.run(timeline)
     </script>
 </html>
