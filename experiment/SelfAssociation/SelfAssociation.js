@@ -130,7 +130,7 @@ var sat_instructions_general_fr = {
 var sat_instructions_practice = {
     type: jsPsychHtmlButtonResponse,
     stimulus: text_instructions_practice,
-    choices: [text_continue_fr],
+    choices: [text_continue],
     data: { screen: "SAT_instructions_practice" },
     on_finish: function () {
         // Randomize shapes
@@ -397,7 +397,7 @@ var sat_assignmentscreen = {
             })
         )
         sat_labelconditions = {
-            Self: text_you_fr,
+            Self: text_you,
             Stranger: sat_labels[1],
             Friend: sat_labels[2],
         }
@@ -505,6 +505,7 @@ var sat_practice_trial = {
         }
     },
 }
+
 var sat_practice_trial_fr = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
@@ -564,6 +565,7 @@ var sat_practice_trial_fr = {
         }
     },
 }
+
 var sat_feedback = {
     type: jsPsychHtmlKeyboardResponse,
     choice: "NO_KEYS",
