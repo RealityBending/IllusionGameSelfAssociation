@@ -571,7 +571,6 @@ var psychedelics_others_fr = {
     ]
 };
 
-
 var psychedelics_freq_french = {
     type: jsPsychSurveyMultiChoice,
     questions: [
@@ -592,7 +591,6 @@ var psychedelics_freq_french = {
         },
     ],
 }
-
 
 var psychedelics_french = {
     timeline: [psychedelics_freq_french, psychedelics, psychedelics_days_ago, psychedelics_multichoice_fr, psychedelics_others_fr,],
