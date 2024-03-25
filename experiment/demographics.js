@@ -498,7 +498,7 @@ var psychedelics_days_ago = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "Veuillez indiquer le plus précisément possible combien de jours se sont écoulés depuis votre dernière prise d'une substance psychédélique classique ? (Si l'expérience date vous pouvez indiquer une approximation)",
+            prompt: "Veuillez indiquer le plus précisément possible combien de jours se sont écoulés depuis votre <b>dernière prise</b> d'une substance psychédélique classique ? (Si l'expérience date vous pouvez indiquer une approximation)",
             required: true,
         },
     ],
