@@ -251,7 +251,7 @@ var past_psych_english = {
     stimulus:
         '<p style="font-size:18px; color:black;">Have you <b>ever</b> been diagnosed with any of the following pathologies ?</p>',
     prompt: "<p>Depression, post-traumatic stress disorder, obsessional-compulsive disorder, anxiety disorder, substance use disorder (other than nicotine), schizophrenia</p>",
-    choices: ["Yes", "Non"],
+    choices: ["Yes", "No"],
     on_finish: function (data) {
         console.log("past_psych_english response:", data.button_pressed)
     },
@@ -280,7 +280,7 @@ var current_psych = {
     stimulus:
         '<p style="font-size:18px; color:black;">Etes-vous <b>en ce moment</b> diagnostiqué pour une des pathologies suivantes?</p>',
     prompt: "<p>Dépression, syndrôme de stress post-traumatique, trouble obsessionel compulsif, anxiété, trouble de l'usage de substance (autre que la nicotine), schizophrénie</p>",
-    choices: ["Yes", "No"],
+    choices: ["Yes", "Non"],
     on_finish: function (data) {
         console.log("current_psych response:", data.button_pressed)
     },
