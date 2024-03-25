@@ -251,7 +251,7 @@ var past_psych_english = {
     stimulus:
         '<p style="font-size:18px; color:black;">Have you <b>ever</b> been diagnosed with any of the following pathologies ?</p>',
     prompt: "<p>Depression, post-traumatic stress disorder, obsessional-compulsive disorder, anxiety disorder, substance use disorder (other than nicotine), schizophrenia</p>",
-    choices: ["Yes", "No"],
+    choices: ["Yes", "Non"],
     on_finish: function (data) {
         console.log("past_psych_english response:", data.button_pressed)
     },
