@@ -487,7 +487,7 @@ var if_node2_english = {
 var psychedelics = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;">Avez-vous consommé une substance psychédélique classique (e.g., LSD, champignons à psilocybe, ayahuasca) au cours du derniers mois ?</p>',
+        '<p style="font-size:18px; color:black;">Avez-vous consommé une substance psychédélique classique (e.g., LSD, champignons à psilocybe, ayahuasca) <b>au cours du derniers mois</b> ?</p>',
     choices: ["Oui", "Non"],
     on_finish: function (data) {
         console.log("Psychedelic response:", data.button_pressed)
@@ -600,7 +600,7 @@ var psychedelics_french = {
 var psychedelics_english = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;">Have you taken a psychedelic drug in the last 6 months? (E.g. LSD, psilocybin mushrooms, ayahuasca)</p>',
+        '<p style="font-size:18px; color:black;">Have you taken a psychedelic <b>during the last month</b>? (E.g. LSD, psilocybin mushrooms, ayahuasca)</p>',
     choices: ["Yes", "No"],
     on_finish: function (data) {
         console.log("Psychedelic response_english:", data.button_pressed)
