@@ -183,9 +183,9 @@ var aaq_labels_fr = [
     "<br>Toujours vrai",
 ]
 
-var aaq_instructions = "<p>Please rate how true each statement is of you.</p>"
+var aaq_instructions = "<p>Please rate how each statement apply to you <b>over the past week</b>.</p>"
 var aaq_instructions_fr =
-    "<p>Merci d'évaluer à quel point chaque affirmation est vraie pour vous.</p>"
+    "<p>Merci d'évaluer à quel point chaque affirmation s'applique à vous <b> au cours de la semaine passée </b> .</p>"
 
 var aaq_questions_fr = []
 for (var n = 0; n < 7; n++) {
