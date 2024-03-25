@@ -351,7 +351,7 @@ var meq_instructions =
     "<p>Answer each question according to your feelings, thoughts, and experiences at the time of the session</p>"
 
     var meq_instructions_fr =
-    "<p>En vous référant à l'ensemble de votre dernière expérience avec un psychédélique classique, veuillez évaluer le degré avec lequel vous avez vécu les phénomènes suivants.</p>" +
+    "<p>En vous référant à l'ensemble de <b>votre dernière expérience</b> avec un psychédélique classique, veuillez évaluer le degré avec lequel vous avez vécu les phénomènes suivants.</p>" +
     "<p>Répondez à chaque question en fonction de vos ressentis, pensées et expériences durant la session.</p>"
    
  var meq_instructions_control = 
