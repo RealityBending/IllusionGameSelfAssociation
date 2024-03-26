@@ -34,13 +34,13 @@ var demographics_consent = {
         "<h1>Consentement éclairé</h1>" +
         "<p align='left'>Dans cette étude, vous allez devoir compléter deux tâches sous forme de jeux pour mesurer (i) <b>vos capacités d'associations</b> et (ii) votre <b>sensibilité aux illusions visuelles</b>.</p>" +
         "<p align='left'>Vous aurez aussi à compléter trois questionnaires à propos de (i) <b>votre fonctionnement psychologique</b> et (ii) votre <b>dernière expérience avec une substance psychédélique classique</b>.</p>" +
-        "<p align='left'>L'étude dure environ 40 minutes au total. Nous vous demandons de veiller à bien rester concentré et à fournir des réponses authentiques.</p>" +
+        "<p align='left'>L'étude dure environ 40 minutes au total. Nous vous demandons de veiller à bien rester concentré(e) et à fournir des réponses authentiques.</p>" +
         "<p align='left'>Les jeux se déroulent en plusieurs parties et sont entrecoupés de questionnaires, c'est normal, merci de poursuivre l'étude jusqu'à l'écran confirmant l'enregistrement de vos données.</p>" +
         "<p align='left'>Votre participation à cette recherche est confidentielle. <b>Vos réponses seront totalement anonymisées</b>, et votre adresse IP ni aucune autres informations identifiantes ne sont collectées.</p>" +
         "<p align='left'>Vos données sont essentielles pour nous. Elles contribuent aux avancées scientifiques sur les thérapies-assistées par psychédéliques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
         "<p align='left'>Vous avez également le droit de vous retirer de l'étude à n'importe quel moment, pour cela, vous pouvez simplement fermer votre navigateur web.</p>" +
         // "<p>Notez que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
-        "<p align='left'><br><sub><sup>Si vous avez des questions sur le projet, veuillez contacter Baptiste Fauvel (baptiste.fauvel@u-paris.fr). Cette étude a été expertisée et validée par le comité d'éthique de l'université de Paris Cité.</sup></sub></p>",
+        "<p align='left'><br><sub><sup>Si vous avez des questions sur le projet, veuillez contacter Baptiste Fauvel (baptiste.fauvel@u-paris.fr). Cette étude a été expertisée et validée par le comité d'éthique de l'université Paris Cité.</sup></sub></p>",
 
     choices: ["J'ai lu et j'accepte les conditions de l'étude"],
     data: { screen: "consent" },
@@ -56,7 +56,7 @@ var demographics_control= {
         "<h1>Consentement éclairé</h1>" +
         "<p align='left'>Dans cette étude, vous allez devoir compléter deux tâches sous forme de jeux pour mesurer (i) <b>vos capacités d'associations</b> et (ii) votre <b>sensibilité aux illusions visuelles</b>.</p>" +
         "<p align='left'>Vous aurez aussi à compléter deux questionnaires à propos de <b>votre fonctionnement psychologique</b>.</p>" +
-        "<p align='left'>L'étude dure environ 40 minutes au total. Nous vous demandons de veiller à bien rester concentré et à fournir des réponses authentiques.</p>" +
+        "<p align='left'>L'étude dure environ 40 minutes au total. Nous vous demandons de veiller à bien rester concentré(e) et à fournir des réponses authentiques.</p>" +
         "<p align='left'>Les jeux se déroulent en plusieurs parties et sont entrecoupés de questionnaires, c'est normal, merci de poursuivre l'étude jusqu'à l'écran confirmant l'enregistrement de vos données.</p>" +
         "<p align='left'>Votre participation à cette recherche est confidentielle. <b>Vos réponses seront totalement anonymisées</b>, et votre adresse IP ni aucune autres informations identifiantes ne sont collectées.</p>" +
         "<p align='left'>Vos données sont essentielles pour nous. Elles contribuent aux avancées scientifiques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
@@ -78,9 +78,12 @@ var demographics_consent_english = {
         // Title
         "<h1>Consent form</h1>" +
         "<p align='left'>In this study, you will have to complete two questionnaires and two tasks.</p>" +
+        "<p align='left'>Questionnaires are about your daily psychological functionning. Tasks are two games to measure your association skills and sensitivity to visual illusions.</p>" +
         "<p align='left'>The questionnaires and tasks must be completed alone. <b>Your participation is confidential and your answers will be anonymized.</b> We do not collect your IP address or any other identifying information.</p>" +
-        "<p align='left'>Your data are very valuable for us. In participating, you will contribute to scientific progress. <b>In participating, you accept to follow the instructions and to supply honest answers.</b> If you don't want to participate, you can simply close your browser.</p>" +
-        // "<p>Notez que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
+        "<p align='left'>Your data are very valuable for us. In participating, you will contribute to scientific progress. <b>In participating, you accept to follow the instructions and to supply honest answers.</b> You can also refuse to partake without any justification and with absolutely no consequence on your retreat and your relationship with the center's therapists.</p>" +
+        "<p align='left'>If you don't want to participate, or if you want to leave the study, you can simply close your browser.</p>" +
+        "<p align='left'>The entire study takes approximately 40 minutes, with questionnaires in between parts of the tasks. Please, stay focus until the screed confirming that your data are saved.</p>" + 
+        // "<p>You are completelNote participating or not completing the study will have no consequene z que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
         "<p align='left'><br><sub><sup>If you have any question regarding the study, you can email Baptiste Fauvel (baptiste.fauvel@u-paris.fr). This study has been reviewed and approved by the ethical committee of the University of Paris .</sup></sub></p>",
 
     choices: ["I have read and I accept the terms of the study"],
@@ -120,7 +123,7 @@ var demographics_multichoice = {
             required: true,
         },
         {
-            prompt: "Etes vous actuellement étudiant?",
+            prompt: "Etes vous actuellement étudiant(e)?",
             options: ["Oui", "Non"],
             name: "student",
         },
@@ -243,7 +246,7 @@ var demographics_info_english = {
 var past_psych = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;">Avez-vous <b>déjà</b> été diagnostiqué pour une des pathologies suivantes ?</p>',
+        '<p style="font-size:18px; color:black;">Avez-vous <b>déjà</b> été diagnostiqué(e) pour une des pathologies suivantes ?</p>',
     prompt: "<p>Dépression, syndrôme de stress post-traumatique, trouble obsessionel-compulsif, anxiété, trouble de l'usage de substance (autre que la nicotine), schizophrénie</p>",
     choices: ["Oui", "Non"],
     on_finish: function (data) {
@@ -301,7 +304,7 @@ var if_node_english = {
 var current_psych = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;">Etes-vous <b>en ce moment</b> diagnostiqué pour une des pathologies suivantes?</p>',
+        '<p style="font-size:18px; color:black;">Etes-vous <b>en ce moment</b> diagnostiqué(e) pour une des pathologies suivantes?</p>',
     prompt: "<p>Dépression, syndrôme de stress post-traumatique, trouble obsessionel compulsif, anxiété, trouble de l'usage de substance (autre que la nicotine), schizophrénie</p>",
     choices: ["Oui", "Non"],
     on_finish: function (data) {
