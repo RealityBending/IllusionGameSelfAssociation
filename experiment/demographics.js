@@ -40,7 +40,29 @@ var demographics_consent = {
         "<p align='left'>Vos données sont essentielles pour nous. Elles contribuent aux avancées scientifiques sur les thérapies-assistées par psychédéliques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
         "<p align='left'>Vous avez également le droit de vous retirer de l'étude à n'importe quel moment, pour cela, vous pouvez simplement fermer votre navigateur web.</p>" +
         // "<p>Notez que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
-        "<p align='left'><br><sub><sup>Si vous avez des questions sur le projets, veuillez contacter Baptiste Fauvel (baptiste.fauvel@u-paris.fr). Cette étude a été expertisée et validée par le comité d'éthique de l'université de Paris.</sup></sub></p>",
+        "<p align='left'><br><sub><sup>Si vous avez des questions sur le projet, veuillez contacter Baptiste Fauvel (baptiste.fauvel@u-paris.fr). Cette étude a été expertisée et validée par le comité d'éthique de l'université de Paris Cité.</sup></sub></p>",
+
+    choices: ["J'ai lu et j'accepte les conditions de l'étude"],
+    data: { screen: "consent" },
+}
+
+var demographics_control= {
+    css_classes: ["multichoice-narrow"],
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+        // Logo
+        "<img src='https://u-paris.fr/wp-content/uploads/2022/03/Universite_Paris-Cite-logo.jpeg' width='300px' align='right'/><br><br><br><br><br>" +
+        // Title
+        "<h1>Consentement éclairé</h1>" +
+        "<p align='left'>Dans cette étude, vous allez devoir compléter deux tâches sous forme de jeux pour mesurer (i) <b>vos capacités d'associations</b> et (ii) votre <b>sensibilité aux illusions visuelles</b>.</p>" +
+        "<p align='left'>Vous aurez aussi à compléter deux questionnaires à propos de <b>votre fonctionnement psychologique</b>.</p>" +
+        "<p align='left'>L'étude dure environ 40 minutes au total. Nous vous demandons de veiller à bien rester concentré et à fournir des réponses authentiques.</p>" +
+        "<p align='left'>Les jeux se déroulent en plusieurs parties et sont entrecoupés de questionnaires, c'est normal, merci de poursuivre l'étude jusqu'à l'écran confirmant l'enregistrement de vos données.</p>" +
+        "<p align='left'>Votre participation à cette recherche est confidentielle. <b>Vos réponses seront totalement anonymisées</b>, et votre adresse IP ni aucune autres informations identifiantes ne sont collectées.</p>" +
+        "<p align='left'>Vos données sont essentielles pour nous. Elles contribuent aux avancées scientifiques. <b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, vous pouvez simplement fermer votre navigateur.</p>" +
+        "<p align='left'>Vous avez également le droit de vous retirer de l'étude à n'importe quel moment, pour cela, vous pouvez simplement fermer votre navigateur web.</p>" +
+        // "<p>Notez que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
+        "<p align='left'><br><sub><sup>Si vous avez des questions sur le projet, veuillez contacter Baptiste Fauvel (baptiste.fauvel@u-paris.fr). Cette étude a été expertisée et validée par le comité d'éthique de l'université de Paris Cité.</sup></sub></p>",
 
     choices: ["J'ai lu et j'accepte les conditions de l'étude"],
     data: { screen: "consent" },
@@ -92,7 +114,7 @@ var demographics_multichoice = {
     preamble: "<b>Veuillez répondre aux questions suivantes:</b>",
     questions: [
         {
-            prompt: "Quel est votre genre",
+            prompt: "Quel est votre genre?",
             options: ["Homme", "Femme"],
             name: "sex",
             required: true,
@@ -115,7 +137,7 @@ var demographics_multichoice = {
         },
         {
             prompt: "Quel est votre niveau de Français?",
-            options: ["langue maternelle", "courant", "intermédiaire", "débutant"],
+            options: ["Langue maternelle", "Courant", "Intermédiaire", "Débutant"],
             name: "language",
         },
     ],
@@ -128,7 +150,7 @@ var demographics_freetext = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "Entrer votre âge (en années)",
+            prompt: "Entrez votre âge (en années)",
             placeholder: "e.g., '31'",
             name: "age",
         },
@@ -185,7 +207,7 @@ var demographics_multichoice_english = {
         },
         {
             prompt: "What is your english level?",
-            options: ["native", "fluent", "intermediate", "beginner"],
+            options: ["Native", "Fluent", "Intermediate", "Beginner"],
             name: "language",
         },
     ],
@@ -281,7 +303,7 @@ var current_psych = {
     stimulus:
         '<p style="font-size:18px; color:black;">Etes-vous <b>en ce moment</b> diagnostiqué pour une des pathologies suivantes?</p>',
     prompt: "<p>Dépression, syndrôme de stress post-traumatique, trouble obsessionel compulsif, anxiété, trouble de l'usage de substance (autre que la nicotine), schizophrénie</p>",
-    choices: ["Yes", "Non"],
+    choices: ["Oui", "Non"],
     on_finish: function (data) {
         console.log("current_psych response:", data.button_pressed)
     },
@@ -367,7 +389,7 @@ var meditation_duration = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "En moyenne, combien de temps dure chacune de vos séances de méditation? répondez en nombre de minutes (e.g. 1 heure = 60) ",
+            prompt: "En moyenne, combien de temps dure chacune de vos séances de méditation? Répondez en nombre de minutes (e.g. 1 heure = 60) ",
             required: true,
         },
     ],
@@ -488,7 +510,7 @@ var if_node2_english = {
 var psychedelics = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        '<p style="font-size:18px; color:black;">Avez-vous consommé une substance psychédélique classique (e.g., LSD, champignons à psilocybe, ayahuasca) <b>au cours du derniers mois</b> ?</p>',
+        '<p style="font-size:18px; color:black;">Avez-vous consommé une substance psychédélique classique (e.g., LSD, champignons à psilocybe, ayahuasca) <b>au cours du dernier mois</b> ?</p>',
     choices: ["Oui", "Non"],
     on_finish: function (data) {
         console.log("Psychedelic response:", data.button_pressed)
@@ -518,8 +540,8 @@ var psychedelics_multichoice_fr = {
             required: true,
                 },
                
-                {prompt: "Quelle est la principale substance psychédélique que vous avez pris pour cette expérience?",
-                options: ["Psilocybine/champignons/truffes", "LSD/1P-LSD/ALD-52", "Ayahuasca", "N,N-DMT", "Mescaline (Peyote, San Pedro)", "Iboga/Ibogaine", "5-MeO-DMT (Bufo)", "Salvia/Salvinorin A", "Autre:",],
+                {prompt: "Quelle est la principale substance psychédélique que vous avez prise pour cette expérience?",
+                options: ["Psilocybine/champignons/truffes", "LSD/1P-LSD/ALD-52", "Ayahuasca", "N,N-DMT", "Mescaline (Peyote, San Pedro)", "Iboga/Ibogaine", "5-MeO-DMT (Bufo)", "Autre",],
                 add_other_option: true,
                 name: "substance",
                 required: true,
@@ -584,7 +606,7 @@ var psychedelics_freq_french = {
                 "Entre 2 et 5 fois",
                 "Entre 6 et 10 fois",
                 "Entre 11 et 50 fois",
-                "Entre 50 et 100 fois",
+                "Entre 51 et 100 fois",
                 "Plus de 100 fois",
             ],
             required: true,
@@ -620,7 +642,7 @@ var psychedelics_freq_english = {
                 "Between 2 and 5 times",
                 "Between 6 and 10 times",
                 "Between 11 and 50 times",
-                "Between 50 and 100 times",
+                "Between 51 and 100 times",
                 "More than 100 times",
             ],
             required: true,
