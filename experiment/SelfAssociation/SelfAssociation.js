@@ -352,7 +352,7 @@ var sat_assignmentscreen_fr = {
             "<h1>Instructions</h1>" +
             "<div id ='align-middle'><b>" +
             sat_labels_fr[0] +
-            text_isrepresented_fr +
+            text_isrepresentedself_fr +
             sat_shapes_fr[0] +
             "</b>  " +
             `<img src= ${path + "stimuli/" + sat_shapes_fr[0]}` +
