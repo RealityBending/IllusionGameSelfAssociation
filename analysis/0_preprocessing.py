@@ -43,6 +43,7 @@ files = osf_listfiles(
 alldata_sub = pd.DataFrame()  # Initialize empty dataframe
 alldata_ig = pd.DataFrame()  # Initialize empty dataframe
 alldata_sat = pd.DataFrame()  # Initialize empty dataframe
+alldata_aaq = pd.DataFrame()
 
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
@@ -58,6 +59,7 @@ for i, file in enumerate(files):
     # data["screen"].unique()
     # Browser info -------------------------------------------------------
 
+ 
     browser = data[data["screen"] == "browser_info"].iloc[0]
     data_sub = pd.DataFrame(
         {
@@ -74,6 +76,8 @@ for i, file in enumerate(files):
         },
         index=[0],
     )
+
+       
 
     # Demographics -------------------------------------------------------
     dem1 = data[data["screen"] == "demographics_1"].iloc[0]
@@ -104,10 +108,38 @@ for i, file in enumerate(files):
             "Correct": sat_trial["correct"].values,
         }
     )
+ 
+# Filter the DataFrame based on the condition
+filtered_data = data[data["screen"] == "questionnaire_aaq_english"]
+
+# Check if the filtered DataFrame is empty
+if not filtered_data.empty:
+    # Access the first row of the filtered DataFrame
+    aaq = filtered_data.iloc[0]
+else:
+    print("No data found for 'questionnaire_aaq_english'")
+
+
+    aaq = data[data["screen"] == "questionnaire_aaq_english"].iloc[0]
+    aaq = json.loads(aaq["response"])
+
+    data_sub["AAQ1"] = aaq["AAQ_1"]
+    data_sub["AAQ2"] = aaq["AAQ_2"]
+    data_sub["AAQ3"] = aaq["AAQ_3"]
+    data_sub["AAQ4"] = aaq["AAQ_4"]
+    data_sub["AAQ5"] = aaq["AAQ_5"]
+    data_sub["AAQ6"] = aaq["AAQ_6"]
+    data_sub["AAQ7"] = aaq["AAQ_7"]
+
 
     # Mege dataframes ----------------------------------------------------
     alldata_sub = pd.concat([alldata_sub, data_sub], axis=0)
     alldata_sat = pd.concat([alldata_sat, data_sat], axis=0)
 
+
 alldata_sub.to_csv("../data/rawdata_participants.csv", index=False)
 alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
+alldata_aaq.to_csv("../data/rawdata_aaq.csv", index=False)
+
+
+#1+1
