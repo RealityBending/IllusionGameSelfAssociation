@@ -44,6 +44,8 @@ alldata_sub = pd.DataFrame()  # Initialize empty dataframe
 alldata_ig = pd.DataFrame()  # Initialize empty dataframe
 alldata_sat = pd.DataFrame()  # Initialize empty dataframe
 alldata_aaq = pd.DataFrame()
+alldata_dass = pd.DataFrame()
+
 
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
@@ -88,6 +90,27 @@ for i, file in enumerate(files):
     data_sub["Student"] = dem1["student"]
     data_sub["Language_Level"] = dem1["language"]
 
+    dem2 = data[data["screen"] == "demographics_2"].iloc[0]
+    dem2 = json.loads(dem2["response"])
+
+    data_sub["Age"] = dem2["age"]
+    #data_sub["Country"] = dem2["country"]
+    #data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
     # Self Association ----------------------------------------------------
     sat_trial = data[data["screen"] == "sat_trial"]
     # Skip particpants that did not complete the task
@@ -109,37 +132,81 @@ for i, file in enumerate(files):
         }
     )
  
-# Filter the DataFrame based on the condition
-filtered_data = data[data["screen"] == "questionnaire_aaq_english"]
 
-# Check if the filtered DataFrame is empty
-if not filtered_data.empty:
-    # Access the first row of the filtered DataFrame
-    aaq = filtered_data.iloc[0]
-else:
-    print("No data found for 'questionnaire_aaq_english'")
+    aaq = data[data["screen"] == "questionnaire_aaq_english"]
+    data_aaq = pd.DataFrame(
+        {
+        },
+        index=[0],
+    )
+
+    aaq = data[data["screen"] == "questionnaire_aaq_english"]
+    if not aaq.empty:
+        aaq = aaq.iloc[0]
+        aaq = json.loads(aaq["response"])
+        data_aaq = pd.DataFrame({
+            "Participant": file["name"],
+            "AAQ1": aaq["AAQ_1"],
+            "AAQ2": aaq["AAQ_2"],
+            "AAQ3": aaq["AAQ_3"],
+            "AAQ4": aaq["AAQ_4"],
+            "AAQ5": aaq["AAQ_5"],
+            "AAQ6": aaq["AAQ_6"],
+            "AAQ7": aaq["AAQ_7"]
+        }, index=[0])
+    else:
+        print(f"No questionnaire_aaq_english data found for participant: {file['name']}")
+        data_aaq = pd.DataFrame(columns=["AAQ1", "AAQ2", "AAQ3", "AAQ4", "AAQ5", "AAQ6", "AAQ7"])
 
 
-    aaq = data[data["screen"] == "questionnaire_aaq_english"].iloc[0]
-    aaq = json.loads(aaq["response"])
+    dass = data[data["screen"] == "questionnaire_dass21_english"]
+    if not dass.empty:
+        dass = dass.iloc[0]
+        dass = json.loads(dass["response"])
+        data_dass = pd.DataFrame({
+            "Participant": file["name"],
+            "DASS_Stress_1": dass["DASS_Stress_1"],
+            "DASS_Stress_6": dass["DASS_Stress_6"],
+            "DASS_Stress_8": dass["DASS_Stress_8"],
+            "DASS_Stress_11": dass["DASS_Stress_11"],
+            "DASS_Stress_12": dass["DASS_Stress_12"],
+            "DASS_Stress_14": dass["DASS_Stress_14"],
+            "DASS_Stress_18": dass["DASS_Stress_18"],
+            "DASS_Anxiety_2": dass["DASS_Anxiety_2"],
+            "DASS_Anxiety_4": dass["DASS_Anxiety_4"],
+            "DASS_Anxiety_7": dass["DASS_Anxiety_7"],
+            "DASS_Anxiety_9": dass["DASS_Anxiety_9"],
+            "DASS_Anxiety_15": dass["DASS_Anxiety_15"],
+            "DASS_Anxiety_19": dass["DASS_Anxiety_19"],
+            "DASS_Anxiety_20": dass["DASS_Anxiety_20"],
+            "DASS_Depression_3": dass["DASS_Depression_3"],
+            "DASS_Depression_5": dass["DASS_Depression_5"],
+            "DASS_Depression_10": dass["DASS_Depression_10"],
+            "DASS_Depression_13": dass["DASS_Depression_13"],
+            "DASS_Depression_16": dass["DASS_Depression_16"],
+            "DASS_Depression_17": dass["DASS_Depression_17"],
+            "DASS_Depression_21": dass["DASS_Depression_21"]
 
-    data_sub["AAQ1"] = aaq["AAQ_1"]
-    data_sub["AAQ2"] = aaq["AAQ_2"]
-    data_sub["AAQ3"] = aaq["AAQ_3"]
-    data_sub["AAQ4"] = aaq["AAQ_4"]
-    data_sub["AAQ5"] = aaq["AAQ_5"]
-    data_sub["AAQ6"] = aaq["AAQ_6"]
-    data_sub["AAQ7"] = aaq["AAQ_7"]
+
+        }, index=[0])
+    else:
+        print(f"No questionnaire_dass21_english data found for participant: {file['name']}")
+        data_dass = pd.DataFrame(columns=["DASS_Stress_1", "DASS_Stress_6", "DASS_Stress_8", "DASS_Stress_11", "DASS_Stress_12", "DASS_Stress_14", "DASS_Stress_18", "DASS_Anxiety_2", "DASS_Anxiety_4", "DASS_Anxiety_7", "DASS_Anxiety_9", "DASS_Anxiety_15", "DASS_Anxiety_19", "DASS_Anxiety_20", "DASS_Depression_3", "DASS_Depression_5", "DASS_Depression_10", "DASS_Depression_13", "DASS_Depression_16", "DASS_Depression_17", "DASS_Depression_21"])
 
 
     # Mege dataframes ----------------------------------------------------
     alldata_sub = pd.concat([alldata_sub, data_sub], axis=0)
     alldata_sat = pd.concat([alldata_sat, data_sat], axis=0)
+    alldata_aaq = pd.concat([alldata_aaq, data_aaq], axis=0)
+    alldata_dass = pd.concat([alldata_dass, data_dass], axis=0)
 
 
-alldata_sub.to_csv("../data/rawdata_participants.csv", index=False)
+
+alldata_sub.to_csv("../data/rawdata_participants.csv",index=False)
 alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
 alldata_aaq.to_csv("../data/rawdata_aaq.csv", index=False)
+alldata_dass.to_csv("../data/rawdata_dass.csv", index=False)
+
 
 
 #1+1
