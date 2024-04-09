@@ -94,8 +94,8 @@ for i, file in enumerate(files):
     dem2 = json.loads(dem2["response"])
 
     data_sub["Age"] = dem2["age"]
-    data_sub["Country"] = dem2["country"]
-    data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+    #data_sub["Country"] = dem2["country"]
+    #data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
 
 # Extract past psychiatric data
     psych_past = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Have you <b>ever</b> been diagnosed with any of the following pathologies ?</p>']
@@ -209,11 +209,30 @@ for i, file in enumerate(files):
         data_dass = pd.DataFrame(columns=["DASS_Stress_1", "DASS_Stress_6", "DASS_Stress_8", "DASS_Stress_11", "DASS_Stress_12", "DASS_Stress_14", "DASS_Stress_18", "DASS_Anxiety_2", "DASS_Anxiety_4", "DASS_Anxiety_7", "DASS_Anxiety_9", "DASS_Anxiety_15", "DASS_Anxiety_19", "DASS_Anxiety_20", "DASS_Depression_3", "DASS_Depression_5", "DASS_Depression_10", "DASS_Depression_13", "DASS_Depression_16", "DASS_Depression_17", "DASS_Depression_21"])
 
 
+    ig_trial = data[data["screen"] == "IG_Trial"]
+    # Skip particpants that did not complete the task
+    if len(ig_trial) == 0:
+        print(f"No IG_trial data found for participant: {file['name']}")  # Debugging statement
+        continue
+
+    data_ig = pd.DataFrame(
+        {
+            "Participant": file["name"],
+            "Trial": ig_trial["trial_number"].values,
+            "Correct_Response": ig_trial["correct_response"].values,
+            "Illusion_Type": ig_trial["Illusion_Type"].values,
+            "Illusion_Strength": ig_trial["Illusion_Strength"].values,
+            "Illusion_Difference": ig_trial["Illusion_Difference"].values,
+            "isi": ig_trial["isi"].values
+        }
+    )
+
     # Mege dataframes ----------------------------------------------------
     alldata_sub = pd.concat([alldata_sub, data_sub], axis=0)
     alldata_sat = pd.concat([alldata_sat, data_sat], axis=0)
     alldata_aaq = pd.concat([alldata_aaq, data_aaq], axis=0)
     alldata_dass = pd.concat([alldata_dass, data_dass], axis=0)
+    alldata_ig = pd.concat([alldata_ig, data_ig], axis=0)
 
 
 
@@ -221,6 +240,7 @@ alldata_sub.to_csv("../data/rawdata_participants.csv",index=False)
 alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
 alldata_aaq.to_csv("../data/rawdata_aaq.csv", index=False)
 alldata_dass.to_csv("../data/rawdata_dass.csv", index=False)
+alldata_ig.to_csv("../data/rawdata_ig.csv", index=False)
 
 
 
