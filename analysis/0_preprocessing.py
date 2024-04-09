@@ -43,6 +43,7 @@ files = osf_listfiles(
 alldata_sub = pd.DataFrame()  # Initialize empty dataframe
 alldata_ig = pd.DataFrame()  # Initialize empty dataframe
 alldata_sat = pd.DataFrame()  # Initialize empty dataframe
+alldata_sat_practicetrial = pd.DataFrame()  # Initialize empty dataframe
 alldata_aaq = pd.DataFrame()
 alldata_dass = pd.DataFrame()
 
@@ -146,7 +147,25 @@ for i, file in enumerate(files):
             "Correct": sat_trial["correct"].values,
         }
     )
- 
+
+    sat_practicetrial = data[data["screen"] == "sat_practicetrial"]
+    # Skip particpants that did not complete the task
+    if len(sat_practicetrial) == 0:
+        continue
+
+    data_sat_practicetrial = pd.DataFrame(
+        {
+            "Participant": file["name"],
+            "Trial": sat_practicetrial["trial_number"],
+            "Answer": sat_practicetrial["answer"].values,
+            "Correct": sat_practicetrial["correct"].values,
+            "Correct_Answer": sat_practicetrial["answer_correct"].values,
+             "Label_Condition": sat_practicetrial["condition"].values,
+            "RT": sat_practicetrial["rt"].values,
+            "Response": sat_practicetrial["response"].values,
+        }
+    )
+
 
     aaq = data[data["screen"] == "questionnaire_aaq_english"]
     data_aaq = pd.DataFrame(
@@ -228,19 +247,23 @@ for i, file in enumerate(files):
     )
 
     # Mege dataframes ----------------------------------------------------
-    alldata_sub = pd.concat([alldata_sub, data_sub], axis=0)
-    alldata_sat = pd.concat([alldata_sat, data_sat], axis=0)
+    alldata_sub = pd.concat([alldata_sub, data_sub], axis=0) 
+    alldata_sat = pd.concat([alldata_sat, data_sat], axis=0)  
     alldata_aaq = pd.concat([alldata_aaq, data_aaq], axis=0)
     alldata_dass = pd.concat([alldata_dass, data_dass], axis=0)
     alldata_ig = pd.concat([alldata_ig, data_ig], axis=0)
+    alldata_sat_practicetrial = pd.concat([alldata_sat_practicetrial, data_sat_practicetrial], axis=0)  
 
 
 
 alldata_sub.to_csv("../data/rawdata_participants.csv",index=False)
-alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
+#alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
 alldata_aaq.to_csv("../data/rawdata_aaq.csv", index=False)
 alldata_dass.to_csv("../data/rawdata_dass.csv", index=False)
 alldata_ig.to_csv("../data/rawdata_ig.csv", index=False)
+alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
+alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
+alldata_sat_practicetrial.to_csv("../data/rawdata_practice_sat.csv", index=False)
 
 
 
