@@ -94,22 +94,37 @@ for i, file in enumerate(files):
     dem2 = json.loads(dem2["response"])
 
     data_sub["Age"] = dem2["age"]
-    #data_sub["Country"] = dem2["country"]
-    #data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+    data_sub["Country"] = dem2["country"]
+    data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+
+# Extract past psychiatric data
+    psych_past = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Have you <b>ever</b> been diagnosed with any of the following pathologies ?</p>']
+    past_psych_response = psych_past["response"].values[0] if not psych_past.empty else np.nan
+
+# Add past psychiatric data to data_sub DataFrame
+    data_sub["Past Psychiatric"] = past_psych_response
+
+# Extract current psychiatric data
+    psych_current = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Are you <b>currently</b> diagnosed with any of the following pathologies ?</p>']
+    current_psych_response = psych_current["response"].values[0] if not psych_current.empty else np.nan
+
+# Add current psychiatric data to data_sub DataFrame
+    data_sub["Current Psychiatric"] = current_psych_response
 
 
+# Extract meditation data
+    meditation = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Do you meditate regularly? E.g. at least once a week?</p>']
+    meditation_response = meditation["response"].values[0] if not meditation.empty else np.nan
 
+# Add meditation data to data_sub DataFrame
+    data_sub["Meditation"] = meditation_response
 
+# Extract psychedelic data
+    psychedelic = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Have you taken a psychedelic drug in the last 6 months? (E.g. LSD, psilocybin mushrooms, ayahuasca)</p>']
+    psychedelic_response = psychedelic["response"].values[0] if not psychedelic.empty else np.nan
 
-
-
-
-
-    
-
-
-
-
+# Add psychedelic data to data_sub DataFrame
+    data_sub["Psychedelics"] = psychedelic_response
 
     # Self Association ----------------------------------------------------
     sat_trial = data[data["screen"] == "sat_trial"]
