@@ -1,49 +1,49 @@
-Participant,Experiment_Duration,Date_OSF,Date,Time,Browser,Mobile,Platform,Screen_Width,Screen_Height,Sex,Education,Student,Language_Level,Age,Past Psychiatric,Current Psychiatric,Meditation,Psychedelics
-v3hkn0g0za,32.99798333333333,2024-04-08 17:41:15.362872+00:00,08/04/2024,19:08:00,chrome,False,Windows 10,1536.0,738.0,Homme,Université (master) <sub><sup>ou équivalent</sup></sub>,Oui,Langue maternelle,21,,,,
-210h5uz713,45.25281666666667,2024-04-07 18:27:52.013915+00:00,07/04/2024,19:42:19,edge-chromium,False,Windows 10,1536.0,746.0,Femme,Université (licence) <sub><sup>ou équivalent</sup></sub>,Oui,Langue maternelle,rr,,,,
-3vosqpph84,44.91256666666666,2024-03-26 17:48:02.782400+00:00,26/03/2024,13:02:57,chrome,False,Windows 10,1600.0,765.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,Native,29,0,1,1,
-fqy71bajv6,38.18991666666667,2024-03-26 14:29:22.803958+00:00,26/03/2024,15:51:09,chrome,False,Windows 10,1280.0,598.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,No,Fluent,35,1,1,1,
-sx9kmgaj4y,24.873766666666665,2024-03-26 10:19:55.114040+00:00,26/03/2024,10:54:52,chrome,False,Mac OS,1358.0,673.0,Homme,,,,,,,,
-ue57u9arlj,31.38865,2024-03-25 17:32:50.507210+00:00,25/03/2024,18:01:21,chrome,False,Mac OS,1358.0,673.0,Femme,,,,,,,,
-9buso7t050,30.40266666666667,2024-03-25 14:22:21.707340+00:00,25/03/2024,14:51:48,chrome,False,Mac OS,1358.0,673.0,Female,,,,XXX,1,1,1,0
-veqzcl1wep,35.619883333333334,2024-03-22 17:36:26.212680+00:00,22/03/2024,18:00:42,edge-chromium,False,Windows 10,1536.0,746.0,Femme,Université (licence) <sub><sup>ou équivalent</sup></sub>,Oui,langue maternelle,22,,,,
-2nqz6f4zpj,57.88995,2024-03-22 12:09:21.304673+00:00,22/03/2024,12:11:05,chrome,False,Mac OS,1200.0,655.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,native,24,,,,
-0uouk7qssy,42.00315,2024-03-21 11:54:36.276192+00:00,21/03/2024,13:12:19,chrome,False,Windows 10,1366.0,679.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,intermediate,24,0,1,1,1
-0u5okhrpdu,32.45761666666667,2024-03-21 11:42:55.547753+00:00,21/03/2024,11:10:23,edge-chromium,False,Windows 10,1872.0,924.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,24,0,0,1,1
-gb480fgn5a,30.211616666666664,2024-03-21 11:42:20.259957+00:00,21/03/2024,12:11:54,chrome,False,Windows 10,1920.0,919.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,native,25,1,1,1,1
-kf6zle9vxe,47.64635,2024-03-20 14:55:50.596605+00:00,20/03/2024,16:08:13,chrome,False,Windows 10,1350.0,632.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,28,1,1,0,1
-x642abd37o,30.66303333333333,2024-03-20 14:39:41.035079+00:00,20/03/2024,16:08:48,chrome,False,Windows 10,1920.0,911.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,27,1,1,0,1
-km4r9pss22,38.46685,2024-03-20 14:27:44.410552+00:00,20/03/2024,14:48:51,opera,False,Windows 10,1879.0,931.0,Male,High school,Yes,fluent,20,0,0,0,0
-una9c3lodk,40.540083333333335,2024-03-20 14:27:43.833234+00:00,20/03/2024,15:46:59,chrome,False,Windows 10,1536.0,695.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,intermediate,34,1,1,1,1
-sg0t2p08et,33.46,2024-03-20 14:21:05.956318+00:00,20/03/2024,14:47:28,chrome,False,Windows 10,1920.0,919.0,Male,High school,No,fluent,21,1,1,1,1
-rqtdu85y4b,50.84101666666666,2024-03-19 08:13:12.493583+00:00,19/03/2024,09:22:05,chrome,False,Windows 10,1920.0,945.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,26,1,1,0,1
-gf04fuxx3w,47.21408333333333,2024-03-19 07:41:39.759324+00:00,19/03/2024,08:54:03,chrome,False,Windows 10,905.0,916.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,native,28,0,1,1,1
-oyah60q1b7,44.06698333333333,2024-03-19 07:38:54.539437+00:00,19/03/2024,08:54:19,firefox,False,Windows 10,1366.0,681.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,22,1,1,0,1
-fedgy2jver,35.77411666666667,2024-03-19 07:29:32.484451+00:00,19/03/2024,08:53:28,edge-chromium,False,Windows 10,1356.0,653.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,23,0,1,0,1
-t4znea6bqz,35.45105,2024-03-19 07:29:11.283814+00:00,19/03/2024,00:53:26,chrome,False,Mac OS,2240.0,1114.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,37,0,1,1,1
-pb49ft7g04,31.848033333333333,2024-03-18 22:42:04.080693+00:00,18/03/2024,23:10:04,chrome,False,Windows 10,2286.0,1122.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,fluent,29,1,1,1,1
-1etdqtmyjk,104.83615,2024-03-18 15:50:40.002510+00:00,18/03/2024,15:05:41,firefox,False,Windows 10,1920.0,927.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,22,0,0,0,1
-cwddlcvdeb,40.9445,2024-03-18 14:51:13.276895+00:00,18/03/2024,16:10:01,edge-chromium,False,Windows 10,2320.0,1167.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,55,1,1,0,1
-xv6v1srwc7,37.17876666666667,2024-03-18 14:51:03.317644+00:00,18/03/2024,16:13:36,chrome,False,Windows 10,1920.0,953.0,Male,High school,No,fluent,28,1,1,0,1
-duvm8v774f,40.03996666666667,2024-03-18 14:42:43.830052+00:00,18/03/2024,16:02:28,chrome,False,Windows 10,1231.0,569.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,native,52,0,0,1,1
-1gekw29k7e,30.93765,2024-03-18 14:33:38.866948+00:00,18/03/2024,14:02:28,safari,False,Mac OS,1440.0,820.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,intermediate,24,0,0,1,1
-umjwc3ll4v,58.9598,2024-03-18 11:43:57.553210+00:00,18/03/2024,12:44:38,chrome,False,Windows 10,1536.0,730.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,24,1,1,0,1
-lb27vnxcsa,35.5314,2024-03-18 11:24:23.670773+00:00,18/03/2024,11:48:42,chrome,False,Windows 10,1920.0,911.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,41,1,1,0,1
-wb2m3xzg0y,36.66096666666667,2024-03-18 11:21:18.313277+00:00,18/03/2024,11:44:30,chrome,False,Windows 10,1920.0,945.0,Female,High school,No,fluent,33,0,0,1,1
-dncnzuyfem,29.073566666666668,2024-03-18 11:18:12.319261+00:00,18/03/2024,10:48:47,chrome,False,Windows 10,1707.0,906.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,27,1,1,1,0
-fo67ktc6da,31.382150000000003,2024-03-18 11:17:01.790845+00:00,18/03/2024,10:45:27,chrome,False,Windows 10,1280.0,863.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,24,0,1,1,1
-s8xxstxp2u,59.09473333333334,2024-03-18 08:02:30.648797+00:00,18/03/2024,09:03:05,chrome,False,Windows 10,1366.0,607.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,32,1,1,0,1
-z6t96r35d9,52.17301666666666,2024-03-18 07:57:20.459073+00:00,18/03/2024,09:04:55,firefox,False,Windows 10,1920.0,927.0,Male,High school,No,native,29,0,1,0,1
-p55nzqz0lh,34.54918333333333,2024-03-18 07:48:46.921733+00:00,18/03/2024,00:14:07,chrome,False,Windows 10,1920.0,919.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,intermediate,32,1,1,1,1
-7mfx371l3b,45.22116666666667,2024-03-18 07:47:14.823379+00:00,18/03/2024,07:01:49,chrome,False,Windows 10,1707.0,932.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,35,0,0,1,1
-z6z3xvnogz,43.1467,2024-03-18 07:44:00.339039+00:00,18/03/2024,09:00:35,chrome,False,Windows 10,1280.0,551.0,Female,University (doctorate),Yes,fluent,33,0,0,0,1
-90dvcgymx4,36.28426666666667,2024-03-18 07:40:14.878060+00:00,18/03/2024,09:03:38,chrome,False,Windows 10,1600.0,773.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,30,1,1,0,1
-3psb0w4l7h,34.901500000000006,2024-03-18 07:36:15.756852+00:00,18/03/2024,08:01:09,chrome,False,Mac OS,1440.0,789.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,23,1,1,1,1
-oybcel2f4k,33.88505,2024-03-18 07:35:10.228364+00:00,18/03/2024,09:01:05,edge-chromium,False,Windows 10,1488.0,750.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,fluent,40,1,1,0,1
-nt5jdgqnwb,32.002500000000005,2024-03-18 07:32:47.548318+00:00,18/03/2024,08:00:37,chrome,False,Windows 10,1920.0,919.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,fluent,42,1,1,0,1
-pkcw5zxyb0,42.64536666666667,2024-03-16 16:55:37.076173+00:00,16/03/2024,17:12:47,chrome,False,Windows 10,1920.0,945.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,30,1,1,1,1
-rf53ugeqms,33.471716666666666,2024-03-16 16:46:46.809455+00:00,16/03/2024,16:13:12,chrome,False,Windows 10,1920.0,931.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,24,1,1,1,1
-g2y9cq189j,33.746900000000004,2024-03-16 16:46:11.497727+00:00,16/03/2024,17:12:19,firefox,False,Windows 10,1461.0,751.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,30,1,1,1,1
-sy3hx253v1,39.500099999999996,2024-03-13 11:19:11.814592+00:00,13/03/2024,11:39:17,opera,False,Windows 10,1879.0,970.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,26,1,1,1,1
-cag9mbpevo,30.637999999999998,2024-03-13 10:13:17.360012+00:00,13/03/2024,10:42:20,chrome,False,Mac OS,1090.0,571.0,Male,,,,,1,1,0,0
-0p3e3fqh0w,16.427316666666666,2024-03-11 18:25:10.438397+00:00,11/03/2024,19:08:37,chrome,False,Mac OS,1090.0,571.0,Male,,,,,1,1,1,1
+Participant,Experiment_Duration,Date_OSF,Date,Time,Browser,Mobile,Platform,Screen_Width,Screen_Height,Sex,Education,Student,Language_Level,Age,Past Psychiatric,Past Psychiatric Diagnosis,Current Psychiatric,Meditation,Psychedelics
+v3hkn0g0za,32.99798333333333,2024-04-08 17:41:15.362872+00:00,08/04/2024,19:08:00,chrome,False,Windows 10,1536.0,738.0,Homme,Université (master) <sub><sup>ou équivalent</sup></sub>,Oui,Langue maternelle,21,,,,,
+210h5uz713,45.25281666666667,2024-04-07 18:27:52.013915+00:00,07/04/2024,19:42:19,edge-chromium,False,Windows 10,1536.0,746.0,Femme,Université (licence) <sub><sup>ou équivalent</sup></sub>,Oui,Langue maternelle,rr,,,,,
+3vosqpph84,44.91256666666666,2024-03-26 17:48:02.782400+00:00,26/03/2024,13:02:57,chrome,False,Windows 10,1600.0,765.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,Native,29,0,,1,1,
+fqy71bajv6,38.18991666666667,2024-03-26 14:29:22.803958+00:00,26/03/2024,15:51:09,chrome,False,Windows 10,1280.0,598.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,No,Fluent,35,1,,1,1,
+sx9kmgaj4y,24.873766666666665,2024-03-26 10:19:55.114040+00:00,26/03/2024,10:54:52,chrome,False,Mac OS,1358.0,673.0,Homme,,,,,,,,,
+ue57u9arlj,31.38865,2024-03-25 17:32:50.507210+00:00,25/03/2024,18:01:21,chrome,False,Mac OS,1358.0,673.0,Femme,,,,,,,,,
+9buso7t050,30.40266666666667,2024-03-25 14:22:21.707340+00:00,25/03/2024,14:51:48,chrome,False,Mac OS,1358.0,673.0,Female,,,,XXX,1,,1,1,0
+veqzcl1wep,35.619883333333334,2024-03-22 17:36:26.212680+00:00,22/03/2024,18:00:42,edge-chromium,False,Windows 10,1536.0,746.0,Femme,Université (licence) <sub><sup>ou équivalent</sup></sub>,Oui,langue maternelle,22,,,,,
+2nqz6f4zpj,57.88995,2024-03-22 12:09:21.304673+00:00,22/03/2024,12:11:05,chrome,False,Mac OS,1200.0,655.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,native,24,,,,,
+0uouk7qssy,42.00315,2024-03-21 11:54:36.276192+00:00,21/03/2024,13:12:19,chrome,False,Windows 10,1366.0,679.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,intermediate,24,0,,1,1,1
+0u5okhrpdu,32.45761666666667,2024-03-21 11:42:55.547753+00:00,21/03/2024,11:10:23,edge-chromium,False,Windows 10,1872.0,924.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,24,0,,0,1,1
+gb480fgn5a,30.211616666666664,2024-03-21 11:42:20.259957+00:00,21/03/2024,12:11:54,chrome,False,Windows 10,1920.0,919.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,native,25,1,,1,1,1
+kf6zle9vxe,47.64635,2024-03-20 14:55:50.596605+00:00,20/03/2024,16:08:13,chrome,False,Windows 10,1350.0,632.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,28,1,,1,0,1
+x642abd37o,30.66303333333333,2024-03-20 14:39:41.035079+00:00,20/03/2024,16:08:48,chrome,False,Windows 10,1920.0,911.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,27,1,,1,0,1
+km4r9pss22,38.46685,2024-03-20 14:27:44.410552+00:00,20/03/2024,14:48:51,opera,False,Windows 10,1879.0,931.0,Male,High school,Yes,fluent,20,0,,0,0,0
+una9c3lodk,40.540083333333335,2024-03-20 14:27:43.833234+00:00,20/03/2024,15:46:59,chrome,False,Windows 10,1536.0,695.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,intermediate,34,1,,1,1,1
+sg0t2p08et,33.46,2024-03-20 14:21:05.956318+00:00,20/03/2024,14:47:28,chrome,False,Windows 10,1920.0,919.0,Male,High school,No,fluent,21,1,,1,1,1
+rqtdu85y4b,50.84101666666666,2024-03-19 08:13:12.493583+00:00,19/03/2024,09:22:05,chrome,False,Windows 10,1920.0,945.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,26,1,,1,0,1
+gf04fuxx3w,47.21408333333333,2024-03-19 07:41:39.759324+00:00,19/03/2024,08:54:03,chrome,False,Windows 10,905.0,916.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,native,28,0,,1,1,1
+oyah60q1b7,44.06698333333333,2024-03-19 07:38:54.539437+00:00,19/03/2024,08:54:19,firefox,False,Windows 10,1366.0,681.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,22,1,,1,0,1
+fedgy2jver,35.77411666666667,2024-03-19 07:29:32.484451+00:00,19/03/2024,08:53:28,edge-chromium,False,Windows 10,1356.0,653.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,23,0,,1,0,1
+t4znea6bqz,35.45105,2024-03-19 07:29:11.283814+00:00,19/03/2024,00:53:26,chrome,False,Mac OS,2240.0,1114.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,37,0,,1,1,1
+pb49ft7g04,31.848033333333333,2024-03-18 22:42:04.080693+00:00,18/03/2024,23:10:04,chrome,False,Windows 10,2286.0,1122.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,fluent,29,1,,1,1,1
+1etdqtmyjk,104.83615,2024-03-18 15:50:40.002510+00:00,18/03/2024,15:05:41,firefox,False,Windows 10,1920.0,927.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,22,0,,0,0,1
+cwddlcvdeb,40.9445,2024-03-18 14:51:13.276895+00:00,18/03/2024,16:10:01,edge-chromium,False,Windows 10,2320.0,1167.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,55,1,,1,0,1
+xv6v1srwc7,37.17876666666667,2024-03-18 14:51:03.317644+00:00,18/03/2024,16:13:36,chrome,False,Windows 10,1920.0,953.0,Male,High school,No,fluent,28,1,,1,0,1
+duvm8v774f,40.03996666666667,2024-03-18 14:42:43.830052+00:00,18/03/2024,16:02:28,chrome,False,Windows 10,1231.0,569.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,native,52,0,,0,1,1
+1gekw29k7e,30.93765,2024-03-18 14:33:38.866948+00:00,18/03/2024,14:02:28,safari,False,Mac OS,1440.0,820.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,intermediate,24,0,,0,1,1
+umjwc3ll4v,58.9598,2024-03-18 11:43:57.553210+00:00,18/03/2024,12:44:38,chrome,False,Windows 10,1536.0,730.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,24,1,,1,0,1
+lb27vnxcsa,35.5314,2024-03-18 11:24:23.670773+00:00,18/03/2024,11:48:42,chrome,False,Windows 10,1920.0,911.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,41,1,,1,0,1
+wb2m3xzg0y,36.66096666666667,2024-03-18 11:21:18.313277+00:00,18/03/2024,11:44:30,chrome,False,Windows 10,1920.0,945.0,Female,High school,No,fluent,33,0,,0,1,1
+dncnzuyfem,29.073566666666668,2024-03-18 11:18:12.319261+00:00,18/03/2024,10:48:47,chrome,False,Windows 10,1707.0,906.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,27,1,,1,1,0
+fo67ktc6da,31.382150000000003,2024-03-18 11:17:01.790845+00:00,18/03/2024,10:45:27,chrome,False,Windows 10,1280.0,863.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,24,0,,1,1,1
+s8xxstxp2u,59.09473333333334,2024-03-18 08:02:30.648797+00:00,18/03/2024,09:03:05,chrome,False,Windows 10,1366.0,607.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,32,1,,1,0,1
+z6t96r35d9,52.17301666666666,2024-03-18 07:57:20.459073+00:00,18/03/2024,09:04:55,firefox,False,Windows 10,1920.0,927.0,Male,High school,No,native,29,0,,1,0,1
+p55nzqz0lh,34.54918333333333,2024-03-18 07:48:46.921733+00:00,18/03/2024,00:14:07,chrome,False,Windows 10,1920.0,919.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,intermediate,32,1,,1,1,1
+7mfx371l3b,45.22116666666667,2024-03-18 07:47:14.823379+00:00,18/03/2024,07:01:49,chrome,False,Windows 10,1707.0,932.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,native,35,0,,0,1,1
+z6z3xvnogz,43.1467,2024-03-18 07:44:00.339039+00:00,18/03/2024,09:00:35,chrome,False,Windows 10,1280.0,551.0,Female,University (doctorate),Yes,fluent,33,0,,0,0,1
+90dvcgymx4,36.28426666666667,2024-03-18 07:40:14.878060+00:00,18/03/2024,09:03:38,chrome,False,Windows 10,1600.0,773.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,30,1,,1,0,1
+3psb0w4l7h,34.901500000000006,2024-03-18 07:36:15.756852+00:00,18/03/2024,08:01:09,chrome,False,Mac OS,1440.0,789.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,Yes,fluent,23,1,,1,1,1
+oybcel2f4k,33.88505,2024-03-18 07:35:10.228364+00:00,18/03/2024,09:01:05,edge-chromium,False,Windows 10,1488.0,750.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,fluent,40,1,,1,0,1
+nt5jdgqnwb,32.002500000000005,2024-03-18 07:32:47.548318+00:00,18/03/2024,08:00:37,chrome,False,Windows 10,1920.0,919.0,Female,University (masters) <sub><sup>or equivalent</sup></sub>,Yes,fluent,42,1,,1,0,1
+pkcw5zxyb0,42.64536666666667,2024-03-16 16:55:37.076173+00:00,16/03/2024,17:12:47,chrome,False,Windows 10,1920.0,945.0,Male,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,30,1,,1,1,1
+rf53ugeqms,33.471716666666666,2024-03-16 16:46:46.809455+00:00,16/03/2024,16:13:12,chrome,False,Windows 10,1920.0,931.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,24,1,,1,1,1
+g2y9cq189j,33.746900000000004,2024-03-16 16:46:11.497727+00:00,16/03/2024,17:12:19,firefox,False,Windows 10,1461.0,751.0,Female,University (bachelor) <sub><sup>or equivalent</sup></sub>,No,fluent,30,1,,1,1,1
+sy3hx253v1,39.500099999999996,2024-03-13 11:19:11.814592+00:00,13/03/2024,11:39:17,opera,False,Windows 10,1879.0,970.0,Male,University (masters) <sub><sup>or equivalent</sup></sub>,No,fluent,26,1,,1,1,1
+cag9mbpevo,30.637999999999998,2024-03-13 10:13:17.360012+00:00,13/03/2024,10:42:20,chrome,False,Mac OS,1090.0,571.0,Male,,,,,1,,1,0,0
+0p3e3fqh0w,16.427316666666666,2024-03-11 18:25:10.438397+00:00,11/03/2024,19:08:37,chrome,False,Mac OS,1090.0,571.0,Male,,,,,1,,1,1,1

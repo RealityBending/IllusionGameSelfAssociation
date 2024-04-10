@@ -105,6 +105,10 @@ for i, file in enumerate(files):
 # Add past psychiatric data to data_sub DataFrame
     data_sub["Past Psychiatric"] = past_psych_response
 
+#Past psychiatric specificities (if applicable)
+
+
+
 # Extract current psychiatric data
     psych_current = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Are you <b>currently</b> diagnosed with any of the following pathologies ?</p>']
     current_psych_response = psych_current["response"].values[0] if not psych_current.empty else np.nan
@@ -160,9 +164,11 @@ for i, file in enumerate(files):
             "Answer": sat_practicetrial["answer"].values,
             "Correct": sat_practicetrial["correct"].values,
             "Correct_Answer": sat_practicetrial["answer_correct"].values,
-             "Label_Condition": sat_practicetrial["condition"].values,
+             "Condition": sat_practicetrial["condition"].values,
             "RT": sat_practicetrial["rt"].values,
             "Response": sat_practicetrial["response"].values,
+            "Shape": sat_practicetrial["shape"].values,
+
         }
     )
 
