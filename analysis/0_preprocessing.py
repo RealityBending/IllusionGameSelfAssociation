@@ -31,7 +31,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
     return files
 
 
-token = ""  # Paste OSF token here to access private repositories
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="aw3x9",  # Data subproject ID
@@ -80,7 +80,10 @@ for i, file in enumerate(files):
         index=[0],
     )
 
-       
+    group_data = data[data["screen"] == "fullscreen"]
+    if not group_data.empty:
+        group = group_data.iloc[0]
+    data_sub["Group"] = group["group"]     
 
     # Demographics -------------------------------------------------------
     dem1 = data[data["screen"] == "demographics_1"].iloc[0]
@@ -263,11 +266,9 @@ for i, file in enumerate(files):
 
 
 alldata_sub.to_csv("../data/rawdata_participants.csv",index=False)
-#alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
 alldata_aaq.to_csv("../data/rawdata_aaq.csv", index=False)
 alldata_dass.to_csv("../data/rawdata_dass.csv", index=False)
 alldata_ig.to_csv("../data/rawdata_ig.csv", index=False)
-alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
 alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
 alldata_sat_practicetrial.to_csv("../data/rawdata_practice_sat.csv", index=False)
 
