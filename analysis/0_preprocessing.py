@@ -46,6 +46,7 @@ alldata_sat = pd.DataFrame()  # Initialize empty dataframe
 alldata_sat_practicetrial = pd.DataFrame()  # Initialize empty dataframe
 alldata_aaq = pd.DataFrame()
 alldata_dass = pd.DataFrame()
+alldata_MEQ_psychsoc = pd.DataFrame()
 
 
 for i, file in enumerate(files):
@@ -236,6 +237,50 @@ for i, file in enumerate(files):
         print(f"No questionnaire_dass21_english data found for participant: {file['name']}")
         data_dass = pd.DataFrame(columns=["DASS_Stress_1", "DASS_Stress_6", "DASS_Stress_8", "DASS_Stress_11", "DASS_Stress_12", "DASS_Stress_14", "DASS_Stress_18", "DASS_Anxiety_2", "DASS_Anxiety_4", "DASS_Anxiety_7", "DASS_Anxiety_9", "DASS_Anxiety_15", "DASS_Anxiety_19", "DASS_Anxiety_20", "DASS_Depression_3", "DASS_Depression_5", "DASS_Depression_10", "DASS_Depression_13", "DASS_Depression_16", "DASS_Depression_17", "DASS_Depression_21"])
 
+#MEQ psychsoc
+    MEQ_psychsoc = data[data["screen"] == "questionnaire_meq_psyche_society"]
+    if not MEQ_psychsoc.empty:
+        MEQ_psychsoc = MEQ_psychsoc.iloc[0]
+        MEQ_psychsoc = json.loads(MEQ_psychsoc["response"])
+        data_MEQ_psychsoc = pd.DataFrame({
+            "Participant": file["name"],
+            "Transcendence_1": MEQ_psychsoc["Transcendence_1"],
+            "PositiveMood_2": MEQ_psychsoc["PositiveMood_2"],
+            "Ineffability_3": MEQ_psychsoc["Ineffability_3"],
+            "Mystical_4": MEQ_psychsoc["Mystical_4"],
+            "Mystical_5": MEQ_psychsoc["Mystical_5"],
+            "Mystical_6": MEQ_psychsoc["Mystical_6"],
+            "Transcendence_7": MEQ_psychsoc["Transcendence_7"],
+            "PositiveMood_8": MEQ_psychsoc["PositiveMood_8"],
+            "Mystical_9": MEQ_psychsoc["Mystical_9"],
+            "Ineffability_10": MEQ_psychsoc["Ineffability_10"],
+            "Transcendence_11": MEQ_psychsoc["Transcendence_11"],
+            "PositiveMood_12": MEQ_psychsoc["PositiveMood_12"],
+            "Transcendence_13": MEQ_psychsoc["Transcendence_13"],
+            "Mystical_14": MEQ_psychsoc["Mystical_14"],
+            "Mystical_15": MEQ_psychsoc["Mystical_15"],
+            "Mystical_16": MEQ_psychsoc["Mystical_16"],
+            "PositiveMood_17": MEQ_psychsoc["PositiveMood_17"],
+            "Mystical_18": MEQ_psychsoc["Mystical_18"],
+            "Transcendence_19": MEQ_psychsoc["Transcendence_19"],
+            "Mystical_20": MEQ_psychsoc["Mystical_20"],
+            "Mystical_21": MEQ_psychsoc["Mystical_21"],
+            "Transcendence_22": MEQ_psychsoc["Transcendence_22"],
+            "Mystical_23": MEQ_psychsoc["Mystical_23"],
+            "Mystical_24": MEQ_psychsoc["Mystical_24"],
+            "Mystical_25": MEQ_psychsoc["Mystical_25"],
+            "Mystical_26": MEQ_psychsoc["Mystical_26"],
+            "PositiveMood_27": MEQ_psychsoc["PositiveMood_27"],
+            "PositiveMood_27": MEQ_psychsoc["PositiveMood_27"],
+            "Mystical_28": MEQ_psychsoc["Mystical_28"],
+            "Ineffability_29": MEQ_psychsoc["Ineffability_29"],
+            "PositiveMood_30": MEQ_psychsoc["PositiveMood_30"]
+        
+
+        }, index=[0])
+    else:
+        print(f"No questionnaire_MEQ data found for participant: {file['name']}")
+        data_MEQ_psychsoc = pd.DataFrame(columns=["Transcendence_1", "PositiveMood_2", "Ineffability_3", "Mystical_4", "Mystical_5", "Mystical_6", "Transcendence_7", "PositiveMood_8", "Mystical_9", "Ineffability_10", "Transcendence_11", "PositiveMood_12", "Transcendence_13", "Mystical_14", "Mystical_15", "Mystical_16", "PositiveMood_17", "Mystical_18", "Transcendence_19", "Mystical_20", "Mystical_21", "Transcendence_22", "Mystical_23", "Mystical_24", "Mystical_25", "Mystical_26", "PositiveMood_27", "Mystical_28", "Ineffability_29", "PositiveMood_30"])
 
     ig_trial = data[data["screen"] == "IG_Trial"]
     # Skip particpants that did not complete the task
@@ -262,6 +307,7 @@ for i, file in enumerate(files):
     alldata_dass = pd.concat([alldata_dass, data_dass], axis=0)
     alldata_ig = pd.concat([alldata_ig, data_ig], axis=0)
     alldata_sat_practicetrial = pd.concat([alldata_sat_practicetrial, data_sat_practicetrial], axis=0)  
+    alldata_MEQ_psychsoc = pd.concat([alldata_MEQ_psychsoc, data_MEQ_psychsoc], axis=0)  
 
 
 
@@ -271,7 +317,8 @@ alldata_dass.to_csv("../data/rawdata_dass.csv", index=False)
 alldata_ig.to_csv("../data/rawdata_ig.csv", index=False)
 alldata_sat.to_csv("../data/rawdata_sat.csv", index=False)
 alldata_sat_practicetrial.to_csv("../data/rawdata_practice_sat.csv", index=False)
+alldata_MEQ_psychsoc.to_csv("../data/rawdata_MEQ_psychsoc.csv", index=False)
 
 
 
-#1+1
+1+1
