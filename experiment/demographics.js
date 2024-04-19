@@ -78,13 +78,14 @@ var demographics_consent_english = {
         // Title
         "<h1>Consent form</h1>" +
         "<p align='left'>In this study, you will have to complete two questionnaires and two tasks.</p>" +
-        "<p align='left'>Questionnaires are about your daily psychological functionning. Tasks are two games to measure your association skills and sensitivity to visual illusions.</p>" +
+        "<p align='left'>The questionnaires are about your daily psychological functioning, and the tasks are two games to measure your association skills and sensitivity to visual illusions.</p>" +
         "<p align='left'>The questionnaires and tasks must be completed alone. <b>Your participation is confidential and your answers will be anonymized.</b> We do not collect your IP address or any other identifying information.</p>" +
-        "<p align='left'>Your data are very valuable for us. In participating, you will contribute to scientific progress. <b>In participating, you accept to follow the instructions and to supply honest answers.</b> You can also refuse to partake without any justification and with absolutely no consequence on your retreat and your relationship with the center's therapists.</p>" +
+        //"<p align='left'>Your data are very valuable to us. In participating, you will contribute to scientific progress. <b>In participating, you accept to follow the instructions and to supply honest answers.</b> You can also refuse to partake without any justification and with absolutely no consequence on your retreat and your relationship with the center's therapists.</p>" +
+        "<p align='left'>Your data are very valuable to us. In participating, you will contribute to scientific progress. <b>In participating, you accept to follow the instructions and to supply honest answers.</b> You can also refuse to partake without any justification and with absolutely no consequences.</p>" +
         "<p align='left'>If you don't want to participate, or if you want to leave the study, you can simply close your browser.</p>" +
-        "<p align='left'>The entire study takes approximately 40 minutes, with questionnaires in between parts of the tasks. Please, stay focus until the screen confirming that your data are saved.</p>" + 
+        "<p align='left'>The entire study takes approximately 40 minutes, with questionnaires in between parts of the tasks. Please, stay focused until the screen confirming that your data are saved appears.</p>" + 
         // "<p>You are completelNote participating or not completing the study will have no consequene z que des vérifications seront effectuées pour s'assurer de la validité des données.<br>Nous nous réservons le droit d'annuler votre participation ou votre compensation dans le cas de détection de réponses non-valides (e.g., réponses au hasard, consignes non lues...).</p>"
-        "<p align='left'><br><sub><sup>If you have any question regarding the study, you can email Baptiste Fauvel (baptiste.fauvel@u-paris.fr). This study has been reviewed and approved by the ethical committee of the University of Paris .</sup></sub></p>",
+        "<p align='left'><br><sub><sup>If you have any questions regarding the study, you can email Baptiste Fauvel (baptiste.fauvel@u-paris.fr). This study has been reviewed and approved by the ethical committee of the University of Paris .</sup></sub></p>",
 
     choices: ["I have read and I accept the terms of the study"],
     data: { screen: "consent" },
