@@ -366,6 +366,10 @@ var meq_instructions =
  "<p>Looking back to the entirety of your strongest psilocybin session, please rate the degree to which any time during that session, you experienced the following phenomena.</p>" +
  "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
 
+ var meq_instructions_psychSoc_Eng = 
+ "<p>Looking back to the entirety of your last psychedelic experience, please rate the degree to which  you experienced the following phenomena.</p>" +
+ "<p>Answer each question according to your feelings, thoughts, and experiences at that moment</p>"
+
 
 var meq_questions = []
 for (var n = 0; n < 30; n++) {
@@ -425,6 +429,16 @@ var meq_psilocybin = {
     questions: meq_questions,
     randomize_question_order: true,
     preamble: meq_instructions_psilocybin,
+    data: {
+        screen: "questionnaire_meq",
+    },
+}
+
+var meq_psychSoc_Eng = {
+    type: jsPsychSurveyLikert,
+    questions: meq_questions,
+    randomize_question_order: true,
+    preamble: meq_instructions_psychSoc_Eng,
     data: {
         screen: "questionnaire_meq",
     },

@@ -633,15 +633,104 @@ var psychedelics_french = {
 }
 
 //Psychedelics history English
-var psychedelics_english = {
+var psychsoc_afterglow_english = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
         '<p style="font-size:18px; color:black;">Have you taken a psychedelic <b>during the last month</b>? (E.g. LSD, psilocybin mushrooms, ayahuasca)</p>',
     choices: ["Yes", "No"],
+    required: true,
     on_finish: function (data) {
         console.log("Psychedelic response_english:", data.button_pressed)
     },
+    data: {
+        screen: "afterglow_english",
+    },
 }
+
+var psychedelics_days_ago_english = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "How many days ago did you last take a classic psychedelic substance? If you are not sure exactly, please give an approximation",
+            required: true
+        }
+    ],
+        data: {
+            screen: "days_ago_english",
+        },
+}
+
+var psychedelics_multichoice_eng = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Thinking about the last time you took a classic psychedelic substance:</b>",
+    questions: [
+        {
+            prompt: "What was your main intention for this experience?",
+            options: ["Recreational", "Therapeutic", "Curiosity", "Spiritual/religious", "Microdosing", "Other",],
+            add_other_option: true,
+            name: "intention",
+            required: true,
+                },
+               
+                {prompt: "What was the main psychedelic substance that you took during this experience?",
+                options: ["Psilocybin/mushrooms/truffles", "LSD/1P-LSD/ALD-52", "Ayahuasca", "N,N-DMT", "Mescaline (Peyote, San Pedro)", "Iboga/Ibogaine", "5-MeO-DMT (Bufo)", "Other",],
+                add_other_option: true,
+                name: "substance",
+                required: true,
+            },
+            {prompt: "How would you rate the subjective dose level of this experience?",
+            options: ["Very low", "Lower than a typical dose", "Typical", "Higher than a typical dose", "Very high", "I'm not sure",],
+            add_other_option: true,
+            name: "dose",
+            required: true,
+        }
+    ],
+    data: {
+        screen: "psychedelic_experience_english",
+},
+}
+
+var psychedelics_others_fr = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Did you use any other substances during this experience? </b>",
+    questions: [
+        {
+            prompt: "Cannabis",
+            options: ["Yes", "No", "Not sure"],
+            name: "cannabis",
+            required: true,
+                },
+               
+                {prompt: "Alcohol",
+                options: ["Yes", "No", "Not sure"],
+                name: "Alcohol",
+                required: true,
+            },
+            {prompt: "Stimulants (e.g. cocaine, amphetamine, cathinones)",
+            options: ["Yes", "No", "Not sure"],
+            name: "stimulants",
+            required: true,
+        },
+        {prompt: "MDMA/ecstasy",
+        options: ["Yes", "No", "Not sure"],
+        name: "MDMA",
+        required: true,
+    },
+    {prompt: "Opiates",
+    options: ["Yes", "No", "Not sure"],
+    name: "Opiates",
+    required: true,
+},
+{prompt: "Dissociatives (e.g., ketamine)",
+    options: ["Yes", "No", "Not sure"],
+    name: "Dissociatives",
+    required: true,
+}
+    ],
+data: {
+    screen: "otherDrugs_Eng"
+},
+};
 
 var psychedelics_freq_english = {
     type: jsPsychSurveyMultiChoice,
@@ -662,7 +751,36 @@ var psychedelics_freq_english = {
             horizontal: true,
         },
     ],
+    data: {
+        screen: "PsychFreq_Eng"
+    },
 }
+
+var psych_soc_english = {
+    timeline: [psychsoc_afterglow_english, psychedelics_days_ago_english, psychedelics_multichoice_eng, psychedelics_others_fr, psychedelics_freq_english,],
+}
+
+var psychedelics_freq_french = {
+    type: jsPsychSurveyMultiChoice,
+    questions: [
+        {
+            prompt: "Indiquez approximativement combien de fois vous avez pris une drogue psychédélique au cours de votre vie",
+            name: "psych_freq",
+            options: [
+                "Jamais",
+                "Une fois",
+                "Entre 2 et 5 fois",
+                "Entre 6 et 10 fois",
+                "Entre 11 et 50 fois",
+                "Entre 51 et 100 fois",
+                "Plus de 100 fois",
+            ],
+            required: true,
+            horizontal: true,
+        },
+    ],
+}
+
 
 //T1 passive control questions
 var Passive_Control_Multichoice = {
