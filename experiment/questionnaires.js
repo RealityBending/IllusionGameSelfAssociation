@@ -92,6 +92,10 @@ var dass_instructions_fr =
     "<p>Indiquez à quel point chaque affirmation s'applique à vous <b>au cours de la dernière semaine.</b></p>" +
     "<p>Il n'y a pas de bonnes ou mauvaises réponses.</p>"
 
+var dass_ketamine_instructions =
+    "<p>Please indicate how much each statement applied to you <b>since your session.</b></p>" +
+    "<p>There are no right or wrong answers.</p>"    
+
 var dass_questions_fr = []
 for (var n = 0; n < 21; n++) {
     dass_questions_fr.push({
@@ -127,6 +131,16 @@ var dass_english = {
     questions: dass_questions_english,
     randomize_question_order: false,
     preamble: dass_instructions,
+    data: {
+        screen: "questionnaire_dass21_english",
+    },
+}
+
+var dass_ketamine = {
+    type: jsPsychSurveyLikert,
+    questions: dass_questions_english,
+    randomize_question_order: false,
+    preamble: dass_ketamine_instructions,
     data: {
         screen: "questionnaire_dass21_english",
     },
@@ -186,6 +200,7 @@ var aaq_labels_fr = [
 var aaq_instructions = "<p>Please rate how each statement apply to you <b>over the past week</b>.</p>"
 var aaq_instructions_fr =
     "<p>Merci d'évaluer à quel point chaque affirmation s'applique à vous <b> au cours de la semaine passée </b> .</p>"
+var aaq_ketamine_instructions = "<p>Please rate how each statement apply to you <b>since your session</b>.</p>"
 
 var aaq_questions_fr = []
 for (var n = 0; n < 7; n++) {
@@ -222,6 +237,16 @@ var aaq_english = {
     questions: aaq_questions_english,
     randomize_question_order: false,
     preamble: aaq_instructions,
+    data: {
+        screen: "questionnaire_aaq_english",
+    },
+}
+
+var aaq_ketamine = {
+    type: jsPsychSurveyLikert,
+    questions: aaq_questions_english,
+    randomize_question_order: false,
+    preamble: aaq_ketamine_instructions,
     data: {
         screen: "questionnaire_aaq_english",
     },
@@ -439,6 +464,16 @@ var meq_psychSoc_Eng = {
     questions: meq_questions,
     randomize_question_order: true,
     preamble: meq_instructions_psychSoc_Eng,
+    data: {
+        screen: "questionnaire_meq",
+    },
+}
+
+var meq_ketamine = {
+    type: jsPsychSurveyLikert,
+    questions: meq_questions,
+    randomize_question_order: true,
+    preamble: meq_instructions,
     data: {
         screen: "questionnaire_meq",
     },
