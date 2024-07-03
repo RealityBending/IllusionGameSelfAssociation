@@ -846,6 +846,16 @@ var psychedelics_retreat_date = {
     ],
 }
 
+//T1 ketamine questions
+var ketamine_session_date = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Please enter the date of your ketamine session ",
+            required: true,
+        },
+    ],
+}
 
 var psychedelics_meditation_T1 = {
     type: jsPsychSurveyMultiChoice,
