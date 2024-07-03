@@ -172,14 +172,14 @@ var demographics_info = {
 var email = {
     type: jsPsychSurveyText,
     questions: [
-        {prompt: 'Please enter your email address', required: true},
+        {prompt: 'Please enter the last four digits of your phone number', required: true},
     ]
 };
 
 var email_T1 = {
     type: jsPsychSurveyText,
     questions: [
-        {prompt: 'Please enter the same email address as last time', required: true},
+        {prompt: 'Please enter the last four digits of your phone number', required: true},
     ]
 };
 
