@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Title shown in tab -->
+        <title>Experiment</title>
+
+        <!-- Load plugins used in Demographics -->
+        <script src="https://unpkg.com/jspsych@7.3.3"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.3"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select@1.1.3"></script>
+
+        <!-- To save data via DataPipe (for online experiments) -->
+        <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.3"></script>
+
+        <!-- Load plugins used in Task -->
+        <script src="https://unpkg.com/@jspsych/plugin-preload@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.0.0"></script>
+        <!-- Load scripts -->
+        <script src="questionnaires.js"></script>
+        <script src="demographics.js"></script>
+        <script src="SelfAssociation/instructions.js"></script>
+        <script src="SelfAssociation/SelfAssociation.js"></script>
+
+        <!-- Load Illusion Game scripts -->
+        <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response"></script>
+        <script src="https://realitybending.github.io/IllusionGame/v3/stimuli/stimuli_training.js"></script>
+        <script src="https://realitybending.github.io/IllusionGame/v3/stimuli/stimuli_part1.js"></script>
+        <script src="https://realitybending.github.io/IllusionGame/v3/stimuli/stimuli_part2.js"></script>
+        <script src="https://realitybending.github.io/IllusionGame/v3/instructions.js"></script>
+        <script src="https://realitybending.github.io/IllusionGame/v3/IllusionGame.js"></script>
+
+        <link
+            href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <style>
+            /* set canvas to be full screen */
+            .jspsych-content {
+                max-width: 100%;
+            }
+
+            .multichoice-narrow {
+                max-width: 50%;
+            }
+        </style>
+    </head>
+
+    <body></body>
+
+    <script>
+        // Initialize experiment =================================================
+        var timeline = []
+
+        var jsPsych = initJsPsych({
+            on_finish: function () {
+                // jsPsych.data.displayData("json") // Display data in browser
+                let info = jsPsych.data.get().filter({ screen: "browser_info" }).values()[0]
+                if (info["prolific_id"] != undefined) {
+                    window.location = "https://app.prolific.com/submissions/complete?cc=C1HX19EK"
+                } else {
+                    window.location = "https://realitybending.github.io/research/#participate"
+                }
+            },
+        })
+
+        // Enter fullscreen mode
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: true,
+            delay_after: 0,
+            data: { screen: "fullscreen", group: "ketamine_T1" },
+        })
+
+        // Demographics ========================================================
+        // Force encodage français éè
+        timeline.push(demographics_browser_info)
+        timeline.push(email_T1)
+        timeline.push(ketamine_session_date)
+        timeline.push(psychedelics_meditation_T1)
+        //timeline.push(demographics_consent_english)
+        timeline.push(demographics_info_english)
+        //timeline.push(past_psych_english, if_node_english)
+        //timeline.push(current_psych_english, if_node1_english)
+        //timeline.push(meditation_english, if_node2_english)
+        //timeline.push(psychedelics_english)
+        //timeline.push(psychedelics_freq_english)
+
+        // Self-Association Task (SAT) =========================================
+        // timeline.push(sat_preload)
+        // timeline.push(sat_instructions_general)
+        // timeline.push(sat_strangerlabel)
+        // timeline.push(sat_friendlabel)
+
+        // // Practice
+        // timeline.push(sat_instructions_practice)
+        // timeline.push(sat_assignmentscreen)
+        // timeline.push(sat_practice)
+        // timeline.push(sat_practice_end)
+
+        // // Matching task
+        // timeline.push(sat_instructions_matching)
+        // timeline.push(sat_assignmentscreen)
+        // timeline.push(sat_block)
+        // timeline.push(sat_block_debrief)
+
+        // Illusion Game =======================================================
+
+        // Randomize order of the 2 parts
+        var ig_parts = [
+            IG_create_block(stimuli_part1, (show_marker = false)),
+            IG_create_block(stimuli_part2, (show_marker = false)),
+        ]
+        igs = jsPsych.randomization.shuffle(ig_parts)
+
+        // Add to timeline
+        timeline.push(ig_practice)
+        timeline.push(ig_parts[0])
+
+        // Questionnaires =======================================================
+        var Qs = [aaq_ketamine, dass_ketamine, meq_ketamine]
+        Qs = jsPsych.randomization.shuffle(Qs) // Randomize
+        for (var i = 0; i < Qs.length; i++) {
+            timeline.push(Qs[i]) // Push each element to timeline
+        }
+
+        timeline.push(ig_parts[1])
+
+        // Self-Association Task (SAT) =========================================
+        timeline.push(sat_preload)
+        timeline.push(sat_instructions_general)
+        timeline.push(sat_strangerlabel)
+        timeline.push(sat_friendlabel)
+
+        // Practice
+        timeline.push(sat_instructions_practice)
+        timeline.push(sat_assignmentscreen)
+        timeline.push(sat_practice)
+        timeline.push(sat_practice_end)
+
+        // Matching task
+        timeline.push(sat_instructions_matching)
+        timeline.push(sat_assignmentscreen)
+        timeline.push(sat_block)
+        timeline.push(sat_block_debrief)
+
+        // End =================================================================
+        timeline.push(demographics_waitdatasaving_english)
+
+        // Save data via DataPipe
+        timeline.push({
+            type: jsPsychPipe,
+            action: "save",
+            experiment_id: "S66gI840EBvH", // This in generated in the DataPipe interface
+            filename: `${jsPsych.randomization.randomID(10)}.csv`,
+            data_string: () => jsPsych.data.get().csv(),
+        })
+
+        // Exit fullscreen mode
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+        })
+
+        timeline.push(demographics_endscreen_english)
+        /* ----------------- Run the timeline ----------------- */
+        // jsPsych.simulate(timeline, "visual")  // Uncomment for simulation mode
+        jsPsych.run(timeline)
+    </script>
+</html>
