@@ -79,7 +79,7 @@
 
         // Demographics ========================================================
         // Force encodage français éè
-        timeline.push(demographics_browser_info)
+        //timeline.push(demographics_browser_info)
         timeline.push(email_T1)
         timeline.push(ketamine_session_date)
         timeline.push(psychedelics_meditation_T1)
@@ -92,22 +92,22 @@
         //timeline.push(psychedelics_freq_english)
 
         // Self-Association Task (SAT) =========================================
-        // timeline.push(sat_preload)
-        // timeline.push(sat_instructions_general)
-        // timeline.push(sat_strangerlabel)
-        // timeline.push(sat_friendlabel)
+        timeline.push(sat_preload)
+        timeline.push(sat_instructions_general)
+        timeline.push(sat_strangerlabel)
+        timeline.push(sat_friendlabel)
 
         // // Practice
-        // timeline.push(sat_instructions_practice)
-        // timeline.push(sat_assignmentscreen)
-        // timeline.push(sat_practice)
-        // timeline.push(sat_practice_end)
+        timeline.push(sat_instructions_practice)
+        timeline.push(sat_assignmentscreen)
+        timeline.push(sat_practice)
+        timeline.push(sat_practice_end)
 
         // // Matching task
-        // timeline.push(sat_instructions_matching)
-        // timeline.push(sat_assignmentscreen)
-        // timeline.push(sat_block)
-        // timeline.push(sat_block_debrief)
+        timeline.push(sat_instructions_matching)
+        timeline.push(sat_assignmentscreen)
+        timeline.push(sat_block)
+        timeline.push(sat_block_debrief)
 
         // Illusion Game =======================================================
 
@@ -119,7 +119,7 @@
         igs = jsPsych.randomization.shuffle(ig_parts)
 
         // Add to timeline
-        timeline.push(ig_practice)
+        //timeline.push(ig_practice)
         timeline.push(ig_parts[0])
 
         // Questionnaires =======================================================
@@ -130,24 +130,6 @@
         }
 
         timeline.push(ig_parts[1])
-
-        // Self-Association Task (SAT) =========================================
-        timeline.push(sat_preload)
-        timeline.push(sat_instructions_general)
-        timeline.push(sat_strangerlabel)
-        timeline.push(sat_friendlabel)
-
-        // Practice
-        timeline.push(sat_instructions_practice)
-        timeline.push(sat_assignmentscreen)
-        timeline.push(sat_practice)
-        timeline.push(sat_practice_end)
-
-        // Matching task
-        timeline.push(sat_instructions_matching)
-        timeline.push(sat_assignmentscreen)
-        timeline.push(sat_block)
-        timeline.push(sat_block_debrief)
 
         // End =================================================================
         timeline.push(demographics_waitdatasaving_english)
