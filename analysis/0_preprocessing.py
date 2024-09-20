@@ -326,6 +326,3 @@ alldata_ig.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssoci
 alldata_sat.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_sat.csv", index=False)
 alldata_sat_practicetrial.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_practice_sat.csv", index=False)
 alldata_MEQ_psychsoc.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_MEQ_psychsoc.csv", index=False)
-
-
-1+1
