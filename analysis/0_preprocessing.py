@@ -1,5 +1,4 @@
 import json
-
 import numpy as np
 import pandas as pd
 
@@ -319,10 +318,10 @@ for i, file in enumerate(files):
 #alldata_sat_practicetrial.to_csv("../data/rawdata_practice_sat.csv", index=False)
 #alldata_MEQ_psychsoc.to_csv("../data/rawdata_MEQ_psychsoc.csv", index=False)
     
-alldata_sub.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_participants.csv",index=False)
-alldata_aaq.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_aaq.csv", index=False)
-alldata_dass.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_dass.csv", index=False)
-alldata_ig.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_ig.csv", index=False)
-alldata_sat.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_sat.csv", index=False)
-alldata_sat_practicetrial.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_practice_sat.csv", index=False)
-alldata_MEQ_psychsoc.to_csv("/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_MEQ_psychsoc.csv", index=False)
+alldata_sub.to_csv('/Users/baptiste/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_participants.csv',index=False)
+alldata_aaq.to_csv('/Users/baptiste/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_aaq.csv', index=False)
+alldata_dass.to_csv('/Users/baptiste/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_dass.csv', index=False)
+alldata_ig.to_csv('/Users/baptiste/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_ig.csv', index=False)
+alldata_sat.to_csv('/Users/baptiste/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_sat.csv', index=False)
+alldata_sat_practicetrial.to_csv('/Users/baptiste/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_practice_sat.csv', index=False)
+alldata_MEQ_psychsoc.to_csv('/Users/baptiste/Documents/GitHub/IllusionGameSelfAssociation/data/rawdata_MEQ_psychsoc.csv', index=False)
