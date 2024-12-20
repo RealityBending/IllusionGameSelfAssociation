@@ -101,19 +101,27 @@ for i, file in enumerate(files):
     #data_sub["Country"] = dem2["country"]
     #data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
 
-# Extract past psychiatric data
-    psych_past = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Have you <b>ever</b> been diagnosed with any of the following pathologies ?</p>']
+### Extract past psychiatric data ###
+    psych_past = data[
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Have you <b>ever</b> been diagnosed with any of the following pathologies ?</p>') |
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Avez-vous <b>déjà</b> été diagnostiqué(e) pour une des pathologies suivantes ?</p>')
+]
+# Extraire la réponse pour le diagnostic passé
     past_psych_response = psych_past["response"].values[0] if not psych_past.empty else np.nan
 
-# Add past psychiatric data to data_sub DataFrame
+# Ajouter les données psychiatriques passées au DataFrame data_sub
     data_sub["Past Psychiatric"] = past_psych_response
+
 
 #Past psychiatric specificities (if applicable)
 
 
 
 # Extract current psychiatric data
-    psych_current = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Are you <b>currently</b> diagnosed with any of the following pathologies ?</p>']
+    psych_current = data[
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Are you <b>currently</b> diagnosed with any of the following pathologies ?</p>') |
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Etes-vous <b>en ce moment</b> diagnostiqué(e) pour une des pathologies suivantes?</p>')
+]   
     current_psych_response = psych_current["response"].values[0] if not psych_current.empty else np.nan
 
 # Add current psychiatric data to data_sub DataFrame
@@ -121,14 +129,20 @@ for i, file in enumerate(files):
 
 
 # Extract meditation data
-    meditation = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Do you meditate regularly? E.g. at least once a week?</p>']
+    meditation = data[
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Do you meditate regularly? E.g. at least once a week?</p>') |
+    (data["stimulus"] =='<p style="font-size:18px; color:black;">Méditez-vous régulièrement? E.g. au moins une fois par semaine</p>')
+]  
     meditation_response = meditation["response"].values[0] if not meditation.empty else np.nan
 
 # Add meditation data to data_sub DataFrame
     data_sub["Meditation"] = meditation_response
 
 # Extract psychedelic data
-    psychedelic = data[data["stimulus"] == '<p style="font-size:18px; color:black;">Have you taken a psychedelic drug in the last 6 months? (E.g. LSD, psilocybin mushrooms, ayahuasca)</p>']
+    psychedelic = data[
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Have you taken a psychedelic drug in the last 6 months? (E.g. LSD, psilocybin mushrooms, ayahuasca)</p>') | 
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Avez-vous déjà consommé une substance psychédélique au cours de votre vie (e.g., LSD, champignons à psilocybe, ayahuasca) ?</p>')
+]   
     psychedelic_response = psychedelic["response"].values[0] if not psychedelic.empty else np.nan
 
 # Add psychedelic data to data_sub DataFrame
@@ -176,14 +190,7 @@ for i, file in enumerate(files):
     )
 
 
-    aaq = data[data["screen"] == "questionnaire_aaq_english"]
-    data_aaq = pd.DataFrame(
-        {
-        },
-        index=[0],
-    )
-
-    aaq = data[data["screen"] == "questionnaire_aaq_english"]
+    aaq = data[(data["screen"] == "questionnaire_aaq_english") | (data["screen"] == "questionnaire_aaq_fr")]
     if not aaq.empty:
         aaq = aaq.iloc[0]
         aaq = json.loads(aaq["response"])
@@ -198,46 +205,46 @@ for i, file in enumerate(files):
             "AAQ7": aaq["AAQ_7"]
         }, index=[0])
     else:
-        print(f"No questionnaire_aaq_english data found for participant: {file['name']}")
+        print(f"No questionnaire_aaq_english or questionnaire_aaq_fr data found for participant: {file['name']}")
         data_aaq = pd.DataFrame(columns=["AAQ1", "AAQ2", "AAQ3", "AAQ4", "AAQ5", "AAQ6", "AAQ7"])
 
 
-    dass = data[data["screen"] == "questionnaire_dass21_english"]
+    dass = data[(data["screen"] == "questionnaire_dass21_english") | (data["screen"] == "questionnaire_aaq_fr")]
     if not dass.empty:
         dass = dass.iloc[0]
         dass = json.loads(dass["response"])
         data_dass = pd.DataFrame({
             "Participant": file["name"],
-            "DASS_Stress_1": dass["DASS_Stress_1"],
-            "DASS_Stress_6": dass["DASS_Stress_6"],
-            "DASS_Stress_8": dass["DASS_Stress_8"],
-            "DASS_Stress_11": dass["DASS_Stress_11"],
-            "DASS_Stress_12": dass["DASS_Stress_12"],
-            "DASS_Stress_14": dass["DASS_Stress_14"],
-            "DASS_Stress_18": dass["DASS_Stress_18"],
-            "DASS_Anxiety_2": dass["DASS_Anxiety_2"],
-            "DASS_Anxiety_4": dass["DASS_Anxiety_4"],
-            "DASS_Anxiety_7": dass["DASS_Anxiety_7"],
-            "DASS_Anxiety_9": dass["DASS_Anxiety_9"],
-            "DASS_Anxiety_15": dass["DASS_Anxiety_15"],
-            "DASS_Anxiety_19": dass["DASS_Anxiety_19"],
-            "DASS_Anxiety_20": dass["DASS_Anxiety_20"],
-            "DASS_Depression_3": dass["DASS_Depression_3"],
-            "DASS_Depression_5": dass["DASS_Depression_5"],
-            "DASS_Depression_10": dass["DASS_Depression_10"],
-            "DASS_Depression_13": dass["DASS_Depression_13"],
-            "DASS_Depression_16": dass["DASS_Depression_16"],
-            "DASS_Depression_17": dass["DASS_Depression_17"],
-            "DASS_Depression_21": dass["DASS_Depression_21"]
+            "DASS_Stress_1": dass.get("DASS_Stress_1, np.nan"),
+            "DASS_Stress_6": dass.get("DASS_Stress_6, np.nan"),
+            "DASS_Stress_8": dass.get("DASS_Stress_8"),
+            "DASS_Stress_11": dass.get("DASS_Stress_11"),
+            "DASS_Stress_12": dass.get("DASS_Stress_12"),
+            "DASS_Stress_14": dass.get("DASS_Stress_14"),
+            "DASS_Stress_18": dass.get("DASS_Stress_18"),
+            "DASS_Anxiety_2": dass.get("DASS_Anxiety_2"),
+            "DASS_Anxiety_4": dass.get("DASS_Anxiety_4"),
+            "DASS_Anxiety_7": dass.get("DASS_Anxiety_7"),
+            "DASS_Anxiety_9": dass.get("DASS_Anxiety_9"),
+            "DASS_Anxiety_15": dass.get("DASS_Anxiety_15"),
+            "DASS_Anxiety_19": dass.get("DASS_Anxiety_19"),
+            "DASS_Anxiety_20": dass.get("DASS_Anxiety_20"),
+            "DASS_Depression_3": dass.get("DASS_Depression_3"),
+            "DASS_Depression_5": dass.get("DASS_Depression_5"),
+            "DASS_Depression_10": dass.get("DASS_Depression_10"),
+            "DASS_Depression_13": dass.get("DASS_Depression_13"),
+            "DASS_Depression_16": dass.get("DASS_Depression_16"),
+            "DASS_Depression_17": dass.get("DASS_Depression_17"),
+            "DASS_Depression_21": dass.get("DASS_Depression_21")
 
 
         }, index=[0])
     else:
-        print(f"No questionnaire_dass21_english data found for participant: {file['name']}")
+        print(f"No questionnaire_dass21_english or questionnaire_dass21_fr data found for participant: {file['name']}")
         data_dass = pd.DataFrame(columns=["DASS_Stress_1", "DASS_Stress_6", "DASS_Stress_8", "DASS_Stress_11", "DASS_Stress_12", "DASS_Stress_14", "DASS_Stress_18", "DASS_Anxiety_2", "DASS_Anxiety_4", "DASS_Anxiety_7", "DASS_Anxiety_9", "DASS_Anxiety_15", "DASS_Anxiety_19", "DASS_Anxiety_20", "DASS_Depression_3", "DASS_Depression_5", "DASS_Depression_10", "DASS_Depression_13", "DASS_Depression_16", "DASS_Depression_17", "DASS_Depression_21"])
 
 #MEQ psychsoc
-    MEQ_psychsoc = data[data["screen"] == "questionnaire_meq_psyche_society"]
+    MEQ_psychsoc = data[(data["screen"] == "questionnaire_meq_psyche_society") | (data["screen"] == "questionnaire_meq")]
     if not MEQ_psychsoc.empty:
         MEQ_psychsoc = MEQ_psychsoc.iloc[0]
         MEQ_psychsoc = json.loads(MEQ_psychsoc["response"])
