@@ -209,7 +209,7 @@ for i, file in enumerate(files):
         data_aaq = pd.DataFrame(columns=["AAQ1", "AAQ2", "AAQ3", "AAQ4", "AAQ5", "AAQ6", "AAQ7"])
 
 
-    dass = data[(data["screen"] == "questionnaire_dass21_english") | (data["screen"] == "questionnaire_aaq_fr")]
+    dass = data[(data["screen"] == "questionnaire_dass21_english") | (data["screen"] == "questionnaire_dass21_fr")]
     if not dass.empty:
         dass = dass.iloc[0]
         dass = json.loads(dass["response"])
