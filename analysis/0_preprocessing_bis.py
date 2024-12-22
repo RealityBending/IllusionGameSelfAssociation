@@ -152,6 +152,7 @@ for i, file in enumerate(files):
 # Extract psychedelic data
     psychedelic = data[
     (data["stimulus"] == '<p style="font-size:18px; color:black;">Have you taken a psychedelic drug in the last 6 months? (E.g. LSD, psilocybin mushrooms, ayahuasca)</p>') | 
+    (data["stimulus"] == '<p style="font-size:18px; color:black;">Have you taken a psychedelic drug (E.g. LSD, psilocybin mushrooms, ayahuasca) <b>in your life</b> ?</p>') | 
     (data["stimulus"] == '<p style="font-size:18px; color:black;">Avez-vous déjà consommé une substance psychédélique au cours de votre vie (e.g., LSD, champignons à psilocybe, ayahuasca) ?</p>')
 ]   
     psychedelic_response = psychedelic["response"].values[0] if not psychedelic.empty else np.nan
