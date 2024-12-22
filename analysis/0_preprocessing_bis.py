@@ -98,8 +98,19 @@ for i, file in enumerate(files):
     dem2 = json.loads(dem2["response"])
 
     data_sub["Age"] = dem2["age"]
-    #data_sub["Country"] = dem2["country"]
-    #data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+    # data_sub["Country"] = dem2["country"]
+    # data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+
+    # Extraction des informations d'email
+    email_row = data[data["screen"] == "email"]
+    if not email_row.empty:
+        email_response = json.loads(email_row.iloc[0]["response"])
+        data_sub["Email"] = email_response.get("Q0", None)  # Ajustez la clé si nécessaire
+
+    email_t1_row = data[data["screen"] == "email_T1"]
+    if not email_t1_row.empty:
+        email_t1_response = json.loads(email_t1_row.iloc[0]["response"])
+        data_sub["Email_T1"] = email_t1_response.get("Q0", None)  # Ajustez la clé si nécessaire
 
 ### Extract past psychiatric data ###
     psych_past = data[
@@ -215,8 +226,8 @@ for i, file in enumerate(files):
         dass = json.loads(dass["response"])
         data_dass = pd.DataFrame({
             "Participant": file["name"],
-            "DASS_Stress_1": dass.get("DASS_Stress_1, np.nan"),
-            "DASS_Stress_6": dass.get("DASS_Stress_6, np.nan"),
+            "DASS_Stress_1": dass.get("DASS_Stress_1"),
+            "DASS_Stress_6": dass.get("DASS_Stress_6"),
             "DASS_Stress_8": dass.get("DASS_Stress_8"),
             "DASS_Stress_11": dass.get("DASS_Stress_11"),
             "DASS_Stress_12": dass.get("DASS_Stress_12"),
