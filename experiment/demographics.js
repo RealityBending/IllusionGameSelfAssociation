@@ -521,6 +521,17 @@ var psychedelic_control = {
     },
 }
 
+var psychedelics_english = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+        '<p style="font-size:18px; color:black;">Have-you ever taken any classical psychedelic substance (e.g., LSD, psilocybin mushrooms, ayahuasca) <b>in your life</b> ?</p>',
+    choices: ["Yes", "No"],
+    on_finish: function (data) {
+        console.log("Psychedelic english response:", data.button_pressed)
+    },
+}
+
+
 var psychedelics = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
@@ -530,6 +541,8 @@ var psychedelics = {
         console.log("Psychedelic response:", data.button_pressed)
     },
 }
+
+
 
 var psychedelics_days_ago = {
     type: jsPsychSurveyText,
