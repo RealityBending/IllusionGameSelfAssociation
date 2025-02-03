@@ -39,7 +39,7 @@ import pandas as pd
 #)
 
 # Path where you have saved and unzipped the data manually downloaded from OSD
-path = "/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/osfstorage-archive"
+path = "/Users/baptistefauvel/Documents/GitHub/IllusionGameSelfAssociation/osfstorage-archive/"
 files = os.listdir(path)
 
 
@@ -53,29 +53,56 @@ alldata_dass = pd.DataFrame()
 alldata_MEQ_psychsoc = pd.DataFrame()
 
 
+#for i, file in enumerate(files):
+    #print(f"File N°{i+1}/{len(files)}")
+
+    #if len(alldata_sub) > 0:
+        #if file["name"] in alldata_sub["Participant"].values:
+            #continue
+ 
+    #data = pd.read_csv(file["file"]._get(file["url"], stream=True).raw)
+
+    #if not "browser_info" in data["screen"].values:
+        #continue
+
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
 
-    if len(alldata_sub) > 0:
-        if file["name"] in alldata_sub["Participant"].values:
-            continue
-    data = pd.read_csv(file["file"]._get(file["url"], stream=True).raw)
-
-    if not "browser_info" in data["screen"].values:
+    # Skip if participant already in the dataset
+    filename = file.replace(".csv", "")
+    if (
+        "Participant" in alldata_sub.columns
+        and filename in alldata_sub["Participant"].values
+    ):
         continue
 
-    data = pd.read_csv(path + file)
-    
+    data = pd.read_csv(path + file)   
+
+
+
     # data["screen"].unique()
     # Browser info -------------------------------------------------------
 
  
+    #browser = data[data["screen"] == "browser_info"].iloc[0]
+    if "browser_info" not in data["screen"].values:
+        continue
     browser = data[data["screen"] == "browser_info"].iloc[0]
+
+    # Skip
+    if (
+        isinstance(browser["researcher"], str) is False
+        or browser["researcher"] == "test"
+    ):
+        continue
+    
+    
     data_sub = pd.DataFrame(
         {
-            "Participant": file["name"],
+            #"Participant": file["name"],
+            "Participant": filename,
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
-            "Date_OSF": file["date"],
+            #"Date_OSF": file["date"],
             "Date": browser["date"],
             "Time": browser["time"],
             "Browser": browser["browser"],
@@ -175,7 +202,8 @@ for i, file in enumerate(files):
 
     data_sat = pd.DataFrame(
         {
-            "Participant": file["name"],
+            #"Participant": file["name"],
+            "Participant": filename,
             "Trial": sat_trial["trial_number"],
             "Label_Stranger": sat_trial["label_stranger"].values,
             "Label_Friend": sat_trial["label_friend"].values,
@@ -195,7 +223,8 @@ for i, file in enumerate(files):
 
     data_sat_practicetrial = pd.DataFrame(
         {
-            "Participant": file["name"],
+            #"Participant": file["name"],
+            "Participant": filename,
             "Trial": sat_practicetrial["trial_number"],
             "Answer": sat_practicetrial["answer"].values,
             "Correct": sat_practicetrial["correct"].values,
@@ -214,7 +243,8 @@ for i, file in enumerate(files):
         aaq = aaq.iloc[0]
         aaq = json.loads(aaq["response"])
         data_aaq = pd.DataFrame({
-            "Participant": file["name"],
+            #"Participant": file["name"],
+            "Participant": filename,
             "AAQ1": aaq["AAQ_1"],
             "AAQ2": aaq["AAQ_2"],
             "AAQ3": aaq["AAQ_3"],
@@ -224,7 +254,8 @@ for i, file in enumerate(files):
             "AAQ7": aaq["AAQ_7"]
         }, index=[0])
     else:
-        print(f"No questionnaire_aaq_english or questionnaire_aaq_fr data found for participant: {file['name']}")
+        #print(f"No questionnaire_aaq_english or questionnaire_aaq_fr data found for participant: {file['name']}")
+        print(f"No questionnaire_aaq english or questionnaire_aas_fr data found for participant: {filename}")
         data_aaq = pd.DataFrame(columns=["AAQ1", "AAQ2", "AAQ3", "AAQ4", "AAQ5", "AAQ6", "AAQ7"])
 
 
@@ -233,7 +264,8 @@ for i, file in enumerate(files):
         dass = dass.iloc[0]
         dass = json.loads(dass["response"])
         data_dass = pd.DataFrame({
-            "Participant": file["name"],
+            #"Participant": file["name"],
+            "Participant": filename,
             "DASS_Stress_1": dass.get("DASS_Stress_1"),
             "DASS_Stress_6": dass.get("DASS_Stress_6"),
             "DASS_Stress_8": dass.get("DASS_Stress_8"),
@@ -259,7 +291,8 @@ for i, file in enumerate(files):
 
         }, index=[0])
     else:
-        print(f"No questionnaire_dass21_english or questionnaire_dass21_fr data found for participant: {file['name']}")
+        #print(f"No questionnaire_dass21_english or questionnaire_dass21_fr data found for participant: {file['name']}")
+        print(f"No questionnaire_dass21_english or questionnaire dass21_fr data found for participant: {filename}")
         data_dass = pd.DataFrame(columns=["DASS_Stress_1", "DASS_Stress_6", "DASS_Stress_8", "DASS_Stress_11", "DASS_Stress_12", "DASS_Stress_14", "DASS_Stress_18", "DASS_Anxiety_2", "DASS_Anxiety_4", "DASS_Anxiety_7", "DASS_Anxiety_9", "DASS_Anxiety_15", "DASS_Anxiety_19", "DASS_Anxiety_20", "DASS_Depression_3", "DASS_Depression_5", "DASS_Depression_10", "DASS_Depression_13", "DASS_Depression_16", "DASS_Depression_17", "DASS_Depression_21"])
 
 #MEQ psychsoc
@@ -268,7 +301,8 @@ for i, file in enumerate(files):
         MEQ_psychsoc = MEQ_psychsoc.iloc[0]
         MEQ_psychsoc = json.loads(MEQ_psychsoc["response"])
         data_MEQ_psychsoc = pd.DataFrame({
-            "Participant": file["name"],
+            #"Participant": file["name"],
+            "Participant": filename,
             "Transcendence_1": MEQ_psychsoc["Transcendence_1"],
             "PositiveMood_2": MEQ_psychsoc["PositiveMood_2"],
             "Ineffability_3": MEQ_psychsoc["Ineffability_3"],
@@ -304,18 +338,21 @@ for i, file in enumerate(files):
 
         }, index=[0])
     else:
-        print(f"No questionnaire_MEQ data found for participant: {file['name']}")
+        #print(f"No questionnaire_MEQ data found for participant: {file['name']}")
+        print(f"No questionnaire_MEQ data found for participant: {filename}")
         data_MEQ_psychsoc = pd.DataFrame(columns=["Transcendence_1", "PositiveMood_2", "Ineffability_3", "Mystical_4", "Mystical_5", "Mystical_6", "Transcendence_7", "PositiveMood_8", "Mystical_9", "Ineffability_10", "Transcendence_11", "PositiveMood_12", "Transcendence_13", "Mystical_14", "Mystical_15", "Mystical_16", "PositiveMood_17", "Mystical_18", "Transcendence_19", "Mystical_20", "Mystical_21", "Transcendence_22", "Mystical_23", "Mystical_24", "Mystical_25", "Mystical_26", "PositiveMood_27", "Mystical_28", "Ineffability_29", "PositiveMood_30"])
 
     ig_trial = data[data["screen"] == "IG_Trial"]
     # Skip particpants that did not complete the task
     if len(ig_trial) == 0:
-        print(f"No IG_trial data found for participant: {file['name']}")  # Debugging statement
+        #print(f"No IG_trial data found for participant: {file['name']}")  # Debugging statement
+        print(f"No IG_trial data found for participant: {filename}")
         continue
 
     data_ig = pd.DataFrame(
         {
-            "Participant": file["name"],
+            #"Participant": file["name"],
+            "Participant": filename,
             "Trial": ig_trial["trial_number"].values,
             "Correct_Response": ig_trial["correct_response"].values,
             "Illusion_Type": ig_trial["Illusion_Type"].values,
