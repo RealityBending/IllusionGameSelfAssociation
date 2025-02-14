@@ -67,16 +67,12 @@ alldata_MEQ_psychsoc = pd.DataFrame()
 
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
-
-    # Skip if participant already in the dataset
-    filename = file.replace(".csv", "")
-    if (
-        "Participant" in alldata_sub.columns
-        and filename in alldata_sub["Participant"].values
-    ):
+    if ".csv" not in file:
         continue
-
-    data = pd.read_csv(path + file)   
+    filename = file.replace(".csv", "")
+    if filename in ["4eq5nwtp70", "eh9g6rsn2l"] : # sujet test sans SAT
+        continue
+    data = pd.read_csv(path + file, encoding='latin1')   
 
 
 
@@ -86,10 +82,10 @@ for i, file in enumerate(files):
 
  
     #browser = data[data["screen"] == "browser_info"].iloc[0]
-    if "browser_info" not in data["screen"].values:
-       browser = "null"
-       continue
-    browser = data[data["screen"] == "browser_info"].iloc[0]
+    #if "browser_info" not in data["screen"].values:
+       #print(f"Browser info in {filename}")
+       #break
+    # browser = data[data["screen"] == "browser_info"].iloc[0]
     
     
     data_sub = pd.DataFrame(
@@ -98,13 +94,13 @@ for i, file in enumerate(files):
             "Participant": filename,
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
             #"Date_OSF": file["date"],
-            "Date": browser["date"],
-            "Time": browser["time"],
-            "Browser": browser["browser"],
-            "Mobile": browser["mobile"],
-            "Platform": browser["os"],
-            "Screen_Width": browser["screen_width"],
-            "Screen_Height": browser["screen_height"],
+            #"Date": browser["date"],
+            #"Time": browser["time"],
+            #"Browser": browser["browser"],
+            #"Mobile": browser["mobile"],
+            #"Platform": browser["os"],
+            #"Screen_Width": browser["screen_width"],
+            #"Screen_Height": browser["screen_height"],
         },
         index=[0],
     )
@@ -115,20 +111,38 @@ for i, file in enumerate(files):
     data_sub["Group"] = group["group"]     
 
     # Demographics -------------------------------------------------------
-    dem1 = data[data["screen"] == "demographics_1"].iloc[0]
-    dem1 = json.loads(dem1["response"])
+    if "dem1" in data["screen"].values:
+        dem1 = data[data["screen"] == "demographics_1"].iloc[0]
+        dem1 = json.loads(dem1["response"])
 
-    data_sub["Sex"] = dem1["sex"]
-    data_sub["Education"] = dem1["education"]
-    data_sub["Student"] = dem1["student"]
-    data_sub["Language_Level"] = dem1["language"]
+        data_sub["Sex"] = dem1["sex"]
+        if "education" in dem1.keys():
+            data_sub["Education"] = dem1["education"]
+        else : 
+            data_sub["Education"] = ""
+        if "student" in dem1.keys():
+            data_sub["Student"] = dem1["student"]
+        else:
+            data_sub ["Student"] = ""
+        if "language" in dem1.keys():
+            data_sub["Language_Level"] = dem1["language"]
+        else:
+            data_sub["Language_Level"] = ""
+        dem2 = data[data["screen"] == "demographics_2"].iloc[0]
+        dem2 = json.loads(dem2["response"])
 
-    dem2 = data[data["screen"] == "demographics_2"].iloc[0]
-    dem2 = json.loads(dem2["response"])
+        data_sub["Age"] = dem2["age"]
+        # data_sub["Country"] = dem2["country"]
+        # data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+    else :  
+        data_sub["Sex"] = ""
+        data_sub["Education"] = ""
+        data_sub["Student"] = ""
+        data_sub["Language_Level"] = ""
+        data_sub["Age"] = np.nan
 
-    data_sub["Age"] = dem2["age"]
-    # data_sub["Country"] = dem2["country"]
-    # data_sub["Psychedelic Frequency"] = dem2["psych_freq_english"]
+    
+
 
     # Extraction des informations d'email
     email_row = data[data["screen"] == "email"]
@@ -193,7 +207,9 @@ for i, file in enumerate(files):
     sat_trial = data[data["screen"] == "sat_trial"]
     # Skip particpants that did not complete the task
     if len(sat_trial) == 0:
-        continue
+        print ("no_sat")
+        print (filename)
+        break
 
     data_sat = pd.DataFrame(
         {
