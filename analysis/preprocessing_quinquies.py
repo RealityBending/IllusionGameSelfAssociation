@@ -153,15 +153,21 @@ for i, file in enumerate(files):
 #        email_t1_response = json.loads(email_t1_row.iloc[0]["response"])
 #        data_sub["Email_T1"] = email_t1_response.get("Q0", None)  # Ajustez la clé si nécessaire
 
-    if group["group"] == "ketamine_T0":
+    if group["group"] == "ketamine_T0" or group ["group"] == "control_T0_bis":
         code = data[data["trial_index"] == 3]
         dico_code = json.loads(code.iloc[0]["response"])
         data_sub["CodeT0"] = dico_code.get("Q0", None)  # Ajustez la clé si nécessaire
-    if group["group"] == "ketamine_T1":
+    
+    if group["group"] == "ketamine_T1" :
         code = data[data["trial_index"] == 1]
         dico_code = json.loads(code.iloc[0]["response"])
         data_sub["CodeT1"] = dico_code.get("Q0", None)  # Ajustez la clé si nécessaire
 
+    if group["group"] == "control_T1" :
+        code = data[data["trial_index"] == 2]
+        dico_code = json.loads(code.iloc[0]["response"])
+        data_sub["CodeT1"] = dico_code.get("Q0", None)  # Ajustez la clé si nécessaire
+        
 
 ### Extract past psychiatric data ###
     psych_past = data[
