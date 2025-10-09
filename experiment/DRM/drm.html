@@ -1,0 +1,117 @@
+<head>
+    <script src="https://unpkg.com/jspsych@7.3.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response"></script>
+    <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.3"></script>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css">
+</head>
+
+<script>
+    var jsPsych = initJsPsych({
+        on_finish: function () {
+            alert("Merci pour votre participation ! Vos données ont été sauvegardées sur OSF.");
+        },
+    });
+
+    var timeline = [];
+
+    // Générer un identifiant unique pour chaque participant
+    const subject_id = jsPsych.randomization.randomID(10);
+    const filename = `${subject_id}.csv`;
+
+    // Question sur l'utilisation des psychédéliques
+    var psychedelic_question = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: "Avez-vous déjà utilisé une drogue psychédélique classique (i.e., agoniste sérotoninergique comme le LSD, la psilocybine ou la DMT) dans votre vie ?",
+                options: ["Oui", "Non"],
+                required: true,
+                name: "psychedelic_use"
+            }
+        ]
+    };
+
+    var psychedelic_followup = {
+        timeline: [
+            {
+                type: jsPsychSurveyText,
+                questions: [
+                    { prompt: "Si oui, laquelle ?", name: "which_psychedelic", required: true },
+                    { prompt: "Il y a environ combien de jours ?", name: "days_since_use", required: true }
+                ],
+                data: { phase: "psychedelic_info" }
+            }
+        ],
+        conditional_function: function() {
+            var last_trial = jsPsych.data.get().last(1).values()[0];
+            if (!last_trial || !last_trial.responses) {
+                return false; // Évite l'erreur si aucune réponse n'est disponible
+            }
+            var response = JSON.parse(last_trial.responses)["psychedelic_use"];
+            return response === "Oui";
+        }
+    };
+
+    timeline.push(psychedelic_question);
+    timeline.push(psychedelic_followup);
+
+    // Listes DRM avec distracteurs sémantiques (incluant le mot critique)
+    var drm_lists = [
+        { 
+            list: ["lit", "rêve", "fatigue", "repos", "sommeil"], 
+            distractors: ["matelas", "nuit", "oreiller", "dormir"] 
+        },
+        { 
+            list: ["chaud", "brûlant", "feu", "flamme", "cendre"], 
+            distractors: ["été", "soleil", "torrid", "chaleur"] 
+        },
+    ];
+
+    drm_lists.forEach((set, index) => {
+        // Présentation des mots
+        set.list.forEach((word) => {
+            timeline.push({
+                type: jsPsychHtmlKeyboardResponse,
+                stimulus: word,
+                choices: "NO_KEYS",
+                trial_duration: 1000,
+                data: { phase: "presentation", list_id: index, word: word },
+            });
+        });
+
+        // Test de rappel libre
+        timeline.push({
+            type: jsPsychSurveyText,
+            questions: [{ prompt: "Écrivez tous les mots dont vous vous souvenez :", rows: 5 }],
+            data: { phase: "recall", list_id: index },
+        });
+
+        // Test de reconnaissance avec cibles et distracteurs (incluant le mot critique)
+        var recognition_words = jsPsych.randomization.shuffle([...set.list, ...set.distractors]);
+
+        recognition_words.forEach((word) => {
+            timeline.push({
+                type: jsPsychHtmlButtonResponse,
+                stimulus: word,
+                choices: ["Oui", "Non"],
+                data: { phase: "recognition", list_id: index, word: word, type: set.list.includes(word) ? "target" : "distractor" },
+            });
+        });
+    });
+
+    // Sauvegarde des données sur OSF via DataPipe
+    const save_data = {
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: "bflpFOuprEx0",
+        filename: filename,
+        data_string: () => jsPsych.data.get().csv()
+    };
+
+    timeline.push(save_data);
+
+    jsPsych.run(timeline);
+</script>
