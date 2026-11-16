@@ -9,3 +9,17 @@ node_modules
 output
 .Rhistory
 .DS_Store
+*.icloud
+
+# Data: public in the history, not tracked from here on. data/open/ (the
+# de-identified open data, analysis/0_deidentify.R) is tracked; everything
+# else in data/ is derived or private (data/participant_key.csv)
+data/*.csv
+osfstorage-archive/
+
+# Unpublished manuscripts
+paper/
+
+# Cluster (analysis/server/README.md)
+analysis/server/hpc.local
+analysis/models/

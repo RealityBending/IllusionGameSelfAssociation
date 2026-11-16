@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>IllusionGameSelfAssociation - Preprocessing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="0_preprocessing_files/libs/clipboard/clipboard.min.js"></script>
+<script src="0_preprocessing_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="0_preprocessing_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="0_preprocessing_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="0_preprocessing_files/libs/quarto-html/popper.min.js"></script>
+<script src="0_preprocessing_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="0_preprocessing_files/libs/quarto-html/anchor.min.js"></script>
+<link href="0_preprocessing_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="0_preprocessing_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="0_preprocessing_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="0_preprocessing_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="0_preprocessing_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sessions" id="toc-sessions" class="nav-link active" data-scroll-target="#sessions">Sessions</a></li>
+  <li><a href="#groups" id="toc-groups" class="nav-link" data-scroll-target="#groups">Groups</a></li>
+  <li><a href="#sample" id="toc-sample" class="nav-link" data-scroll-target="#sample">Sample</a></li>
+  <li><a href="#questionnaires" id="toc-questionnaires" class="nav-link" data-scroll-target="#questionnaires">Questionnaires</a></li>
+  <li><a href="#illusion-game-trials" id="toc-illusion-game-trials" class="nav-link" data-scroll-target="#illusion-game-trials">Illusion Game trials</a></li>
+  <li><a href="#self-association-trials" id="toc-self-association-trials" class="nav-link" data-scroll-target="#self-association-trials">Self-association trials</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">IllusionGameSelfAssociation - Preprocessing</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>From the de-identified open data in <code>data/open/</code> (codebook: <code>data/open/README.md</code>; built from the raw jsPsych files by <code>analysis/0_deidentify.R</code>, which only the holder of the raw files runs) to the derived files every analysis starts from. They are written to <code>data/</code>, which is gitignored:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>file</th>
+<th>content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data/groups.csv</code></td>
+<td>who is in the illusion analysis and in which group (Never / Past / Recent), with the screening answers that decided it</td>
+</tr>
+<tr class="even">
+<td><code>data/questionnaires.csv</code></td>
+<td>AAQ-II, DASS-21 and MEQ-30 scores, for every session with items</td>
+</tr>
+<tr class="odd">
+<td><code>data/data_illusiongame.csv</code></td>
+<td>the Illusion Game test trials of everyone in <code>groups.csv</code>, cleaned and scaled: the input of the model in <code>analysis/server/models.R</code></td>
+</tr>
+</tbody>
+</table>
+<p>Render from the repo root (about 15 seconds):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render analysis/0_preprocessing.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The group rules are the manuscript’s (Participants section) and reproduce its 43 / 39 / 35 exactly, with one departure decided on 2026-11-02: a control who typed age 16 is kept as a probable typing error, with age missing, so Never is 44. The trial cleaning follows IllusionGameComputational, the source of the model’s priors, rather than the manuscript. Each section ends with a check that stops the render if a count changes.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Runs from analysis/ (quarto) or from the repo root (interactively).</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>repo <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">dir.exists</span>(<span class="st">"server"</span>)) <span class="st">".."</span> <span class="cf">else</span> <span class="st">"."</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>data_path <span class="ot">&lt;-</span> <span class="cf">function</span>(...) <span class="fu">file.path</span>(repo, <span class="st">"data"</span>, ...)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>participants <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"open/participants.csv"</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>group_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Never =</span> <span class="st">"#7a7a75"</span>, <span class="at">Past =</span> <span class="st">"#2a78d6"</span>, <span class="at">Recent =</span> <span class="st">"#eb6834"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>illusions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Ebbinghaus =</span> <span class="st">"Ebbinghaus"</span>, <span class="at">MullerLyer =</span> <span class="st">"Müller-Lyer"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">VerticalHorizontal =</span> <span class="st">"Vertical-Horizontal"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>theme_igsa <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"#ebebe8"</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.justification =</span> <span class="st">"left"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#6b6b66"</span>, <span class="at">hjust =</span> <span class="dv">0</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="sessions" class="level2">
+<h2 class="anchored" data-anchor-id="sessions">Sessions</h2>
+<p>The open data hold every session of the study’s four arms, whatever its later inclusion. The arm is the experiment’s <code>group</code> URL parameter: <code>control</code> and <code>control_T0_bis</code> are psychedelic-naïve controls, <code>psychedelic_society</code> (French) and <code>psychedelics_soc_english</code> are users recruited through psychedelic societies. The longitudinal arm (<code>control_T0</code>, <code>ketamine_*</code>, <code>*_T1</code>) is not in the open data.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">addmargins</span>(<span class="fu">table</span>(<span class="at">Arm =</span> participants<span class="sc">$</span>Arm, <span class="at">Language =</span> participants<span class="sc">$</span>Session_Language)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">English</th>
+<th style="text-align: right;">French</th>
+<th style="text-align: right;">Sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">control</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">control_T0_bis</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psychedelic_society</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">68</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">psychedelics_soc_english</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sum</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">99</td>
+<td style="text-align: right;">127</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>125 of 127 sessions completed both tasks; 2 have the full Illusion Game but no self-association task.</p>
+</section>
+<section id="groups" class="level2">
+<h2 class="anchored" data-anchor-id="groups">Groups</h2>
+<p>Each arm ran its own screening (<code>experiment/demographics.js</code>). The rules:</p>
+<ul>
+<li><strong>Eligible:</strong> completed both tasks, and tested by April 2026, the data freeze. The manuscript’s last session is 2026-04-02; the open data keep the month only, and no session falls between that day and May. Three users were tested later (May and September 2026); set <code>freeze &lt;- NA</code> to include them. (A stated age under 18 is handled upstream: the only one, the age-16 control, has age missing in the open data, and <code>0_deidentify.R</code> stops on any other.)</li>
+<li><strong>Never:</strong> control arm, answering No to “Have you ever taken a classical psychedelic in your life?”.</li>
+<li><strong>Recent:</strong> psychedelic-society arm whose last classic psychedelic was 30 days ago or less. Days come from the free-text “how many days since your last classic psychedelic?” (“18 jours”, “3 semaines”, “Environ 12 mois”); where it cannot be read, from the yes/no “in the last month?” just before it. The days rather than the yes/no answer is what reproduces the manuscript: they disagree for 7 of 80 users (e.g.&nbsp;“Yes” with 45 or 60 days), and the yes/no answer alone gives 43 / 32 instead of 39 / 35.</li>
+<li><strong>Past:</strong> the same arm, more than 30 days.</li>
+<li><strong>Out:</strong> controls reporting use, and users reporting experience only with non-classic substances, i.e.&nbsp;a lifetime frequency of “Never” <em>and</em> a non-classic (“Other”) last substance. Either alone is not enough: S115 says “Never” but took ayahuasca, S060 took “Other” last but classics 11-50 times, and the manuscript kept both.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>freeze <span class="ot">&lt;-</span> <span class="st">"2026-04"</span> <span class="co"># last month included (YYYY-MM)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>control_arms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"control"</span>, <span class="st">"control_T0_bis"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>user_arms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"psychedelic_society"</span>, <span class="st">"psychedelics_soc_english"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># "14", "18 jours", "3 semaines", "Environ 12 mois", "4 months ago", "5 ans"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>parse_days <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">trimws</span>(x))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">regmatches</span>(s, <span class="fu">regexec</span>(<span class="st">"^(?:environ |about )?([0-9]+(?:[.,][0-9]+)?) *(.*)$"</span>, s, <span class="at">perl =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vapply</span>(m, <span class="cf">function</span>(h) {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(h) <span class="sc">!=</span> <span class="dv">3</span>) <span class="fu">return</span>(<span class="cn">NA_real_</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">","</span>, <span class="st">"."</span>, h[<span class="dv">2</span>]))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    unit <span class="ot">&lt;-</span> h[<span class="dv">3</span>]</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (unit <span class="sc">==</span> <span class="st">""</span> <span class="sc">||</span> <span class="fu">grepl</span>(<span class="st">"^(jour|day|à peu|a peu)"</span>, unit)) <span class="fu">return</span>(n)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"^(semaine|week)"</span>, unit)) <span class="fu">return</span>(<span class="dv">7</span> <span class="sc">*</span> n)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"^(mois|month)"</span>, unit)) <span class="fu">return</span>(<span class="dv">30</span> <span class="sc">*</span> n)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"^(an|year)"</span>, unit)) <span class="fu">return</span>(<span class="dv">365</span> <span class="sc">*</span> n)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA_real_</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  }, <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> participants</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Days <span class="ot">&lt;-</span> <span class="fu">parse_days</span>(df<span class="sc">$</span>Psychedelics_DaysAgo)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>recent <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>Days), df<span class="sc">$</span>Days <span class="sc">&lt;=</span> <span class="dv">30</span>, df<span class="sc">$</span>Psychedelics_LastMonth <span class="sc">%in%</span> <span class="st">"Yes"</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>only_non_classic <span class="ot">&lt;-</span> df<span class="sc">$</span>Psychedelics_Frequency <span class="sc">%in%</span> <span class="st">"Never"</span> <span class="sc">&amp;</span> df<span class="sc">$</span>Experience_Substance <span class="sc">%in%</span> <span class="st">"Other"</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>Arm <span class="sc">%in%</span> control_arms,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(df<span class="sc">$</span>Psychedelics_Ever <span class="sc">%in%</span> <span class="st">"No"</span>, <span class="st">"Never"</span>, <span class="st">"out: control reporting use"</span>),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(df<span class="sc">$</span>Arm <span class="sc">%in%</span> user_arms,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(only_non_classic, <span class="st">"out: non-classic substances only"</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(recent, <span class="st">"Recent"</span>, <span class="st">"Past"</span>)),</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>         <span class="st">"out: not in this study's arms"</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Group[<span class="sc">!</span>(df<span class="sc">$</span>Completed_IG <span class="sc">&amp;</span> df<span class="sc">$</span>Completed_SAT)] <span class="ot">&lt;-</span> <span class="st">"out: protocol not completed"</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Group[<span class="sc">!</span><span class="fu">is.na</span>(freeze) <span class="sc">&amp;</span> df<span class="sc">$</span>Session_Month <span class="sc">&gt;</span> freeze] <span class="ot">&lt;-</span> <span class="st">"out: after the data freeze"</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>excluded <span class="ot">&lt;-</span> <span class="fu">startsWith</span>(df<span class="sc">$</span>Group, <span class="st">"out"</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>included <span class="ot">&lt;-</span> df[<span class="sc">!</span>excluded, ]</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>included<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(included<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Never"</span>, <span class="st">"Past"</span>, <span class="st">"Recent"</span>))</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> df[<span class="sc">!</span>excluded, <span class="fu">c</span>(<span class="st">"Participant"</span>, <span class="st">"Group"</span>, <span class="st">"Arm"</span>, <span class="st">"Session_Month"</span>, <span class="st">"Psychedelics_Ever"</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Psychedelics_LastMonth"</span>, <span class="st">"Psychedelics_DaysAgo"</span>, <span class="st">"Days"</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Psychedelics_Frequency"</span>, <span class="st">"Experience_Substance"</span>)]</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(groups[<span class="fu">order</span>(groups<span class="sc">$</span>Group, groups<span class="sc">$</span>Participant), ], <span class="fu">data_path</span>(<span class="st">"groups.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Where the yes/no answer and the days disagree, the days win:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>odd <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>Days) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>Psychedelics_LastMonth) <span class="sc">&amp;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  (df<span class="sc">$</span>Days <span class="sc">&lt;=</span> <span class="dv">30</span>) <span class="sc">!=</span> (df<span class="sc">$</span>Psychedelics_LastMonth <span class="sc">==</span> <span class="st">"Yes"</span>) <span class="sc">&amp;</span> df<span class="sc">$</span>Group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Recent"</span>, <span class="st">"Past"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df[odd, <span class="fu">c</span>(<span class="st">"Participant"</span>, <span class="st">"Group"</span>, <span class="st">"Psychedelics_LastMonth"</span>, <span class="st">"Psychedelics_DaysAgo"</span>)],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Participant</th>
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Psychedelics_LastMonth</th>
+<th style="text-align: left;">Psychedelics_DaysAgo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">S061</td>
+<td style="text-align: left;">Past</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">37</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S072</td>
+<td style="text-align: left;">Past</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S083</td>
+<td style="text-align: left;">Past</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">60</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S084</td>
+<td style="text-align: left;">Past</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S090</td>
+<td style="text-align: left;">Past</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">55</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S118</td>
+<td style="text-align: left;">Recent</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Excluded:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df[excluded, <span class="fu">c</span>(<span class="st">"Participant"</span>, <span class="st">"Arm"</span>, <span class="st">"Session_Month"</span>, <span class="st">"Group"</span>)], <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 29%">
+<col style="width: 16%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Participant</th>
+<th style="text-align: left;">Arm</th>
+<th style="text-align: left;">Session_Month</th>
+<th style="text-align: left;">Group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">S005</td>
+<td style="text-align: left;">psychedelics_soc_english</td>
+<td style="text-align: left;">2026-03</td>
+<td style="text-align: left;">out: non-classic substances only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S012</td>
+<td style="text-align: left;">control</td>
+<td style="text-align: left;">2024-04</td>
+<td style="text-align: left;">out: control reporting use</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S023</td>
+<td style="text-align: left;">psychedelic_society</td>
+<td style="text-align: left;">2024-03</td>
+<td style="text-align: left;">out: protocol not completed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S055</td>
+<td style="text-align: left;">psychedelics_soc_english</td>
+<td style="text-align: left;">2026-05</td>
+<td style="text-align: left;">out: after the data freeze</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S058</td>
+<td style="text-align: left;">psychedelic_society</td>
+<td style="text-align: left;">2024-03</td>
+<td style="text-align: left;">out: protocol not completed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S059</td>
+<td style="text-align: left;">psychedelic_society</td>
+<td style="text-align: left;">2026-09</td>
+<td style="text-align: left;">out: after the data freeze</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S091</td>
+<td style="text-align: left;">psychedelics_soc_english</td>
+<td style="text-align: left;">2026-05</td>
+<td style="text-align: left;">out: after the data freeze</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S107</td>
+<td style="text-align: left;">control</td>
+<td style="text-align: left;">2024-03</td>
+<td style="text-align: left;">out: control reporting use</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S109</td>
+<td style="text-align: left;">control_T0_bis</td>
+<td style="text-align: left;">2025-05</td>
+<td style="text-align: left;">out: control reporting use</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">table</span>(included<span class="sc">$</span>Group)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">as.data.frame</span>(counts, <span class="at">responseName =</span> <span class="st">"N"</span>), <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Group"</span>, <span class="st">"N"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: right;">N</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Never</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Past</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Recent</td>
+<td style="text-align: right;">39</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The manuscript's 43 / 35 / 39, plus the age-16 control in Never.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(<span class="fu">as.vector</span>(counts[<span class="fu">c</span>(<span class="st">"Never"</span>, <span class="st">"Past"</span>, <span class="st">"Recent"</span>)]), <span class="fu">c</span>(<span class="dv">44</span>L, <span class="dv">35</span>L, <span class="dv">39</span>L)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="sample" class="level2">
+<h2 class="anchored" data-anchor-id="sample">Sample</h2>
+<p>The groups differ in more than psychedelic use: the controls are younger, mostly students, and less than half are native speakers of the session’s language. These are reported in the paper, not adjusted for (see <code>AGENTS.md</code>, “Age and the other group differences”).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pct <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sprintf</span>(<span class="st">"%d (%.0f%%)"</span>, <span class="fu">sum</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>education <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"High school"</span>, <span class="st">"Bachelor"</span>, <span class="st">"Master"</span>, <span class="st">"Doctorate"</span>, <span class="st">"Other"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>education <span class="ot">&lt;-</span> education[education <span class="sc">%in%</span> included<span class="sc">$</span>Education]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>describe <span class="ot">&lt;-</span> <span class="cf">function</span>(g) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  age <span class="ot">&lt;-</span> g<span class="sc">$</span>Age</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"N"</span> <span class="ot">=</span> <span class="fu">nrow</span>(g),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Age, median (range)"</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%g (%g-%g)"</span>, <span class="fu">median</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">min</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">max</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Age, mean (SD)"</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f (%.1f)"</span>, <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">sd</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Age missing"</span> <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(age)),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Women"</span> <span class="ot">=</span> <span class="fu">pct</span>(g<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">"Female"</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Students"</span> <span class="ot">=</span> <span class="fu">pct</span>(g<span class="sc">$</span>Student <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Native speakers"</span> <span class="ot">=</span> <span class="fu">pct</span>(g<span class="sc">$</span>Language_Level <span class="sc">==</span> <span class="st">"Native"</span>),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Session in English"</span> <span class="ot">=</span> <span class="fu">pct</span>(g<span class="sc">$</span>Session_Language <span class="sc">==</span> <span class="st">"English"</span>),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">setNames</span>(<span class="fu">sapply</span>(education, <span class="cf">function</span>(e) <span class="fu">pct</span>(g<span class="sc">$</span>Education <span class="sc">==</span> e)), <span class="fu">paste</span>(<span class="st">"Education:"</span>, education)),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Past diagnosis"</span> <span class="ot">=</span> <span class="fu">pct</span>(g<span class="sc">$</span>Diagnosis_Past <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Current diagnosis"</span> <span class="ot">=</span> <span class="fu">pct</span>(g<span class="sc">$</span>Diagnosis_Current <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Meditates weekly"</span> <span class="ot">=</span> <span class="fu">pct</span>(g<span class="sc">$</span>Meditation <span class="sc">==</span> <span class="st">"Yes"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">sapply</span>(<span class="fu">split</span>(included, included<span class="sc">$</span>Group), describe))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Never</th>
+<th style="text-align: left;">Past</th>
+<th style="text-align: left;">Recent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">44</td>
+<td style="text-align: left;">35</td>
+<td style="text-align: left;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age, median (range)</td>
+<td style="text-align: left;">23 (20-72)</td>
+<td style="text-align: left;">40 (21-76)</td>
+<td style="text-align: left;">40 (23-63)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Age, mean (SD)</td>
+<td style="text-align: left;">28.8 (13.6)</td>
+<td style="text-align: left;">40.4 (15.8)</td>
+<td style="text-align: left;">40.6 (9.2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age missing</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Women</td>
+<td style="text-align: left;">33 (75%)</td>
+<td style="text-align: left;">17 (49%)</td>
+<td style="text-align: left;">17 (44%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Students</td>
+<td style="text-align: left;">29 (66%)</td>
+<td style="text-align: left;">10 (29%)</td>
+<td style="text-align: left;">5 (13%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Native speakers</td>
+<td style="text-align: left;">21 (48%)</td>
+<td style="text-align: left;">33 (97%)</td>
+<td style="text-align: left;">35 (90%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Session in English</td>
+<td style="text-align: left;">15 (34%)</td>
+<td style="text-align: left;">3 (9%)</td>
+<td style="text-align: left;">6 (15%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Education: High school</td>
+<td style="text-align: left;">2 (5%)</td>
+<td style="text-align: left;">4 (12%)</td>
+<td style="text-align: left;">2 (5%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Education: Bachelor</td>
+<td style="text-align: left;">10 (23%)</td>
+<td style="text-align: left;">14 (41%)</td>
+<td style="text-align: left;">7 (18%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Education: Master</td>
+<td style="text-align: left;">31 (70%)</td>
+<td style="text-align: left;">15 (44%)</td>
+<td style="text-align: left;">24 (62%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Education: Doctorate</td>
+<td style="text-align: left;">1 (2%)</td>
+<td style="text-align: left;">1 (3%)</td>
+<td style="text-align: left;">6 (15%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Past diagnosis</td>
+<td style="text-align: left;">7 (16%)</td>
+<td style="text-align: left;">10 (29%)</td>
+<td style="text-align: left;">13 (33%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Current diagnosis</td>
+<td style="text-align: left;">4 (9%)</td>
+<td style="text-align: left;">7 (20%)</td>
+<td style="text-align: left;">8 (21%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Meditates weekly</td>
+<td style="text-align: left;">6 (14%)</td>
+<td style="text-align: left;">11 (31%)</td>
+<td style="text-align: left;">15 (38%)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Ages by group:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>included<span class="sc">$</span>Age_Band <span class="ot">&lt;-</span> <span class="fu">cut</span>(included<span class="sc">$</span>Age, <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">50</span>, <span class="cn">Inf</span>),</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"&lt;= 25"</span>, <span class="st">"26-30"</span>, <span class="st">"31-50"</span>, <span class="st">"&gt; 50"</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">addmargins</span>(<span class="fu">table</span>(<span class="at">Group =</span> included<span class="sc">$</span>Group, <span class="at">Age =</span> included<span class="sc">$</span>Age_Band, <span class="at">useNA =</span> <span class="st">"ifany"</span>), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">&lt;= 25</th>
+<th style="text-align: right;">26-30</th>
+<th style="text-align: right;">31-50</th>
+<th style="text-align: right;">&gt; 50</th>
+<th style="text-align: right;">NA</th>
+<th style="text-align: right;">Sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Never</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Past</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Recent</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">39</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(included[<span class="sc">!</span><span class="fu">is.na</span>(included<span class="sc">$</span>Age), ], <span class="fu">aes</span>(Age, Group, <span class="at">colour =</span> Group)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="fl">0.2</span>, <span class="at">width =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> group_col, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits =</span> rev) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age (years)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Age by group"</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  theme_igsa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="0_preprocessing_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="questionnaires" class="level2">
+<h2 class="anchored" data-anchor-id="questionnaires">Questionnaires</h2>
+<p>Items are stored as jsPsych’s 0-based index of the chosen label (<code>experiment/questionnaires.js</code> has the labels and wording). None of the three instruments has a reverse-keyed item, and in every one the first label is the lowest anchor, so a higher index is more of what the scale measures. The scoring follows the manuscript:</p>
+<ul>
+<li><strong>AAQ-II</strong> (7 items, “never true” to “always true”): the sum, with the items on the published 1-7 scale (the stored 0-6 plus one), so the range is 7-49 and the published cut-offs apply. Higher is less psychological flexibility.</li>
+<li><strong>DASS-21</strong> (21 items, 0 “did not apply to me at all” to 3 “applied to me very much”): the mean of the 7 items of each subscale (Depression, Anxiety, Stress), on 0-3, and the total as the mean of the three. (The conventional severity scores are the subscale sums doubled, i.e.&nbsp;14 times these means.)</li>
+<li><strong>MEQ-30</strong> (30 items, 0 “none, not at all” to 5 “extreme”; users only, about their last classic psychedelic experience): the mean of the items of each of the four Barrett et al.&nbsp;(2015) factors (Mystical, 15 items; Positive mood, 6; Transcendence of time and space, 6; Ineffability, 3), and the total as the mean of all 30. <code>MEQ_Complete</code> flags a “complete mystical experience”: at least 60% of the maximum (a mean of 3) on all four factors.</li>
+</ul>
+<p><strong>Missing items.</strong> A scale is scored when at most one of its items is missing, as the mean of the answered items (times the number of items for the AAQ-II sum); with more missing it is <code>NA</code>. A total is <code>NA</code> when any of its parts is. <code>*_Missing</code> counts the missing items per instrument.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="cf">function</span>(pattern) participants[<span class="fu">grep</span>(pattern, <span class="fu">names</span>(participants))]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Every stored item is an integer index within the label range.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>check_items <span class="ot">&lt;-</span> <span class="cf">function</span>(x, max_index) {</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">unlist</span>(x)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">all</span>(v <span class="sc">==</span> <span class="fu">round</span>(v), <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">all</span>(v <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">all</span>(v <span class="sc">&lt;=</span> max_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">check_items</span>(<span class="fu">items</span>(<span class="st">"^AAQ_"</span>), <span class="dv">6</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">check_items</span>(<span class="fu">items</span>(<span class="st">"^DASS_"</span>), <span class="dv">3</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">check_items</span>(<span class="fu">items</span>(<span class="st">"^MEQ_"</span>), <span class="dv">5</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">ncol</span>(<span class="fu">items</span>(<span class="st">"^AAQ_"</span>)) <span class="sc">==</span> <span class="dv">7</span>, <span class="fu">ncol</span>(<span class="fu">items</span>(<span class="st">"^DASS_"</span>)) <span class="sc">==</span> <span class="dv">21</span>, <span class="fu">ncol</span>(<span class="fu">items</span>(<span class="st">"^MEQ_"</span>)) <span class="sc">==</span> <span class="dv">30</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">max_missing =</span> <span class="dv">1</span>, <span class="at">offset =</span> <span class="dv">0</span>) {</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(x <span class="sc">+</span> offset, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  m[<span class="fu">rowSums</span>(<span class="fu">is.na</span>(x)) <span class="sc">&gt;</span> max_missing] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  m</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> participants[<span class="fu">c</span>(<span class="st">"Participant"</span>, <span class="st">"Arm"</span>)]</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.character</span>(included<span class="sc">$</span>Group)[<span class="fu">match</span>(q<span class="sc">$</span>Participant, included<span class="sc">$</span>Participant)]</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>AAQ <span class="ot">&lt;-</span> <span class="dv">7</span> <span class="sc">*</span> <span class="fu">score</span>(<span class="fu">items</span>(<span class="st">"^AAQ_"</span>), <span class="at">offset =</span> <span class="dv">1</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>AAQ_Missing <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">is.na</span>(<span class="fu">items</span>(<span class="st">"^AAQ_"</span>)))</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Depression"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Stress"</span>)) q[[<span class="fu">paste0</span>(<span class="st">"DASS_"</span>, s)]] <span class="ot">&lt;-</span> <span class="fu">score</span>(<span class="fu">items</span>(<span class="fu">paste0</span>(<span class="st">"^DASS_"</span>, s, <span class="st">"_"</span>)))</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>DASS_Total <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(q[<span class="fu">c</span>(<span class="st">"DASS_Depression"</span>, <span class="st">"DASS_Anxiety"</span>, <span class="st">"DASS_Stress"</span>)])</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>DASS_Missing <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">is.na</span>(<span class="fu">items</span>(<span class="st">"^DASS_"</span>)))</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Mystical"</span>, <span class="st">"PositiveMood"</span>, <span class="st">"Transcendence"</span>, <span class="st">"Ineffability"</span>)) q[[<span class="fu">paste0</span>(<span class="st">"MEQ_"</span>, s)]] <span class="ot">&lt;-</span> <span class="fu">score</span>(<span class="fu">items</span>(<span class="fu">paste0</span>(<span class="st">"^MEQ_"</span>, s, <span class="st">"_"</span>)))</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>MEQ_Total <span class="ot">&lt;-</span> <span class="fu">score</span>(<span class="fu">items</span>(<span class="st">"^MEQ_"</span>))</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>MEQ_Complete <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(<span class="fu">rowSums</span>(q[<span class="fu">paste0</span>(<span class="st">"MEQ_"</span>, <span class="fu">c</span>(<span class="st">"Mystical"</span>, <span class="st">"PositiveMood"</span>, <span class="st">"Transcendence"</span>, <span class="st">"Ineffability"</span>))] <span class="sc">&gt;=</span> <span class="dv">3</span>) <span class="sc">==</span> <span class="dv">4</span>)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>q<span class="sc">$</span>MEQ_Missing <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">is.na</span>(<span class="fu">items</span>(<span class="st">"^MEQ_"</span>)))</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(q, <span class="fu">data_path</span>(<span class="st">"questionnaires.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>How many sessions each instrument scores, and what the missing-item rule does:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>has_items <span class="ot">&lt;-</span> <span class="cf">function</span>(pattern) <span class="fu">rowSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="fu">items</span>(pattern))) <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>rule <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Instrument =</span> <span class="fu">c</span>(<span class="st">"AAQ-II"</span>, <span class="st">"DASS-21"</span>, <span class="st">"MEQ-30"</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"With items"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">has_items</span>(<span class="st">"^AAQ_"</span>)), <span class="fu">sum</span>(<span class="fu">has_items</span>(<span class="st">"^DASS_"</span>)), <span class="fu">sum</span>(<span class="fu">has_items</span>(<span class="st">"^MEQ_"</span>))),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Scored"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(q<span class="sc">$</span>AAQ)), <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(q<span class="sc">$</span>DASS_Total)), <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(q<span class="sc">$</span>MEQ_Total))),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Prorated"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(q<span class="sc">$</span>AAQ) <span class="sc">&amp;</span> q<span class="sc">$</span>AAQ_Missing <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(q<span class="sc">$</span>DASS_Total) <span class="sc">&amp;</span> q<span class="sc">$</span>DASS_Missing <span class="sc">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(q<span class="sc">$</span>MEQ_Total) <span class="sc">&amp;</span> q<span class="sc">$</span>MEQ_Missing <span class="sc">==</span> <span class="dv">1</span>)),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Not scored (items missing)"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">has_items</span>(<span class="st">"^AAQ_"</span>) <span class="sc">&amp;</span> <span class="fu">is.na</span>(q<span class="sc">$</span>AAQ)),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">sum</span>(<span class="fu">has_items</span>(<span class="st">"^DASS_"</span>) <span class="sc">&amp;</span> <span class="fu">is.na</span>(q<span class="sc">$</span>DASS_Total)),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">sum</span>(<span class="fu">has_items</span>(<span class="st">"^MEQ_"</span>) <span class="sc">&amp;</span> <span class="fu">is.na</span>(q<span class="sc">$</span>MEQ_Total))),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(rule)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instrument</th>
+<th style="text-align: right;">With items</th>
+<th style="text-align: right;">Scored</th>
+<th style="text-align: right;">Prorated</th>
+<th style="text-align: right;">Not scored (items missing)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AAQ-II</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DASS-21</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MEQ-30</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Internal consistency (Cronbach’s alpha, sessions with every item of the scale):</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> x[stats<span class="sc">::</span><span class="fu">complete.cases</span>(x), ]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">ncol</span>(x)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">alpha =</span> k <span class="sc">/</span> (k <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">apply</span>(x, <span class="dv">2</span>, stats<span class="sc">::</span>var)) <span class="sc">/</span> stats<span class="sc">::</span><span class="fu">var</span>(<span class="fu">rowSums</span>(x))), <span class="at">n =</span> <span class="fu">nrow</span>(x))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>scales <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"AAQ-II"</span> <span class="ot">=</span> <span class="st">"^AAQ_"</span>, <span class="st">"DASS-21 total"</span> <span class="ot">=</span> <span class="st">"^DASS_"</span>, <span class="st">"DASS Depression"</span> <span class="ot">=</span> <span class="st">"^DASS_Depression_"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DASS Anxiety"</span> <span class="ot">=</span> <span class="st">"^DASS_Anxiety_"</span>, <span class="st">"DASS Stress"</span> <span class="ot">=</span> <span class="st">"^DASS_Stress_"</span>, <span class="st">"MEQ-30 total"</span> <span class="ot">=</span> <span class="st">"^MEQ_"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MEQ Mystical"</span> <span class="ot">=</span> <span class="st">"^MEQ_Mystical_"</span>, <span class="st">"MEQ Positive mood"</span> <span class="ot">=</span> <span class="st">"^MEQ_PositiveMood_"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MEQ Transcendence"</span> <span class="ot">=</span> <span class="st">"^MEQ_Transcendence_"</span>, <span class="st">"MEQ Ineffability"</span> <span class="ot">=</span> <span class="st">"^MEQ_Ineffability_"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(scales, <span class="cf">function</span>(p) <span class="fu">alpha</span>(<span class="fu">items</span>(p)))), <span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">alpha</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AAQ-II</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">124</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DASS-21 total</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">110</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DASS Depression</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">120</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DASS Anxiety</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">118</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DASS Stress</td>
+<td style="text-align: right;">0.87</td>
+<td style="text-align: right;">118</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MEQ-30 total</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">63</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MEQ Mystical</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">68</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MEQ Positive mood</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">72</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MEQ Transcendence</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MEQ Ineffability</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">76</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Scores of the included participants, by group (median [first, third quartile]; the MEQ-30 is users only):</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>score_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AAQ"</span>, <span class="st">"DASS_Depression"</span>, <span class="st">"DASS_Anxiety"</span>, <span class="st">"DASS_Stress"</span>, <span class="st">"DASS_Total"</span>,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"MEQ_Mystical"</span>, <span class="st">"MEQ_PositiveMood"</span>, <span class="st">"MEQ_Transcendence"</span>, <span class="st">"MEQ_Ineffability"</span>, <span class="st">"MEQ_Total"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>qi <span class="ot">&lt;-</span> q[<span class="sc">!</span><span class="fu">is.na</span>(q<span class="sc">$</span>Group), ]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>qi<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(qi<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">names</span>(group_col))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>summarise_scores <span class="ot">&lt;-</span> <span class="cf">function</span>(g) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(score_cols, <span class="cf">function</span>(s) {</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> g[[s]][<span class="sc">!</span><span class="fu">is.na</span>(g[[s]])]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(v) <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="st">""</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"%.1f [%.1f, %.1f] (n = %d)"</span>, <span class="fu">median</span>(v), <span class="fu">quantile</span>(v, <span class="fl">0.25</span>), <span class="fu">quantile</span>(v, <span class="fl">0.75</span>), <span class="fu">length</span>(v))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">sapply</span>(<span class="fu">split</span>(qi, qi<span class="sc">$</span>Group), summarise_scores))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 27%">
+<col style="width: 27%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Never</th>
+<th style="text-align: left;">Past</th>
+<th style="text-align: left;">Recent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AAQ</td>
+<td style="text-align: left;">23.0 [19.0, 28.0] (n = 44)</td>
+<td style="text-align: left;">23.0 [13.0, 28.5] (n = 35)</td>
+<td style="text-align: left;">20.0 [15.5, 28.0] (n = 39)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DASS_Depression</td>
+<td style="text-align: left;">0.6 [0.1, 1.0] (n = 44)</td>
+<td style="text-align: left;">0.6 [0.2, 0.9] (n = 35)</td>
+<td style="text-align: left;">0.6 [0.1, 1.1] (n = 39)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DASS_Anxiety</td>
+<td style="text-align: left;">0.6 [0.3, 0.8] (n = 44)</td>
+<td style="text-align: left;">0.3 [0.1, 0.6] (n = 35)</td>
+<td style="text-align: left;">0.3 [0.1, 0.6] (n = 39)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DASS_Stress</td>
+<td style="text-align: left;">1.1 [0.6, 1.6] (n = 44)</td>
+<td style="text-align: left;">0.7 [0.4, 1.1] (n = 35)</td>
+<td style="text-align: left;">1.0 [0.5, 1.5] (n = 39)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DASS_Total</td>
+<td style="text-align: left;">0.7 [0.4, 1.1] (n = 44)</td>
+<td style="text-align: left;">0.5 [0.3, 1.0] (n = 35)</td>
+<td style="text-align: left;">0.6 [0.3, 1.2] (n = 39)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MEQ_Mystical</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">2.2 [1.1, 3.2] (n = 34)</td>
+<td style="text-align: left;">2.6 [1.0, 3.7] (n = 38)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MEQ_PositiveMood</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">3.2 [2.2, 3.8] (n = 35)</td>
+<td style="text-align: left;">2.8 [2.0, 3.9] (n = 38)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MEQ_Transcendence</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">2.5 [2.0, 3.5] (n = 35)</td>
+<td style="text-align: left;">2.5 [0.9, 3.2] (n = 39)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MEQ_Ineffability</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">3.0 [2.0, 4.0] (n = 35)</td>
+<td style="text-align: left;">3.3 [2.2, 4.0] (n = 39)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MEQ_Total</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">2.5 [2.0, 3.1] (n = 33)</td>
+<td style="text-align: left;">2.7 [1.3, 3.4] (n = 38)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(score_cols, <span class="cf">function</span>(s) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Group =</span> qi<span class="sc">$</span>Group, <span class="at">Scale =</span> s, <span class="at">Score =</span> qi[[s]])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span> long[<span class="sc">!</span><span class="fu">is.na</span>(long<span class="sc">$</span>Score), ]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>long<span class="sc">$</span>Scale <span class="ot">&lt;-</span> <span class="fu">factor</span>(long<span class="sc">$</span>Scale, <span class="at">levels =</span> score_cols)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(long, <span class="fu">aes</span>(Group, Score, <span class="at">colour =</span> Group)) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Scale, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">ncol =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> group_col, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Questionnaire scores by group"</span>) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  theme_igsa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="0_preprocessing_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="illusion-game-trials" class="level2">
+<h2 class="anchored" data-anchor-id="illusion-game-trials">Illusion Game trials</h2>
+<p>One row per test trial (practice excluded), for every participant in <code>groups.csv</code>, with the predictors the model uses. RT goes from ms to seconds, which cogmod requires.</p>
+<p><strong>Cleaning</strong> follows IllusionGameComputational (<code>0_preprocessing.qmd</code> there), the source of the priors, rather than the manuscript: the model’s outlier component takes the stray fast and slow responses, so only the impossible ones go.</p>
+<ul>
+<li>RT &lt;= 0 or RT &gt;= 6 s.</li>
+<li>A participant x illusion x block whose errors on <em>facilitating</em> trials reach 1/3. There the illusion points to the right answer, so an engaged participant is near-perfect however sensitive to the illusion they are, and guessing or reversed instructions show up as 1/2 or ~1 errors.</li>
+</ul>
+<p><strong>Predictors</strong>, both on [-1, 1], scaled by the task’s stimulus grid (the same for every participant), not by the data, so that a subset cannot change the units:</p>
+<ul>
+<li><code>Illusion_Strength</code>, signed: + conflicting (pushes towards the error), - facilitating; +-1 is the strongest illusion shown. 0 (no illusion) is between the grid’s +-0.1. As in every Illusion Game file, the sign of the strength alone says which way the illusion pushes, whatever the side of the difference: errors by sign in the controls are 1-6% when negative, 34-45% when positive. There is no strength-0 trial.</li>
+<li><code>Task_Difficulty</code>, from |difference|: +1 the smallest difference shown (hardest), -1 the largest (easiest).</li>
+</ul>
+<p>This is IllusionGameComputational’s transformation (<code>Illusion_StrengthZ</code>, <code>Illusion_DifferenceZ</code>) over this task’s narrower grid, with the difference flipped so that the name reads the right way round. The units are therefore not the same as there.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"open/illusiongame.csv"</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[trials<span class="sc">$</span>Participant <span class="sc">%in%</span> groups<span class="sc">$</span>Participant <span class="sc">&amp;</span> trials<span class="sc">$</span>Block <span class="sc">!=</span> <span class="st">"Practice"</span>, <span class="fu">c</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Participant"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Illusion_Difference"</span>, <span class="st">"Illusion_Strength"</span>, <span class="st">"Block"</span>, <span class="st">"Trial"</span>, <span class="st">"RT"</span>, <span class="st">"Error"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">factor</span>(trials<span class="sc">$</span>Participant, <span class="at">levels =</span> groups<span class="sc">$</span>Participant))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(n <span class="sc">!=</span> <span class="dv">480</span>)) <span class="fu">stop</span>(<span class="fu">paste</span>(<span class="fu">names</span>(n)[n <span class="sc">!=</span> <span class="dv">480</span>], <span class="at">collapse =</span> <span class="st">", "</span>), <span class="st">": not 480 test trials"</span>, <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>trials<span class="sc">$</span>RT <span class="ot">&lt;-</span> trials<span class="sc">$</span>RT <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="fu">merge</span>(trials, groups[<span class="fu">c</span>(<span class="st">"Participant"</span>, <span class="st">"Group"</span>)], <span class="at">by =</span> <span class="st">"Participant"</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Cleaning</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>n0 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(trials)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[<span class="sc">!</span><span class="fu">is.na</span>(trials<span class="sc">$</span>RT) <span class="sc">&amp;</span> trials<span class="sc">$</span>RT <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> trials<span class="sc">$</span>RT <span class="sc">&lt;</span> <span class="dv">6</span>, ]</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>n_rt <span class="ot">&lt;-</span> n0 <span class="sc">-</span> <span class="fu">nrow</span>(trials)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>trials<span class="sc">$</span>Illusion_Effect <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(trials<span class="sc">$</span>Illusion_Strength <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Conflicting"</span>, <span class="st">"Facilitating"</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>block <span class="ot">&lt;-</span> <span class="fu">paste</span>(trials<span class="sc">$</span>Participant, trials<span class="sc">$</span>Illusion_Type, trials<span class="sc">$</span>Block)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>fac <span class="ot">&lt;-</span> trials<span class="sc">$</span>Illusion_Effect <span class="sc">==</span> <span class="st">"Facilitating"</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>fac_error <span class="ot">&lt;-</span> <span class="fu">tapply</span>(trials<span class="sc">$</span>Error[fac], block[fac], mean)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>bad <span class="ot">&lt;-</span> <span class="fu">names</span>(fac_error)[fac_error <span class="sc">&gt;=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">3</span>]</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>n_block <span class="ot">&lt;-</span> <span class="fu">sum</span>(block <span class="sc">%in%</span> bad)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[<span class="sc">!</span>block <span class="sc">%in%</span> bad, ]</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictors</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">Illusion_Type =</span> <span class="fu">c</span>(<span class="st">"Ebbinghaus"</span>, <span class="st">"MullerLyer"</span>, <span class="st">"VerticalHorizontal"</span>),</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">Strength_Max =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="dv">30</span>, <span class="dv">45</span>),</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">Difference_Min =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.045</span>, <span class="fl">0.03</span>),</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">Difference_Max =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.45</span>, <span class="fl">0.3</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> grid[<span class="fu">match</span>(trials<span class="sc">$</span>Illusion_Type, grid<span class="sc">$</span>Illusion_Type), ]</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">anyNA</span>(g<span class="sc">$</span>Strength_Max),</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(trials<span class="sc">$</span>Illusion_Strength) <span class="sc">&lt;=</span> g<span class="sc">$</span>Strength_Max <span class="sc">+</span> <span class="fl">1e-6</span>,</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(trials<span class="sc">$</span>Illusion_Difference) <span class="sc">&gt;=</span> g<span class="sc">$</span>Difference_Min <span class="sc">-</span> <span class="fl">1e-6</span>,</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(trials<span class="sc">$</span>Illusion_Difference) <span class="sc">&lt;=</span> g<span class="sc">$</span>Difference_Max <span class="sc">+</span> <span class="fl">1e-6</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>trials<span class="sc">$</span>Illusion_Strength_Raw <span class="ot">&lt;-</span> trials<span class="sc">$</span>Illusion_Strength</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>trials<span class="sc">$</span>Illusion_Strength <span class="ot">&lt;-</span> trials<span class="sc">$</span>Illusion_Strength_Raw <span class="sc">/</span> g<span class="sc">$</span>Strength_Max</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>trials<span class="sc">$</span>Task_Difficulty <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">abs</span>(trials<span class="sc">$</span>Illusion_Difference) <span class="sc">-</span> g<span class="sc">$</span>Difference_Min) <span class="sc">/</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>  (g<span class="sc">$</span>Difference_Max <span class="sc">-</span> g<span class="sc">$</span>Difference_Min)</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[<span class="fu">order</span>(trials<span class="sc">$</span>Participant, trials<span class="sc">$</span>Block, trials<span class="sc">$</span>Illusion_Type, trials<span class="sc">$</span>Trial), <span class="fu">c</span>(</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Participant"</span>, <span class="st">"Group"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Block"</span>, <span class="st">"Trial"</span>,</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Illusion_Difference"</span>, <span class="st">"Illusion_Strength_Raw"</span>, <span class="st">"Illusion_Effect"</span>,</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Illusion_Strength"</span>, <span class="st">"Task_Difficulty"</span>, <span class="st">"RT"</span>, <span class="st">"Error"</span></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(trials, <span class="fu">data_path</span>(<span class="st">"data_illusiongame.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The stimulus grid, in each illusion’s units:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Illusion_Type</th>
+<th style="text-align: right;">Strength_Max</th>
+<th style="text-align: right;">Difference_Min</th>
+<th style="text-align: right;">Difference_Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MullerLyer</td>
+<td style="text-align: right;">30.0</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VerticalHorizontal</td>
+<td style="text-align: right;">45.0</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.30</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>55,937 trials of 118 participants remain: 246 trials were removed on RT and 457 in 6 blocks on facilitating errors.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>removed <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">strsplit</span>(bad, <span class="st">" "</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(bad)) knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">Participant =</span> removed[, <span class="dv">1</span>], <span class="at">Illusion =</span> removed[, <span class="dv">2</span>], <span class="at">Block =</span> removed[, <span class="dv">3</span>],</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"Facilitating errors"</span> <span class="ot">=</span> <span class="fu">round</span>(fac_error[bad], <span class="dv">2</span>), <span class="at">check.names =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Participant</th>
+<th style="text-align: left;">Illusion</th>
+<th style="text-align: left;">Block</th>
+<th style="text-align: right;">Facilitating errors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">S034</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">0.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S034</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">0.46</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S084</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">0.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S106</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">0.35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S111</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">0.90</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S124</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">0.68</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(trials) <span class="sc">==</span> <span class="dv">55937</span>, <span class="fu">length</span>(<span class="fu">unique</span>(trials<span class="sc">$</span>Participant)) <span class="sc">==</span> <span class="dv">118</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>What the cleaned trials look like, before any model: the error rate and the median RT at each strength of the grid, per group and illusion.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(<span class="fu">cbind</span>(<span class="at">Error =</span> trials<span class="sc">$</span>Error, <span class="at">RT =</span> trials<span class="sc">$</span>RT),</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">by =</span> trials[<span class="fu">c</span>(<span class="st">"Group"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Illusion_Strength"</span>)],</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">median =</span> <span class="fu">median</span>(x)))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>raw <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(cells[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">Measure =</span> <span class="st">"Error rate"</span>, <span class="at">Value =</span> cells<span class="sc">$</span>Error[, <span class="st">"mean"</span>]),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(cells[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">Measure =</span> <span class="st">"Median RT (s)"</span>, <span class="at">Value =</span> cells<span class="sc">$</span>RT[, <span class="st">"median"</span>])</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>raw<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(raw<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">names</span>(group_col))</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>raw<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(illusions[raw<span class="sc">$</span>Illusion_Type], <span class="at">levels =</span> illusions)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(raw, <span class="fu">aes</span>(Illusion_Strength, Value, <span class="at">colour =</span> Group)) <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#9a9a95"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Measure <span class="sc">~</span> Illusion_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">switch =</span> <span class="st">"y"</span>) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Illusion strength (scaled)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Cleaned trials per group"</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Each point pools every trial of the group at that strength, across task difficulty.</span><span class="sc">\n</span><span class="st">Strength: + pushes towards the error (conflicting), - towards the right answer (facilitating)."</span>) <span class="sc">+</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  theme_igsa <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">strip.placement =</span> <span class="st">"outside"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="0_preprocessing_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="self-association-trials" class="level2">
+<h2 class="anchored" data-anchor-id="self-association-trials">Self-association trials</h2>
+<p>Not built yet. <code>data/open/selfassociation.csv</code> holds every trial of the 125 sessions that reached the task; the cleaning rules of the self-association paper are still to be decided, and the section that writes <code>data/data_selfassociation.csv</code> belongs here once they are.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,508 @@
+---
+title: "IllusionGameSelfAssociation - Preprocessing"
+editor: source
+editor_options:
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute:
+  cache: false
+  warning: false
+  message: false
+---
+
+From the de-identified open data in `data/open/` (codebook:
+`data/open/README.md`; built from the raw jsPsych files by
+`analysis/0_deidentify.R`, which only the holder of the raw files runs) to the
+derived files every analysis starts from. They are written to `data/`, which is
+gitignored:
+
+| file | content |
+| --- | --- |
+| `data/groups.csv` | who is in the illusion analysis and in which group (Never / Past / Recent), with the screening answers that decided it |
+| `data/questionnaires.csv` | AAQ-II, DASS-21 and MEQ-30 scores, for every session with items |
+| `data/data_illusiongame.csv` | the Illusion Game test trials of everyone in `groups.csv`, cleaned and scaled: the input of the model in `analysis/server/models.R` |
+
+Render from the repo root (about 15 seconds):
+
+```bash
+quarto render analysis/0_preprocessing.qmd
+```
+
+The group rules are the manuscript's (Participants section) and reproduce its
+43 / 39 / 35 exactly, with one departure decided on 2026-11-02: a control who
+typed age 16 is kept as a probable typing error, with age missing, so Never is
+44. The trial cleaning follows IllusionGameComputational, the source of the
+model's priors, rather than the manuscript. Each section ends with a check that
+stops the render if a count changes.
+
+```{r}
+library(ggplot2)
+
+# Runs from analysis/ (quarto) or from the repo root (interactively).
+repo <- if (dir.exists("server")) ".." else "."
+data_path <- function(...) file.path(repo, "data", ...)
+
+participants <- read.csv(data_path("open/participants.csv"))
+
+group_col <- c(Never = "#7a7a75", Past = "#2a78d6", Recent = "#eb6834")
+illusions <- c(Ebbinghaus = "Ebbinghaus", MullerLyer = "Müller-Lyer",
+               VerticalHorizontal = "Vertical-Horizontal")
+theme_igsa <- theme_minimal(base_size = 10) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(colour = "#ebebe8", linewidth = 0.3),
+    strip.text = element_text(face = "bold", hjust = 0),
+    legend.position = "top",
+    legend.justification = "left",
+    plot.background = element_rect(fill = "white", colour = NA),
+    plot.caption = element_text(colour = "#6b6b66", hjust = 0)
+  )
+```
+
+## Sessions
+
+The open data hold every session of the study's four arms, whatever its later
+inclusion. The arm is the experiment's `group` URL parameter: `control` and
+`control_T0_bis` are psychedelic-naïve controls, `psychedelic_society` (French)
+and `psychedelics_soc_english` are users recruited through psychedelic
+societies. The longitudinal arm (`control_T0`, `ketamine_*`, `*_T1`) is not in
+the open data.
+
+```{r}
+knitr::kable(addmargins(table(Arm = participants$Arm, Language = participants$Session_Language)))
+```
+
+`r sum(participants$Completed_IG & participants$Completed_SAT)` of
+`r nrow(participants)` sessions completed both tasks;
+`r sum(participants$Completed_IG & !participants$Completed_SAT)` have the full
+Illusion Game but no self-association task.
+
+## Groups
+
+Each arm ran its own screening (`experiment/demographics.js`). The rules:
+
+- **Eligible:** completed both tasks, and tested by April 2026, the data
+  freeze. The manuscript's last session is 2026-04-02; the open data keep the
+  month only, and no session falls between that day and May. Three users were
+  tested later (May and September 2026); set `freeze <- NA` to include them.
+  (A stated age under 18 is handled upstream: the only one, the age-16 control,
+  has age missing in the open data, and `0_deidentify.R` stops on any other.)
+- **Never:** control arm, answering No to "Have you ever taken a classical
+  psychedelic in your life?".
+- **Recent:** psychedelic-society arm whose last classic psychedelic was 30
+  days ago or less. Days come from the free-text "how many days since your last
+  classic psychedelic?" ("18 jours", "3 semaines", "Environ 12 mois"); where it
+  cannot be read, from the yes/no "in the last month?" just before it. The
+  days rather than the yes/no answer is what reproduces the manuscript: they
+  disagree for 7 of 80 users (e.g. "Yes" with 45 or 60 days), and the yes/no
+  answer alone gives 43 / 32 instead of 39 / 35.
+- **Past:** the same arm, more than 30 days.
+- **Out:** controls reporting use, and users reporting experience only with
+  non-classic substances, i.e. a lifetime frequency of "Never" *and* a
+  non-classic ("Other") last substance. Either alone is not enough: S115 says
+  "Never" but took ayahuasca, S060 took "Other" last but classics 11-50 times,
+  and the manuscript kept both.
+
+```{r}
+freeze <- "2026-04" # last month included (YYYY-MM)
+control_arms <- c("control", "control_T0_bis")
+user_arms <- c("psychedelic_society", "psychedelics_soc_english")
+
+# "14", "18 jours", "3 semaines", "Environ 12 mois", "4 months ago", "5 ans"
+parse_days <- function(x) {
+  s <- tolower(trimws(x))
+  m <- regmatches(s, regexec("^(?:environ |about )?([0-9]+(?:[.,][0-9]+)?) *(.*)$", s, perl = TRUE))
+  vapply(m, function(h) {
+    if (length(h) != 3) return(NA_real_)
+    n <- as.numeric(sub(",", ".", h[2]))
+    unit <- h[3]
+    if (unit == "" || grepl("^(jour|day|à peu|a peu)", unit)) return(n)
+    if (grepl("^(semaine|week)", unit)) return(7 * n)
+    if (grepl("^(mois|month)", unit)) return(30 * n)
+    if (grepl("^(an|year)", unit)) return(365 * n)
+    NA_real_
+  }, numeric(1))
+}
+
+df <- participants
+df$Days <- parse_days(df$Psychedelics_DaysAgo)
+recent <- ifelse(!is.na(df$Days), df$Days <= 30, df$Psychedelics_LastMonth %in% "Yes")
+only_non_classic <- df$Psychedelics_Frequency %in% "Never" & df$Experience_Substance %in% "Other"
+df$Group <- ifelse(
+  df$Arm %in% control_arms,
+  ifelse(df$Psychedelics_Ever %in% "No", "Never", "out: control reporting use"),
+  ifelse(df$Arm %in% user_arms,
+         ifelse(only_non_classic, "out: non-classic substances only",
+                ifelse(recent, "Recent", "Past")),
+         "out: not in this study's arms")
+)
+df$Group[!(df$Completed_IG & df$Completed_SAT)] <- "out: protocol not completed"
+df$Group[!is.na(freeze) & df$Session_Month > freeze] <- "out: after the data freeze"
+
+excluded <- startsWith(df$Group, "out")
+included <- df[!excluded, ]
+included$Group <- factor(included$Group, levels = c("Never", "Past", "Recent"))
+
+groups <- df[!excluded, c("Participant", "Group", "Arm", "Session_Month", "Psychedelics_Ever",
+                          "Psychedelics_LastMonth", "Psychedelics_DaysAgo", "Days",
+                          "Psychedelics_Frequency", "Experience_Substance")]
+write.csv(groups[order(groups$Group, groups$Participant), ], data_path("groups.csv"), row.names = FALSE)
+```
+
+Where the yes/no answer and the days disagree, the days win:
+
+```{r}
+odd <- !is.na(df$Days) & !is.na(df$Psychedelics_LastMonth) &
+  (df$Days <= 30) != (df$Psychedelics_LastMonth == "Yes") & df$Group %in% c("Recent", "Past")
+knitr::kable(df[odd, c("Participant", "Group", "Psychedelics_LastMonth", "Psychedelics_DaysAgo")],
+             row.names = FALSE)
+```
+
+Excluded:
+
+```{r}
+knitr::kable(df[excluded, c("Participant", "Arm", "Session_Month", "Group")], row.names = FALSE)
+```
+
+```{r}
+counts <- table(included$Group)
+knitr::kable(as.data.frame(counts, responseName = "N"), col.names = c("Group", "N"))
+# The manuscript's 43 / 35 / 39, plus the age-16 control in Never.
+stopifnot(identical(as.vector(counts[c("Never", "Past", "Recent")]), c(44L, 35L, 39L)))
+```
+
+## Sample
+
+The groups differ in more than psychedelic use: the controls are younger,
+mostly students, and less than half are native speakers of the session's
+language. These are reported in the paper, not adjusted for (see `AGENTS.md`,
+"Age and the other group differences").
+
+```{r}
+pct <- function(x) sprintf("%d (%.0f%%)", sum(x, na.rm = TRUE), 100 * mean(x, na.rm = TRUE))
+education <- c("High school", "Bachelor", "Master", "Doctorate", "Other")
+education <- education[education %in% included$Education]
+describe <- function(g) {
+  age <- g$Age
+  c(
+    "N" = nrow(g),
+    "Age, median (range)" = sprintf("%g (%g-%g)", median(age, na.rm = TRUE), min(age, na.rm = TRUE), max(age, na.rm = TRUE)),
+    "Age, mean (SD)" = sprintf("%.1f (%.1f)", mean(age, na.rm = TRUE), sd(age, na.rm = TRUE)),
+    "Age missing" = sum(is.na(age)),
+    "Women" = pct(g$Sex == "Female"),
+    "Students" = pct(g$Student == "Yes"),
+    "Native speakers" = pct(g$Language_Level == "Native"),
+    "Session in English" = pct(g$Session_Language == "English"),
+    setNames(sapply(education, function(e) pct(g$Education == e)), paste("Education:", education)),
+    "Past diagnosis" = pct(g$Diagnosis_Past == "Yes"),
+    "Current diagnosis" = pct(g$Diagnosis_Current == "Yes"),
+    "Meditates weekly" = pct(g$Meditation == "Yes")
+  )
+}
+knitr::kable(sapply(split(included, included$Group), describe))
+```
+
+Ages by group:
+
+```{r}
+included$Age_Band <- cut(included$Age, c(-Inf, 25, 30, 50, Inf),
+                         labels = c("<= 25", "26-30", "31-50", "> 50"))
+knitr::kable(addmargins(table(Group = included$Group, Age = included$Age_Band, useNA = "ifany"), 2))
+```
+
+```{r}
+#| fig-width: 6
+#| fig-height: 3.5
+
+ggplot(included[!is.na(included$Age), ], aes(Age, Group, colour = Group)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.15, width = 0.5) +
+  geom_jitter(height = 0.2, width = 0, alpha = 0.7, size = 1.5) +
+  scale_colour_manual(values = group_col, guide = "none") +
+  scale_y_discrete(limits = rev) +
+  labs(x = "Age (years)", y = NULL, title = "Age by group") +
+  theme_igsa
+```
+
+## Questionnaires
+
+Items are stored as jsPsych's 0-based index of the chosen label
+(`experiment/questionnaires.js` has the labels and wording). None of the three
+instruments has a reverse-keyed item, and in every one the first label is the
+lowest anchor, so a higher index is more of what the scale measures. The
+scoring follows the manuscript:
+
+- **AAQ-II** (7 items, "never true" to "always true"): the sum, with the items
+  on the published 1-7 scale (the stored 0-6 plus one), so the range is 7-49
+  and the published cut-offs apply. Higher is less psychological flexibility.
+- **DASS-21** (21 items, 0 "did not apply to me at all" to 3 "applied to me
+  very much"): the mean of the 7 items of each subscale (Depression, Anxiety,
+  Stress), on 0-3, and the total as the mean of the three. (The conventional
+  severity scores are the subscale sums doubled, i.e. 14 times these means.)
+- **MEQ-30** (30 items, 0 "none, not at all" to 5 "extreme"; users only, about
+  their last classic psychedelic experience): the mean of the items of each
+  of the four Barrett et al. (2015) factors (Mystical, 15 items; Positive mood,
+  6; Transcendence of time and space, 6; Ineffability, 3), and the total as the
+  mean of all 30. `MEQ_Complete` flags a "complete mystical experience": at
+  least 60% of the maximum (a mean of 3) on all four factors.
+
+**Missing items.** A scale is scored when at most one of its items is missing,
+as the mean of the answered items (times the number of items for the AAQ-II
+sum); with more missing it is `NA`. A total is `NA` when any of its parts is.
+`*_Missing` counts the missing items per instrument.
+
+```{r}
+items <- function(pattern) participants[grep(pattern, names(participants))]
+
+# Every stored item is an integer index within the label range.
+check_items <- function(x, max_index) {
+  v <- unlist(x)
+  stopifnot(all(v == round(v), na.rm = TRUE), all(v >= 0, na.rm = TRUE), all(v <= max_index, na.rm = TRUE))
+}
+check_items(items("^AAQ_"), 6)
+check_items(items("^DASS_"), 3)
+check_items(items("^MEQ_"), 5)
+stopifnot(ncol(items("^AAQ_")) == 7, ncol(items("^DASS_")) == 21, ncol(items("^MEQ_")) == 30)
+
+score <- function(x, max_missing = 1, offset = 0) {
+  m <- rowMeans(x + offset, na.rm = TRUE)
+  m[rowSums(is.na(x)) > max_missing] <- NA
+  m
+}
+
+q <- participants[c("Participant", "Arm")]
+q$Group <- as.character(included$Group)[match(q$Participant, included$Participant)]
+
+q$AAQ <- 7 * score(items("^AAQ_"), offset = 1)
+q$AAQ_Missing <- rowSums(is.na(items("^AAQ_")))
+
+for (s in c("Depression", "Anxiety", "Stress")) q[[paste0("DASS_", s)]] <- score(items(paste0("^DASS_", s, "_")))
+q$DASS_Total <- rowMeans(q[c("DASS_Depression", "DASS_Anxiety", "DASS_Stress")])
+q$DASS_Missing <- rowSums(is.na(items("^DASS_")))
+
+for (s in c("Mystical", "PositiveMood", "Transcendence", "Ineffability")) q[[paste0("MEQ_", s)]] <- score(items(paste0("^MEQ_", s, "_")))
+q$MEQ_Total <- score(items("^MEQ_"))
+q$MEQ_Complete <- as.logical(rowSums(q[paste0("MEQ_", c("Mystical", "PositiveMood", "Transcendence", "Ineffability"))] >= 3) == 4)
+q$MEQ_Missing <- rowSums(is.na(items("^MEQ_")))
+
+write.csv(q, data_path("questionnaires.csv"), row.names = FALSE)
+```
+
+How many sessions each instrument scores, and what the missing-item rule
+does:
+
+```{r}
+has_items <- function(pattern) rowSums(!is.na(items(pattern))) > 0
+rule <- data.frame(
+  Instrument = c("AAQ-II", "DASS-21", "MEQ-30"),
+  "With items" = c(sum(has_items("^AAQ_")), sum(has_items("^DASS_")), sum(has_items("^MEQ_"))),
+  "Scored" = c(sum(!is.na(q$AAQ)), sum(!is.na(q$DASS_Total)), sum(!is.na(q$MEQ_Total))),
+  "Prorated" = c(sum(!is.na(q$AAQ) & q$AAQ_Missing == 1),
+                                  sum(!is.na(q$DASS_Total) & q$DASS_Missing > 0),
+                                  sum(!is.na(q$MEQ_Total) & q$MEQ_Missing == 1)),
+  "Not scored (items missing)" = c(sum(has_items("^AAQ_") & is.na(q$AAQ)),
+                                   sum(has_items("^DASS_") & is.na(q$DASS_Total)),
+                                   sum(has_items("^MEQ_") & is.na(q$MEQ_Total))),
+  check.names = FALSE
+)
+knitr::kable(rule)
+```
+
+Internal consistency (Cronbach's alpha, sessions with every item of the
+scale):
+
+```{r}
+alpha <- function(x) {
+  x <- x[stats::complete.cases(x), ]
+  k <- ncol(x)
+  c(alpha = k / (k - 1) * (1 - sum(apply(x, 2, stats::var)) / stats::var(rowSums(x))), n = nrow(x))
+}
+scales <- list(
+  "AAQ-II" = "^AAQ_", "DASS-21 total" = "^DASS_", "DASS Depression" = "^DASS_Depression_",
+  "DASS Anxiety" = "^DASS_Anxiety_", "DASS Stress" = "^DASS_Stress_", "MEQ-30 total" = "^MEQ_",
+  "MEQ Mystical" = "^MEQ_Mystical_", "MEQ Positive mood" = "^MEQ_PositiveMood_",
+  "MEQ Transcendence" = "^MEQ_Transcendence_", "MEQ Ineffability" = "^MEQ_Ineffability_"
+)
+knitr::kable(t(sapply(scales, function(p) alpha(items(p)))), digits = c(2, 0))
+```
+
+Scores of the included participants, by group (median [first, third
+quartile]; the MEQ-30 is users only):
+
+```{r}
+score_cols <- c("AAQ", "DASS_Depression", "DASS_Anxiety", "DASS_Stress", "DASS_Total",
+                "MEQ_Mystical", "MEQ_PositiveMood", "MEQ_Transcendence", "MEQ_Ineffability", "MEQ_Total")
+qi <- q[!is.na(q$Group), ]
+qi$Group <- factor(qi$Group, levels = names(group_col))
+summarise_scores <- function(g) {
+  sapply(score_cols, function(s) {
+    v <- g[[s]][!is.na(g[[s]])]
+    if (length(v) == 0) return("")
+    sprintf("%.1f [%.1f, %.1f] (n = %d)", median(v), quantile(v, 0.25), quantile(v, 0.75), length(v))
+  })
+}
+knitr::kable(sapply(split(qi, qi$Group), summarise_scores))
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+
+long <- do.call(rbind, lapply(score_cols, function(s) {
+  data.frame(Group = qi$Group, Scale = s, Score = qi[[s]])
+}))
+long <- long[!is.na(long$Score), ]
+long$Scale <- factor(long$Scale, levels = score_cols)
+
+ggplot(long, aes(Group, Score, colour = Group)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.15, width = 0.5) +
+  geom_jitter(width = 0.2, height = 0, alpha = 0.5, size = 1) +
+  facet_wrap(~ Scale, scales = "free_y", ncol = 5) +
+  scale_colour_manual(values = group_col, guide = "none") +
+  labs(x = NULL, y = NULL, title = "Questionnaire scores by group") +
+  theme_igsa
+```
+
+## Illusion Game trials
+
+One row per test trial (practice excluded), for every participant in
+`groups.csv`, with the predictors the model uses. RT goes from ms to seconds,
+which cogmod requires.
+
+**Cleaning** follows IllusionGameComputational (`0_preprocessing.qmd` there),
+the source of the priors, rather than the manuscript: the model's outlier
+component takes the stray fast and slow responses, so only the impossible ones
+go.
+
+- RT <= 0 or RT >= 6 s.
+- A participant x illusion x block whose errors on *facilitating* trials reach
+  1/3. There the illusion points to the right answer, so an engaged participant
+  is near-perfect however sensitive to the illusion they are, and guessing or
+  reversed instructions show up as 1/2 or ~1 errors.
+
+**Predictors**, both on [-1, 1], scaled by the task's stimulus grid (the same
+for every participant), not by the data, so that a subset cannot change the
+units:
+
+- `Illusion_Strength`, signed: + conflicting (pushes towards the error), -
+  facilitating; +-1 is the strongest illusion shown. 0 (no illusion) is between
+  the grid's +-0.1. As in every Illusion Game file, the sign of the strength
+  alone says which way the illusion pushes, whatever the side of the
+  difference: errors by sign in the controls are 1-6% when negative, 34-45%
+  when positive. There is no strength-0 trial.
+- `Task_Difficulty`, from |difference|: +1 the smallest difference shown
+  (hardest), -1 the largest (easiest).
+
+This is IllusionGameComputational's transformation (`Illusion_StrengthZ`,
+`Illusion_DifferenceZ`) over this task's narrower grid, with the difference
+flipped so that the name reads the right way round. The units are therefore
+not the same as there.
+
+```{r}
+trials <- read.csv(data_path("open/illusiongame.csv"))
+trials <- trials[trials$Participant %in% groups$Participant & trials$Block != "Practice", c(
+  "Participant", "Illusion_Type", "Illusion_Difference", "Illusion_Strength", "Block", "Trial", "RT", "Error"
+)]
+n <- table(factor(trials$Participant, levels = groups$Participant))
+if (any(n != 480)) stop(paste(names(n)[n != 480], collapse = ", "), ": not 480 test trials", call. = FALSE)
+trials$RT <- trials$RT / 1000
+trials <- merge(trials, groups[c("Participant", "Group")], by = "Participant")
+
+# Cleaning
+n0 <- nrow(trials)
+trials <- trials[!is.na(trials$RT) & trials$RT > 0 & trials$RT < 6, ]
+n_rt <- n0 - nrow(trials)
+
+trials$Illusion_Effect <- ifelse(trials$Illusion_Strength > 0, "Conflicting", "Facilitating")
+block <- paste(trials$Participant, trials$Illusion_Type, trials$Block)
+fac <- trials$Illusion_Effect == "Facilitating"
+fac_error <- tapply(trials$Error[fac], block[fac], mean)
+bad <- names(fac_error)[fac_error >= 1 / 3]
+n_block <- sum(block %in% bad)
+trials <- trials[!block %in% bad, ]
+
+# Predictors
+grid <- data.frame(
+  Illusion_Type = c("Ebbinghaus", "MullerLyer", "VerticalHorizontal"),
+  Strength_Max = c(1.5, 30, 45),
+  Difference_Min = c(0.05, 0.045, 0.03),
+  Difference_Max = c(0.5, 0.45, 0.3)
+)
+g <- grid[match(trials$Illusion_Type, grid$Illusion_Type), ]
+stopifnot(
+  !anyNA(g$Strength_Max),
+  abs(trials$Illusion_Strength) <= g$Strength_Max + 1e-6,
+  abs(trials$Illusion_Difference) >= g$Difference_Min - 1e-6,
+  abs(trials$Illusion_Difference) <= g$Difference_Max + 1e-6
+)
+trials$Illusion_Strength_Raw <- trials$Illusion_Strength
+trials$Illusion_Strength <- trials$Illusion_Strength_Raw / g$Strength_Max
+trials$Task_Difficulty <- 1 - 2 * (abs(trials$Illusion_Difference) - g$Difference_Min) /
+  (g$Difference_Max - g$Difference_Min)
+
+trials <- trials[order(trials$Participant, trials$Block, trials$Illusion_Type, trials$Trial), c(
+  "Participant", "Group", "Illusion_Type", "Block", "Trial",
+  "Illusion_Difference", "Illusion_Strength_Raw", "Illusion_Effect",
+  "Illusion_Strength", "Task_Difficulty", "RT", "Error"
+)]
+write.csv(trials, data_path("data_illusiongame.csv"), row.names = FALSE)
+```
+
+The stimulus grid, in each illusion's units:
+
+```{r}
+knitr::kable(grid)
+```
+
+`r format(nrow(trials), big.mark = ",")` trials of
+`r length(unique(trials$Participant))` participants remain: `r n_rt` trials
+were removed on RT and `r n_block` in `r length(bad)` blocks on facilitating
+errors.
+
+```{r}
+removed <- do.call(rbind, strsplit(bad, " "))
+if (length(bad)) knitr::kable(data.frame(Participant = removed[, 1], Illusion = removed[, 2], Block = removed[, 3],
+                                         "Facilitating errors" = round(fac_error[bad], 2), check.names = FALSE),
+                              row.names = FALSE)
+stopifnot(nrow(trials) == 55937, length(unique(trials$Participant)) == 118)
+```
+
+What the cleaned trials look like, before any model: the error rate and the
+median RT at each strength of the grid, per group and illusion.
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+
+cells <- aggregate(cbind(Error = trials$Error, RT = trials$RT),
+                   by = trials[c("Group", "Illusion_Type", "Illusion_Strength")],
+                   FUN = function(x) c(mean = mean(x), median = median(x)))
+raw <- rbind(
+  data.frame(cells[1:3], Measure = "Error rate", Value = cells$Error[, "mean"]),
+  data.frame(cells[1:3], Measure = "Median RT (s)", Value = cells$RT[, "median"])
+)
+raw$Group <- factor(raw$Group, levels = names(group_col))
+raw$Illusion_Type <- factor(illusions[raw$Illusion_Type], levels = illusions)
+
+ggplot(raw, aes(Illusion_Strength, Value, colour = Group)) +
+  geom_vline(xintercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+  geom_line(linewidth = 0.7) +
+  geom_point(size = 1.2) +
+  facet_grid(Measure ~ Illusion_Type, scales = "free_y", switch = "y") +
+  scale_colour_manual(values = group_col) +
+  scale_x_continuous(breaks = c(-1, 0, 1)) +
+  labs(x = "Illusion strength (scaled)", y = NULL, colour = NULL,
+       title = "Cleaned trials per group",
+       caption = "Each point pools every trial of the group at that strength, across task difficulty.\nStrength: + pushes towards the error (conflicting), - towards the right answer (facilitating).") +
+  theme_igsa + theme(strip.placement = "outside")
+```
+
+## Self-association trials
+
+Not built yet. `data/open/selfassociation.csv` holds every trial of the 125
+sessions that reached the task; the cleaning rules of the self-association
+paper are still to be decided, and the section that writes
+`data/data_selfassociation.csv` belongs here once they are.

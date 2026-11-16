@@ -1,0 +1,5 @@
+# Cluster-side files must be LF (a CRLF .slurm fails with "bad interpreter")
+*.slurm              text eol=lf
+*.sh                 text eol=lf
+analysis/server/hpc  text eol=lf
+analysis/server/*.R  text eol=lf

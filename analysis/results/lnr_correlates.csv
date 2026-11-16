@@ -1,0 +1,287 @@
+"Quantity","Design","N","Term","Median","CI_low","CI_high","pd"
+"Discriminability, no illusion","Group",118,"Past - Never",0.682806966926996,0.344163227804725,1.08289572771105,1
+"Discriminability, no illusion","Group",118,"Recent - Never",0.960353668095467,0.587464599351463,1.37265384106419,1
+"Discriminability, no illusion","Group + age",116,"Past - Never",0.656838678497357,0.279089853756253,1.01386364039582,1
+"Discriminability, no illusion","Group + age",116,"Recent - Never",0.917119679083654,0.515464744007013,1.32231943092485,1
+"Discriminability, no illusion","Group + age",116,"Age (per 10 years)",0.0663291610699307,-0.0364796199420479,0.177245346906883,0.903
+"Discriminability, no illusion","Group + age + native + student",116,"Past - Never",0.740766335144383,0.321469875098864,1.12925638115846,1
+"Discriminability, no illusion","Group + age + native + student",116,"Recent - Never",0.960788046279109,0.502773466540317,1.37863309266694,1
+"Discriminability, no illusion","Group + age + native + student",116,"Age (per 10 years)",0.0433947265759609,-0.068704393506705,0.164590748328447,0.779
+"Discriminability, no illusion","Group + age + native + student",116,"Native speaker",-0.214248328738368,-0.558059447814352,0.132219278485342,0.891
+"Discriminability, no illusion","Group + age + native + student",116,"Student",-0.136377518761023,-0.508884807822489,0.217653170755371,0.768
+"Discriminability, no illusion","Group + AAQ-II",118,"Past - Never",0.686896942738147,0.29353264349187,1.06629723562776,1
+"Discriminability, no illusion","Group + AAQ-II",118,"Recent - Never",0.964192605742835,0.589854873444249,1.33366451607604,1
+"Discriminability, no illusion","Group + AAQ-II",118,"AAQ-II (per SD)",-0.0495334372452678,-0.174638542448996,0.078470354025731,0.773
+"Discriminability, no illusion","Group + DASS-21",118,"Past - Never",0.675743724243789,0.298913064541452,1.06364175760464,1
+"Discriminability, no illusion","Group + DASS-21",118,"Recent - Never",0.962367669551738,0.604616230866044,1.36249837959554,1
+"Discriminability, no illusion","Group + DASS-21",118,"DASS-21 (per SD)",-0.0517547939933367,-0.177482998299453,0.089443615433944,0.777
+"Discriminability, no illusion","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",-0.00641654162955234,-0.184426404599555,0.1699565406188,0.537
+"Discriminability, no illusion","Group + MEQ-30 total (users)",71,"Recent - Past",0.312001562386085,-0.102831713220363,0.725236357873105,0.933
+"Discriminability, no illusion","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",0.035425779271863,-0.147090370144796,0.205531052175842,0.648
+"Discriminability, no illusion","Group + MEQ mystical (users)",72,"Recent - Past",0.333851464271108,-0.0640983728316302,0.754157722950138,0.939
+"Discriminability, no illusion","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",0.0400590193696911,-0.133159784550904,0.234887454123593,0.66
+"Discriminability, no illusion","Group + MEQ positive mood (users)",73,"Recent - Past",0.304958456360432,-0.127118934944054,0.736693374107164,0.916
+"Discriminability, no illusion","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",-0.0455530025499808,-0.224195510184762,0.126993100655927,0.69
+"Discriminability, no illusion","Group + MEQ transcendence (users)",74,"Recent - Past",0.262777189106101,-0.173752044700021,0.689078058125271,0.877
+"Discriminability, no illusion","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",-0.0364077684711939,-0.205962356268823,0.14013596493623,0.651
+"Discriminability, no illusion","Group + MEQ ineffability (users)",74,"Recent - Past",0.284234231663724,-0.14295066451355,0.719396103211997,0.9
+"Speed, no illusion","Group",118,"Past - Never",-0.51650034383399,-0.781335478517651,-0.243223303092523,1
+"Speed, no illusion","Group",118,"Recent - Never",-0.516321950964713,-0.778195038434559,-0.258227031987308,1
+"Speed, no illusion","Group + age",116,"Past - Never",-0.503401099710895,-0.789031187925639,-0.20927216569091,1
+"Speed, no illusion","Group + age",116,"Recent - Never",-0.487121904166712,-0.781309506579667,-0.20717958629989,1
+"Speed, no illusion","Group + age",116,"Age (per 10 years)",-0.0435293246022056,-0.131438526095013,0.0362130902791454,0.874
+"Speed, no illusion","Group + age + native + student",116,"Past - Never",-0.610755266641327,-0.960841681138793,-0.283729585069901,1
+"Speed, no illusion","Group + age + native + student",116,"Recent - Never",-0.597872828313896,-0.95988894159299,-0.275051027352858,0.999
+"Speed, no illusion","Group + age + native + student",116,"Age (per 10 years)",-0.0488570744234882,-0.152584733460335,0.0552926648198136,0.828
+"Speed, no illusion","Group + age + native + student",116,"Native speaker",0.24506527898638,-0.0444777947989537,0.5610540955322,0.949
+"Speed, no illusion","Group + age + native + student",116,"Student",-0.0056029821786827,-0.320523196783275,0.285355110917918,0.515
+"Speed, no illusion","Group + AAQ-II",118,"Past - Never",-0.519436897509359,-0.802512105488854,-0.219067464872356,1
+"Speed, no illusion","Group + AAQ-II",118,"Recent - Never",-0.512424667211338,-0.804156793887663,-0.231630496100815,1
+"Speed, no illusion","Group + AAQ-II",118,"AAQ-II (per SD)",0.0153639262878841,-0.0911561319927962,0.123891189950019,0.608
+"Speed, no illusion","Group + DASS-21",118,"Past - Never",-0.518246026579075,-0.773912265856742,-0.242415102031237,0.999
+"Speed, no illusion","Group + DASS-21",118,"Recent - Never",-0.517660828923256,-0.800525513284412,-0.260679401005512,0.999
+"Speed, no illusion","Group + DASS-21",118,"DASS-21 (per SD)",0.0376692470210134,-0.0656724797567037,0.139036170080027,0.755
+"Speed, no illusion","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",0.0427929166335088,-0.0961722326694471,0.183525249945923,0.745
+"Speed, no illusion","Group + MEQ-30 total (users)",71,"Recent - Past",-0.0223526553081108,-0.312116780660758,0.281639282437091,0.579
+"Speed, no illusion","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",0.0259472264915091,-0.121082762830497,0.157746743420905,0.655
+"Speed, no illusion","Group + MEQ mystical (users)",72,"Recent - Past",-0.0513321622906902,-0.348874216423947,0.270231317992393,0.631
+"Speed, no illusion","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",-0.0316797646546793,-0.165533555802103,0.108083641277296,0.668
+"Speed, no illusion","Group + MEQ positive mood (users)",73,"Recent - Past",-0.00966837442126446,-0.314052432029525,0.269695049695304,0.533
+"Speed, no illusion","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",0.0701692121719589,-0.0668986029798138,0.200354329589066,0.834
+"Speed, no illusion","Group + MEQ transcendence (users)",74,"Recent - Past",0.024613134906871,-0.25505207230106,0.311887703946676,0.562
+"Speed, no illusion","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",0.0729651932476401,-0.0608786020684781,0.206210063786803,0.846
+"Speed, no illusion","Group + MEQ ineffability (users)",74,"Recent - Past",0.00378849999476151,-0.275274975397745,0.296634523166316,0.51
+"Non-decision time (s), no illusion","Group",118,"Past - Never",0.0528476402605925,0.02581223847629,0.0798280261079658,1
+"Non-decision time (s), no illusion","Group",118,"Recent - Never",0.0412432690472298,0.014307472259312,0.0708603547220673,1
+"Non-decision time (s), no illusion","Group + age",116,"Past - Never",0.0273400240116289,0.0011217620662527,0.0545641848159567,0.981
+"Non-decision time (s), no illusion","Group + age",116,"Recent - Never",0.0159524406919411,-0.0115979103458575,0.0434919848312466,0.888
+"Non-decision time (s), no illusion","Group + age",116,"Age (per 10 years)",0.0213555679113276,0.0134563921755259,0.0289531759353665,1
+"Non-decision time (s), no illusion","Group + age + native + student",116,"Past - Never",0.0405861602681005,0.0115077119130268,0.0716588323539597,0.997
+"Non-decision time (s), no illusion","Group + age + native + student",116,"Recent - Never",0.0291622618279066,-0.00044624286681192,0.0602020934872485,0.971
+"Non-decision time (s), no illusion","Group + age + native + student",116,"Age (per 10 years)",0.02361626376161,0.0143552193130464,0.0320649410757071,1
+"Non-decision time (s), no illusion","Group + age + native + student",116,"Native speaker",-0.0246640900527586,-0.0519690676692912,0.00375684460055429,0.959
+"Non-decision time (s), no illusion","Group + age + native + student",116,"Student",0.00969617901495664,-0.0186755096501168,0.0348619649914854,0.763
+"Non-decision time (s), no illusion","Group + AAQ-II",118,"Past - Never",0.0516687080205221,0.0231141745922827,0.0767137269887173,1
+"Non-decision time (s), no illusion","Group + AAQ-II",118,"Recent - Never",0.0391912711106405,0.0125246887068032,0.0649990014328336,0.996
+"Non-decision time (s), no illusion","Group + AAQ-II",118,"AAQ-II (per SD)",-0.0134137050876107,-0.0246754562229317,-0.00326942561626127,0.995
+"Non-decision time (s), no illusion","Group + DASS-21",118,"Past - Never",0.0508784147599187,0.0252137477209269,0.0782310162723854,1
+"Non-decision time (s), no illusion","Group + DASS-21",118,"Recent - Never",0.0398681109526191,0.0140772638720631,0.0682454783082156,0.999
+"Non-decision time (s), no illusion","Group + DASS-21",118,"DASS-21 (per SD)",-0.0119320842399936,-0.0229333613010954,-0.00125114166833641,0.989
+"Non-decision time (s), no illusion","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",0.0057065736872494,-0.00890122427032713,0.0190249619247954,0.772
+"Non-decision time (s), no illusion","Group + MEQ-30 total (users)",71,"Recent - Past",-0.00858697147686259,-0.0381664964031314,0.0204813146389612,0.732
+"Non-decision time (s), no illusion","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",0.00712205360377672,-0.00656864857955101,0.0216871530964781,0.835
+"Non-decision time (s), no illusion","Group + MEQ mystical (users)",72,"Recent - Past",-0.00977405444292879,-0.0383513935783546,0.0190192444984084,0.752
+"Non-decision time (s), no illusion","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",0.00533722144499814,-0.00804375777042332,0.0184928328644918,0.769
+"Non-decision time (s), no illusion","Group + MEQ positive mood (users)",73,"Recent - Past",-0.00985670602818276,-0.0399597137847659,0.0178540046106283,0.752
+"Non-decision time (s), no illusion","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",0.00302419901887174,-0.0114839893843471,0.0168674328992696,0.676
+"Non-decision time (s), no illusion","Group + MEQ transcendence (users)",74,"Recent - Past",-0.0114270547152583,-0.0379082428367293,0.0165273549973933,0.799
+"Non-decision time (s), no illusion","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",-0.00547729534156411,-0.0200549696549778,0.00754306202506959,0.805
+"Non-decision time (s), no illusion","Group + MEQ ineffability (users)",74,"Recent - Past",-0.0116033086233504,-0.0402125702664502,0.0190512601150621,0.797
+"P(error), no illusion","Group",118,"Past - Never",-0.0258840928951304,-0.0465241285531255,-0.00643966389464674,0.996
+"P(error), no illusion","Group",118,"Recent - Never",-0.0481618997010813,-0.0683133589229112,-0.0293124597737727,1
+"P(error), no illusion","Group + age",116,"Past - Never",-0.0180563584460103,-0.0387825223627142,0.00173679244425276,0.955
+"P(error), no illusion","Group + age",116,"Recent - Never",-0.0394911851904897,-0.0588319266373433,-0.018957728443288,1
+"P(error), no illusion","Group + age",116,"Age (per 10 years)",-0.00778952800707518,-0.013348933654414,-0.00233980693631724,0.997
+"P(error), no illusion","Group + age + native + student",116,"Past - Never",-0.0220529366932222,-0.0435678126813122,0.000749962853714172,0.97
+"P(error), no illusion","Group + age + native + student",116,"Recent - Never",-0.0414039618722406,-0.0649614563516844,-0.0201753048755105,1
+"P(error), no illusion","Group + age + native + student",116,"Age (per 10 years)",-0.00727011616123641,-0.0139420296679625,-0.00025069102540207,0.981
+"P(error), no illusion","Group + age + native + student",116,"Native speaker",0.00989601570168001,-0.00918319459659813,0.030641582745225,0.827
+"P(error), no illusion","Group + age + native + student",116,"Student",0.00527759339283641,-0.0170830206349316,0.0258705566673282,0.68
+"P(error), no illusion","Group + AAQ-II",118,"Past - Never",-0.0249598586337805,-0.0440225630597519,-0.00508719008810376,0.992
+"P(error), no illusion","Group + AAQ-II",118,"Recent - Never",-0.0472489720418369,-0.0664290099908349,-0.0281854759181212,1
+"P(error), no illusion","Group + AAQ-II",118,"AAQ-II (per SD)",0.00525227713236462,-0.00177057067778554,0.0130412407447185,0.924
+"P(error), no illusion","Group + DASS-21",118,"Past - Never",-0.0252777009358993,-0.0443846906284409,-0.00673119223280196,0.995
+"P(error), no illusion","Group + DASS-21",118,"Recent - Never",-0.0478909442702294,-0.067119167196674,-0.0294424763286925,1
+"P(error), no illusion","Group + DASS-21",118,"DASS-21 (per SD)",0.00280847234039017,-0.00480393273167993,0.0106895513899037,0.775
+"P(error), no illusion","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",-0.000378006826024983,-0.00841203682598409,0.00700790817598193,0.551
+"P(error), no illusion","Group + MEQ-30 total (users)",71,"Recent - Past",-0.0211335156135478,-0.0378726680287014,-0.00569866393497208,0.996
+"P(error), no illusion","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",-0.00197923557131801,-0.0099440763068567,0.00604197552522263,0.702
+"P(error), no illusion","Group + MEQ mystical (users)",72,"Recent - Past",-0.0231136483397069,-0.0397385813106099,-0.00600904207896976,0.998
+"P(error), no illusion","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",-0.00112824036131604,-0.00904661988016571,0.00714926079908592,0.603
+"P(error), no illusion","Group + MEQ positive mood (users)",73,"Recent - Past",-0.023845958624852,-0.0396955148576334,-0.00850544752909945,0.999
+"P(error), no illusion","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",-0.00384725963032664,-0.012103040527669,0.00365874060820684,0.842
+"P(error), no illusion","Group + MEQ transcendence (users)",74,"Recent - Past",-0.0230646498483253,-0.0416577649884113,-0.00735577508976322,0.999
+"P(error), no illusion","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",-0.00271743182426764,-0.0104584765379253,0.0052668734238668,0.751
+"P(error), no illusion","Group + MEQ ineffability (users)",74,"Recent - Past",-0.0216726360812819,-0.0383412374566447,-0.00596774461176505,0.996
+"Illusion effect on discriminability","Group",118,"Past - Never",-0.319222722047521,-0.626812830246759,-0.0184599979204135,0.979
+"Illusion effect on discriminability","Group",118,"Recent - Never",-0.52088167732572,-0.83020767280998,-0.151314681965066,0.999
+"Illusion effect on discriminability","Group + age",116,"Past - Never",-0.25087398323674,-0.587751978105847,0.072711474066925,0.928
+"Illusion effect on discriminability","Group + age",116,"Recent - Never",-0.436495683074273,-0.781462814663027,-0.102704956565219,0.996
+"Illusion effect on discriminability","Group + age",116,"Age (per 10 years)",-0.0651525024267266,-0.139896840417808,0.0112594400988647,0.951
+"Illusion effect on discriminability","Group + age + native + student",116,"Past - Never",-0.278149546363952,-0.630592740155533,0.0862229977229502,0.925
+"Illusion effect on discriminability","Group + age + native + student",116,"Recent - Never",-0.428365051083739,-0.767309937361387,-0.0436424739342465,0.987
+"Illusion effect on discriminability","Group + age + native + student",116,"Age (per 10 years)",-0.0375595084538238,-0.127166563307265,0.0614141700255426,0.776
+"Illusion effect on discriminability","Group + age + native + student",116,"Native speaker",0.0813216550977344,-0.19618127431484,0.35582555901744,0.722
+"Illusion effect on discriminability","Group + age + native + student",116,"Student",0.159274888691941,-0.102353206256961,0.454835659813867,0.88
+"Illusion effect on discriminability","Group + AAQ-II",118,"Past - Never",-0.309638491344884,-0.654684903277996,0.0109148367569217,0.972
+"Illusion effect on discriminability","Group + AAQ-II",118,"Recent - Never",-0.500128648592205,-0.820186341170543,-0.152423193693836,0.997
+"Illusion effect on discriminability","Group + AAQ-II",118,"AAQ-II (per SD)",0.0240905430607254,-0.0761703091308432,0.132436136823438,0.675
+"Illusion effect on discriminability","Group + DASS-21",118,"Past - Never",-0.310116578637941,-0.638951678753859,-0.0174762126526967,0.984
+"Illusion effect on discriminability","Group + DASS-21",118,"Recent - Never",-0.512810014677149,-0.813382893406106,-0.18034034367876,0.997
+"Illusion effect on discriminability","Group + DASS-21",118,"DASS-21 (per SD)",-0.0121097917912315,-0.116888376073022,0.0855668308377879,0.61
+"Illusion effect on discriminability","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",0.0138453898762946,-0.11248355006452,0.145991544606098,0.586
+"Illusion effect on discriminability","Group + MEQ-30 total (users)",71,"Recent - Past",-0.18424882925008,-0.566864711005433,0.208432807478106,0.829
+"Illusion effect on discriminability","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",-0.00960995177408061,-0.127080747597905,0.122210239505318,0.558
+"Illusion effect on discriminability","Group + MEQ mystical (users)",72,"Recent - Past",-0.213096731971822,-0.596583668711478,0.196754515246449,0.846
+"Illusion effect on discriminability","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",-0.0285942301196595,-0.159341327452842,0.0992083179881251,0.673
+"Illusion effect on discriminability","Group + MEQ positive mood (users)",73,"Recent - Past",-0.202000793340376,-0.589002599106138,0.170618685193657,0.859
+"Illusion effect on discriminability","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",0.0180266050266911,-0.103108401636243,0.141440871499428,0.611
+"Illusion effect on discriminability","Group + MEQ transcendence (users)",74,"Recent - Past",-0.189663944272333,-0.576155098327132,0.228235331978433,0.841
+"Illusion effect on discriminability","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",0.0335332459174127,-0.0940073263988765,0.164579314490729,0.678
+"Illusion effect on discriminability","Group + MEQ ineffability (users)",74,"Recent - Past",-0.178165997561149,-0.564121667805144,0.193774166471269,0.849
+"Illusion effect on P(error)","Group",118,"Past - Never",-0.0822367889068689,-0.14306286495917,-0.0183855696868315,0.993
+"Illusion effect on P(error)","Group",118,"Recent - Never",-0.0910482744995181,-0.15037039300447,-0.0346110604683864,0.999
+"Illusion effect on P(error)","Group + age",116,"Past - Never",-0.0945269553050394,-0.157464940753366,-0.0336250145227556,0.999
+"Illusion effect on P(error)","Group + age",116,"Recent - Never",-0.100083051492825,-0.162587188445293,-0.0394030307203419,0.999
+"Illusion effect on P(error)","Group + age",116,"Age (per 10 years)",0.00459441627851578,-0.0132213747992056,0.0220352105112445,0.69
+"Illusion effect on P(error)","Group + age + native + student",116,"Past - Never",-0.115766496413698,-0.185069799756845,-0.0473683012186527,1
+"Illusion effect on P(error)","Group + age + native + student",116,"Recent - Never",-0.122818637315663,-0.192970747013135,-0.0512542479679447,0.999
+"Illusion effect on P(error)","Group + age + native + student",116,"Age (per 10 years)",0.00130040542340989,-0.0197638802996534,0.0209688462736275,0.551
+"Illusion effect on P(error)","Group + age + native + student",116,"Native speaker",0.0364856563525777,-0.0192196350788505,0.0951949835595546,0.889
+"Illusion effect on P(error)","Group + age + native + student",116,"Student",-0.0162592440294646,-0.0822507728325613,0.0479265492926059,0.688
+"Illusion effect on P(error)","Group + AAQ-II",118,"Past - Never",-0.0809372467765977,-0.138455103496746,-0.0179442331184466,0.995
+"Illusion effect on P(error)","Group + AAQ-II",118,"Recent - Never",-0.0895009211246872,-0.149212905609106,-0.0293491232662124,1
+"Illusion effect on P(error)","Group + AAQ-II",118,"AAQ-II (per SD)",0.00407709437666036,-0.0179526582050356,0.028540427479146,0.642
+"Illusion effect on P(error)","Group + DASS-21",118,"Past - Never",-0.0776827641002113,-0.137310423725309,-0.0214545562178345,0.995
+"Illusion effect on P(error)","Group + DASS-21",118,"Recent - Never",-0.0871828890732854,-0.146301449264913,-0.0307025444590864,0.998
+"Illusion effect on P(error)","Group + DASS-21",118,"DASS-21 (per SD)",0.0158144823509699,-0.00519790522841681,0.0373156559993823,0.923
+"Illusion effect on P(error)","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",-0.00396530336369806,-0.0331276763366405,0.0223487564511922,0.614
+"Illusion effect on P(error)","Group + MEQ-30 total (users)",71,"Recent - Past",-0.0195383527307759,-0.0805499681778542,0.0432056925817548,0.719
+"Illusion effect on P(error)","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",-0.00383808524945037,-0.0294691104885449,0.0212319425542314,0.633
+"Illusion effect on P(error)","Group + MEQ mystical (users)",72,"Recent - Past",-0.0144377426150673,-0.0783569637730535,0.0421123909464436,0.679
+"Illusion effect on P(error)","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",-0.0037099748918438,-0.0298344224934683,0.0248625072578148,0.61
+"Illusion effect on P(error)","Group + MEQ positive mood (users)",73,"Recent - Past",-0.0146685307950172,-0.0738447105823371,0.0452711581484136,0.678
+"Illusion effect on P(error)","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",0.0113863428936514,-0.0174387963591497,0.0377289364129779,0.782
+"Illusion effect on P(error)","Group + MEQ transcendence (users)",74,"Recent - Past",-0.00433209269753236,-0.0650503573084283,0.0569817209687301,0.548
+"Illusion effect on P(error)","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",0.00157422838228392,-0.0265697816042354,0.0301784533077735,0.549
+"Illusion effect on P(error)","Group + MEQ ineffability (users)",74,"Recent - Past",-0.00954961085273262,-0.0687483307334672,0.0544498056229742,0.619
+"Precision (difficulty slope)","Group",118,"Past - Never",-0.503441101107932,-0.791055163559245,-0.229877409223851,1
+"Precision (difficulty slope)","Group",118,"Recent - Never",-0.663388444262898,-0.96044866473224,-0.359010439477539,1
+"Precision (difficulty slope)","Group + age",116,"Past - Never",-0.456737874116107,-0.740148584748472,-0.175240782432682,1
+"Precision (difficulty slope)","Group + age",116,"Recent - Never",-0.61147046229808,-0.948099683584228,-0.29623295141305,1
+"Precision (difficulty slope)","Group + age",116,"Age (per 10 years)",-0.0483191589609488,-0.114011831275706,0.0115046281266636,0.951
+"Precision (difficulty slope)","Group + age + native + student",116,"Past - Never",-0.485072272235905,-0.791699446091283,-0.171985245791623,1
+"Precision (difficulty slope)","Group + age + native + student",116,"Recent - Never",-0.630094969711785,-0.95387909488782,-0.307133603220506,1
+"Precision (difficulty slope)","Group + age + native + student",116,"Age (per 10 years)",-0.0375825864952404,-0.107381510909723,0.0361573492052786,0.844
+"Precision (difficulty slope)","Group + age + native + student",116,"Native speaker",0.0768477949576845,-0.113563561948459,0.297383649222613,0.794
+"Precision (difficulty slope)","Group + age + native + student",116,"Student",0.0751417470095351,-0.157554072370199,0.303628865577226,0.732
+"Precision (difficulty slope)","Group + AAQ-II",118,"Past - Never",-0.498700592747283,-0.798708155985218,-0.213813468516798,1
+"Precision (difficulty slope)","Group + AAQ-II",118,"Recent - Never",-0.663379691407189,-0.972393207667805,-0.332980779752579,1
+"Precision (difficulty slope)","Group + AAQ-II",118,"AAQ-II (per SD)",0.0143259804533963,-0.059513207368132,0.0944808884304523,0.652
+"Precision (difficulty slope)","Group + DASS-21",118,"Past - Never",-0.504849617051234,-0.798722676994432,-0.211392406805871,1
+"Precision (difficulty slope)","Group + DASS-21",118,"Recent - Never",-0.665031344503116,-0.99053133720308,-0.363171017303357,1
+"Precision (difficulty slope)","Group + DASS-21",118,"DASS-21 (per SD)",0.00863590303695156,-0.0762051361673882,0.0853711939079681,0.589
+"Precision (difficulty slope)","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",0.00394960774281715,-0.0975802327570779,0.110881140225897,0.531
+"Precision (difficulty slope)","Group + MEQ-30 total (users)",71,"Recent - Past",-0.163126947597179,-0.525370526290438,0.181125762636864,0.835
+"Precision (difficulty slope)","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",-0.0143779081712102,-0.124676299282969,0.0868815761857533,0.6
+"Precision (difficulty slope)","Group + MEQ mystical (users)",72,"Recent - Past",-0.182209322854186,-0.545164656979471,0.164519204256538,0.851
+"Precision (difficulty slope)","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",-0.027282366377178,-0.12911274357354,0.0814154467974266,0.681
+"Precision (difficulty slope)","Group + MEQ positive mood (users)",73,"Recent - Past",-0.162359482386347,-0.543735914309117,0.200250198130409,0.821
+"Precision (difficulty slope)","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",0.0177745524498034,-0.0876357200773139,0.121066292656459,0.648
+"Precision (difficulty slope)","Group + MEQ transcendence (users)",74,"Recent - Past",-0.160850513612364,-0.501843739625843,0.2065675408285,0.805
+"Precision (difficulty slope)","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",0.0224952845378436,-0.0848292627029373,0.12249207228894,0.658
+"Precision (difficulty slope)","Group + MEQ ineffability (users)",74,"Recent - Past",-0.160625997638736,-0.528582675591647,0.199771724272227,0.807
+"Illusion magnitude (strength / difficulty)","Group",118,"Past - Never",-0.246769987117269,-0.446538993433077,-0.0913919378053404,0.999
+"Illusion magnitude (strength / difficulty)","Group",118,"Recent - Never",-0.254258384387084,-0.446336687688377,-0.103927939094662,1
+"Illusion magnitude (strength / difficulty)","Group + age",116,"Past - Never",-0.250243064339781,-0.442999492185768,-0.0636075828422275,0.996
+"Illusion magnitude (strength / difficulty)","Group + age",116,"Recent - Never",-0.263338083526616,-0.43520452873354,-0.0863400545887254,0.997
+"Illusion magnitude (strength / difficulty)","Group + age",116,"Age (per 10 years)",-0.0105626613482251,-0.0511165300940581,0.0315913345378711,0.704
+"Illusion magnitude (strength / difficulty)","Group + age + native + student",116,"Past - Never",-0.263408776107728,-0.455638035897562,-0.0673737642698492,0.998
+"Illusion magnitude (strength / difficulty)","Group + age + native + student",116,"Recent - Never",-0.275252606561797,-0.47730760128401,-0.0886191614834973,0.995
+"Illusion magnitude (strength / difficulty)","Group + age + native + student",116,"Age (per 10 years)",-0.0164438705864165,-0.0683261047347182,0.0291623784821952,0.749
+"Illusion magnitude (strength / difficulty)","Group + age + native + student",116,"Native speaker",0.0210129027170887,-0.142316390212607,0.153224240864649,0.611
+"Illusion magnitude (strength / difficulty)","Group + age + native + student",116,"Student",-0.0347609893731821,-0.189554189213966,0.12353017765104,0.696
+"Illusion magnitude (strength / difficulty)","Group + AAQ-II",118,"Past - Never",-0.254943111127548,-0.435139290834241,-0.0952006576673242,0.999
+"Illusion magnitude (strength / difficulty)","Group + AAQ-II",118,"Recent - Never",-0.257341645702782,-0.441100008420423,-0.0980662345387513,1
+"Illusion magnitude (strength / difficulty)","Group + AAQ-II",118,"AAQ-II (per SD)",-0.00481686511173994,-0.0570203556704631,0.0464869578609312,0.579
+"Illusion magnitude (strength / difficulty)","Group + DASS-21",118,"Past - Never",-0.248576981998227,-0.437978735004361,-0.0870779871423359,0.999
+"Illusion magnitude (strength / difficulty)","Group + DASS-21",118,"Recent - Never",-0.260892654735626,-0.432948122233318,-0.100388864384456,0.999
+"Illusion magnitude (strength / difficulty)","Group + DASS-21",118,"DASS-21 (per SD)",0.0115262557535579,-0.0428075399830678,0.0617751695070765,0.663
+"Illusion magnitude (strength / difficulty)","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",-0.00104726428289651,-0.0482029858609215,0.0476625783374856,0.517
+"Illusion magnitude (strength / difficulty)","Group + MEQ-30 total (users)",71,"Recent - Past",-0.0202875906121959,-0.160413633472338,0.114767040809521,0.609
+"Illusion magnitude (strength / difficulty)","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",-0.00307629729514496,-0.0546689234874175,0.0441399860827146,0.551
+"Illusion magnitude (strength / difficulty)","Group + MEQ mystical (users)",72,"Recent - Past",-0.0163965246076193,-0.16038317721996,0.123423674967015,0.587
+"Illusion magnitude (strength / difficulty)","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",0.00558278350509381,-0.0433526149247966,0.0520573873080614,0.583
+"Illusion magnitude (strength / difficulty)","Group + MEQ positive mood (users)",73,"Recent - Past",-0.0110527161076601,-0.1568201301139,0.119941551411682,0.561
+"Illusion magnitude (strength / difficulty)","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",0.0021538381440256,-0.0459536403046902,0.0498577037411322,0.523
+"Illusion magnitude (strength / difficulty)","Group + MEQ transcendence (users)",74,"Recent - Past",-0.00990337584909696,-0.155122727356647,0.138328488817797,0.55
+"Illusion magnitude (strength / difficulty)","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",-0.000841036166141233,-0.0470388308807509,0.0461101035580476,0.512
+"Illusion magnitude (strength / difficulty)","Group + MEQ ineffability (users)",74,"Recent - Past",-0.010822017393727,-0.146273049503831,0.129980953385501,0.553
+"Raw: fastest correct RTs (10th percentile, s)","Group",118,"Past - Never",0.0601844278062141,0.0242395396933407,0.099249270406723,1
+"Raw: fastest correct RTs (10th percentile, s)","Group",118,"Recent - Never",0.0389091860205768,0.0038971051991836,0.0761983541480369,0.987
+"Raw: fastest correct RTs (10th percentile, s)","Group + age",116,"Past - Never",0.0329928101509487,-0.00361961954769927,0.0687012354323638,0.965
+"Raw: fastest correct RTs (10th percentile, s)","Group + age",116,"Recent - Never",0.0113121743089938,-0.0236999196241537,0.0484628517427831,0.752
+"Raw: fastest correct RTs (10th percentile, s)","Group + age",116,"Age (per 10 years)",0.025440035181325,0.0145155428853381,0.0361498072206013,1
+"Raw: fastest correct RTs (10th percentile, s)","Group + age + native + student",116,"Past - Never",0.0608131971843523,0.0206538061695176,0.0982451064186635,0.998
+"Raw: fastest correct RTs (10th percentile, s)","Group + age + native + student",116,"Recent - Never",0.0382370040817083,0.000811004853758777,0.0805942693261324,0.976
+"Raw: fastest correct RTs (10th percentile, s)","Group + age + native + student",116,"Age (per 10 years)",0.0313219134799651,0.018573018647082,0.043341913601059,1
+"Raw: fastest correct RTs (10th percentile, s)","Group + age + native + student",116,"Native speaker",-0.0472614685080033,-0.0834012223615765,-0.0108912288669294,0.997
+"Raw: fastest correct RTs (10th percentile, s)","Group + age + native + student",116,"Student",0.0264968961544771,-0.00949230566833418,0.0627742697868325,0.93
+"Raw: fastest correct RTs (10th percentile, s)","Group + AAQ-II",118,"Past - Never",0.0599550211808619,0.0247327112290891,0.0930984961250343,1
+"Raw: fastest correct RTs (10th percentile, s)","Group + AAQ-II",118,"Recent - Never",0.0373453511705819,0.00279140746340804,0.0711033895872153,0.981
+"Raw: fastest correct RTs (10th percentile, s)","Group + AAQ-II",118,"AAQ-II (per SD)",-0.0156939942374999,-0.0303085638211335,-0.00176958930286097,0.983
+"Raw: fastest correct RTs (10th percentile, s)","Group + DASS-21",118,"Past - Never",0.0577861159337012,0.0219116110820954,0.0934676539232688,0.998
+"Raw: fastest correct RTs (10th percentile, s)","Group + DASS-21",118,"Recent - Never",0.037116266364823,0.00363185431991635,0.0692850894943173,0.981
+"Raw: fastest correct RTs (10th percentile, s)","Group + DASS-21",118,"DASS-21 (per SD)",-0.0177372672376724,-0.03188714449447,-0.00159321819924903,0.988
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",0.0066049128393578,-0.0142344321429906,0.0267310376662682,0.747
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ-30 total (users)",71,"Recent - Past",-0.0175133794243242,-0.0561699385611053,0.0185921873135523,0.815
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",0.00831266082951179,-0.010794364179278,0.027567230418614,0.783
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ mystical (users)",72,"Recent - Past",-0.0166190445744337,-0.0560990260023518,0.0228360236212241,0.787
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",0.00844134049473824,-0.0109483239206174,0.0286122418023748,0.798
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ positive mood (users)",73,"Recent - Past",-0.0209160653876433,-0.0602098927298143,0.0182422103434806,0.844
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",0.00546993802459646,-0.0149284557423941,0.0256630469002411,0.693
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ transcendence (users)",74,"Recent - Past",-0.0205126261634012,-0.0575510582727689,0.0195231063095296,0.841
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",-0.00782068025029989,-0.0266359714577559,0.0116740246705009,0.773
+"Raw: fastest correct RTs (10th percentile, s)","Group + MEQ ineffability (users)",74,"Recent - Past",-0.0224676017411837,-0.0600278751090514,0.0158440662850153,0.88
+"Raw: error rate, facilitating or no illusion","Group",118,"Past - Never",-0.0134745703751291,-0.0252532973493457,-0.00152069972381678,0.986
+"Raw: error rate, facilitating or no illusion","Group",118,"Recent - Never",-0.0250987732269221,-0.0368830111886958,-0.0138363960314751,1
+"Raw: error rate, facilitating or no illusion","Group + age",116,"Past - Never",-0.00758464233640952,-0.0192858154955007,0.00419798537232274,0.881
+"Raw: error rate, facilitating or no illusion","Group + age",116,"Recent - Never",-0.0189159287208463,-0.0302683661719668,-0.00716749455123852,1
+"Raw: error rate, facilitating or no illusion","Group + age",116,"Age (per 10 years)",-0.00552897905297979,-0.00912381635496864,-0.00202228675199132,0.999
+"Raw: error rate, facilitating or no illusion","Group + age + native + student",116,"Past - Never",-0.0110639749838234,-0.0244706229157732,0.00361417563138315,0.928
+"Raw: error rate, facilitating or no illusion","Group + age + native + student",116,"Recent - Never",-0.0205838413845091,-0.0345413266554861,-0.00710087582240274,0.999
+"Raw: error rate, facilitating or no illusion","Group + age + native + student",116,"Age (per 10 years)",-0.00509213572995657,-0.00934427427933273,-0.000992687379249658,0.995
+"Raw: error rate, facilitating or no illusion","Group + age + native + student",116,"Native speaker",0.00895021544127259,-0.00387415614703015,0.02140019217261,0.895
+"Raw: error rate, facilitating or no illusion","Group + age + native + student",116,"Student",0.00423355400284403,-0.00865628674235041,0.0170541602833881,0.748
+"Raw: error rate, facilitating or no illusion","Group + AAQ-II",118,"Past - Never",-0.0134634748477667,-0.0246588202563739,-0.00256628772438118,0.992
+"Raw: error rate, facilitating or no illusion","Group + AAQ-II",118,"Recent - Never",-0.0246057452528101,-0.0365020894342675,-0.0136356040343501,1
+"Raw: error rate, facilitating or no illusion","Group + AAQ-II",118,"AAQ-II (per SD)",0.00297878814309376,-0.00203536509071722,0.0074696368888002,0.881
+"Raw: error rate, facilitating or no illusion","Group + DASS-21",118,"Past - Never",-0.0135706286967501,-0.025169214222709,-0.00185440891074224,0.988
+"Raw: error rate, facilitating or no illusion","Group + DASS-21",118,"Recent - Never",-0.0247415001980467,-0.0362176285739365,-0.0136105402846776,1
+"Raw: error rate, facilitating or no illusion","Group + DASS-21",118,"DASS-21 (per SD)",-0.000161091871145055,-0.00476796569666362,0.00429855983464085,0.533
+"Raw: error rate, facilitating or no illusion","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",0.000196100193468763,-0.00448201842966428,0.00523903633825138,0.527
+"Raw: error rate, facilitating or no illusion","Group + MEQ-30 total (users)",71,"Recent - Past",-0.010054448249878,-0.0193957741986102,-0.000579336972803157,0.978
+"Raw: error rate, facilitating or no illusion","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",-0.000512964674259471,-0.00534250498977516,0.00473568923397304,0.566
+"Raw: error rate, facilitating or no illusion","Group + MEQ mystical (users)",72,"Recent - Past",-0.0121841827194592,-0.0224918291634957,-0.00216448664374729,0.989
+"Raw: error rate, facilitating or no illusion","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",-0.000684379218771419,-0.00595548671468737,0.00426334052569469,0.598
+"Raw: error rate, facilitating or no illusion","Group + MEQ positive mood (users)",73,"Recent - Past",-0.0117845041868832,-0.0219564414788571,-0.00172246080511893,0.989
+"Raw: error rate, facilitating or no illusion","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",-0.0022933680957976,-0.00716705482657015,0.0027868137364795,0.801
+"Raw: error rate, facilitating or no illusion","Group + MEQ transcendence (users)",74,"Recent - Past",-0.012510390366203,-0.0222706381778762,-0.00202964838960039,0.989
+"Raw: error rate, facilitating or no illusion","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",-0.00162537996360436,-0.00683557143248528,0.00329840376320386,0.725
+"Raw: error rate, facilitating or no illusion","Group + MEQ ineffability (users)",74,"Recent - Past",-0.0115336241613419,-0.0209801798641183,-0.00105405943319109,0.985
+"Raw: error rate, conflicting illusion","Group",118,"Past - Never",-0.0553245291392225,-0.0861681021679567,-0.0222493131724271,0.999
+"Raw: error rate, conflicting illusion","Group",118,"Recent - Never",-0.0816492555233207,-0.114117087080169,-0.0489822592509814,1
+"Raw: error rate, conflicting illusion","Group + age",116,"Past - Never",-0.0549926500625134,-0.0901722830369043,-0.0172902055730104,0.998
+"Raw: error rate, conflicting illusion","Group + age",116,"Recent - Never",-0.0777429641868004,-0.112647823274917,-0.044113716204177,1
+"Raw: error rate, conflicting illusion","Group + age",116,"Age (per 10 years)",-0.00568357547837354,-0.0162986071635386,0.00470758192665875,0.846
+"Raw: error rate, conflicting illusion","Group + age + native + student",116,"Past - Never",-0.0690306476304595,-0.111024941121626,-0.0259963822370603,0.999
+"Raw: error rate, conflicting illusion","Group + age + native + student",116,"Recent - Never",-0.0908758629624672,-0.13223272451044,-0.0481417242118905,1
+"Raw: error rate, conflicting illusion","Group + age + native + student",116,"Age (per 10 years)",-0.00728560616262816,-0.0197392736119554,0.00395166412291644,0.877
+"Raw: error rate, conflicting illusion","Group + age + native + student",116,"Native speaker",0.0293103045116425,-0.00630527885771393,0.0688328449159781,0.941
+"Raw: error rate, conflicting illusion","Group + age + native + student",116,"Student",-0.00491476852341983,-0.0407657489554234,0.0343633929637608,0.589
+"Raw: error rate, conflicting illusion","Group + AAQ-II",118,"Past - Never",-0.0526785662974729,-0.0857244392673754,-0.0213669184091081,1
+"Raw: error rate, conflicting illusion","Group + AAQ-II",118,"Recent - Never",-0.0799706836948259,-0.110372455417354,-0.0463385793576699,1
+"Raw: error rate, conflicting illusion","Group + AAQ-II",118,"AAQ-II (per SD)",0.00884793081513756,-0.0060850748055105,0.0235213917403842,0.889
+"Raw: error rate, conflicting illusion","Group + DASS-21",118,"Past - Never",-0.0519589477050456,-0.0871897489745511,-0.0176326155160821,1
+"Raw: error rate, conflicting illusion","Group + DASS-21",118,"Recent - Never",-0.0801893813277096,-0.112850697829308,-0.0464025546482907,1
+"Raw: error rate, conflicting illusion","Group + DASS-21",118,"DASS-21 (per SD)",0.0130064483155325,-0.00206748183306477,0.0262494260382759,0.966
+"Raw: error rate, conflicting illusion","Group + MEQ-30 total (users)",71,"MEQ-30 total (per SD)",-0.00305072425813646,-0.017990495382472,0.0118976240281541,0.668
+"Raw: error rate, conflicting illusion","Group + MEQ-30 total (users)",71,"Recent - Past",-0.0296607328006887,-0.0597382047184027,-0.00115367636454146,0.978
+"Raw: error rate, conflicting illusion","Group + MEQ mystical (users)",72,"MEQ mystical (per SD)",-0.00681563940553931,-0.0221307567902485,0.00924420408762758,0.804
+"Raw: error rate, conflicting illusion","Group + MEQ mystical (users)",72,"Recent - Past",-0.0321846783311025,-0.0625658253215892,-0.00322809067999627,0.988
+"Raw: error rate, conflicting illusion","Group + MEQ positive mood (users)",73,"MEQ positive mood (per SD)",-0.00433347571491806,-0.0192849780063657,0.0103177774552045,0.702
+"Raw: error rate, conflicting illusion","Group + MEQ positive mood (users)",73,"Recent - Past",-0.0310146613343923,-0.0601635667931451,-0.00201887945746329,0.986
+"Raw: error rate, conflicting illusion","Group + MEQ transcendence (users)",74,"MEQ transcendence (per SD)",-0.000839110979836721,-0.0156780612644208,0.0153743439549431,0.536
+"Raw: error rate, conflicting illusion","Group + MEQ transcendence (users)",74,"Recent - Past",-0.0270919649217267,-0.0581717675668321,0.00364038233753781,0.953
+"Raw: error rate, conflicting illusion","Group + MEQ ineffability (users)",74,"MEQ ineffability (per SD)",-0.00179395238513105,-0.0173529852123129,0.0135096647037719,0.595
+"Raw: error rate, conflicting illusion","Group + MEQ ineffability (users)",74,"Recent - Past",-0.0269097813050773,-0.0573567633343753,0.00403681454687822,0.96

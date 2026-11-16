@@ -1,0 +1,450 @@
+#!/usr/bin/env bash
+# ---------------------------------------------------------------------------
+# hpc -- drive the Artemis HPC (University of Sussex) from this repo.
+#
+#   ./hpc check                 VPN + SSH reachability
+#   ./hpc setup                 create the project dirs on the cluster
+#   ./hpc push                  copy *.R / *.slurm (CRLF -> LF) and the data
+#                               (data/data_illusiongame.csv) to the cluster
+#   ./hpc install [pkg...]      build the project R library on a compute node
+#                               (naming a pkg force-reinstalls it, e.g. 'cogmod')
+#   ./hpc precompile            pre-build the CmdStan precompiled header
+#   ./hpc models                list the models defined in models.R
+#   ./hpc fit <model|all> [..]  one array job per model (extra args -> sbatch)
+#   ./hpc combine <model|all>   merge a model's shards (shards kept)
+#   ./hpc queue                 squeue for this user
+#   ./hpc progress [model]      iteration counts + REPORT lines from the .out logs
+#   ./hpc log [jobid|model]     tail the newest .out/.err in scratch
+#   ./hpc ls                    list fitted models on the cluster
+#   ./hpc pull [pattern]        copy combined/*.rds back into analysis/models/
+#   ./hpc cancel <jobid|all>    scancel
+#   ./hpc sh '<cmd>'            run an arbitrary command on the login node
+#
+# Everything is overridable by environment variable -- see the block below.
+# A second account sets its own in analysis/server/hpc.local (gitignored);
+# see README.md -> "Running from a second cluster account".
+# ---------------------------------------------------------------------------
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Per-machine settings, so a second account needs no edit to a tracked file.
+# Create analysis/server/hpc.local (gitignored) with, e.g.:
+#     IGSA_HPC_USER=oc236
+# Anything already set in the environment still wins, so a one-off override on
+# the command line beats the file.
+if [ -f "${HERE}/hpc.local" ]; then
+  # shellcheck disable=SC1090
+  . "${HERE}/hpc.local"
+fi
+
+HPC_ALIAS="${IGSA_HPC_ALIAS:-artemis}"             # Host entry in ~/.ssh/config
+HPC_USER="${IGSA_HPC_USER:-dmm56}"                 # cluster account
+HPC_GROUP="${IGSA_HPC_GROUP:-psych}"               # school directory on lustre
+PROJECT="${IGSA_PROJECT:-IGSelfAssociation}"
+
+USERS_DIR="${IGSA_USERS_DIR:-/mnt/lustre/users/${HPC_GROUP}/${HPC_USER}/${PROJECT}}"
+SCRATCH_DIR="${IGSA_SCRATCH_DIR:-/mnt/lustre/scratch/${HPC_GROUP}/${HPC_USER}/${PROJECT}}"
+MODELS_DIR="${IGSA_MODELS_DIR:-${USERS_DIR}/models}"
+MAIL_USER="${IGSA_MAIL_USER:-${HPC_USER}@sussex.ac.uk}"
+
+# Environment modules / R library used by the jobs. CmdStanR/0.7.1 is the
+# module stack on Artemis that ships brms + cmdstanr together; R_LIBS adds
+# what it does not ship (cogmod, a newer cmdstanr), and R_LIBS_USER brms
+# 2.21.0 (lab hub, toolchain.md "The brms trap"). The library path is shared
+# with the account's other projects (IllusionGameComputational, FakeArt).
+R_MODULE="${IGSA_R_MODULE:-CmdStanR/0.7.1-foss-2023a-R-4.3.2}"
+EB_MODULES="${IGSA_EB_MODULES:-/mnt/shared/easybuild/modules/all}"
+R_LIBS_DIR="${IGSA_R_LIBS:-/mnt/lustre/users/${HPC_GROUP}/${HPC_USER}/cluster_R_libs/x86_64-pc-linux-gnu-library/4.3}"
+R_LIBS_USER_DIR="${IGSA_R_LIBS_USER:-/research/cisc2/shared/cluster_R_libs/x86_64-pc-linux-gnu-library/4.2/}"
+
+# Which cogmod the cluster library tracks. 'dev' to stay in step with the
+# shared library (see install_pkgs.R).
+COGMOD_REF="${IGSA_COGMOD_REF:-dev}"
+
+# Passed through to fit_model.R. Default "never" resumes a killed array by
+# skipping shards that already exist; IGSA_FILE_REFIT=always forces a clean
+# refit after a formula or data change.
+FILE_REFIT="${IGSA_FILE_REFIT:-never}"
+
+# Sampler (fit_model.R, "Backend"): brm()'s own cmdstanr fit by default,
+# IGSA_BACKEND=stanli for stanli, which is slower on this model. stanli
+# 0.25.0 is IllusionGameComputational's install on this account (its
+# AGENT.md 6.10): the package in a library of its own, built for
+# x86-64-v3, and the release's runtime outside ~/.cache/R/stanli, which every
+# job gets as STANLI_RUNTIME. Never run stanli_install() there: it deletes
+# other releases' runtimes from the cache, under running jobs. A new release
+# goes in its own two directories the same way.
+BACKEND="${IGSA_BACKEND:-cmdstanr}"
+STANLI_LIB="${IGSA_STANLI_LIB:-/mnt/lustre/users/${HPC_GROUP}/${HPC_USER}/cogmod_stanli/R_libs_0.25.0}"
+STANLI_RUNTIME="${IGSA_STANLI_RUNTIME:-/mnt/lustre/users/${HPC_GROUP}/${HPC_USER}/cogmod_stanli/runtime_v0.25.0/libstanli.so}"
+
+LOCAL_MODELS="${HERE}/../models"
+LOCAL_DATA="${IGSA_LOCAL_DATA:-${HERE}/../../data/data_illusiongame.csv}"
+DATA_NAME="$(basename "$LOCAL_DATA")"
+
+# Prefer Windows OpenSSH when present (Git Bash's ssh also works).
+if [ -x /c/Windows/System32/OpenSSH/ssh.exe ]; then
+  SSH=/c/Windows/System32/OpenSSH/ssh.exe
+  SCP=/c/Windows/System32/OpenSSH/scp.exe
+else
+  SSH=ssh
+  SCP=scp
+fi
+
+die() { printf '\033[31merror:\033[0m %s\n' "$*" >&2; exit 1; }
+info() { printf '\033[36m==>\033[0m %s\n' "$*"; }
+warn() { printf '\033[33mwarning:\033[0m %s\n' "$*" >&2; }
+
+remote() { "$SSH" "$HPC_ALIAS" "$@"; }
+
+require_link() {
+  remote true 2>/dev/null || die "cannot reach ${HPC_ALIAS}.
+  Is the GlobalProtect VPN connected (portal bond.sussex.ac.uk)?
+  Run './hpc check' for detail."
+}
+
+# The model names, read out of models.R -- which is the single definition of
+# what a model is. Relies on the declaration lines being '  <name> = list('
+# at two-space indent, as models.R's header says.
+list_models() {
+  sed -n 's/^  \([A-Za-z_][A-Za-z0-9_]*\) = list($/\1/p' "${HERE}/models.R"
+}
+
+# Expand 'all' to every model; validate anything else against models.R so a
+# typo fails here and not eight hours into a job.
+resolve_models() {
+  local want="${1:-}" known m found
+  known="$(list_models)"
+  [ -n "$known" ] || die "no models found in models.R"
+  [ -n "$want" ] || die "which model? one of: $(echo $known) (or 'all')"
+  if [ "$want" = all ]; then echo "$known"; return; fi
+  found=0
+  for m in $known; do [ "$m" = "$want" ] && found=1; done
+  [ "$found" = 1 ] || die "unknown model '${want}'. Known: $(echo $known)"
+  echo "$want"
+}
+
+# --- commands --------------------------------------------------------------
+
+cmd_check() {
+  info "resolving ood.artemis.hrc.sussex.ac.uk"
+  getent hosts ood.artemis.hrc.sussex.ac.uk 2>/dev/null || nslookup ood.artemis.hrc.sussex.ac.uk 2>/dev/null | tail -3 || true
+  info "testing SSH to '${HPC_ALIAS}'"
+  if remote 'echo "  connected as $(whoami) on $(hostname)"; echo "  quota:"; df -h '"${USERS_DIR%/$PROJECT}"' '"${SCRATCH_DIR%/$PROJECT}"' 2>/dev/null | sed "s/^/    /"'; then
+    printf '\033[32mOK\033[0m -- SSH to Artemis works.\n'
+  else
+    die "SSH failed. Check: (1) VPN connected, (2) public key in ~/.ssh/authorized_keys on Artemis."
+  fi
+}
+
+cmd_setup() {
+  require_link
+  info "creating project directories"
+  remote "mkdir -p '${USERS_DIR}' '${MODELS_DIR}' '${MODELS_DIR}/combined' '${SCRATCH_DIR}' && ls -la '${USERS_DIR}'"
+}
+
+cmd_push() {
+  require_link
+  info "pushing scripts to ${USERS_DIR}"
+  # One SSH connection for the whole push: sshd here rate-limits bursts of
+  # connections (they fail with "kex_exchange_identification: Connection
+  # reset"), so stream everything through a single tar pipe rather than
+  # opening a connection per file.
+  local tmp f base names=()
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' RETURN
+  for f in "$HERE"/*.R "$HERE"/*.slurm; do
+    [ -e "$f" ] || continue
+    base="$(basename "$f")"
+    sed 's/\r$//' "$f" > "$tmp/$base"   # strip CR: CRLF breaks bash/Rscript
+    names+=("$base")
+    printf '    %s\n' "$base"
+  done
+  [ ${#names[@]} -gt 0 ] || die "nothing to push"
+  # The data are gitignored, so the cluster cannot read them from GitHub:
+  # they go in the same tar, to data/ (which the mirror below leaves alone).
+  # Rebuild them first with  quarto render analysis/0_preprocessing.qmd
+  local data_args=()
+  if [ -f "$LOCAL_DATA" ]; then
+    mkdir -p "$tmp/data"
+    cp "$LOCAL_DATA" "$tmp/data/"
+    data_args=("data/${DATA_NAME}")
+    printf '    %s\n' "${data_args[0]}"
+  else
+    warn "no ${LOCAL_DATA}: pushing scripts only (run quarto render analysis/0_preprocessing.qmd)"
+  fi
+  # Mirror rather than merge: a renamed script left behind on the cluster is
+  # still submittable, and a stale make.slurm that fits the wrong thing for two
+  # days is an expensive way to find that out. Only top-level *.R / *.slurm are
+  # touched; models/, data/ and the logs are left alone.
+  tar -C "$tmp" -cf - "${names[@]}" ${data_args[@]+"${data_args[@]}"} | remote "
+    mkdir -p '${USERS_DIR}' &&
+    tar -C '${USERS_DIR}' -xf - &&
+    chmod +x '${USERS_DIR}'/*.slurm 2>/dev/null
+    cd '${USERS_DIR}' || exit 1
+    for f in *.R *.slurm; do
+      [ -e \"\$f\" ] || continue
+      case ' ${names[*]} ' in
+        *\" \$f \"*) ;;
+        *) echo \"    removing stale \$f\"; rm -f \"\$f\" ;;
+      esac
+    done
+    ls -la '${USERS_DIR}'"
+}
+
+cmd_install() {
+  require_link
+  # Compiling on the login node is antisocial (and gets throttled), so this
+  # runs through srun on a compute node. Any package named on the command line
+  # is force-reinstalled -- that is how cogmod is refreshed from GitHub.
+  local forced="$*"
+  info "installing R packages on a compute node (cogmod@${COGMOD_REF})${forced:+ (forcing: ${forced})}"
+  remote "cd '${USERS_DIR}' && srun \
+    --partition='${IGSA_INSTALL_PARTITION:-short}' \
+    --time='${IGSA_INSTALL_TIME:-02:00:00}' \
+    --cpus-per-task=4 --mem=16G \
+    --job-name=igsa_install \
+    bash -c '
+      . /etc/profile.d/lmod.sh
+      module use \"${EB_MODULES}\"
+      module load \"${R_MODULE}\"
+      export IGSA_R_LIBS=\"${R_LIBS_DIR}\"
+      export R_LIBS_USER=\"${R_LIBS_USER_DIR}\"
+      export IGSA_COGMOD_REF=\"${COGMOD_REF}\"
+      export IGSA_FORCE=\"${forced}\"
+      Rscript install_pkgs.R
+    '"
+}
+
+cmd_precompile() {
+  require_link
+  # Build the shared CmdStan PCH once on a single node. Launching a cold array
+  # makes every task race to write the same ~800 MB .gch file, and all but one
+  # die with "while reading precompiled header: No such file or directory".
+  info "building the CmdStan precompiled header (one node, a few minutes)"
+  remote "cd '${USERS_DIR}' && srun \
+    --partition='${IGSA_INSTALL_PARTITION:-short}' \
+    --time='${IGSA_PRECOMPILE_TIME:-01:00:00}' \
+    --cpus-per-task=4 --mem=16G \
+    --job-name=igsa_precompile \
+    bash -c '
+      . /etc/profile.d/lmod.sh
+      module use \"${EB_MODULES}\"
+      module load \"${R_MODULE}\"
+      export R_LIBS=\"${R_LIBS_DIR}\"
+      export R_LIBS_USER=\"${R_LIBS_USER_DIR}\"
+      Rscript precompile.R
+    '"
+}
+
+cmd_models() {
+  local m
+  for m in $(list_models); do printf '  %s\n' "$m"; done
+}
+
+# sbatch one .slurm per model. Everything that differs between models is on
+# the command line -- job name, log names, IGSA_MODEL -- so the .slurm files
+# stay generic and nothing is hard-coded to one account.
+submit_per_model() {
+  local script="$1" tag="$2" want="$3"; shift 3
+  local models model
+  models="$(resolve_models "$want")"
+  require_link
+  remote "mkdir -p '${SCRATCH_DIR}' '${MODELS_DIR}'"
+  # Forward run-shaping vars when the caller sets them, e.g.
+  #   IGSA_NPARTICIPANTS=30 IGSA_WARMUP=300 ./hpc fit lnr
+  #   IGSA_CRITERION=loo ./hpc combine lnr --mem=96G
+  local extra="" v val
+  for v in IGSA_NPARTICIPANTS IGSA_WARMUP IGSA_SAMPLES IGSA_CHAINS \
+           IGSA_CRITERION IGSA_COGMOD_MIN; do
+    eval "val=\${$v:-}"
+    [ -n "$val" ] && extra="${extra},${v}='${val}'"
+  done
+  extra="${extra},IGSA_BACKEND='${BACKEND}',IGSA_STANLI_LIB='${STANLI_LIB}',STANLI_RUNTIME='${STANLI_RUNTIME}'"
+  # fit is an array (%A = array job id, %a = task); combine is one job (%j).
+  local logid="%A_%a"
+  [ "$tag" = combine ] && logid="%j"
+  # ONE ssh connection for the whole set, not one per model. Artemis' sshd
+  # rate-limits rapid connections (FakeArt, 2026-09-22: several models were
+  # silently not submitted). Building one script and sending it once removes
+  # the failure mode entirely, and is faster. A failing sbatch no longer stops the rest, which is what we want:
+  # the output names every model, so a gap is visible.
+  local cmd="cd '${USERS_DIR}' || exit 1"
+  for model in $models; do
+    info "submitting ${script} for ${model}"
+    cmd="${cmd}
+printf '%s: ' '${model}'
+sbatch \
+      --chdir='${USERS_DIR}' \
+      --job-name='igsa_${tag}_${model}' \
+      --output='${SCRATCH_DIR}/${tag}_${model}_${logid}.out' \
+      --error='${SCRATCH_DIR}/${tag}_${model}_${logid}.err' \
+      --mail-user='${MAIL_USER}' \
+      --export=ALL,IGSA_MODEL='${model}',IGSA_USERS_DIR='${USERS_DIR}',IGSA_SCRATCH_DIR='${SCRATCH_DIR}',IGSA_MODELS_DIR='${MODELS_DIR}',IGSA_DATA='${USERS_DIR}/data/${DATA_NAME}',IGSA_R_MODULE='${R_MODULE}',IGSA_R_LIBS='${R_LIBS_DIR}',IGSA_R_LIBS_USER='${R_LIBS_USER_DIR}',IGSA_EB_MODULES='${EB_MODULES}',IGSA_FILE_REFIT='${FILE_REFIT}'${extra} \
+      $* '${script}' || echo 'SUBMIT FAILED'"
+  done
+  remote "$cmd"
+}
+
+cmd_fit() {
+  local want="${1:-}"; shift || true
+  submit_per_model fit.slurm fit "$want" "$@"
+}
+
+cmd_combine() {
+  local want="${1:-}"; shift || true
+  submit_per_model combine.slurm combine "$want" "$@"
+}
+
+cmd_queue() {
+  require_link
+  remote "squeue -u '${HPC_USER}' -o '%.10i %.12P %.28j %.8T %.12M %.12L %R'"
+}
+
+# The cheap status check: for each fit log, the latest iteration line per
+# chain and any REPORT line, without the R/brms/compiler banner that fills the
+# rest of a .out. This is what to run when asked "how far along are the fits".
+cmd_progress() {
+  require_link
+  local key="${1:-}"
+  remote "cd '${SCRATCH_DIR}' 2>/dev/null || { echo 'no scratch dir yet'; exit 0; }
+    ls fit_${key}*.out >/dev/null 2>&1 || { echo 'no fit logs matching fit_${key}*.out'; exit 0; }
+    for f in \$(ls -t fit_${key}*.out); do
+      echo \"===== \$f (\$(stat -c %y \"\$f\" | cut -d. -f1)) =====\"
+      grep -h 'REPORT\|SUCCESSFUL\|Error\|error:' \"\$f\" | tail -n 5
+      grep -h 'Iteration:' \"\$f\" | awk '{c[\$2]=\$0} END {for (k in c) print c[k]}' | sort
+    done"
+}
+
+cmd_log() {
+  require_link
+  local key="${1:-}"
+  if [ -n "$key" ]; then
+    remote "for f in '${SCRATCH_DIR}'/*${key}*; do echo \"===== \$f =====\"; tail -n 40 \"\$f\"; done"
+  else
+    remote "cd '${SCRATCH_DIR}' 2>/dev/null || exit 1
+      for f in \$(ls -t *.out *.err 2>/dev/null | head -4); do
+        echo \"===== \$f (\$(stat -c %y \"\$f\" | cut -d. -f1)) =====\"; tail -n 30 \"\$f\"; echo;
+      done"
+  fi
+}
+
+cmd_ls() {
+  require_link
+  remote "ls -lh '${MODELS_DIR}'/*.rds '${MODELS_DIR}'/combined/*.rds 2>/dev/null || echo '  (no .rds yet)'"
+}
+
+# Pull into a staging dir OUTSIDE the repo, verify each file's byte size
+# against the cluster, and only then move it into analysis/models/.
+#
+# Why not scp straight there: analysis/models/ is inside Dropbox on at least
+# one machine, and Dropbox holds a file open while it uploads it. scp then
+# truncates the local file and fails the write --
+#   ftruncate ... / write local "...Beauty.rds": Permission denied
+# -- leaving a partial .rds that still loads far enough to look plausible
+# (FakeArt, 2026-09-21: nine fits truncated).
+# Staging is on the same volume, so the final step is a rename: it races with
+# Dropbox for milliseconds instead of the minutes a 650 MB transfer takes, and
+# it is retried. A file that does not match the cluster is left in staging
+# rather than overwriting a good local copy with a bad one.
+#
+# No -p: preserving mode/times is what produced the "local chmod / set times"
+# errors inside Dropbox, and neither matters for an .rds.
+cmd_pull() {
+  require_link
+  local pattern="${1:-combined/*.rds}"
+  local stage="${TMPDIR:-/tmp}/igsa_pull_$$"
+
+  # Where the files land locally. combined/ flattens into analysis/models/ --
+  # that is what the combine step is for. Any other subdirectory on the
+  # cluster keeps its name here.
+  local sub dest
+  sub="$(dirname "$pattern")"
+  case "$sub" in
+    . | combined) dest="$LOCAL_MODELS" ;;
+    *) dest="${LOCAL_MODELS}/${sub}" ;;
+  esac
+  mkdir -p "$dest" "$stage"
+
+  info "pulling '${pattern}' into staging"
+  if ! "$SCP" "${HPC_ALIAS}:${MODELS_DIR}/${pattern}" "$stage/"; then
+    rm -rf "$stage"
+    die "nothing matched '${pattern}'"
+  fi
+
+  # Sizes on the cluster, to check each transfer arrived whole.
+  local sizes
+  sizes="$(remote "for f in '${MODELS_DIR}'/${pattern}; do [ -f \"\$f\" ] && echo \"\$(stat -c %s \"\$f\") \$(basename \"\$f\")\"; done" 2>/dev/null)"
+
+  local moved=0 failed=0 name want got
+  for f in "$stage"/*; do
+    [ -f "$f" ] || continue
+    name="$(basename "$f")"
+    want="$(printf '%s\n' "$sizes" | awk -v n="$name" '$2 == n {print $1}')"
+    got="$(stat -c %s "$f" 2>/dev/null || echo 0)"
+    if [ -n "$want" ] && [ "$want" != "$got" ]; then
+      warn "${name}: staged ${got} bytes, cluster has ${want} -- keeping the existing local copy"
+      failed=$((failed + 1))
+      continue
+    fi
+    # Dropbox may hold the destination briefly; a rename is quick, so retry.
+    local ok=0 attempt
+    for attempt in 1 2 3 4 5 6; do
+      if mv -f "$f" "${dest}/${name}" 2>/dev/null; then ok=1; break; fi
+      sleep 10
+    done
+    if [ "$ok" = 1 ]; then
+      moved=$((moved + 1))
+    else
+      warn "${name}: could not replace ${dest}/${name} (locked); left in ${stage}"
+      failed=$((failed + 1))
+    fi
+  done
+
+  info "pulled ${moved} file(s) into analysis/${dest#"${HERE}/../"}/"
+  if [ "$failed" -eq 0 ]; then
+    rm -rf "$stage"
+  else
+    # Keep the staged copies: they are good, and re-running costs a download.
+    warn "${failed} file(s) not replaced; their staged copies are in ${stage}"
+  fi
+  ls -lh "$dest"
+  [ "$failed" -eq 0 ]
+}
+
+cmd_cancel() {
+  require_link
+  local target="${1:?usage: ./hpc cancel <jobid|all>}"
+  if [ "$target" = all ]; then
+    remote "scancel -u '${HPC_USER}' && echo 'cancelled all jobs for ${HPC_USER}'"
+  else
+    remote "scancel '${target}' && echo 'cancelled ${target}'"
+  fi
+}
+
+cmd_sh() {
+  require_link
+  remote "${1:?usage: ./hpc sh '<command>'}"
+}
+
+# --- dispatch --------------------------------------------------------------
+
+case "${1:-}" in
+  check)      shift; cmd_check "$@" ;;
+  setup)      shift; cmd_setup "$@" ;;
+  push)       shift; cmd_push "$@" ;;
+  install)    shift; cmd_install "$@" ;;
+  precompile) shift; cmd_precompile "$@" ;;
+  models)     shift; cmd_models "$@" ;;
+  fit)        shift; cmd_fit "$@" ;;
+  combine)    shift; cmd_combine "$@" ;;
+  queue)      shift; cmd_queue "$@" ;;
+  progress)   shift; cmd_progress "$@" ;;
+  log)        shift; cmd_log "$@" ;;
+  ls)         shift; cmd_ls "$@" ;;
+  pull)       shift; cmd_pull "$@" ;;
+  cancel)     shift; cmd_cancel "$@" ;;
+  sh)         shift; cmd_sh "$@" ;;
+  *) sed -n '2,23p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//' ;;
+esac
