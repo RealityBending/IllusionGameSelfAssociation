@@ -293,6 +293,20 @@ script, because it reads the private raw files.
     and so did the unused `ppc_errs`. The paragraph before is in
     `paper/paper_before_appendix_2026-11-16.qmd`. The RT-shape sentence in
     the limitations stays.
+  - **Results streamlined** (2026-11-16, Dom asked for it focused on the main
+    results; the version before is in Dropbox's history). General performance
+    keeps non-decision time, the error rate, speed, discriminability and
+    P(error), and drops the past users' slower correct accumulator and their
+    noisier `sigmazero` (still in `3_lnr_groups`). Illusion sensitivity leads
+    with the magnitude: the naïve values, the 7–21% reduction, that one
+    illusion at a time only the Ebbinghaus contrasts exclude zero (a
+    `stopifnot` in the setup chunk guards that sentence), and the average over
+    the illusions from the participant-level Group regression (−0.25 in each
+    user group). The discriminability and error effects follow as ranges, with
+    Table 3 holding the intervals. "Across Illusions" keeps the magnitude
+    correlations and the no-illusion discriminability, and drops precision and
+    the illusion effect on δ. Figure 2A no longer labels the fan ("Middle half
+    of the trials (σ)", unclear); its caption explains it.
   - **Discussion, illusion sensitivity** (2026-11-16, Dom): the paragraph
     goes through the three indices one by one (what each measures, which
     way users differed, what that suggests), and no longer explains the
