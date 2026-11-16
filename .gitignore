@@ -18,7 +18,7 @@ data/*.csv
 osfstorage-archive/
 
 # Unpublished manuscripts
-paper/
+paper/*.docx
 
 # Cluster (analysis/server/README.md)
 analysis/server/hpc.local

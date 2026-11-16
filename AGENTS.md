@@ -272,9 +272,18 @@ script, because it reads the private raw files.
     correlations between illusions), and the Results cite them by name. The
     Methods' convergence paragraph is all the paper says about convergence,
     and "Across illusions" gives the three magnitude correlations with their
-    intervals in the text (`cor_mag()` in the setup chunk). Those pointers are
-    true only once the reports are committed and pushed: on 2026-11-16 the
-    `.qmd` reports, their `.html` and `analysis/results/` were untracked.
+    intervals in the text (`cor_mag()` in the setup chunk). Those pointers
+    need the reports on GitHub: the `.qmd` reports, their `.html` and
+    `analysis/results/` were committed on 2026-11-16 (6e3023e).
+  - **Covariates** (2026-11-16, Dom): the paper no longer mentions shrinkage
+    or the raw-trial check (the 10th-percentile correct RT and the error
+    rates, regressed the same way). The check agreed with the per-draw
+    regressions, and a check that passed is the authors' due diligence, not
+    content for the paper. It stays in `4_lnr_correlates.qmd`. Cut from the
+    Methods ("Participant-level Analyses") and two sentences of the Results
+    ("Age, demographics and the questionnaires"); the wording before is in
+    `paper/paper_before_appendix_2026-11-16.qmd`. The caveat that native
+    language and student status are each confined to one group stays.
   - **References:** twelve added (schizophrenia and autism illusions, early
     visual accounts, cross-illusion correlations, ageing in diffusion models,
     cognition in users), each checked against Crossref and its PubMed
@@ -669,7 +678,9 @@ Group differs on more than age (Never / Past / Recent):
    - The table above and an age-by-group figure in the sample description.
    - The participant-level check in `4_lnr_correlates.qmd` ("What the
      covariates account for"), stated per parameter: about half of the
-     `ndt` gap, almost nothing of the rest. Keep its shrinkage caveat.
+     `ndt` gap, almost nothing of the rest. Its shrinkage caveat and the
+     raw-trial check stay in the report: the paper mentions neither (Dom,
+     2026-11-16; see "Manuscripts", "Covariates").
 5. **Optional outside benchmark** (not done): the age slope of fast RTs (the
    10th-percentile correct RT) across IGC's ~1,500 participants with an age,
    from the raw trials. It gives the milliseconds per decade expected on this
