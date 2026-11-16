@@ -284,6 +284,26 @@ script, because it reads the private raw files.
     ("Age, demographics and the questionnaires"); the wording before is in
     `paper/paper_before_appendix_2026-11-16.qmd`. The caveat that native
     language and student status are each confined to one group stays.
+  - **Model fit** (2026-11-16, Dom): the Results no longer have a "Model
+    fit" section. Dom judged the misfit small (conflicting errors ~1.5
+    points under, median RTs 10–30 ms over per group), and better than
+    linear models of RT do. One sentence opening "General performance"
+    introduces Figure 1B and says the predictions follow the observed values
+    closely. Its `ppc-deviations` chunk (`err_dev`, `rt_dev`) went with it,
+    and so did the unused `ppc_errs`. The paragraph before is in
+    `paper/paper_before_appendix_2026-11-16.qmd`. The RT-shape sentence in
+    the limitations stays.
+  - **Discussion, illusion sensitivity** (2026-11-16, Dom): the paragraph
+    goes through the three indices one by one (what each measures, which
+    way users differed, what that suggests), and no longer explains the
+    disagreement between them by the groups' different starting performance.
+    The logit-scale remark stays in the Results only. The larger effect on
+    discriminability is not read as more susceptibility (that contradicts
+    the conclusion): users' discriminability also changes more with the real
+    difference, proportionally more than with the illusion in all six
+    group × illusion cells, so any change in the stimulus has a larger effect
+    on their discriminability. (Not "their evidence responds": Dom, evidence
+    is not something that responds.)
   - **References:** twelve added (schizophrenia and autism illusions, early
     visual accounts, cross-illusion correlations, ageing in diffusion models,
     cognition in users), each checked against Crossref and its PubMed
@@ -514,8 +534,8 @@ param ~ Group * (Illusion_Type / (Illusion_Strength * Task_Difficulty))
        than the LNR's, with more mass just after the mode and less in the
        slow tail, while their position and leading edge match. Clearest for
        the users' correct RTs with no illusion and Never's errors under
-       conflicting illusions. The paper's "Model fit" section and its
-       limitations say so.
+       conflicting illusions. The paper's limitations say so; its "Model
+       fit" section was cut on 2026-11-16 (see "Manuscripts", "Model fit").
    - Priors against posteriors: still to do.
 5. Results, in `analysis/3_lnr_groups.qmd` (population level) and
    `4_lnr_correlates.qmd` (participant level), both scripted on 2026-11-04
