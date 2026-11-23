@@ -313,7 +313,8 @@ cmd_progress() {
     for f in \$(ls -t fit_${key}*.out); do
       echo \"===== \$f (\$(stat -c %y \"\$f\" | cut -d. -f1)) =====\"
       grep -h 'REPORT\|SUCCESSFUL\|Error\|error:' \"\$f\" | tail -n 5
-      grep -h 'Iteration:' \"\$f\" | awk '{c[\$2]=\$0} END {for (k in c) print c[k]}' | sort
+      # Stan's 'Chain 1 Iteration: ...' and nutpie's '[12m03s] c1 warmup 40% ...'
+      grep -hE 'Iteration:|^\[[0-9hms]+\] c[0-9]+ (warmup|sample) ' \"\$f\" | awk '{c[\$2]=\$0} END {for (k in c) print c[k]}' | sort
     done"
 }
 

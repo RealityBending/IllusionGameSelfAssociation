@@ -37,7 +37,7 @@ exclusions are made by `analysis/0_preprocessing.qmd`, not here.
 | `Session_Language` | `French` or `English`: the language the whole session ran in |
 | `Session_Month` | `YYYY-MM` |
 | `Completed_IG`, `Completed_SAT` | `TRUE` if the session has all 504 Illusion Game trials / the self-association task |
-| `Age` | years. A birth year was converted using the session year. Missing if unreadable ("rr", "xxx"), blank, or 16 (one control, taken as a typing error) |
+| `Age` | years. A birth year was converted using the session year. Missing if unreadable ("rr", "xxx"), blank, or 16 (one control, S016, whom the analyses exclude: `analysis/0_preprocessing.qmd`) |
 | `Sex` | `Female`, `Male` |
 | `Student` | `Yes`, `No` |
 | `Education` | `High school`, `Bachelor`, `Master`, `Doctorate`, `Other` |

@@ -47,8 +47,9 @@
 # version's label (experiment/demographics.js), and any label outside the
 # known set stops the script. Ages: the leading number ("42 ans"); a birth
 # year becomes the session's year minus it; anything else is missing. The one
-# age under 18, 16 (2lm12f31t0), is kept as a probable typing error with age
-# missing (decided 2026-11-02); another one would stop the script.
+# age under 18, 16 (2lm12f31t0), is set to missing here, and another one would
+# stop the script. That session is excluded from the analyses since 2026-11-21,
+# in 0_preprocessing.qmd, by its open ID.
 
 raw_dir <- Sys.getenv("IGSA_RAW_DIR", unset = file.path(
   Sys.getenv("USERPROFILE", unset = Sys.getenv("HOME")), "Box/Data/IllusionGameSelfAssociation"

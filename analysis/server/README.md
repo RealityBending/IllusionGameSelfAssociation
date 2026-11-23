@@ -56,10 +56,10 @@ It reads the de-identified open data in `data/open/`, which is in git.
 `../0_deidentify.R` builds it from the raw jsPsych files in Box
 (`IGSA_RAW_DIR`), and only someone with the raw files needs to run it.
 Its Groups section applies the manuscript's group rules to the screening answers.
-It reproduces the 43 Never / 39 Recent / 35 Past, with one departure: the
-control aged 16 is kept, which makes Never 44. That gives 118 participants
-and 55,937 trials after cleaning. It states the rules and stops the render if a
-count changes.
+It reproduces the 43 Never / 39 Recent / 35 Past: 117 participants and 55,470
+trials after cleaning. The control who stated an age of 16 is out since
+2026-11-21; the fits before that date include that session (118 participants,
+55,937 trials). It states the rules and stops the render if a count changes.
 
 The cluster gets the model input from `./hpc push`, not from GitHub, because
 `data/data_illusiongame.csv` is derived and gitignored.
@@ -105,7 +105,7 @@ The **GlobalProtect VPN must be connected**. From `analysis/server/`:
 ```bash
 ./hpc check                # VPN + SSH
 ./hpc push                 # scripts (CRLF -> LF) + data/data_illusiongame.csv
-./hpc models               # lnr
+./hpc models               # lnr, ddm5
 ./hpc queue
 ./hpc progress lnr         # per chain: latest iteration; REPORT lines at the end
 ./hpc log lnr              # when something is wrong
@@ -190,6 +190,100 @@ by `./hpc fit` when set:
 warmup, draw count and sampler; any other shard stops the task. **A changed formula,
 priors or data are not detected**: give that run its own `IGSA_MODELS_DIR`, or
 set `IGSA_FILE_REFIT=always`.
+
+## DDM-5: the paper's model
+
+`ddm5` in `models.R` is IllusionGameComputational's DDM-5 on this design:
+drift, boundary, bias, ndt and the between-trial drift SD `sigmadrift`, each
+with the LNR's fixed part, the full participant surface on the drift and an
+intercept per illusion on the rest. Its priors come from IGC's `gam_ddm5`
+MullerLyer and Ebbinghaus fits by the LNR's rules (`../2_priors.R` prints
+them). It is the paper's model since 2026-11-18; `../3_ddm_groups.qmd` and `../4_ddm_correlates.qmd` read it.
+
+It runs on **cogmod 0.3.6** (`ccf2351`), installed on 2026-11-17 into a library
+of its own, `R_libs_cogmod_0.3.6/` in the project directory, with the
+script that installed it. 0.3.5's likelihood was off by up to a log unit per
+trial in the tails once `sigmadrift` is estimated, and cost ~3.4x as much per
+gradient (cogmod's NEWS). The account's shared library stays at 0.3.5,
+which IllusionGameComputational's queued fits use. Every `./hpc` call for
+this model takes the same prefix (`MSYS_NO_PATHCONV=1` stops Git Bash from
+rewriting the paths):
+
+```bash
+export MSYS_NO_PATHCONV=1 IGSA_COGMOD_MIN=0.3.6 \
+  IGSA_R_LIBS=/mnt/lustre/users/psych/dmm56/IGSelfAssociation/R_libs_cogmod_0.3.6:/mnt/lustre/users/psych/dmm56/cluster_R_libs/x86_64-pc-linux-gnu-library/4.3
+./hpc fit ddm5 --partition=verylong        # submitted 2026-11-17: job 11757858
+./hpc combine ddm5 --partition=short --time=01:00:00
+./hpc pull 'combined/ddm5.rds'
+```
+
+**The 117-participant refit** (2026-11-21, without the control who stated an
+age of 16). A changed data set is not detected by `file_refit = "never"`, so
+it has its own models directory, and the 118-participant shards stay in
+`models/`. The same prefix as above, plus:
+
+```bash
+export IGSA_MODELS_DIR=/mnt/lustre/users/psych/dmm56/IGSelfAssociation/models_n117
+./hpc push                                 # the 117-participant data replace the cluster's copy
+./hpc fit ddm5 --partition=verylong        # submitted 2026-11-21: job 11781109, done 2026-11-22
+./hpc combine ddm5 --partition=short --time=01:00:00   # job 11781960, 1.3 min
+TMPDIR="$(cygpath -m "$TEMP")" ./hpc pull 'combined/ddm5.rds'   # -> analysis/models/ddm5.rds; the 118 fit is kept as ddm5_n118.rds
+```
+
+Done on 2026-11-22: 8,000 draws from 8 chains, no divergences, max Rhat
+1.033, min neff_ratio 0.029 (AGENTS.md, DDM-5 entry). The `TMPDIR` on the
+pull is needed with `MSYS_NO_PATHCONV=1` set: `./hpc pull` stages into
+`${TMPDIR:-/tmp}`, and Windows's `scp.exe` cannot open `/tmp/...` once Git
+Bash no longer rewrites it ("open local ... No such file or directory").
+
+`marginals.R` handles both fits: `igsa_draws()` picks the parameters by the
+fit's family and gives the DDM-5 a `delta` (−drift, towards the correct
+response) and a `perror` of its own, so `igsa_index()` and the contrasts work
+unchanged. `analysis/5_ddm_vs_lnr.qmd` compares the two fits.
+
+### The same model with stanli + nutpie
+
+`IGSA_BACKEND=nutpie` (2026-11-17) samples brms's program with nutpie's
+sampler on stanli's gradient (`stanli::sample_nutpie()`), the route of
+cogmod's `benchmarks/nutpieR/` (about 2x cmdstanr's ESS per second on a
+small DDM-5). What it needs and why:
+
+- **Libraries:** IllusionGameComputational's nutpie experiment,
+  `/mnt/lustre/users/psych/dmm56/cogmod_nutpie/`: `R_libs` (brms 2.23.1,
+  stanli 0.26.0, nutpieR 1.9.2) and `runtime_v0.26.0/libstanli.so`. It goes
+  on `IGSA_R_LIBS` after the cogmod 0.3.6 library, so this run uses brms
+  2.23.1, not 2.21.0.
+- **One core per chain.** stanli does not thread this program: `reduce_sum`
+  falls back on `OP_SET_INDEX_INPLACE`. The cause (found 2026-11-17, still
+  there in 0.27.0) is the drift's 12 participant terms. When brms's loop adds
+  more than 10 group-level terms per observation, stanli leaves its fast path:
+  the gradient is ~25x slower on a gaussian model with 11 terms than with 10,
+  and it cannot be threaded. Splitting that loop into two loops of 6 terms (the
+  same sum) restores both. On a 24-participant subset of this DDM-5 it took
+  the gradient from 38 to 25.5 ms on one thread, and to 16.4 ms with 4 threads.
+  The running nutpie job (11757991) does not do this. An issue for stanli is
+  drafted.
+- **A stanli bug, patched in `fit_model.R`:** 0.26.0's `bridgestan_data()`
+  cuts the data JSON at a million characters (`substring()`'s default
+  `last`), so any real data set fails to open ("embedded __stanli manifest:
+  parse error"). The job patches that one call in stanli's namespace and
+  validates the JSON before sampling. 0.27.0 builds the JSON in C and is
+  fixed (checked on a 2.1-million-character data set); there the patch finds
+  nothing to change.
+- **Its own models directory**, so its shards never meet cmdstanr's
+  (`combine_model.R` refuses mixed samplers anyway).
+
+```bash
+export MSYS_NO_PATHCONV=1 IGSA_COGMOD_MIN=0.3.6 IGSA_BACKEND=nutpie \
+  IGSA_MODELS_DIR=/mnt/lustre/users/psych/dmm56/IGSelfAssociation/models_nutpie \
+  IGSA_STANLI_LIB=/mnt/lustre/users/psych/dmm56/cogmod_nutpie/R_libs \
+  IGSA_STANLI_RUNTIME=/mnt/lustre/users/psych/dmm56/cogmod_nutpie/runtime_v0.26.0/libstanli.so \
+  IGSA_R_LIBS=/mnt/lustre/users/psych/dmm56/IGSelfAssociation/R_libs_cogmod_0.3.6:/mnt/lustre/users/psych/dmm56/cogmod_nutpie/R_libs:/mnt/lustre/users/psych/dmm56/cluster_R_libs/x86_64-pc-linux-gnu-library/4.3
+./hpc fit ddm5 --partition=verylong --cpus-per-task=2 --mem=16G
+```
+
+`./hpc progress ddm5` reads nutpie's progress lines too. nutpie reports
+warmup and sampling as one time per chain.
 
 ## Local test
 

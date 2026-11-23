@@ -1,0 +1,1102 @@
+---
+title: "IllusionGameSelfAssociation - DDM-5 against the LNR"
+editor: source
+editor_options:
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute:
+  cache: false
+  warning: false
+  message: false
+---
+
+The paper's model is a log-normal race (LNR, `analysis/models/lnr.rds`).
+This report sets the DDM-5 (`analysis/models/ddm5.rds`; `ddm5` in
+`analysis/server/models.R`) against it, to decide whether the paper should
+switch to it: does it fit the data better, does it sample better, and does it
+tell the group story more clearly? Both models have the same fixed part
+(Group × a strength × difficulty surface per illusion on every parameter), the
+full participant surface on the drift, priors from IllusionGameComputational
+by the same rules, and the same 55,937 trials. Everything is computed here,
+for both fits, by the same code (`analysis/server/marginals.R`), except the
+LNR's participant estimates, which are read from
+`analysis/results/lnr_participants.csv` (`4_lnr_correlates.qmd`). The DDM-5's
+numbers are written to `analysis/results/ddm5_*.csv`. Render from the repo
+root (about 20 min; it needs cogmod ≥ 0.3.6):
+
+```bash
+quarto render analysis/5_ddm_vs_lnr.qmd
+```
+
+The answer is in the last section, "Summary: should the paper switch?".
+
+## The two models side by side
+
+Both are models of the choice and the response time together, with an outlier
+component (`poutlier`, with no Group term) for the responses neither process
+explains. They put the same questions into different parameters:
+
+| Question | LNR | DDM-5 |
+| --- | --- | --- |
+| Time outside the decision (encoding, motor) | `ndt` | `ndt` |
+| How well the targets are told apart | discriminability δ = ν₀ − ν₁, the correct accumulator's advantage | the drift towards the correct response, v = −`mu` (`dec(Error)` puts the error on the upper boundary) |
+| How much evidence is gathered before responding | none directly: the threshold is fixed at 1, and the overall speed (ν₀ + ν₁) / 2 stands in for (inverse) caution | the boundary separation `boundary` |
+| A response favoured before the evidence | none (`sigmabias = 0`) | the start point `bias`, as a share of the boundary from the correct one (> 0.5: closer to the error) |
+| Trial-to-trial noise | σ₀ and σ₁, the spread of each accumulator's log-rate | `sigmadrift`, the spread of the drift across trials |
+| P(error) | Φ(−δ / √(σ₀² + σ₁²)), closed form | the probability of reaching the error boundary first, averaged over the trial-to-trial drift (quadrature, `igsa_ddm_perror()`) |
+| Illusion magnitude | the strength slope of δ over its difficulty slope, at strength 0 and mid difficulty | the same ratio on v |
+
+Every parameter of both models varies with strength and difficulty, as the
+LNR's do in the paper.
+
+```{r}
+library(brms)
+library(ggplot2)
+
+# Runs from analysis/ (quarto) or from the repo root (interactively).
+root <- if (dir.exists("server")) "." else "analysis"
+source(file.path(root, "server/models.R"))
+source(file.path(root, "server/marginals.R"))
+stopifnot(utils::packageVersion("cogmod") >= "0.3.6")
+
+out_dir <- file.path(root, "results")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+fits <- list(
+  LNR = readRDS(Sys.getenv("IGSA_FIT_LNR", unset = file.path(root, "models/lnr.rds"))),
+  "DDM-5" = readRDS(Sys.getenv("IGSA_FIT_DDM", unset = file.path(root, "models/ddm5.rds")))
+)
+ddm <- fits[["DDM-5"]]
+
+# The same trials, in the same order, or nothing below is comparable.
+cols <- c("Participant", "Group", "Illusion_Type", "Illusion_Strength", "Task_Difficulty", "RT", "Error")
+stopifnot(isTRUE(all.equal(fits$LNR$data[cols], ddm$data[cols], check.attributes = FALSE)))
+trials <- ddm$data
+```
+
+```{r}
+# Labels and colours. Never is the reference, in neutral grey; each contrast
+# against it takes the other group's hue (as in 3_lnr_groups.qmd). The two
+# models take two further slots, violet and green, and a line type each.
+group_col <- c(Never = "#7a7a75", Past = "#2a78d6", Recent = "#eb6834")
+contrast_col <- c("Past - Never" = "#2a78d6", "Recent - Never" = "#eb6834",
+                  "Recent - Past" = "#1baf7a")
+model_col <- c(LNR = "#6250d6", "DDM-5" = "#008300")
+model_lty <- c(LNR = "22", "DDM-5" = "solid")
+illusions <- c(Ebbinghaus = "Ebbinghaus", MullerLyer = "Müller-Lyer",
+               VerticalHorizontal = "Vertical-Horizontal")
+ill_all <- c(illusions, All = "All illusions")
+
+theme_igsa <- theme_minimal(base_size = 10) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(colour = "#ebebe8", linewidth = 0.3),
+    strip.text = element_text(face = "bold", hjust = 0),
+    strip.text.y = element_text(angle = 0),
+    legend.position = "top",
+    legend.justification = "left",
+    plot.background = element_rect(fill = "white", colour = NA),
+    plot.caption = element_text(colour = "#6b6b66", hjust = 0)
+  )
+
+fmt_ci <- function(m, lo, hi, digits = 2) {
+  f <- paste0("%.", digits, "f [%.", digits, "f, %.", digits, "f]")
+  sprintf(f, m, lo, hi)
+}
+```
+
+## Sampling
+
+Both fits ran on the cluster with cmdstanr: 1,500 warmup and 1,000 kept
+iterations per chain, 2 chains per shard, 8 threads per chain. The LNR has 8
+shards (16 chains); the DDM-5 has 4 (8 chains). From the cluster logs, the
+LNR's shards took 7.4 to 32.1 h each and the DDM-5's 4.3 to 5.2 h.
+
+```{r}
+diagnostics <- function(m) {
+  b <- posterior::summarise_draws(as_draws_array(m, variable = "^b_", regex = TRUE),
+                                  "rhat", "ess_bulk", "ess_tail")
+  r <- posterior::summarise_draws(as_draws_array(m, variable = "^r_", regex = TRUE),
+                                  "rhat", "ess_bulk")
+  np <- nuts_params(m)
+  data.frame(
+    Chains = nchains(m),
+    Draws = ndraws(m),
+    Divergent = sum(np$Value[np$Parameter == "divergent__"]),
+    "At max tree depth" = sum(np$Value[np$Parameter == "treedepth__"] >= 10),
+    "Population: n" = nrow(b),
+    "max Rhat" = sprintf("%.3f", max(b$rhat)),
+    "Rhat > 1.01" = sum(b$rhat > 1.01),
+    "min bulk ESS" = round(min(b$ess_bulk)),
+    "min bulk ESS / draw" = sprintf("%.3f", min(b$ess_bulk) / ndraws(m)),
+    "min tail ESS" = round(min(b$ess_tail)),
+    "Participant: n" = nrow(r),
+    "max Rhat " = sprintf("%.3f", max(r$rhat, na.rm = TRUE)),
+    "Rhat > 1.01 " = sum(r$rhat > 1.01, na.rm = TRUE),
+    "min bulk ESS " = round(min(r$ess_bulk, na.rm = TRUE)),
+    check.names = FALSE
+  )
+}
+diag_tab <- do.call(rbind, lapply(fits, diagnostics))
+knitr::kable(t(diag_tab), col.names = names(fits))
+```
+
+The population rows are the `b_` coefficients; the participant rows the `r_`
+deviations. The LNR has twice the chains, so its effective sample sizes should
+be read per draw.
+
+## Fit to the data
+
+### Predictive accuracy
+
+Leave-one-trial-out cross-validation (PSIS-LOO) on about 1,000 posterior
+draws per model, spread evenly over the chains. The log-likelihood is the
+joint density of the response time and the choice, outlier component
+included, so the two models are on the same scale. Higher is better.
+
+```{r}
+# Evenly spaced draws within each chain, so that loo can estimate the
+# relative efficiency from the chains.
+per_chain_ids <- function(m, total = 1000) {
+  k <- ceiling(total / nchains(m))
+  n_iter <- ndraws(m) / nchains(m)
+  list(ids = unlist(lapply(seq_len(nchains(m)) - 1, function(c) c * n_iter + round(seq(1, n_iter, length.out = k)))),
+       chain = rep(seq_len(nchains(m)), each = k))
+}
+
+# brms::log_lik() calls the family once per trial; cogmod's densities are
+# vectorised, so this computes the same numbers (checked to equality on the
+# first 300 trials) in blocks of draws.
+loglik <- function(m, ids, chunk = 250) {
+  pars <- igsa_pars(m)
+  do.call(rbind, lapply(split(ids, ceiling(seq_along(ids) / chunk)), function(i) {
+    p <- lapply(setNames(pars, pars), function(q) posterior_linpred(m, dpar = q, transform = TRUE, draw_ids = i))
+    x <- rep(m$data$RT, each = length(i))
+    r <- rep(m$data$Error, each = length(i))
+    ll <- if (m$family$name == "cogmod_ddm") {
+      cogmod::dcogmod_ddm(x, drift = p$mu, boundary = p$boundary, bias = p$bias, ndt = p$ndt, response = r,
+                          sigmadrift = p$sigmadrift, poutlier = p$poutlier, log = TRUE)
+    } else {
+      cogmod::dcogmod_lnr(x, nuzero = p$mu, nuone = p$nuone, sigmazero = p$sigmazero, sigmaone = p$sigmaone,
+                          ndt = p$ndt, response = r, poutlier = p$poutlier, log = TRUE)
+    }
+    matrix(ll, nrow = length(i))
+  }))
+}
+
+check_ids <- c(5, 500)
+for (m in fits) {
+  stopifnot(max(abs(loglik(m, check_ids)[, 1:300] -
+                    log_lik(m, draw_ids = check_ids, newdata = m$data[1:300, ]))) < 1e-8)
+}
+
+loos <- lapply(fits, function(m) {
+  s <- per_chain_ids(m)
+  ll <- loglik(m, s$ids)
+  loo::loo(ll, r_eff = loo::relative_eff(exp(ll), chain_id = s$chain))
+})
+cmp <- loo::loo_compare(loos)
+
+loo_tab <- data.frame(
+  Model = names(loos),
+  Draws = sapply(loos, function(l) attr(l, "dims")[1]),
+  elpd_loo = sapply(loos, function(l) l$estimates["elpd_loo", "Estimate"]),
+  SE = sapply(loos, function(l) l$estimates["elpd_loo", "SE"]),
+  p_loo = sapply(loos, function(l) l$estimates["p_loo", "Estimate"]),
+  "Pareto k > 0.7" = sapply(loos, function(l) sum(loo::pareto_k_values(l) > 0.7)),
+  check.names = FALSE, row.names = NULL
+)
+# loo >= 2.9 names the models in a `model` column; older versions in the row names.
+cmp <- as.data.frame(cmp)
+cmp$Model <- if ("model" %in% names(cmp)) cmp$model else rownames(cmp)
+loo_tab$elpd_diff <- cmp$elpd_diff[match(loo_tab$Model, cmp$Model)]
+loo_tab$se_diff <- cmp$se_diff[match(loo_tab$Model, cmp$Model)]
+write.csv(loo_tab, file.path(out_dir, "ddm5_vs_lnr_loo.csv"), row.names = FALSE)
+knitr::kable(loo_tab, digits = 1, row.names = FALSE)
+
+best <- cmp$Model[1]
+elpd_gap <- -cmp$elpd_diff[2]
+elpd_gap_se <- cmp$se_diff[2]
+high_k <- setNames(loo_tab$"Pareto k > 0.7", loo_tab$Model)
+```
+
+The `r best` is ahead by `r sprintf("%.0f", elpd_gap)` log units
+(SE `r sprintf("%.0f", elpd_gap_se)`), `r sprintf("%.3f", elpd_gap / nrow(trials))`
+per trial: a predictive density `r sprintf("%.1f%%", 100 * (exp(elpd_gap / nrow(trials)) - 1))`
+higher on the average trial. The estimate is approximate:
+`r high_k[["LNR"]]` (LNR) and `r high_k[["DDM-5"]]` (DDM-5) trials have a
+Pareto k above 0.7, where PSIS is unreliable. Both models have thousands of
+effective parameters (p_loo), mostly participant effects, so leaving out one
+trial can move its participant's posterior noticeably. An exact comparison
+would need K-fold cross-validation, which means refitting.
+
+```{r}
+# Where the gap comes from: the pointwise difference, summed per group,
+# illusion and strength band, and split by response.
+pw <- loos[["DDM-5"]]$pointwise[, "elpd_loo"] - loos$LNR$pointwise[, "elpd_loo"]
+band <- function(s) ifelse(s <= -0.6, "Facilitating", ifelse(s >= 0.6, "Conflicting", ifelse(abs(s) <= 0.3, "None", "In between")))
+by_cell <- aggregate(cbind(Difference = pw, Trials = 1) ~ Response + Band,
+                     data.frame(pw = pw, Response = ifelse(trials$Error == 1, "Error", "Correct"),
+                                Band = band(trials$Illusion_Strength)), sum)
+by_cell$"Per trial" <- by_cell$Difference / by_cell$Trials
+knitr::kable(by_cell[order(by_cell$Response, by_cell$Band), ], digits = 3, row.names = FALSE,
+             caption = "elpd_loo, DDM-5 minus LNR (positive: the DDM-5 predicts these trials better)")
+```
+
+### Posterior predictive checks
+
+One hundred evenly spaced posterior draws per model simulate a choice and a
+response time for every trial, with the participant effects in, as in
+`3_lnr_groups.qmd`. The simulated trials are summarised the way the observed
+ones are: the error rate and the median response time per pair of
+neighbouring strengths (the design is a checkerboard across blocks; see
+`3_lnr_groups.qmd`), and the quantiles of correct and of error response times
+in three bands of strength (facilitating, strength ≤ −0.6; none, |strength| ≤
+0.3; conflicting, strength ≥ 0.6).
+
+```{r}
+# posterior_predict() calls the family once per trial; cogmod's methods also
+# take a vector of trials and return their draws stacked, trial by trial
+# (cogmod's ?rcogmod_ddm, "Predicting many observations at once").
+simulate <- function(m, ids) {
+  prep <- brms::prepare_predictions(m, draw_ids = ids)
+  for (dp in names(prep$dpars)) prep$dpars[[dp]] <- brms::get_dpar(prep, dp)
+  fun <- if (m$family$name == "cogmod_ddm") cogmod::posterior_predict_cogmod_ddm else cogmod::posterior_predict_cogmod_lnr
+  pp <- do.call(rbind, lapply(split(seq_len(prep$nobs), ceiling(seq_len(prep$nobs) / 50)), fun, prep = prep))
+  n <- length(ids)
+  stopifnot(nrow(pp) == n * prep$nobs, all(pp[, 2] %in% c(0, 1)))
+  list(rt = matrix(pp[, 1], nrow = n), error = matrix(pp[, 2], nrow = n))
+}
+set.seed(1)
+sims <- lapply(fits, function(m) simulate(m, round(seq(1, ndraws(m), length.out = 100))))
+
+strength_pair <- function(s) sign(s) * (2 * floor((round(10 * abs(s)) - 1) / 2) + 1.5) / 10
+key <- paste(trials$Group, trials$Illusion_Type, strength_pair(trials$Illusion_Strength), sep = "|")
+curves <- do.call(rbind, lapply(names(sims), function(mn) {
+  s <- sims[[mn]]
+  do.call(rbind, lapply(unique(key), function(k) {
+    parts <- strsplit(k, "|", fixed = TRUE)[[1]]
+    i <- which(key == k)
+    e <- rowMeans(s$error[, i, drop = FALSE])
+    r <- apply(s$rt[, i, drop = FALSE], 1, median)
+    head <- data.frame(Model = mn, Group = parts[1], Illusion_Type = parts[2],
+                       Illusion_Strength = as.numeric(parts[3]), N = length(i))
+    rbind(
+      cbind(head, Measure = "Error rate", Observed = mean(trials$Error[i]), Pred_mean = mean(e),
+            Pred_low = quantile(e, 0.025), Pred_high = quantile(e, 0.975)),
+      cbind(head, Measure = "Median RT (s)", Observed = median(trials$RT[i]), Pred_mean = mean(r),
+            Pred_low = quantile(r, 0.025), Pred_high = quantile(r, 0.975)))
+  }))
+}))
+rownames(curves) <- NULL
+write.csv(curves[curves$Model == "DDM-5", -1], file.path(out_dir, "ddm5_ppc_curves.csv"), row.names = FALSE)
+```
+
+How far the predictions sit from the observed points (error rates in
+percentage points, median RTs in ms), and how many observed points fall
+inside the 95% predictive band, over the 180 points per model (3 groups × 3
+illusions × 10 pairs of strengths × 2 measures):
+
+```{r}
+dev_tab <- do.call(rbind, lapply(split(curves, list(curves$Model, curves$Measure)), function(x) {
+  k <- if (x$Measure[1] == "Error rate") 100 else 1000
+  data.frame(Model = x$Model[1], Measure = x$Measure[1],
+             "Mean signed (pred - obs)" = k * mean(x$Pred_mean - x$Observed),
+             "Mean absolute" = k * mean(abs(x$Pred_mean - x$Observed)),
+             "Largest absolute" = k * max(abs(x$Pred_mean - x$Observed)),
+             "Inside the 95% band" = sprintf("%.0f%%", 100 * mean(x$Observed >= x$Pred_low & x$Observed <= x$Pred_high)),
+             check.names = FALSE)
+}))
+dev_tab$Measure <- ifelse(dev_tab$Measure == "Error rate", "Error rate (points)", "Median RT (ms)")
+dev_tab <- dev_tab[order(dev_tab$Measure, dev_tab$Model), ]
+knitr::kable(dev_tab, digits = 1, row.names = FALSE)
+```
+
+```{r}
+plot_curves <- function(measure, title) {
+  x <- curves[curves$Measure == measure, ]
+  x$Illusion_Type <- factor(illusions[x$Illusion_Type], levels = illusions)
+  x$Group <- factor(x$Group, levels = names(group_col))
+  x$Model <- factor(x$Model, levels = names(fits))
+  ggplot(x, aes(Illusion_Strength)) +
+    geom_vline(xintercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+    geom_ribbon(aes(ymin = Pred_low, ymax = Pred_high, fill = Group), alpha = 0.25) +
+    geom_line(aes(y = Pred_mean, colour = Group), linewidth = 0.6) +
+    geom_point(aes(y = Observed, colour = Group), size = 1.2) +
+    facet_grid(Model ~ Illusion_Type) +
+    scale_colour_manual(values = group_col) +
+    scale_fill_manual(values = group_col) +
+    scale_x_continuous(breaks = c(-1, 0, 1)) +
+    labs(x = "Illusion strength", y = measure, colour = NULL, fill = NULL, title = title,
+         caption = paste0("Points: observed, per pair of neighbouring strengths, pooled over difficulty and participants.\n",
+                          "Lines and bands: posterior predictive mean and 95% interval (100 draws).")) +
+    theme_igsa
+}
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.5
+
+plot_curves("Error rate", "Error rate across strength, per model")
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.5
+
+plot_curves("Median RT (s)", "Median response time across strength, per model")
+```
+
+The shape of the response time distributions, which is where the LNR misfits
+(`3_lnr_groups.qmd`: the observed distributions are more peaked than its
+predictions). For each group, illusion and band, the 10th, 30th, 50th, 70th
+and 90th percentiles of the correct and of the error response times, observed
+against predicted (the mean over the 100 draws of each draw's percentile).
+Cells with fewer than 30 observed responses of the kind are left out, which
+removes the errors on facilitating trials.
+
+```{r}
+probs <- c(0.1, 0.3, 0.5, 0.7, 0.9)
+trials$Band <- band(trials$Illusion_Strength)
+qcell <- paste(trials$Group, trials$Illusion_Type, trials$Band, sep = "|")
+qcells <- unique(qcell[trials$Band != "In between"])
+quantiles <- do.call(rbind, lapply(qcells, function(k) {
+  parts <- strsplit(k, "|", fixed = TRUE)[[1]]
+  i <- which(qcell == k)
+  do.call(rbind, lapply(c(Correct = 0, Error = 1), function(r) {
+    obs <- trials$RT[i][trials$Error[i] == r]
+    if (length(obs) < 30) return(NULL)
+    do.call(rbind, lapply(names(sims), function(mn) {
+      s <- sims[[mn]]
+      pq <- t(vapply(seq_len(nrow(s$rt)), function(j) {
+        x <- s$rt[j, i][s$error[j, i] == r]
+        if (length(x) < 5) rep(NA_real_, length(probs)) else stats::quantile(x, probs, names = FALSE)
+      }, numeric(length(probs))))
+      data.frame(Model = mn, Group = parts[1], Illusion_Type = parts[2], Band = parts[3],
+                 Response = if (r == 1) "Error" else "Correct", N = length(obs), Quantile = probs,
+                 Observed = stats::quantile(obs, probs, names = FALSE),
+                 Pred_mean = colMeans(pq, na.rm = TRUE),
+                 Pred_low = apply(pq, 2, stats::quantile, 0.025, na.rm = TRUE),
+                 Pred_high = apply(pq, 2, stats::quantile, 0.975, na.rm = TRUE))
+    }))
+  }))
+}))
+write.csv(quantiles, file.path(out_dir, "ddm5_vs_lnr_ppc_quantiles.csv"), row.names = FALSE)
+
+q_tab <- aggregate(list(Deviation = 1000 * (quantiles$Pred_mean - quantiles$Observed),
+                        Absolute = 1000 * abs(quantiles$Pred_mean - quantiles$Observed),
+                        Inside = quantiles$Observed >= quantiles$Pred_low & quantiles$Observed <= quantiles$Pred_high),
+                   list(Model = quantiles$Model, Response = quantiles$Response, Quantile = quantiles$Quantile), mean)
+q_wide <- stats::reshape(q_tab, idvar = c("Response", "Quantile"), timevar = "Model", direction = "wide")
+q_wide <- q_wide[order(q_wide$Response, q_wide$Quantile), ]
+q_wide$Quantile <- paste0(100 * q_wide$Quantile, "th")
+for (mn in names(fits)) q_wide[[paste0("Inside.", mn)]] <- sprintf("%.0f%%", 100 * q_wide[[paste0("Inside.", mn)]])
+knitr::kable(q_wide[c("Response", "Quantile", paste0(c("Deviation.", "Absolute.", "Inside."), "LNR"),
+                      paste0(c("Deviation.", "Absolute.", "Inside."), "DDM-5"))],
+             digits = 0, row.names = FALSE,
+             col.names = c("Response", "Percentile", "LNR: mean (pred - obs), ms", "LNR: mean absolute", "LNR: inside 95%",
+                           "DDM-5: mean (pred - obs), ms", "DDM-5: mean absolute", "DDM-5: inside 95%"))
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6
+
+qx <- quantiles
+qx$Deviation <- 1000 * (qx$Pred_mean - qx$Observed)
+qx$Band <- factor(c(Facilitating = "Facilitating illusion", None = "No illusion",
+                    Conflicting = "Conflicting illusion")[qx$Band],
+                  levels = c("Facilitating illusion", "No illusion", "Conflicting illusion"))
+qx$Model <- factor(qx$Model, levels = names(fits))
+qx$Response <- paste(qx$Response, "responses")
+qm <- aggregate(Deviation ~ Model + Response + Band + Quantile, qx, mean)
+ggplot(qx, aes(Quantile, Deviation, colour = Model)) +
+  geom_hline(yintercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+  geom_point(position = position_jitterdodge(jitter.width = 0.03, dodge.width = 0.08, seed = 1),
+             alpha = 0.35, size = 1) +
+  geom_line(data = qm, aes(linetype = Model), linewidth = 0.8) +
+  facet_grid(Response ~ Band) +
+  scale_colour_manual(values = model_col) +
+  scale_linetype_manual(values = model_lty) +
+  scale_x_continuous(breaks = probs, labels = paste0(100 * probs, "th")) +
+  labs(x = "Percentile of the response times", y = "Predicted minus observed (ms)", colour = NULL, linetype = NULL,
+       title = "Response time percentiles: prediction error per model",
+       caption = "Points: one group x illusion cell each. Lines: their mean. Cells with fewer than 30 observed responses of the kind are left out.") +
+  theme_igsa
+```
+
+The distributions themselves with no illusion (|strength| ≤ 0.3), the band
+where the LNR's misfit was clearest: correct responses above the axis, errors
+below, each as a share of all responses (50 ms bins).
+
+```{r}
+#| fig-width: 9
+#| fig-height: 7.5
+
+breaks <- seq(0, 2.5, by = 0.05)
+tgrid <- breaks[-1] - diff(breaks) / 2
+defective <- function(rt, err, r) tabulate(findInterval(rt[err == r], breaks), nbins = length(tgrid)) / length(rt) / diff(breaks)
+none <- trials$Band == "None"
+dcell <- paste(trials$Group, trials$Illusion_Type, sep = "|")
+dens <- do.call(rbind, lapply(unique(dcell[none]), function(k) {
+  parts <- strsplit(k, "|", fixed = TRUE)[[1]]
+  i <- which(dcell == k & none)
+  do.call(rbind, lapply(c(Correct = 0, Error = 1), function(r) {
+    s <- if (r == 1) -1 else 1
+    rbind(
+      data.frame(Source = "Observed", Group = parts[1], Illusion_Type = parts[2], Response = r, RT = tgrid,
+                 Density = s * defective(trials$RT[i], trials$Error[i], r)),
+      do.call(rbind, lapply(names(sims), function(mn) {
+        M <- t(vapply(seq_len(nrow(sims[[mn]]$rt)), function(j) defective(sims[[mn]]$rt[j, i], sims[[mn]]$error[j, i], r),
+                      numeric(length(tgrid))))
+        data.frame(Source = mn, Group = parts[1], Illusion_Type = parts[2], Response = r, RT = tgrid,
+                   Density = s * colMeans(M))
+      })))
+  }))
+}))
+dens$Illusion_Type <- factor(illusions[dens$Illusion_Type], levels = illusions)
+dens$Group <- factor(dens$Group, levels = names(group_col))
+obs <- dens[dens$Source == "Observed", ]
+pred <- dens[dens$Source != "Observed", ]
+pred$Model <- factor(pred$Source, levels = names(fits))
+
+ggplot(pred, aes(RT, Density)) +
+  geom_hline(yintercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+  geom_col(data = obs, aes(group = Response), fill = "#c9c8c2", width = 0.045) +
+  geom_line(aes(colour = Model, linetype = Model, group = interaction(Model, Response)), linewidth = 0.7) +
+  facet_grid(Group ~ Illusion_Type) +
+  scale_colour_manual(values = model_col) +
+  scale_linetype_manual(values = model_lty) +
+  scale_y_continuous(labels = function(y) abs(y)) +
+  coord_cartesian(xlim = c(0, 2)) +
+  labs(x = "Response time (s)", y = "Density: correct above, errors below", colour = NULL, linetype = NULL,
+       title = "Response time distributions with no illusion",
+       caption = "Bars: observed (50 ms bins). Lines: posterior predictive mean of each model (100 draws).") +
+  theme_igsa
+```
+
+```{r}
+rm(sims)
+invisible(gc())
+```
+
+## Group differences
+
+### The DDM-5's parameters across strength
+
+Each group's DDM-5 parameters at the population level, across illusion
+strength at mid difficulty (the LNR's are in `3_lnr_groups.qmd`).
+
+```{r}
+quantities_ddm <- c(
+  delta = "v: drift towards the correct response",
+  boundary = "a: boundary separation",
+  bias = "w: start point (share of a, from the correct boundary)",
+  ndt = "Non-decision time (s)",
+  sigmadrift = "sv: trial-to-trial drift SD",
+  perror = "P(error)"
+)
+grid <- igsa_grid(ddm, strength = round(seq(-1, 1, by = 0.1), 2), difficulty = 0)
+d <- igsa_draws(ddm, grid)
+surface <- igsa_summary(d, grid, what = names(quantities_ddm))
+write.csv(igsa_summary(d, grid), file.path(out_dir, "ddm5_groups_means.csv"), row.names = FALSE)
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 11
+
+sx <- surface
+sx$Quantity <- factor(quantities_ddm[sx$Quantity], levels = quantities_ddm)
+sx$Illusion_Type <- factor(illusions[as.character(sx$Illusion_Type)], levels = illusions)
+ggplot(sx, aes(Illusion_Strength, Median)) +
+  geom_ribbon(aes(ymin = CI_low, ymax = CI_high, fill = Group), alpha = 0.15) +
+  geom_line(aes(colour = Group), linewidth = 0.7) +
+  facet_grid(Quantity ~ Illusion_Type, scales = "free_y", switch = "y",
+             labeller = labeller(Quantity = label_wrap_gen(22))) +
+  scale_colour_manual(values = group_col) +
+  scale_fill_manual(values = group_col) +
+  scale_x_continuous(breaks = c(-1, 0, 1)) +
+  labs(x = "Illusion strength", y = NULL, colour = NULL, fill = NULL, title = "DDM-5 parameters per group",
+       caption = paste0("Population level, mid task difficulty. Lines: posterior medians; bands: 95% intervals.\n",
+                        "Strength: + pushes towards the error (conflicting), - towards the right answer (facilitating).")) +
+  theme_igsa + theme(strip.placement = "outside")
+```
+
+```{r}
+# How much the parameters that should be set before the stimulus (boundary,
+# start point) move with the stimulus: strength -1 against +1, per group,
+# averaged over the illusions.
+pre <- function(q, s) {
+  x <- surface[surface$Quantity == q & surface$Illusion_Strength == s, ]
+  tapply(x$Median, x$Group, mean)
+}
+a_fac <- pre("boundary", -1); a_con <- pre("boundary", 1)
+w_fac <- pre("bias", -1); w_con <- pre("bias", 1)
+```
+
+The boundary and the start point move with illusion strength. Averaged over
+the illusions, Never's boundary is `r sprintf("%.2f", a_fac["Never"])` on
+the most facilitating trials and `r sprintf("%.2f", a_con["Never"])` on the
+most conflicting ones, and its start point `r sprintf("%.2f", w_fac["Never"])`
+and `r sprintf("%.2f", w_con["Never"])`. The illusions are mixed at random
+within blocks, so neither can be set in advance for the trial's strength: in
+the DDM's own terms these are effects of the stimulus on parameters that
+should not depend on it.
+
+### Matched quantities, averaged over the design
+
+The group differences averaged over every strength × difficulty point the
+task showed (as in `3_lnr_groups.qmd`), for the quantities the two models
+share and for the rest of their parameters. Each cell is the median, the 95%
+interval and, in parentheses, the probability of direction (pd).
+
+```{r}
+design <- igsa_design_grid(ddm)
+averaged <- do.call(rbind, lapply(names(fits), function(mn) {
+  dd <- igsa_draws(fits[[mn]], design)
+  dd$poutlier <- NULL
+  by_ill <- igsa_summary(igsa_contrasts(igsa_average(dd, design)))
+  all <- igsa_summary(igsa_contrasts(igsa_average(dd, design, by = "Group")))
+  all$Illusion_Type <- "All"
+  means_ill <- igsa_summary(igsa_average(dd, design))
+  means_all <- igsa_summary(igsa_average(dd, design, by = "Group"))
+  means_all$Illusion_Type <- "All"
+  if (mn == "DDM-5") {
+    cols <- c("Group", "Illusion_Type", "Quantity", "Median", "CI_low", "CI_high", "pd")
+    write.csv(rbind(means_ill[cols], means_all[cols]), file.path(out_dir, "ddm5_groups_averaged_means.csv"), row.names = FALSE)
+  }
+  cols <- c("Quantity", "Contrast", "Illusion_Type", "Median", "CI_low", "CI_high", "pd")
+  out <- rbind(by_ill[cols], all[cols])
+  out$Illusion_Type <- as.character(out$Illusion_Type)
+  cbind(Model = mn, out)
+}))
+write.csv(averaged[averaged$Model == "DDM-5", -1], file.path(out_dir, "ddm5_groups_averaged.csv"), row.names = FALSE)
+
+# Common labels, and the units the two models share: ms and percentage points.
+matched <- rbind(
+  data.frame(Model = "LNR", Quantity = c("ndt", "perror", "delta", "speed", "mu", "nuone", "sigmazero", "sigmaone"),
+             Label = c("Non-decision time (ms)", "P(error) (points)", "Discriminability", "Caution",
+                       "Other", "Other", "Other", "Other"),
+             Parameter = c("ndt", "race", "nu0 - nu1", "speed (nu0 + nu1) / 2: lower = more cautious",
+                           "nu0: correct drift", "nu1: error drift", "sigma0: correct noise", "sigma1: error noise"),
+             Scale = c(1000, 100, 1, 1, 1, 1, 1, 1)),
+  data.frame(Model = "DDM-5", Quantity = c("ndt", "perror", "delta", "boundary", "bias", "sigmadrift"),
+             Label = c("Non-decision time (ms)", "P(error) (points)", "Discriminability", "Caution", "Other", "Other"),
+             Parameter = c("ndt", "diffusion", "v = -drift", "boundary a: higher = more cautious",
+                           "w: start point", "sv: trial-to-trial drift SD"),
+             Scale = c(1000, 100, 1, 1, 1, 1))
+)
+avg <- merge(averaged, matched, by = c("Model", "Quantity"))
+for (v in c("Median", "CI_low", "CI_high")) avg[[v]] <- avg[[v]] * avg$Scale
+avg$Value <- sprintf("%s (%.2f)", fmt_ci(avg$Median, avg$CI_low, avg$CI_high), avg$pd)
+
+tab <- avg[avg$Illusion_Type == "All", c("Label", "Model", "Parameter", "Contrast", "Value")]
+tab <- stats::reshape(tab, idvar = c("Label", "Model", "Parameter"), timevar = "Contrast", direction = "wide")
+names(tab) <- sub("^Value\\.", "", names(tab))
+tab <- tab[order(match(tab$Label, unique(matched$Label)), match(tab$Model, names(fits))), ]
+knitr::kable(tab[c("Label", "Model", "Parameter", "Past - Never", "Recent - Never", "Recent - Past")],
+             row.names = FALSE, col.names = c("Quantity", "Model", "Parameter", "Past - Never", "Recent - Never", "Recent - Past"))
+```
+
+The two quantities on a shared scale, per illusion:
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6
+
+plot_models <- function(x, title, caption, xlab = "Difference between groups (median, 95% interval)") {
+  x$Illusion_Type <- factor(ill_all[as.character(x$Illusion_Type)], levels = c(rev(illusions), "All illusions"))
+  x$Model <- factor(x$Model, levels = names(fits))
+  x$Dodge <- factor(x$Model, levels = rev(names(fits)))
+  ggplot(x, aes(Median, Illusion_Type, colour = Model, group = Dodge)) +
+    geom_vline(xintercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+    geom_linerange(aes(xmin = CI_low, xmax = CI_high, linetype = Model), linewidth = 0.7,
+                   position = position_dodge(width = 0.55)) +
+    geom_point(aes(shape = Model), size = 2.2, position = position_dodge(width = 0.55)) +
+    facet_grid(Contrast ~ Panel, scales = "free_x") +
+    scale_colour_manual(values = model_col) +
+    scale_linetype_manual(values = model_lty) +
+    scale_shape_manual(values = c(LNR = 17, "DDM-5" = 16)) +
+    labs(x = xlab, y = NULL, colour = NULL, linetype = NULL, shape = NULL, title = title, caption = caption) +
+    theme_igsa + theme(strip.text = element_text(face = "bold", hjust = 0, size = 8))
+}
+shared <- avg[avg$Label %in% c("Non-decision time (ms)", "P(error) (points)"), ]
+shared$Panel <- shared$Label
+plot_models(shared, "Group differences averaged over the design",
+            "Population level, averaged over every strength x difficulty point shown.")
+```
+
+## Illusion sensitivity
+
+### The illusion magnitude
+
+The paper's primary index: at strength 0 and mid difficulty, the effect of
+one unit of strength on discriminability over the effect of one unit of
+difficulty on it, which is how many units of difficulty one unit of strength
+is worth (`igsa_index()`). It is defined the same way on each model's
+discriminability (δ for the LNR, v for the DDM-5). Per group and illusion:
+
+```{r}
+g4 <- igsa_grid(ddm, strength = c(0, 1), difficulty = c(0, 1))
+d4 <- lapply(fits, function(m) igsa_draws(m, g4))
+ix <- lapply(d4, function(x) igsa_index(x, g4))
+
+index_means <- do.call(rbind, lapply(names(ix), function(mn) cbind(Model = mn, igsa_summary(ix[[mn]]))))
+index_contrasts <- do.call(rbind, lapply(names(ix), function(mn) cbind(Model = mn, igsa_summary(igsa_contrasts(ix[[mn]])))))
+
+# The same contrasts as a change relative to the reference group, per draw:
+# 100 x (a / b - 1). The components are in each model's own units, so this is
+# what puts them on one scale.
+relative <- function(x, grid = attr(x, "grid"),
+                     pairs = list(c("Past", "Never"), c("Recent", "Never"), c("Recent", "Past"))) {
+  out <- list()
+  rows <- list()
+  for (p in pairs) {
+    ia <- which(grid$Group == p[1])
+    ib <- which(grid$Group == p[2])
+    ib <- ib[match(grid$Illusion_Type[ia], grid$Illusion_Type[ib])]
+    rows[[length(rows) + 1]] <- data.frame(Contrast = paste(p, collapse = " - "), Illusion_Type = grid$Illusion_Type[ia])
+    for (q in names(x)) out[[q]] <- cbind(out[[q]], 100 * (x[[q]][, ia, drop = FALSE] / x[[q]][, ib, drop = FALSE] - 1))
+  }
+  attr(out, "grid") <- do.call(rbind, rows)
+  out
+}
+index_relative <- do.call(rbind, lapply(names(ix), function(mn) cbind(Model = mn, igsa_summary(relative(ix[[mn]])))))
+
+ddm_slopes <- rbind(
+  cbind(Kind = "Group value", igsa_summary(ix[["DDM-5"]])[c("Group", "Illusion_Type", "Quantity", "Median", "CI_low", "CI_high", "pd")], Contrast = NA),
+  cbind(Kind = "Difference", Group = NA, igsa_summary(igsa_contrasts(ix[["DDM-5"]]))[c("Illusion_Type", "Quantity", "Median", "CI_low", "CI_high", "pd", "Contrast")]),
+  cbind(Kind = "Relative difference (%)", Group = NA, igsa_summary(relative(ix[["DDM-5"]]))[c("Illusion_Type", "Quantity", "Median", "CI_low", "CI_high", "pd", "Contrast")])
+)
+write.csv(ddm_slopes, file.path(out_dir, "ddm5_groups_slopes.csv"), row.names = FALSE)
+
+im <- index_means[index_means$Quantity == "index", ]
+im$Value <- fmt_ci(im$Median, im$CI_low, im$CI_high)
+im$Illusion <- illusions[as.character(im$Illusion_Type)]
+im_wide <- stats::reshape(im[c("Illusion", "Model", "Group", "Value")], idvar = c("Illusion", "Model"),
+                          timevar = "Group", direction = "wide")
+names(im_wide) <- sub("^Value\\.", "", names(im_wide))
+knitr::kable(im_wide[order(im_wide$Illusion, match(im_wide$Model, names(fits))), ], row.names = FALSE)
+```
+
+Its group differences, in index units and relative to the second group:
+
+```{r}
+ic <- merge(index_contrasts[index_contrasts$Quantity == "index", ],
+            index_relative[index_relative$Quantity == "index", ],
+            by = c("Model", "Contrast", "Illusion_Type", "Quantity"), suffixes = c("", "_rel"))
+ic$Difference <- sprintf("%s (%.3f)", fmt_ci(ic$Median, ic$CI_low, ic$CI_high), ic$pd)
+ic$Relative <- sprintf("%.0f%% [%.0f, %.0f]", ic$Median_rel, ic$CI_low_rel, ic$CI_high_rel)
+ic$Illusion <- illusions[as.character(ic$Illusion_Type)]
+ic <- ic[order(ic$Contrast, ic$Illusion, match(ic$Model, names(fits))), ]
+knitr::kable(ic[c("Contrast", "Illusion", "Model", "Difference", "Relative")], row.names = FALSE,
+             col.names = c("Contrast", "Illusion", "Model", "Difference (pd)", "Relative to the second group"))
+```
+
+Where the difference comes from. The index is a ratio, so it can shrink
+because the illusion moves discriminability less or because difficulty moves
+it more. Both components and the index, as the change relative to Never:
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5.5
+
+comp_lab <- c(delta_strength = "Illusion effect on discriminability",
+              delta_difficulty = "Precision (difficulty effect)",
+              index = "Illusion magnitude (their ratio)")
+rx <- index_relative[index_relative$Contrast != "Recent - Past", ]
+rx$Panel <- factor(comp_lab[rx$Quantity], levels = comp_lab)
+rx$Contrast <- sub(" - Never", " vs Never", rx$Contrast)
+plot_models(rx, "The illusion magnitude and its two components, relative to Never",
+            paste0("Population level, at strength 0 and mid difficulty. 100 x (group / Never - 1), per draw.\n",
+                   "Both components are negative, so a positive value is a larger effect."),
+            xlab = "Difference relative to Never (%; median, 95% interval)")
+```
+
+### The illusion effect on P(error)
+
+The change in P(error) from strength 0 to 1 at mid difficulty, in percentage
+points, per group and as group differences. This is the population level, as
+in `3_lnr_groups.qmd` and the paper: a participant whose every random effect
+is zero. It is a prediction for a typical participant, not a summary of the
+data, and the two models need not agree on it. Averaged over the
+participants, both follow the observed error rates (the posterior predictive
+checks above). But a typical participant's P(error) depends on how each model
+turns its parameters into choices. The participant-averaged version is under
+"Participant level" below.
+
+```{r}
+pe <- do.call(rbind, lapply(names(d4), function(mn) {
+  s <- igsa_slopes(d4[[mn]], g4, from = 0, to = 1)
+  keep <- attr(s, "grid")$Task_Difficulty == 0
+  s0 <- lapply(s["perror"], function(x) 100 * x[, keep, drop = FALSE])
+  attr(s0, "grid") <- attr(s, "grid")[keep, c("Group", "Illusion_Type")]
+  rbind(cbind(Model = mn, Kind = "Group", igsa_summary(s0), Contrast = NA),
+        cbind(Model = mn, Kind = "Contrast", Group = NA, igsa_summary(igsa_contrasts(s0))))
+}))
+pg <- pe[pe$Kind == "Group", ]
+pg$Value <- sprintf("%.0f [%.0f, %.0f]", pg$Median, pg$CI_low, pg$CI_high)
+pg$Illusion <- illusions[as.character(pg$Illusion_Type)]
+pg_wide <- stats::reshape(pg[c("Illusion", "Model", "Group", "Value")], idvar = c("Illusion", "Model"),
+                          timevar = "Group", direction = "wide")
+names(pg_wide) <- sub("^Value\\.", "", names(pg_wide))
+knitr::kable(pg_wide[order(pg_wide$Illusion, match(pg_wide$Model, names(fits))), ], row.names = FALSE,
+             caption = "Increase in P(error) from strength 0 to 1, percentage points")
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+
+pc <- pe[pe$Kind == "Contrast", ]
+pc$Panel <- "Illusion effect on P(error), points"
+pc$Contrast <- factor(pc$Contrast, levels = names(contrast_col))
+plot_models(pc, "Group differences in the illusion effect on P(error)",
+            "Population level, mid difficulty: P(error) at strength 1 minus at strength 0.")
+```
+
+## Participant level
+
+Per participant and illusion, from 1,000 evenly spaced draws of the DDM-5
+with the participant effects in, the same indices as `4_lnr_correlates.qmd`
+computes for the LNR, at strength 0 and mid difficulty. The LNR's are its
+medians in `analysis/results/lnr_participants.csv`.
+
+```{r}
+draw_ids <- round(seq(1, ndraws(ddm), length.out = 1000))
+pgrid <- igsa_participant_grid(ddm, strength = c(0, 1), difficulty = c(0, 1))
+pd <- igsa_draws(ddm, pgrid, re_formula = NULL, draw_ids = draw_ids)
+pd$poutlier <- NULL
+
+cells <- unique(pgrid[c("Participant", "Group", "Illusion_Type")])
+cells <- cells[order(cells$Participant, cells$Illusion_Type), ]
+rownames(cells) <- NULL
+cell_key <- paste(cells$Participant, cells$Illusion_Type)
+align <- function(x, grid) x[, match(cell_key, paste(grid$Participant, grid$Illusion_Type)), drop = FALSE]
+
+at00 <- pgrid$Illusion_Strength == 0 & pgrid$Task_Difficulty == 0
+base <- lapply(pd, function(x) align(x[, at00, drop = FALSE], pgrid[at00, ]))
+pix <- igsa_index(pd, pgrid)
+pix <- lapply(pix, align, grid = attr(pix, "grid"))
+eff <- igsa_slopes(pd, pgrid, from = 0, to = 1)
+eff_grid <- attr(eff, "grid")
+eff <- lapply(eff, function(x) align(x[, eff_grid$Task_Difficulty == 0, drop = FALSE],
+                                     eff_grid[eff_grid$Task_Difficulty == 0, ]))
+nonneg <- colMeans(pix$delta_difficulty >= 0)
+
+pq <- list(
+  "Discriminability, no illusion" = base$delta,
+  "Boundary, no illusion" = base$boundary,
+  "Start point, no illusion" = base$bias,
+  "Drift SD, no illusion" = base$sigmadrift,
+  "Non-decision time (s), no illusion" = base$ndt,
+  "P(error), no illusion" = base$perror,
+  "Illusion effect on discriminability" = pix$delta_strength,
+  "Illusion effect on P(error)" = eff$perror,
+  "Precision (difficulty slope)" = pix$delta_difficulty,
+  "Illusion magnitude (strength / difficulty)" = pix$index
+)
+per_participant <- function(x) {
+  idx <- split(seq_len(nrow(cells)), factor(cells$Participant, levels = unique(cells$Participant)))
+  sapply(idx, function(i) rowMeans(x[, i, drop = FALSE]))
+}
+ids <- unique(as.character(cells$Participant))
+summarise_cells <- function(x, grid) {
+  data.frame(grid, Median = apply(x, 2, stats::median),
+             CI_low = apply(x, 2, stats::quantile, probs = 0.025),
+             CI_high = apply(x, 2, stats::quantile, probs = 0.975), row.names = NULL)
+}
+ppt <- do.call(rbind, lapply(names(pq), function(qn) {
+  rbind(
+    cbind(Quantity = qn, summarise_cells(pq[[qn]], cells)),
+    cbind(Quantity = qn, summarise_cells(per_participant(pq[[qn]]), data.frame(
+      Participant = ids, Group = cells$Group[match(ids, cells$Participant)], Illusion_Type = "All")))
+  )
+}))
+ppt$Participant <- as.character(ppt$Participant)
+ppt$Illusion_Type <- as.character(ppt$Illusion_Type)
+write.csv(ppt, file.path(out_dir, "ddm5_participants.csv"), row.names = FALSE)
+
+lnr_ppt <- read.csv(file.path(out_dir, "lnr_participants.csv"))
+```
+
+`r sum(nonneg > 0.05)` of `r length(nonneg)` participant × illusion cells
+have more than 5% of their DDM-5 draws with a non-negative precision term,
+where the index is unstable (maximum share `r sprintf("%.2f", max(nonneg))`);
+the index is summarised by its median.
+
+### Do the models rank participants the same way?
+
+The Spearman correlation across participants between the two models'
+posterior medians, per illusion. Caution is the LNR's speed against the
+DDM-5's boundary, so agreement shows as a negative correlation there.
+
+```{r}
+pairs_q <- c(
+  "Non-decision time (s), no illusion" = "Non-decision time (s), no illusion",
+  "Discriminability, no illusion" = "Discriminability, no illusion",
+  "Speed, no illusion" = "Boundary, no illusion",
+  "P(error), no illusion" = "P(error), no illusion",
+  "Illusion effect on P(error)" = "Illusion effect on P(error)",
+  "Precision (difficulty slope)" = "Precision (difficulty slope)",
+  "Illusion magnitude (strength / difficulty)" = "Illusion magnitude (strength / difficulty)"
+)
+agree <- do.call(rbind, lapply(names(pairs_q), function(lq) {
+  a <- lnr_ppt[lnr_ppt$Quantity == lq, c("Participant", "Illusion_Type", "Median")]
+  b <- ppt[ppt$Quantity == pairs_q[[lq]], c("Participant", "Illusion_Type", "Median")]
+  x <- merge(a, b, by = c("Participant", "Illusion_Type"), suffixes = c("_lnr", "_ddm"))
+  do.call(rbind, lapply(split(x, x$Illusion_Type), function(y) {
+    data.frame(LNR = lq, "DDM-5" = pairs_q[[lq]], Illusion_Type = y$Illusion_Type[1], N = nrow(y),
+               rho = stats::cor(y$Median_lnr, y$Median_ddm, method = "spearman"), check.names = FALSE)
+  }))
+}))
+agree$Illusion_Type <- ill_all[agree$Illusion_Type]
+agree_wide <- stats::reshape(agree[c("LNR", "DDM-5", "Illusion_Type", "rho")], idvar = c("LNR", "DDM-5"),
+                             timevar = "Illusion_Type", direction = "wide")
+names(agree_wide) <- sub("^rho\\.", "", names(agree_wide))
+knitr::kable(agree_wide[c("LNR", "DDM-5", illusions, "All illusions")], digits = 2, row.names = FALSE)
+```
+
+The illusion effect on P(error) (strength 0 to 1, mid difficulty) averaged
+over each group's participants (the mean of their posterior medians, in
+percentage points), against the typical participant of the section above:
+
+```{r}
+src <- list(LNR = lnr_ppt, "DDM-5" = ppt)
+pe_ppt <- do.call(rbind, lapply(names(src), function(mn) {
+  y <- src[[mn]][src[[mn]]$Quantity == "Illusion effect on P(error)" & src[[mn]]$Illusion_Type != "All", ]
+  cbind(Model = mn, aggregate(list(Mean = 100 * y$Median), list(Illusion_Type = y$Illusion_Type, Group = y$Group), mean))
+}))
+pe_ppt$Illusion <- illusions[pe_ppt$Illusion_Type]
+pe_ppt_wide <- stats::reshape(pe_ppt[c("Illusion", "Model", "Group", "Mean")], idvar = c("Illusion", "Model"),
+                              timevar = "Group", direction = "wide")
+names(pe_ppt_wide) <- sub("^Mean\\.", "", names(pe_ppt_wide))
+knitr::kable(pe_ppt_wide[order(pe_ppt_wide$Illusion, match(pe_ppt_wide$Model, names(fits))),
+                         c("Illusion", "Model", names(group_col))], digits = 0, row.names = FALSE)
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6.5
+
+shown <- c("Non-decision time (s), no illusion", "Discriminability, no illusion",
+           "Illusion magnitude (strength / difficulty)")
+sc <- do.call(rbind, lapply(shown, function(q) {
+  a <- lnr_ppt[lnr_ppt$Quantity == q & lnr_ppt$Illusion_Type != "All", c("Participant", "Group", "Illusion_Type", "Median")]
+  b <- ppt[ppt$Quantity == q & ppt$Illusion_Type != "All", c("Participant", "Illusion_Type", "Median")]
+  cbind(Quantity = q, merge(a, b, by = c("Participant", "Illusion_Type"), suffixes = c("_lnr", "_ddm")))
+}))
+sc$Quantity <- factor(sub(", no illusion", "", sc$Quantity), levels = sub(", no illusion", "", shown))
+sc$Illusion_Type <- factor(illusions[sc$Illusion_Type], levels = illusions)
+sc$Group <- factor(sc$Group, levels = names(group_col))
+ggplot(sc, aes(Median_lnr, Median_ddm, colour = Group)) +
+  geom_point(alpha = 0.6, size = 1.2) +
+  facet_wrap(~ Quantity + Illusion_Type, scales = "free", ncol = 3,
+             labeller = function(l) label_value(l, multi_line = FALSE)) +
+  scale_colour_manual(values = group_col) +
+  labs(x = "LNR (participant posterior median)", y = "DDM-5", colour = NULL,
+       title = "The same participants in the two models",
+       caption = "Strength 0, mid difficulty. Each panel has its own scales.") +
+  theme_igsa + theme(strip.text = element_text(face = "bold", hjust = 0, size = 7))
+```
+
+### Across illusions
+
+The paper reports that the illusion magnitude correlates only weakly between
+illusions, against a strongly shared general performance. The Spearman
+correlation of the participant medians between each pair of illusions, per
+model (`4_lnr_correlates.qmd` gives the LNR's per draw, with intervals; this
+is the cruder correlation of medians, computed the same way for both):
+
+```{r}
+cross <- do.call(rbind, lapply(c("Illusion magnitude (strength / difficulty)", "Illusion effect on discriminability",
+                                 "Precision (difficulty slope)", "Discriminability, no illusion"), function(q) {
+  src <- list(LNR = lnr_ppt, "DDM-5" = ppt)
+  do.call(rbind, lapply(names(src), function(mn) {
+    x <- src[[mn]]
+    w <- x[x$Quantity == q & x$Illusion_Type != "All", c("Participant", "Illusion_Type", "Median")]
+    w <- stats::reshape(w, idvar = "Participant", timevar = "Illusion_Type", direction = "wide")
+    p <- utils::combn(names(illusions), 2)
+    data.frame(Quantity = q, Pair = apply(p, 2, function(k) paste(illusions[k], collapse = " & ")), Model = mn,
+               rho = apply(p, 2, function(k) stats::cor(w[[paste0("Median.", k[1])]], w[[paste0("Median.", k[2])]],
+                                                         method = "spearman", use = "complete.obs")))
+  }))
+}))
+cross_wide <- stats::reshape(cross, idvar = c("Quantity", "Pair"), timevar = "Model", direction = "wide")
+names(cross_wide) <- sub("^rho\\.", "", names(cross_wide))
+knitr::kable(cross_wide, digits = 2, row.names = FALSE)
+```
+
+### What age accounts for
+
+The paper's covariate check, done crudely here for both models: each
+participant's median averaged over the illusions, regressed on Group, then
+on Group and age (per decade). `4_lnr_correlates.qmd` does it per posterior
+draw for the LNR. Coefficients with 95% confidence intervals.
+
+```{r}
+age_q <- list(
+  "Non-decision time (ms)" = c(LNR = "Non-decision time (s), no illusion", "DDM-5" = "Non-decision time (s), no illusion"),
+  "Caution (LNR: speed; DDM-5: boundary)" = c(LNR = "Speed, no illusion", "DDM-5" = "Boundary, no illusion"),
+  "Discriminability" = c(LNR = "Discriminability, no illusion", "DDM-5" = "Discriminability, no illusion"),
+  "Illusion magnitude" = c(LNR = "Illusion magnitude (strength / difficulty)", "DDM-5" = "Illusion magnitude (strength / difficulty)")
+)
+ages <- unique(lnr_ppt[c("Participant", "Age")])
+age_tab <- do.call(rbind, lapply(names(age_q), function(lab) {
+  do.call(rbind, lapply(names(fits), function(mn) {
+    src <- if (mn == "LNR") lnr_ppt else ppt
+    y <- src[src$Quantity == age_q[[lab]][[mn]] & src$Illusion_Type == "All", c("Participant", "Group", "Median")]
+    y <- merge(y, ages, by = "Participant")
+    y$Group <- factor(y$Group, levels = names(group_col))
+    y$Decade <- y$Age / 10
+    k <- if (grepl("ms", lab)) 1000 else 1
+    fit1 <- stats::lm(k * Median ~ Group, data = y[!is.na(y$Age), ])
+    fit2 <- stats::lm(k * Median ~ Group + Decade, data = y)
+    f <- function(fit, term) {
+      ci <- stats::confint(fit)[term, ]
+      fmt_ci(stats::coef(fit)[[term]], ci[1], ci[2], digits = if (k == 1000) 0 else 2)
+    }
+    data.frame(Quantity = lab, Model = mn, N = stats::nobs(fit2),
+               "Past - Never" = f(fit1, "GroupPast"), "Recent - Never" = f(fit1, "GroupRecent"),
+               "Past - Never, age-adjusted" = f(fit2, "GroupPast"), "Recent - Never, age-adjusted" = f(fit2, "GroupRecent"),
+               "Age, per decade" = f(fit2, "Decade"), check.names = FALSE)
+  }))
+}))
+knitr::kable(age_tab, row.names = FALSE)
+```
+
+## Summary: should the paper switch?
+
+```{r}
+# The numbers quoted below, from the sections above.
+pick <- function(model, q, contrast, ill = "All") {
+  x <- avg[avg$Model == model & avg$Quantity == q & avg$Contrast == contrast & avg$Illusion_Type == ill, ]
+  stopifnot(nrow(x) == 1)
+  x
+}
+say <- function(x, digits = 2) fmt_ci(x$Median, x$CI_low, x$CI_high, digits)
+dev <- function(model, measure, col) dev_tab[dev_tab$Model == model & dev_tab$Measure == measure, col]
+qdev <- function(model, response, p) round(q_tab$Absolute[q_tab$Model == model & q_tab$Response == response & q_tab$Quantile == p])
+vs_never <- ic[ic$Contrast != "Recent - Past", ]
+n_credible <- function(model) sum(vs_never$pd[vs_never$Model == model] >= 0.975)
+rel_range <- function(model, contrast) {
+  r <- -ic$Median_rel[ic$Model == model & ic$Contrast == contrast]
+  sprintf("%.0f–%.0f%%", min(r), max(r))
+}
+rho <- function(lq) agree$rho[agree$LNR == lq & agree$Illusion_Type == "All illusions"]
+# The range, over illusions and both user groups, of a component's change
+# relative to Never (medians, %).
+rel_comp <- function(model, q) {
+  r <- index_relative$Median[index_relative$Model == model & index_relative$Quantity == q &
+                               index_relative$Contrast != "Recent - Past"]
+  sprintf("%+.0f to %+.0f%%", min(r), max(r))
+}
+age_cell <- function(q, model, col) age_tab[age_tab$Quantity == q & age_tab$Model == model, col]
+ndt_q <- "Non-decision time (ms)"
+```
+
+**Fit: the DDM-5 predicts the data better.** Its cross-validated log
+predictive density is ahead by `r sprintf("%.0f", elpd_gap)` (SE
+`r sprintf("%.0f", elpd_gap_se)`) with fewer effective parameters (p_loo
+`r sprintf("%.0f", loo_tab$p_loo[loo_tab$Model == "DDM-5"])` against
+`r sprintf("%.0f", loo_tab$p_loo[loo_tab$Model == "LNR"])`), with the Pareto k
+caveat above. Its median response times are off by
+`r sprintf("%.0f", dev("DDM-5", "Median RT (ms)", "Mean absolute"))` ms on
+average against `r sprintf("%.0f", dev("LNR", "Median RT (ms)", "Mean absolute"))`
+for the LNR, with `r dev("DDM-5", "Median RT (ms)", "Inside the 95% band")`
+of the observed medians inside its 95% band against
+`r dev("LNR", "Median RT (ms)", "Inside the 95% band")`. The error rates are
+close in both (off by `r sprintf("%.1f", dev("DDM-5", "Error rate (points)", "Mean absolute"))`
+and `r sprintf("%.1f", dev("LNR", "Error rate (points)", "Mean absolute"))`
+points). The shape of the distributions is better in places, not everywhere.
+With no illusion, its distributions are more peaked than the LNR's, closer to
+the observed ones (the LNR's main misfit), though still short of the
+observed peak in places. The slow half of the correct response times is
+closer (70th and 90th
+percentiles off by `r qdev("DDM-5", "Correct", 0.7)` and
+`r qdev("DDM-5", "Correct", 0.9)` ms, against `r qdev("LNR", "Correct", 0.7)`
+and `r qdev("LNR", "Correct", 0.9)`). The slow tail of the errors is not
+(90th percentile off by `r qdev("DDM-5", "Error", 0.9)` ms, against
+`r qdev("LNR", "Error", 0.9)`).
+
+**Sampling: much better.** It has `r diag_tab["DDM-5", "Divergent"]`
+divergent transitions (LNR: `r diag_tab["LNR", "Divergent"]`), a max Rhat of
+`r diag_tab["DDM-5", "max Rhat"]` against `r diag_tab["LNR", "max Rhat"]` on
+the population coefficients and of `r diag_tab["DDM-5", "max Rhat "]` against
+`r diag_tab["LNR", "max Rhat "]` on the participant ones, a minimum bulk ESS
+per draw of `r diag_tab["DDM-5", "min bulk ESS / draw"]` against
+`r diag_tab["LNR", "min bulk ESS / draw"]`, and shards of 4–5 h against
+7–32 h. None of the LNR's caveats on convergence would be needed.
+
+**The group story: mostly the same, with the slowness in a parameter with a
+standard name.** Averaged over the design and the illusions (median and 95%
+interval):
+
+- **Caution.** Users have a wider boundary: Past − Never
+  `r say(pick("DDM-5", "boundary", "Past - Never"))`, Recent − Never
+  `r say(pick("DDM-5", "boundary", "Recent - Never"))`. This is the LNR's
+  slower accumulators under another name: participants' LNR speed and DDM-5
+  boundary correlate at ρ = `r sprintf("%.2f", rho("Speed, no illusion"))`.
+- **Non-decision time.** The LNR's
+  `r say(pick("LNR", "ndt", "Past - Never"), 0)` and
+  `r say(pick("LNR", "ndt", "Recent - Never"), 0)` ms become
+  `r say(pick("DDM-5", "ndt", "Past - Never"), 0)` and
+  `r say(pick("DDM-5", "ndt", "Recent - Never"), 0)` ms. In the crude
+  participant-level check, age accounts for all of it
+  (age-adjusted: `r age_cell(ndt_q, "DDM-5", "Past - Never, age-adjusted")`
+  and `r age_cell(ndt_q, "DDM-5", "Recent - Never, age-adjusted")` ms). The
+  paper's longer non-decision time in users, and its age caveat, would
+  mostly go.
+- **Errors.** Both models give users fewer errors: Recent − Never
+  `r say(pick("LNR", "perror", "Recent - Never"), 1)` points (LNR) and
+  `r say(pick("DDM-5", "perror", "Recent - Never"), 1)` (DDM-5).
+- **Discriminability.** In the DDM-5, Recent users are ahead of Past users
+  (Recent − Past `r say(pick("DDM-5", "delta", "Recent - Past"))`, pd
+  `r sprintf("%.3f", pick("DDM-5", "delta", "Recent - Past")$pd)`), which the
+  LNR does not show (`r say(pick("LNR", "delta", "Recent - Past"))`). That
+  is the one place where "Past and Recent barely differ" would no longer
+  hold.
+- **Illusion magnitude.** The same direction, larger and clearer:
+  `r n_credible("DDM-5")` of the six user − Never contrasts have pd ≥ 0.975
+  in the DDM-5, against `r n_credible("LNR")` in the LNR. Relative to Never,
+  the magnitude is `r rel_range("DDM-5", "Past - Never")` smaller in Past
+  users and `r rel_range("DDM-5", "Recent - Never")` in Recent users (LNR:
+  `r rel_range("LNR", "Past - Never")` and `r rel_range("LNR", "Recent - Never")`),
+  most on the Ebbinghaus. Recent − Past is nothing in either model.
+  Participants' magnitudes agree between the models (ρ =
+  `r sprintf("%.2f", rho("Illusion magnitude (strength / difficulty)"))`),
+  and age does not move the group differences in either.
+- **Where the smaller magnitude comes from.** In both models, users'
+  precision term is steeper. They differ on the other component. In the
+  LNR, users' illusion effect on discriminability is also larger than
+  Never's, by `r rel_comp("LNR", "delta_strength")`. That is the paper's
+  steeper slope in users, which its Discussion has to reconcile with the
+  smaller magnitude. In the DDM-5 it is about the same as Never's
+  (`r rel_comp("DDM-5", "delta_strength")`). So the illusion costs users as
+  much drift as anyone, and only the real difference has a larger effect on
+  theirs. That story is simpler, and it needs no reconciling.
+
+**What speaks against it, as fitted.** Its boundary and start point vary
+with illusion strength. Never's boundary is `r sprintf("%.2f", a_fac["Never"])`
+on the most facilitating trials and `r sprintf("%.2f", a_con["Never"])` on
+the most conflicting ones. Its start point is `r sprintf("%.2f", w_fac["Never"])`
+and `r sprintf("%.2f", w_con["Never"])`. The strengths are mixed at random
+within blocks, and a diffusion model reads both parameters as set before the
+stimulus. So this is the first thing a reviewer would object to, and it
+weakens the interpretability that is the reason to switch. The LNR has no
+parameter of that kind (its threshold is fixed). Discriminability is also
+the quantity whose meaning changes most with the switch: participants'
+estimates agree only moderately between the models (ρ =
+`r sprintf("%.2f", rho("Discriminability, no illusion"))`).
+
+**Next step.** Refit the DDM-5 with the boundary and the start point
+depending on Group and illusion only, not on strength or difficulty, and
+repeat this comparison on it. The illusions are blocked, so a boundary per
+illusion is legitimate. If the caution and illusion-magnitude results hold
+there, the DDM is the clearer model for the paper.

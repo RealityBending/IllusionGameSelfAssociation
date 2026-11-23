@@ -1,0 +1,16 @@
+"Quantity","Pair","Median","CI_low","CI_high","pd"
+"Illusion magnitude (strength / difficulty)","Ebbinghaus & Müller-Lyer",0.494947723803132,0.301909755431653,0.654319018762455,0.996
+"Illusion magnitude (strength / difficulty)","Ebbinghaus & Vertical-Horizontal",0.293325492875814,0.131431462783887,0.435832114573283,0.996
+"Illusion magnitude (strength / difficulty)","Müller-Lyer & Vertical-Horizontal",0.469922354546136,0.31350342186128,0.600400826442962,1
+"Illusion effect on discriminability","Ebbinghaus & Müller-Lyer",0.283543546110774,0.156698320684064,0.418388042950879,1
+"Illusion effect on discriminability","Ebbinghaus & Vertical-Horizontal",0.303591195551072,0.187191303061597,0.412641377341199,1
+"Illusion effect on discriminability","Müller-Lyer & Vertical-Horizontal",0.482241822626458,0.362906737234582,0.587711188495938,1
+"Illusion effect on P(error)","Ebbinghaus & Müller-Lyer",-0.0412425333953564,-0.13063348776329,0.0409957189743231,0.812
+"Illusion effect on P(error)","Ebbinghaus & Vertical-Horizontal",-0.0869013397914828,-0.164659336503714,-0.00295390248164656,0.98
+"Illusion effect on P(error)","Müller-Lyer & Vertical-Horizontal",0.218772905301169,0.129583034572756,0.314936737897023,1
+"Precision (difficulty slope)","Ebbinghaus & Müller-Lyer",0.750277682758044,0.58812302109825,0.847418993934392,1
+"Precision (difficulty slope)","Ebbinghaus & Vertical-Horizontal",0.670347725841801,0.533047413595951,0.768654394355625,1
+"Precision (difficulty slope)","Müller-Lyer & Vertical-Horizontal",0.683455940346865,0.451760372086185,0.813131320379019,1
+"Discriminability, no illusion","Ebbinghaus & Müller-Lyer",0.625831816924425,0.487369377400841,0.733869004041902,1
+"Discriminability, no illusion","Ebbinghaus & Vertical-Horizontal",0.6250563033043,0.531755361325244,0.707252565057501,1
+"Discriminability, no illusion","Müller-Lyer & Vertical-Horizontal",0.640013800257829,0.482559830469309,0.757591228711567,1

@@ -13,7 +13,7 @@
 #   IGSA_CHAINS              chains per array task    (default 2)
 #   IGSA_NPARTICIPANTS       subset, or "all"         (default all)
 #   IGSA_FILE_REFIT          "never" (resume) or "always"
-#   IGSA_BACKEND             "cmdstanr" (default) or "stanli"
+#   IGSA_BACKEND             "cmdstanr" (default), "stanli" or "nutpie"
 #
 # The defaults are IllusionGameComputational's production settings: 4 shards
 # x 2 chains x 1,000 = 8,000 draws, after 1,500 warmup iterations.
@@ -37,11 +37,22 @@ if (utils::packageVersion("cogmod") < cogmod_min) {
 # writes in place, so stanli 0.25.0 runs each chain on one core. In the
 # 2026-11-03 smoke tests (30 participants, same node, 8 CPUs) cmdstanr ran
 # 400 iterations in 48 min; stanli took 70 min for its first 50.
+#
+# "nutpie" (2026-11-17) samples the same program with nutpie's sampler
+# (nuts-rs, through nutpieR) on stanli's log density and gradient
+# (stanli::sample_nutpie(), stanli >= 0.26.0). Its warmup learns from the
+# gradients and settles on larger steps: about 2x cmdstanr's ESS per second
+# on a small DDM-5 (cogmod's benchmarks/nutpieR/). stanli (0.26.0, 0.27.0)
+# does not thread brms's likelihood here (OP_SET_INDEX_INPLACE): its loop
+# adds the drift's 12 participant terms, and above 10 stanli leaves its fast
+# path (README.md, "The same model with stanli + nutpie"). So each chain is
+# one core: give the task one CPU per chain. brms, stanli and
+# nutpieR come from the library on IGSA_R_LIBS (README.md, "DDM-5").
 backend <- Sys.getenv("IGSA_BACKEND", unset = "cmdstanr")
-if (!backend %in% c("cmdstanr", "stanli")) {
-  stop("IGSA_BACKEND must be 'cmdstanr' or 'stanli', not '", backend, "'", call. = FALSE)
+if (!backend %in% c("cmdstanr", "stanli", "nutpie")) {
+  stop("IGSA_BACKEND must be 'cmdstanr', 'stanli' or 'nutpie', not '", backend, "'", call. = FALSE)
 }
-if (backend == "stanli") {
+if (backend %in% c("stanli", "nutpie")) {
   # stanli alone from its own library (./hpc passes IGSA_STANLI_LIB), so that
   # nothing there can shadow the production brms 2.21.0. Its runtime comes
   # from STANLI_RUNTIME: never call stanli_install(), which deletes the
@@ -52,7 +63,40 @@ if (backend == "stanli") {
     stop("this stanli runtime has no thread support", call. = FALSE)
   }
 }
-sampler <- if (backend == "stanli") paste("stanli", format(utils::packageVersion("stanli"))) else "cmdstanr"
+if (backend == "nutpie" &&
+    (utils::packageVersion("stanli") < "0.26.0" || !requireNamespace("nutpieR", quietly = TRUE))) {
+  stop("IGSA_BACKEND=nutpie needs stanli >= 0.26.0 and nutpieR", call. = FALSE)
+}
+# stanli 0.26.0's bridgestan_data(), which sample_nutpie() hands to nutpie,
+# keeps the data JSON after its opening brace with substring(data, first):
+# substring()'s default `last` is 1e6, so data longer than a million
+# characters is cut and the model fails to open ("embedded __stanli
+# manifest: parse error"). Even 6 participants' data are 3.2 million here.
+# Patched in stanli's namespace for this session; the JSON is validated
+# before sampling.
+if (backend == "nutpie") {
+  bsd <- get("bridgestan_data", envir = asNamespace("stanli"))
+  old <- 'substring(data, attr(open, "match.length") + 1L)'
+  src <- deparse(body(bsd), width.cutoff = 500L)
+  if (any(grepl(old, src, fixed = TRUE))) {
+    body(bsd) <- parse(text = sub(old, 'substring(data, attr(open, "match.length") + 1L, nchar(data))',
+                                  src, fixed = TRUE))[[1]]
+    utils::assignInNamespace("bridgestan_data", bsd, "stanli")
+    cat("patched stanli's bridgestan_data() (substring() cut the data at 1e6 characters)\n")
+  }
+  rm(bsd, old, src)
+}
+# The sampler a shard is stamped with: a shard is only reused, or combined,
+# with shards of the same one.
+sampler <- switch(backend,
+  cmdstanr = "cmdstanr",
+  stanli = paste("stanli", format(utils::packageVersion("stanli"))),
+  nutpie = paste("nutpie, stanli", format(utils::packageVersion("stanli")))
+)
+shard_sampler <- function(m) {
+  if (is.null(m$stanli$version)) return("cmdstanr")
+  paste(if (identical(m$stanli$sampler, "nutpie")) "nutpie, stanli" else "stanli", m$stanli$version)
+}
 
 source("models.R")
 
@@ -89,7 +133,10 @@ cat(sprintf(
 ))
 cat("brms", format(utils::packageVersion("brms")), "- cogmod",
     format(utils::packageVersion("cogmod")), "\n")
-if (backend == "stanli") cat("stanli from", find.package("stanli"), "\n")
+if (backend %in% c("stanli", "nutpie")) cat("stanli from", find.package("stanli"), "\n")
+if (backend == "nutpie") {
+  cat("nutpieR", format(utils::packageVersion("nutpieR")), "from", find.package("nutpieR"), "\n")
+}
 
 
 # Data --------------------------------------------------------------------
@@ -141,7 +188,7 @@ report_fit <- function(m, name, wall_min) {
     print(md$time)
   }
   if (!is.null(m$stanli$elapsed)) {
-    cat("REPORT time per chain (s), stanli:\n")
+    cat("REPORT time per chain (s),", shard_sampler(m), "(nutpie: warmup and sampling together):\n")
     print(m$stanli$elapsed)
   }
   invisible(stat)
@@ -186,7 +233,7 @@ if (file_refit == "never" && file.exists(shard_file)) {
 if (!is.null(m)) {
   old_cogmod <- if (is.null(m$cogmod$version)) "unrecorded" else m$cogmod$version
   old_run <- c(m$fit@sim$warmup, m$fit@sim$iter)
-  old_sampler <- if (is.null(m$stanli$version)) "cmdstanr" else paste("stanli", m$stanli$version)
+  old_sampler <- shard_sampler(m)
   if (old_cogmod == "unrecorded" || package_version(old_cogmod) < cogmod_min ||
       !isTRUE(all(old_run == c(warmup, iter))) || old_sampler != sampler) {
     stop(shard_file, " is from another run (cogmod ", old_cogmod, ", ", old_run[1],
@@ -258,6 +305,61 @@ if (is.null(m) && backend == "stanli") {
   m <- brms:::rename_pars(m) # what brm() does after sampling
   m$stanli <- list(version = format(utils::packageVersion("stanli")), seed = 1234 + task_id,
                    elapsed = stanli::get_elapsed_time(sfit))
+  rm(sfit, sf)
+  sha <- utils::packageDescription("cogmod")$RemoteSha
+  m$cogmod <- list(version = format(utils::packageVersion("cogmod")),
+                   sha = if (is.null(sha)) NA_character_ else sha)
+  save_shard(m, shard_file, keep_dir = csv_dir)
+  unlink(csv_dir, recursive = TRUE)
+}
+if (is.null(m) && backend == "nutpie") {
+  dir.create(csv_dir, recursive = TRUE, showWarnings = FALSE)
+  # brms's program and data, as the stanli arm, but without reduce_sum:
+  # stanli would run it serially anyway.
+  m <- brm(f,
+    data = data,
+    prior = priors,
+    stanvars = cogmod_stanvars(f),
+    backend = "cmdstanr",
+    warmup = warmup,
+    iter = iter,
+    chains = chains_per_task,
+    empty = TRUE
+  )
+  t_build <- Sys.time()
+  sm <- stanli::stanli_model(
+    code = as.character(brms::stancode(m)),
+    data = lapply(unclass(brms::standata(m)), identity)
+  )
+  cat(sprintf("stanli build: %.0f s\n", as.numeric(difftime(Sys.time(), t_build, units = "secs"))))
+  bd <- stanli::bridgestan_data(sm)
+  if (!isTRUE(jsonlite::validate(bd)) || nchar(bd) < nchar(sm$source$data_json)) {
+    stop("the data JSON that nutpie would get is not valid (", nchar(bd), " characters)", call. = FALSE)
+  }
+  cat("data JSON for nutpie:", nchar(bd), "characters, valid\n")
+  rm(bd)
+  # The same cogmod_inits() as the other arms, one constrained list per chain,
+  # which is what nutpieR takes. One core per chain (`cores`).
+  inits <- cogmod_inits(f, data)
+  sfit <- stanli::sample_nutpie(sm,
+    chains = chains_per_task,
+    seed = 1234 + task_id,
+    warmup = warmup,
+    samples = iter - warmup,
+    init = lapply(seq_len(chains_per_task), inits),
+    cores = chains_per_task,
+    progress = "text",
+    refresh = 25
+  )
+  sf <- methods::as(stanli::as_stanfit(sfit, exclude = unlist(brms:::exclude_pars(m), use.names = FALSE)),
+                    "stanfit", strict = TRUE)
+  # No CSVs here either: the draws are kept until the shard is saved.
+  saveRDS(sf, file.path(csv_dir, "stanfit.rds"))
+  m$fit <- sf
+  m <- brms:::rename_pars(m)
+  m$stanli <- list(version = format(utils::packageVersion("stanli")), sampler = "nutpie",
+                   nutpieR = format(utils::packageVersion("nutpieR")), seed = 1234 + task_id,
+                   elapsed = stanli::get_elapsed_time(sfit), step_size = sfit$step_size)
   rm(sfit, sf)
   sha <- utils::packageDescription("cogmod")$RemoteSha
   m$cogmod <- list(version = format(utils::packageVersion("cogmod")),

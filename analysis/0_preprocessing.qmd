@@ -33,9 +33,10 @@ quarto render analysis/0_preprocessing.qmd
 ```
 
 The group rules are the manuscript's (Participants section) and reproduce its
-43 / 39 / 35 exactly, with one departure decided on 2026-11-02: a control who
-typed age 16 is kept as a probable typing error, with age missing, so Never is
-44. The trial cleaning follows IllusionGameComputational, the source of the
+43 / 39 / 35 exactly. The control who stated an age of 16 is out, as in the
+manuscript (decided 2026-11-21, on Marco Sperduti's review; from 2026-11-02
+until then that session was kept as a probable typing error, with age missing,
+which made Never 44). The trial cleaning follows IllusionGameComputational, the source of the
 model's priors, rather than the manuscript. Each section ends with a check that
 stops the render if a count changes.
 
@@ -89,8 +90,11 @@ Each arm ran its own screening (`experiment/demographics.js`). The rules:
   freeze. The manuscript's last session is 2026-04-02; the open data keep the
   month only, and no session falls between that day and May. Three users were
   tested later (May and September 2026); set `freeze <- NA` to include them.
-  (A stated age under 18 is handled upstream: the only one, the age-16 control,
-  has age missing in the open data, and `0_deidentify.R` stops on any other.)
+- **Adult:** did not state an age under 18. The only such answer is a control
+  who typed 16 (`under_18` below): a student whose highest education is high
+  school, so the age may be real, and the study was open to adults only. The
+  open data record that age as missing, because `0_deidentify.R` blanks it (and
+  stops on any other age under 18), so the session is named here by its ID.
 - **Never:** control arm, answering No to "Have you ever taken a classical
   psychedelic in your life?".
 - **Recent:** psychedelic-society arm whose last classic psychedelic was 30
@@ -109,6 +113,7 @@ Each arm ran its own screening (`experiment/demographics.js`). The rules:
 
 ```{r}
 freeze <- "2026-04" # last month included (YYYY-MM)
+under_18 <- "S016"  # stated age 16; the open data hold it as missing
 control_arms <- c("control", "control_T0_bis")
 user_arms <- c("psychedelic_society", "psychedelics_soc_english")
 
@@ -142,6 +147,10 @@ df$Group <- ifelse(
 )
 df$Group[!(df$Completed_IG & df$Completed_SAT)] <- "out: protocol not completed"
 df$Group[!is.na(freeze) & df$Session_Month > freeze] <- "out: after the data freeze"
+# The one session with a stated age under 18: a control, with age missing.
+stopifnot(df$Arm[df$Participant %in% under_18] %in% control_arms, is.na(df$Age[df$Participant %in% under_18]),
+          sum(df$Participant %in% under_18) == length(under_18))
+df$Group[df$Participant %in% under_18] <- "out: stated age under 18"
 
 excluded <- startsWith(df$Group, "out")
 included <- df[!excluded, ]
@@ -171,8 +180,8 @@ knitr::kable(df[excluded, c("Participant", "Arm", "Session_Month", "Group")], ro
 ```{r}
 counts <- table(included$Group)
 knitr::kable(as.data.frame(counts, responseName = "N"), col.names = c("Group", "N"))
-# The manuscript's 43 / 35 / 39, plus the age-16 control in Never.
-stopifnot(identical(as.vector(counts[c("Never", "Past", "Recent")]), c(44L, 35L, 39L)))
+# The manuscript's 43 / 35 / 39.
+stopifnot(identical(as.vector(counts[c("Never", "Past", "Recent")]), c(43L, 35L, 39L)))
 ```
 
 ## Sample
@@ -467,7 +476,7 @@ removed <- do.call(rbind, strsplit(bad, " "))
 if (length(bad)) knitr::kable(data.frame(Participant = removed[, 1], Illusion = removed[, 2], Block = removed[, 3],
                                          "Facilitating errors" = round(fac_error[bad], 2), check.names = FALSE),
                               row.names = FALSE)
-stopifnot(nrow(trials) == 55937, length(unique(trials$Participant)) == 118)
+stopifnot(nrow(trials) == 55470, length(unique(trials$Participant)) == 117)
 ```
 
 What the cleaned trials look like, before any model: the error rate and the

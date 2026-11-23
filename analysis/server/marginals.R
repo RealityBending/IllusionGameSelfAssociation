@@ -47,6 +47,19 @@
 #            integrate numerically per draw and observation), and this closed
 #            form is exact (the outlier component adds poutlier / 2 on top)
 #
+# The DDM-5 (ddm5 in models.R; cogmod_ddm) goes through the same functions.
+# dec(Error) makes the upper boundary the error, so its drift `mu` is negative
+# when the correct response is favoured, and `bias` is the start point as a
+# share of the boundary separation, from the correct boundary. Quantities:
+#   mu, boundary, bias, ndt, sigmadrift   the parameters, on their natural scale
+#   delta    -mu: the drift towards the correct response, the DDM's
+#            discriminability, so that igsa_index() and the contrasts read it
+#            as they read the LNR's
+#   perror   P(error) from the diffusion alone: the probability of reaching
+#            the error boundary first, (1 - exp(-2 v a w)) / (1 - exp(-2 v a)),
+#            averaged over the trial-to-trial drift v ~ Normal(mu, sigmadrift)
+#            by quadrature (igsa_ddm_perror())
+#
 # Fits made on the cluster (brms 2.21.0) predict correctly with a newer local
 # brms: the mispredictions IllusionGameComputational found came from rebuilt
 # t2() smooth bases, and this model has no smooth.
@@ -102,16 +115,74 @@ igsa_design_grid <- function(m) {
   grid
 }
 
+# The distributional parameters of a fit, by its family.
+igsa_pars <- function(m) {
+  switch(m$family$name,
+    cogmod_lnr = c("mu", "nuone", "sigmazero", "sigmaone", "ndt", "poutlier"),
+    cogmod_ddm = c("mu", "boundary", "bias", "ndt", "sigmadrift", "poutlier"),
+    stop("marginals.R knows cogmod_lnr and cogmod_ddm, not ", m$family$name, call. = FALSE)
+  )
+}
+
 # `...` goes to posterior_linpred(), e.g. draw_ids.
 igsa_draws <- function(m, grid, ndraws = NULL, re_formula = NA, ...) {
-  pars <- c("mu", "nuone", "sigmazero", "sigmaone", "ndt", "poutlier")
+  pars <- igsa_pars(m)
   out <- lapply(setNames(pars, pars), function(p) {
     brms::posterior_linpred(m, newdata = grid, dpar = p, re_formula = re_formula,
                             transform = TRUE, ndraws = ndraws, ...)
   })
-  out$delta <- out$mu - out$nuone
-  out$speed <- (out$mu + out$nuone) / 2
-  out$perror <- stats::pnorm(-out$delta / sqrt(out$sigmazero^2 + out$sigmaone^2))
+  if (m$family$name == "cogmod_ddm") {
+    out$delta <- -out$mu
+    out$perror <- igsa_ddm_perror(out$mu, out$boundary, out$bias, out$sigmadrift)
+  } else {
+    out$delta <- out$mu - out$nuone
+    out$speed <- (out$mu + out$nuone) / 2
+    out$perror <- stats::pnorm(-out$delta / sqrt(out$sigmazero^2 + out$sigmaone^2))
+  }
+  out
+}
+
+# P(the upper boundary first) for a diffusion with drift v (towards it),
+# boundary separation a and start point w * a from the lower boundary, unit
+# diffusion coefficient. Written so that neither exponential can overflow.
+igsa_ddm_pupper <- function(v, a, w) {
+  x <- 2 * v * a
+  out <- w
+  pos <- !is.na(x) & x > 1e-10
+  neg <- !is.na(x) & x < -1e-10
+  out[pos] <- expm1(-x[pos] * w[pos]) / expm1(-x[pos])
+  out[neg] <- (exp(x[neg]) - exp(x[neg] * (1 - w[neg]))) / expm1(x[neg])
+  out
+}
+
+# P(error) of the DDM with between-trial drift variability: igsa_ddm_pupper()
+# averaged over v ~ Normal(drift, sigmadrift). Gauss-Hermite is not enough
+# here: with a wide boundary the probability is close to a step at v = 0,
+# and 40 or 80 nodes miss by up to 0.03 when sigmadrift is large too. So
+# Gauss-Legendre over drift +/- 8 sigmadrift, in three pieces split where
+# 2 v a = -/+ 8, so the steep middle gets its own nodes. The inputs are
+# same-shaped draws x conditions matrices, and so is the output.
+igsa_ddm_perror <- function(drift, boundary, bias, sigmadrift, nodes = 24) {
+  k <- seq_len(nodes - 1)
+  J <- diag(0, nodes)
+  J[cbind(k, k + 1)] <- J[cbind(k + 1, k)] <- k / sqrt(4 * k^2 - 1)
+  e <- eigen(J, symmetric = TRUE)
+  x <- e$values
+  wt <- 2 * e$vectors[1, ]^2
+  lo <- drift - 8 * sigmadrift
+  hi <- drift + 8 * sigmadrift
+  b1 <- pmin(pmax(-4 / boundary, lo), hi)
+  b2 <- pmin(pmax(4 / boundary, lo), hi)
+  out <- drift * 0
+  for (piece in list(list(lo, b1), list(b1, b2), list(b2, hi))) {
+    half <- (piece[[2]] - piece[[1]]) / 2
+    mid <- (piece[[2]] + piece[[1]]) / 2
+    for (j in seq_len(nodes)) {
+      v <- mid + half * x[j]
+      out <- out + wt[j] * half * stats::dnorm(v, drift, sigmadrift) *
+        igsa_ddm_pupper(v, boundary, bias)
+    }
+  }
   out
 }
 

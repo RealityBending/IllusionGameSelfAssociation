@@ -17,8 +17,10 @@ output
 data/*.csv
 osfstorage-archive/
 
-# Unpublished manuscripts
-paper/*.docx
+# The self-association paper is not public yet. The illusion paper and its
+# files (paper.qmd, its exports, the earlier manuscripts and their reviews)
+# are tracked.
+paper/Article associative memory*.docx
 
 # Cluster (analysis/server/README.md)
 analysis/server/hpc.local

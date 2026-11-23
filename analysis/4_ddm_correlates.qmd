@@ -1,0 +1,496 @@
+---
+title: "IllusionGameSelfAssociation - DDM: participant-level indices and their correlates"
+editor: source
+editor_options:
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute:
+  cache: false
+  warning: false
+  message: false
+---
+
+The merged fit of the drift diffusion model (`analysis/models/ddm5.rds`) at the participant level: each
+participant's own indices, how they hang together across illusions, and how
+much of the group differences age, language, student status and the
+questionnaires account for, and whether, among users, the indices follow the
+time since the last use or the lifetime number of uses. The population-level group differences are in
+`3_ddm_groups.qmd`; the indices are defined in `analysis/server/marginals.R`.
+Render from the repo root (about 2 min):
+
+```bash
+quarto render analysis/4_ddm_correlates.qmd
+```
+
+Two caveats apply to everything below.
+
+- **Shrinkage.** The participant estimates are shrunk towards their group's
+  mean, since Group is in the model. That flattens every within-group slope,
+  so what a covariate accounts for is understated. Adjusting properly needs a
+  refit with the covariate in the model. The same regressions on raw summaries
+  of the trials, which are not shrunk, are the check.
+- **Exploratory.** Several indices, three illusions and eight covariates make
+  many cells. The illusion magnitude is the primary index; everything else is
+  descriptive.
+
+Every index is taken at mid task difficulty (`Task_Difficulty = 0`) and, for
+the correlates, averaged over the three illusions per posterior draw.
+
+## Loading
+
+```{r}
+library(brms)
+library(ggplot2)
+
+# Runs from analysis/ (quarto) or from the repo root (interactively).
+root <- if (dir.exists("server")) "." else "analysis"
+source(file.path(root, "server/models.R"))
+source(file.path(root, "server/marginals.R"))
+
+stopifnot(utils::packageVersion("cogmod") >= "0.3.6")
+fit_file <- Sys.getenv("IGSA_FIT", unset = file.path(root, "models/ddm5.rds"))
+out_dir <- file.path(root, "results")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+m <- readRDS(fit_file)
+participants <- read.csv(file.path(root, "../data/open/participants.csv"))
+q_file <- file.path(root, "../data/questionnaires.csv")
+if (!file.exists(q_file)) stop(q_file, " not found: render analysis/0_preprocessing.qmd first", call. = FALSE)
+questionnaires <- read.csv(q_file)
+# Days since the last classic psychedelic and the lifetime number of uses.
+groups <- read.csv(file.path(root, "../data/groups.csv"))
+
+group_col <- c(Never = "#7a7a75", Past = "#2a78d6", Recent = "#eb6834")
+contrast_col <- c("Past - Never" = "#2a78d6", "Recent - Never" = "#eb6834",
+                  "Recent - Past" = "#1baf7a")
+illusions <- c(Ebbinghaus = "Ebbinghaus", MullerLyer = "Müller-Lyer",
+               VerticalHorizontal = "Vertical-Horizontal")
+theme_igsa <- theme_minimal(base_size = 10) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(colour = "#ebebe8", linewidth = 0.3),
+    strip.text = element_text(face = "bold", hjust = 0),
+    strip.text.y = element_text(angle = 0),
+    legend.position = "top",
+    legend.justification = "left",
+    plot.background = element_rect(fill = "white", colour = NA),
+    plot.caption = element_text(colour = "#6b6b66", hjust = 0)
+  )
+```
+
+## Participant indices
+
+Per participant and illusion, from 1,000 evenly spaced draws with the
+participant's random effects in:
+
+- With no illusion: discriminability (the drift towards the correct response), the boundary separation,
+  non-decision time and P(error).
+- The effect of the illusion, from strength 0 to 1: on discriminability and on
+  P(error).
+- Precision: the change in discriminability from mid difficulty to the hardest
+  trials (negative: harder trials lower it).
+- **Illusion magnitude**: the illusion effect on discriminability over the
+  precision term. Both are negative, so it is positive: how many units of
+  `Task_Difficulty` one unit of `Illusion_Strength` costs. It is the PSE shift
+  in stimulus units, and it is unchanged by anything that scales the whole
+  surface (`marginals.R`, `igsa_index()`).
+
+```{r}
+draw_ids <- round(seq(1, ndraws(m), length.out = 1000))
+pg <- igsa_participant_grid(m, strength = c(0, 1), difficulty = c(0, 1))
+pd <- igsa_draws(m, pg, re_formula = NULL, draw_ids = draw_ids)
+pd$poutlier <- NULL
+
+# One canonical order of participant x illusion cells; every matrix below is
+# aligned to it by key.
+cells <- unique(pg[c("Participant", "Group", "Illusion_Type")])
+cells <- cells[order(cells$Participant, cells$Illusion_Type), ]
+rownames(cells) <- NULL
+cell_key <- paste(cells$Participant, cells$Illusion_Type)
+align <- function(x, grid) x[, match(cell_key, paste(grid$Participant, grid$Illusion_Type)), drop = FALSE]
+
+at00 <- pg$Illusion_Strength == 0 & pg$Task_Difficulty == 0
+base <- lapply(pd, function(x) align(x[, at00, drop = FALSE], pg[at00, ]))
+ix <- igsa_index(pd, pg)
+ix <- lapply(ix, align, grid = attr(ix, "grid"))
+eff <- igsa_slopes(pd, pg, from = 0, to = 1)
+eff_grid <- attr(eff, "grid")
+eff <- lapply(eff, function(x) align(x[, eff_grid$Task_Difficulty == 0, drop = FALSE],
+                                     eff_grid[eff_grid$Task_Difficulty == 0, ]))
+
+quantities <- list(
+  "Discriminability, no illusion" = base$delta,
+  "Boundary, no illusion" = base$boundary,
+  "Non-decision time (s), no illusion" = base$ndt,
+  "P(error), no illusion" = base$perror,
+  "Illusion effect on discriminability" = ix$delta_strength,
+  "Illusion effect on P(error)" = eff$perror,
+  "Precision (difficulty slope)" = ix$delta_difficulty,
+  "Illusion magnitude (strength / difficulty)" = ix$index
+)
+primary <- "Illusion magnitude (strength / difficulty)"
+
+# Averaged over the three illusions, per draw: draws x participants.
+per_participant <- function(x) {
+  idx <- split(seq_len(nrow(cells)), factor(cells$Participant, levels = unique(cells$Participant)))
+  sapply(idx, function(i) rowMeans(x[, i, drop = FALSE]))
+}
+avg <- lapply(quantities, per_participant)
+ids <- colnames(avg[[1]])
+```
+
+The ratio is unstable wherever the precision term crosses zero. The share of
+draws in which it is non-negative, per participant and illusion:
+
+```{r}
+nonneg <- colMeans(ix$delta_difficulty >= 0)
+unstable <- cells[nonneg > 0.05, ]
+unstable$Share <- round(nonneg[nonneg > 0.05], 2)
+```
+
+`r nrow(unstable)` of `r nrow(cells)` participant × illusion cells have more
+than 5% of their draws with a non-negative precision term (maximum share
+`r sprintf("%.2f", max(nonneg))`). The index is summarised by its posterior
+median throughout, which is robust to a few such draws.
+
+```{r}
+if (nrow(unstable)) knitr::kable(unstable, row.names = FALSE)
+```
+
+```{r}
+# Per participant x illusion, and averaged ("All"), with the covariates.
+summarise_cells <- function(x, grid) {
+  data.frame(grid, Median = apply(x, 2, stats::median),
+             CI_low = apply(x, 2, stats::quantile, probs = 0.025),
+             CI_high = apply(x, 2, stats::quantile, probs = 0.975), row.names = NULL)
+}
+ppt <- do.call(rbind, lapply(names(quantities), function(qn) {
+  rbind(
+    cbind(Quantity = qn, summarise_cells(quantities[[qn]], cells)),
+    cbind(Quantity = qn, summarise_cells(avg[[qn]], data.frame(
+      Participant = ids, Group = cells$Group[match(ids, cells$Participant)], Illusion_Type = "All")))
+  )
+}))
+info <- data.frame(Participant = ids, Group = factor(cells$Group[match(ids, cells$Participant)],
+                                                     levels = names(group_col)))
+info <- merge(info, participants[c("Participant", "Age", "Language_Level", "Student")], sort = FALSE)
+info <- merge(info, questionnaires[c("Participant", "AAQ", "DASS_Total", "MEQ_Total", "MEQ_Mystical",
+                                     "MEQ_PositiveMood", "MEQ_Transcendence", "MEQ_Ineffability")], sort = FALSE)
+info <- merge(info, groups[c("Participant", "Days", "Psychedelics_Frequency")], all.x = TRUE, sort = FALSE)
+info <- info[match(ids, info$Participant), ]
+info$Native <- as.integer(info$Language_Level == "Native")
+info$Student <- as.integer(info$Student == "Yes")
+# Lifetime use was a choice among these categories (experiment/demographics.js),
+# scored 1 to 6. "Never" (one user, who described a last experience with
+# ayahuasca) and the naive group are missing.
+lifetime_levels <- c("One time", "Between 2 and 5 times", "Between 6 and 10 times", "Between 11 and 50 times",
+                     "Between 51 and 100 times", "More than 100 times")
+stopifnot(info$Psychedelics_Frequency %in% c(lifetime_levels, "Never", NA))
+info$Lifetime <- as.integer(factor(info$Psychedelics_Frequency, levels = lifetime_levels))
+info$Days[info$Group == "Never"] <- NA
+write.csv(merge(ppt, info[c("Participant", "Age", "Native", "Student", "AAQ", "DASS_Total", "MEQ_Total", "Days", "Lifetime")]),
+          file.path(out_dir, "ddm_participants.csv"), row.names = FALSE)
+```
+
+The medians per participant and illusion are in
+`analysis/results/ddm_participants.csv`, with age and the questionnaire
+scores. Their distribution per group:
+
+```{r}
+#| fig-width: 9
+#| fig-height: 13
+
+ppt$Quantity <- factor(ppt$Quantity, levels = names(quantities))
+ppt$Illusion <- factor(c(illusions, All = "All (averaged)")[ppt$Illusion_Type],
+                       levels = c(illusions, "All (averaged)"))
+ppt$Group <- factor(ppt$Group, levels = names(group_col))
+
+ggplot(ppt, aes(Median, Group, colour = Group)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.15, width = 0.5) +
+  geom_jitter(height = 0.2, width = 0, alpha = 0.5, size = 0.9) +
+  facet_wrap(~ Quantity + Illusion, scales = "free_x", ncol = 4,
+             labeller = function(l) label_value(l, multi_line = FALSE)) +
+  scale_colour_manual(values = group_col, guide = "none") +
+  scale_y_discrete(limits = rev) +
+  labs(x = "Participant posterior median", y = NULL,
+       title = "Participant indices per group",
+       caption = "Mid task difficulty. Each point is one participant's posterior median. Each panel has its own x scale.") +
+  theme_igsa + theme(strip.text = element_text(face = "bold", hjust = 0, size = 7))
+```
+
+## Across illusions
+
+Is there one illusion sensitivity? The correlation across participants
+between each pair of illusions, per posterior draw, for the main indices:
+
+```{r}
+cor_pairs <- function(Q) {
+  ill <- levels(droplevels(cells$Illusion_Type))
+  pairs <- utils::combn(ill, 2)
+  do.call(rbind, apply(pairs, 2, function(p) {
+    a <- Q[, cells$Illusion_Type == p[1], drop = FALSE]
+    b <- Q[, cells$Illusion_Type == p[2], drop = FALSE]
+    r <- vapply(seq_len(nrow(Q)), function(i) stats::cor(a[i, ], b[i, ]), numeric(1))
+    data.frame(Pair = paste(illusions[p[1]], "&", illusions[p[2]]), Median = stats::median(r),
+               CI_low = stats::quantile(r, 0.025), CI_high = stats::quantile(r, 0.975),
+               pd = max(mean(r > 0), mean(r < 0)), row.names = NULL)
+  }, simplify = FALSE))
+}
+cors <- do.call(rbind, lapply(c(primary, "Illusion effect on discriminability", "Illusion effect on P(error)",
+                                "Precision (difficulty slope)", "Discriminability, no illusion"),
+                              function(qn) cbind(Quantity = qn, cor_pairs(quantities[[qn]]))))
+write.csv(cors, file.path(out_dir, "ddm_correlations.csv"), row.names = FALSE)
+knitr::kable(cors, digits = 2, row.names = FALSE)
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 3.4
+
+med <- ppt[ppt$Quantity == primary & ppt$Illusion_Type != "All", c("Participant", "Group", "Illusion_Type", "Median")]
+wide <- stats::reshape(med, idvar = c("Participant", "Group"), timevar = "Illusion_Type", direction = "wide")
+names(wide) <- sub("^Median\\.", "", names(wide))
+pairs <- utils::combn(names(illusions), 2)
+scatter <- do.call(rbind, apply(pairs, 2, function(p) {
+  data.frame(Group = wide$Group, Pair = paste(illusions[p[1]], "vs", illusions[p[2]]),
+             x = wide[[p[1]]], y = wide[[p[2]]])
+}, simplify = FALSE))
+
+ggplot(scatter, aes(x, y, colour = Group)) +
+  geom_abline(slope = 1, intercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+  geom_point(alpha = 0.6, size = 1.4) +
+  facet_wrap(~ Pair, scales = "free") +
+  scale_colour_manual(values = group_col) +
+  labs(x = "Illusion magnitude, first illusion", y = "Second illusion", colour = NULL,
+       title = "Illusion magnitude across illusions",
+       caption = "Participant posterior medians. The line is identity.") +
+  theme_igsa
+```
+
+## What the covariates account for
+
+Each participant's index, averaged over the illusions, is regressed on Group
+alone, then on Group and a covariate, once per posterior draw. Each draw's
+coefficients are themselves drawn from their sampling distribution, so the
+intervals carry both the uncertainty of the participant estimates and that of
+a regression on about a hundred people. Age is per 10 years; the questionnaire
+scores are per standard deviation across the analysed participants. The MEQ-30
+exists for users only, so its regressions compare Recent with Past.
+
+Two more regressions, on users only, ask whether the indices follow psychedelic
+use by degree, which the Recent / Past split at 30 days cannot show:
+
+- **Days since the last use**, on a log scale (per tenfold increase: 3 days to
+  30, or one month to ten), alone and with age. Group is left out of these two,
+  since it is the same variable cut in two. Three past users gave no number of
+  days and are out.
+- **Lifetime use**, the six answer categories scored 1 to 6 (per category),
+  with Group.
+
+The raw summaries of the trials, regressed the same way, are the unshrunk
+check: the 10th percentile of correct RTs (the fast tail, which tracks
+non-decision time), and the error rates on facilitating-or-no-illusion and on
+conflicting trials.
+
+```{r}
+trials <- m$data
+correct <- trials[trials$Error == 0, ]
+raw <- list(
+  "Raw: fastest correct RTs (10th percentile, s)" = tapply(correct$RT, correct$Participant, stats::quantile, probs = 0.1),
+  "Raw: error rate, facilitating or no illusion" = with(trials[trials$Illusion_Strength <= 0, ], tapply(Error, Participant, mean)),
+  "Raw: error rate, conflicting illusion" = with(trials[trials$Illusion_Strength > 0, ], tapply(Error, Participant, mean))
+)
+raw <- lapply(raw, function(x) matrix(x[ids], nrow = length(draw_ids), ncol = length(ids),
+                                      byrow = TRUE, dimnames = list(NULL, ids)))
+outcomes <- c(avg, raw)
+
+z <- function(x) (x - mean(x, na.rm = TRUE)) / stats::sd(x, na.rm = TRUE)
+info$Age10 <- (info$Age - mean(info$Age, na.rm = TRUE)) / 10
+info$LogDays <- log10(info$Days)
+stopifnot(all(info$Days > 0, na.rm = TRUE))
+for (s in c("AAQ", "DASS_Total", "MEQ_Total", "MEQ_Mystical", "MEQ_PositiveMood", "MEQ_Transcendence", "MEQ_Ineffability")) {
+  info[[paste0(s, "_z")]] <- z(info[[s]])
+}
+
+designs <- list(
+  "Group" = ~ Group,
+  "Group + age" = ~ Group + Age10,
+  "Group + age + native + student" = ~ Group + Age10 + Native + Student,
+  "Group + AAQ-II" = ~ Group + AAQ_z,
+  "Group + DASS-21" = ~ Group + DASS_Total_z,
+  "Group + MEQ-30 total (users)" = ~ Group + MEQ_Total_z,
+  "Group + MEQ mystical (users)" = ~ Group + MEQ_Mystical_z,
+  "Group + MEQ positive mood (users)" = ~ Group + MEQ_PositiveMood_z,
+  "Group + MEQ transcendence (users)" = ~ Group + MEQ_Transcendence_z,
+  "Group + MEQ ineffability (users)" = ~ Group + MEQ_Ineffability_z,
+  "Days since last use (users)" = ~ LogDays,
+  "Days since last use + age (users)" = ~ LogDays + Age10,
+  "Group + lifetime use (users)" = ~ Group + Lifetime
+)
+term_labels <- c(
+  GroupPast = "Past - Never", GroupRecent = "Recent - Never", Age10 = "Age (per 10 years)",
+  Native = "Native speaker", Student = "Student", AAQ_z = "AAQ-II (per SD)",
+  DASS_Total_z = "DASS-21 (per SD)", MEQ_Total_z = "MEQ-30 total (per SD)",
+  MEQ_Mystical_z = "MEQ mystical (per SD)", MEQ_PositiveMood_z = "MEQ positive mood (per SD)",
+  MEQ_Transcendence_z = "MEQ transcendence (per SD)", MEQ_Ineffability_z = "MEQ ineffability (per SD)",
+  LogDays = "Days since last use (per tenfold)", Lifetime = "Lifetime use (per category)"
+)
+
+# One coefficient vector per posterior draw, drawn from its sampling
+# distribution around that draw's least-squares fit, on the complete cases
+# of the design.
+regress <- function(Q, formula) {
+  vars <- all.vars(formula)
+  keep <- stats::complete.cases(info[vars])
+  d <- droplevels(info[keep, ])
+  X <- stats::model.matrix(formula, d)
+  Y <- t(Q[, keep, drop = FALSE])
+  fit <- qr(X)
+  B <- qr.coef(fit, Y)
+  s2 <- colSums(qr.resid(fit, Y)^2) / (nrow(X) - ncol(X))
+  L <- chol(solve(crossprod(X)))
+  B <- B + t(L) %*% matrix(stats::rnorm(length(B)), nrow(B)) * rep(sqrt(s2), each = nrow(B))
+  # Without Never (users only), Past is the reference.
+  if (!"Never" %in% levels(d$Group)) rownames(B) <- sub("^GroupRecent$", "GroupRecentPast", rownames(B))
+  list(B = B, n = nrow(X))
+}
+term_labels <- c(term_labels, GroupRecentPast = "Recent - Past")
+
+set.seed(1)
+coefs <- do.call(rbind, lapply(names(outcomes), function(qn) {
+  do.call(rbind, lapply(names(designs), function(k) {
+    r <- regress(outcomes[[qn]], designs[[k]])
+    do.call(rbind, lapply(intersect(names(term_labels), rownames(r$B)), function(tm) {
+      v <- r$B[tm, ]
+      data.frame(Quantity = qn, Design = k, N = r$n, Term = term_labels[[tm]], Median = stats::median(v),
+                 CI_low = stats::quantile(v, 0.025), CI_high = stats::quantile(v, 0.975),
+                 pd = max(mean(v > 0), mean(v < 0)), row.names = NULL)
+    }))
+  }))
+}))
+coefs$Quantity <- factor(coefs$Quantity, levels = names(outcomes))
+coefs$Design <- factor(coefs$Design, levels = names(designs))
+write.csv(coefs, file.path(out_dir, "ddm_correlates.csv"), row.names = FALSE)
+```
+
+### The group differences, unadjusted and adjusted
+
+```{r}
+#| fig-width: 9
+#| fig-height: 12
+
+group_terms <- c("Past - Never", "Recent - Never", "Recent - Past")
+adj <- coefs[coefs$Term %in% group_terms, ]
+adj$Design <- factor(adj$Design, levels = rev(names(designs)))
+adj$Term <- factor(adj$Term, levels = group_terms)
+
+ggplot(adj, aes(Median, Design, colour = Term, group = Term)) +
+  geom_vline(xintercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+  geom_linerange(aes(xmin = CI_low, xmax = CI_high), linewidth = 0.7,
+                 position = position_dodge(width = 0.5)) +
+  geom_point(aes(shape = Term), size = 2, position = position_dodge(width = 0.5)) +
+  facet_wrap(~ Quantity, scales = "free_x", ncol = 2, labeller = label_wrap_gen(40)) +
+  scale_colour_manual(values = contrast_col) +
+  scale_shape_manual(values = c("Past - Never" = 16, "Recent - Never" = 17, "Recent - Past" = 15)) +
+  labs(x = "Difference between groups (median, 95% interval)", y = NULL, colour = NULL, shape = NULL,
+       title = "Group differences, unadjusted and adjusted",
+       caption = "Rows: what the participant estimates are regressed on. Indices averaged over the illusions.") +
+  theme_igsa + theme(strip.text = element_text(face = "bold", hjust = 0, size = 8))
+```
+
+### The covariates themselves
+
+```{r}
+#| fig-width: 9
+#| fig-height: 12
+
+cov <- coefs[!coefs$Term %in% group_terms, ]
+cov$Term <- factor(cov$Term, levels = rev(unique(term_labels[!term_labels %in% group_terms])))
+
+ggplot(cov, aes(Median, Term)) +
+  geom_vline(xintercept = 0, colour = "#9a9a95", linewidth = 0.4) +
+  geom_linerange(aes(xmin = CI_low, xmax = CI_high), linewidth = 0.7, colour = "#2a78d6") +
+  geom_point(size = 2, colour = "#2a78d6") +
+  facet_wrap(~ Quantity, scales = "free_x", ncol = 2, labeller = label_wrap_gen(40)) +
+  labs(x = "Coefficient, adjusted for Group (median, 95% interval)", y = NULL,
+       title = "What each covariate adds, with Group in the regression",
+       caption = "Age per 10 years; questionnaire scores per SD. MEQ-30, days since last use and lifetime use: users only.") +
+  theme_igsa + theme(strip.text = element_text(face = "bold", hjust = 0, size = 8))
+```
+
+```{r}
+cov_tab <- cov[cov$Quantity %in% c(names(quantities), names(raw)), c("Quantity", "Term", "N", "Median", "CI_low", "CI_high", "pd")]
+cov_tab$Value <- sprintf("%.3f [%.3f, %.3f]", cov_tab$Median, cov_tab$CI_low, cov_tab$CI_high)
+wide <- stats::reshape(cov_tab[c("Quantity", "Term", "Value")], idvar = "Quantity", timevar = "Term", direction = "wide")
+names(wide) <- sub("^Value\\.", "", names(wide))
+wide[is.na(wide)] <- ""
+knitr::kable(wide, row.names = FALSE)
+```
+
+### Against age, the MEQ-30 and the time since the last use
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6
+
+shown <- c("Non-decision time (s), no illusion", "Boundary, no illusion", "Discriminability, no illusion", primary)
+scatter_age <- do.call(rbind, lapply(shown, function(qn) {
+  data.frame(info[c("Group", "Age")], Quantity = qn, Estimate = apply(avg[[qn]], 2, stats::median))
+}))
+scatter_age$Quantity <- factor(scatter_age$Quantity, levels = shown)
+
+ggplot(scatter_age[!is.na(scatter_age$Age), ], aes(Age, Estimate, colour = Group)) +
+  geom_point(alpha = 0.6, size = 1.4) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, linewidth = 0.7) +
+  facet_wrap(~ Quantity, scales = "free_y", ncol = 2) +
+  scale_colour_manual(values = group_col) +
+  labs(x = "Age (years)", y = NULL, colour = NULL, title = "Participant indices against age",
+       caption = "Posterior medians, averaged over the illusions. Lines: a linear fit within each group.") +
+  theme_igsa
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6
+
+scatter_meq <- do.call(rbind, lapply(shown, function(qn) {
+  data.frame(info[c("Group", "MEQ_Total")], Quantity = qn, Estimate = apply(avg[[qn]], 2, stats::median))
+}))
+scatter_meq$Quantity <- factor(scatter_meq$Quantity, levels = shown)
+
+ggplot(scatter_meq[!is.na(scatter_meq$MEQ_Total), ], aes(MEQ_Total, Estimate, colour = Group)) +
+  geom_point(alpha = 0.6, size = 1.4) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, linewidth = 0.7) +
+  facet_wrap(~ Quantity, scales = "free_y", ncol = 2) +
+  scale_colour_manual(values = group_col[c("Past", "Recent")]) +
+  labs(x = "MEQ-30 total (mean item, 0-5)", y = NULL, colour = NULL,
+       title = "Participant indices against the mystical experience score (users)",
+       caption = "Posterior medians, averaged over the illusions. Lines: a linear fit within each group.") +
+  theme_igsa
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6
+
+scatter_days <- do.call(rbind, lapply(shown, function(qn) {
+  data.frame(info[c("Group", "Days")], Quantity = qn, Estimate = apply(avg[[qn]], 2, stats::median))
+}))
+scatter_days$Quantity <- factor(scatter_days$Quantity, levels = shown)
+
+ggplot(scatter_days[!is.na(scatter_days$Days), ], aes(Days, Estimate)) +
+  geom_vline(xintercept = 30, colour = "#9a9a95", linewidth = 0.4, linetype = "dashed") +
+  geom_point(aes(colour = Group), alpha = 0.6, size = 1.4) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, linewidth = 0.7, colour = "#444444") +
+  facet_wrap(~ Quantity, scales = "free_y", ncol = 2) +
+  scale_x_log10(breaks = c(1, 3, 10, 30, 100, 365, 3650), labels = c("1", "3", "10", "30", "100", "1 y", "10 y")) +
+  scale_colour_manual(values = group_col[c("Past", "Recent")]) +
+  labs(x = "Time since the last classic psychedelic (days, log scale)", y = NULL, colour = NULL,
+       title = "Participant indices against the time since the last use (users)",
+       caption = "Posterior medians, averaged over the illusions. Line: a linear fit on log days. Dashed: the 30-day split between Recent and Past.") +
+  theme_igsa
+```

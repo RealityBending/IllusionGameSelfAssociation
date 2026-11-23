@@ -1,8 +1,11 @@
 ---
 title: "Are psychedelic users less susceptible to visual illusions? Evidence from the Illusion Game"
 shorttitle: "Psychedelics and visual illusions"
-# TODO: author order, affiliations and the corresponding author are copied from
-# the previous manuscript (the docx) and are to be confirmed.
+# Author order and affiliations given by Dom on 2026-11-19. The corresponding
+# author (Fauvel) is still the one from the previous manuscript (the docx).
+# The postcode and town are in `address` because the apaquasi title block
+# prints group, department, name, address, city, region and country, but not
+# postal-code. ORCIDs looked up on orcid.org on 2026-11-19.
 author:
   - name: Dominique Makowski
     orcid: 0000-0001-5375-9967
@@ -12,42 +15,56 @@ author:
       - id: "sussex"
         name: "University of Sussex"
         department: "School of Psychology"
-        city: "Brighton"
-        country: "UK"
-        postal-code: "BN1 9RH"
+        address: "Pevensey 1 Building, Falmer, BN1 9QH"
+        country: "United Kingdom"
+      - id: "sccs"
+        name: "University of Sussex"
+        department: "Sussex Centre for Consciousness Science"
   - name: Marco Sperduti
+    orcid: 0000-0002-0974-8811
     affiliations:
       - id: "mc2lab"
         name: "Université Paris Cité"
         department: "MC2Lab"
-        city: "Boulogne-Billancourt"
+        address: "71 avenue Edouard Vaillant, 92774 Boulogne-Billancourt Cedex"
         country: "France"
-        postal-code: "F-92100"
+      - id: "torvergata"
+        name: "University of Rome Tor Vergata"
+        department: "Department of Systems Medicine"
+        address: "Via Montpellier 1, 00133 Rome"
+        country: "Italy"
+  - name: Oliver Collins
+    affiliations:
+      - ref: sussex
+  - name: Lucie Daudé
+    affiliations:
+      - ref: mc2lab
   - name: Joy Zogheib
     affiliations:
       - ref: mc2lab
-  - name: Bruno Roméo
+  - name: Ewen Kervadec
     affiliations:
       - id: "aphp"
         name: "AP-HP, Paul Brousse Hospital"
         department: "Department of Psychiatry and Addiction Medicine"
-        city: "Villejuif"
+        address: "12 avenue Paul-Vaillant-Couturier, 94804 Villejuif Cedex"
         country: "France"
-        postal-code: "F-94800"
-  - name: Ewen Kervadec
+  - name: Bruno Roméo
     affiliations:
-      - ref: mc2lab
+      - ref: aphp
   - name: Pascale Piolino
+    orcid: 0000-0002-7787-924X
     affiliations:
       - ref: mc2lab
   - name: Baptiste Fauvel
+    orcid: 0000-0003-3525-3334
     email: baptiste.fauvel@u-paris.fr
     corresponding: true
     affiliations:
       - ref: mc2lab
 author-note:
   disclosures:
-    gratitude: "We thank all participants for their time, and the Zendo Project, the MIND Foundation and the French Psychedelic Society for advertising the study among their members. Lucie Daudé contributed to the initial analysis of the visual-illusion data during a placement at MC2Lab."
+    gratitude: "We thank all participants for their time, and the Zendo Project, the MIND Foundation and the French Psychedelic Society for advertising the study among their members."
     study-registration: "The study was approved by the Ethics Committee of Université Paris Cité (IRB No. 00012023-105). It was not preregistered."
     # TODO: confirm with the PI that the open data can be posted (the consent
     # form promised anonymisation, not public sharing) before this is true. The
@@ -59,11 +76,12 @@ author-note:
     financial-support: null
     authorship-agreements: null
 abstract: |
-  Classic psychedelics are thought to relax prior expectations, which should weaken visual illusions. Evidence is scarce, especially outside the acute state, and error rates, the usual measure of illusion sensitivity, also depend on overall performance. We tested 118 adults, of whom 44 had never used a classic psychedelic, 39 had used one within the last 30 days (the "afterglow" period) and 35 longer ago. They completed the Illusion Game, a response-time task of judging which of two targets is larger while the strength of an illusion (Ebbinghaus, Müller-Lyer, vertical-horizontal) varies independently of the real difference between them. A hierarchical log-normal race model was fitted to every choice and response time. Both user groups took about 45 ms longer than naïve participants to perceive the stimulus and execute the response (half explained by age), accumulated evidence more slowly and made fewer errors. We then computed an index of illusion sensitivity independent of overall accuracy: the effect of illusion strength on performance relative to that of the real difference. This index was 14% lower in users on average, equally in recent and past users, and unrelated to age, language, student status, psychological flexibility, distress or the intensity of the last experience. It correlated weakly across illusions, whereas general performance correlated strongly. Psychedelic users appeared slightly less sensitive to illusions, as relaxed priors would predict, but the absence of a clear link with use recency limits interpretative confidence and generalizability.
+  Classic psychedelics are thought to relax prior expectations, which should weaken visual illusions. Evidence is scarce, especially outside the acute state, and error rates, the usual measure of illusion sensitivity, also depend on overall performance. We tested 117 adults, of whom 43 had never used a classic psychedelic, 39 had used one within the last 30 days (the "afterglow" period) and 35 longer ago. They completed the Illusion Game, a response-time task of judging which of two targets is larger while the strength of an illusion (Ebbinghaus, Müller-Lyer, vertical-horizontal) varies independently of the real difference between them. A hierarchical drift diffusion model was fitted to every choice and response time. Both user groups set wider decision boundaries than naïve participants, gathering more evidence before responding, and made fewer errors. We then computed an index of illusion sensitivity independent of overall accuracy: the effect of illusion strength on performance relative to that of the real difference. This index was 22% lower in users on average, equally in recent and past users, and unrelated to age, language, student status, psychological flexibility, distress or the intensity of the last experience. It correlated moderately across illusions, less than general performance did. Psychedelic users appeared somewhat less sensitive to illusions, as relaxed priors would predict, but the absence of a clear link with use recency limits interpretative confidence and generalizability.
 keywords:
   - psychedelics
   - visual illusions
   - evidence accumulation
+  - drift diffusion model
   - predictive processing
   - REBUS
   - Illusion Game
@@ -84,13 +102,15 @@ titlepage:
     # (see the TODO on data-sharing above).
 floatsintext: true
 numbered-lines: true
+# 300 dpi, the PDF's default, also for Word (whose default is 96)
+fig-dpi: 300
 bibliography: references.bib
 mask: false
 lang: en
 format:
   # Journal-style preprint by default; documentmode: man gives a plain APA manuscript
   apaquasi-pdf: default
-  # apaquasi-docx: default
+  # apaquasi-docx: default  (or: quarto render paper.qmd --to apaquasi-docx)
 execute:
   echo: false
   warning: false
@@ -100,13 +120,16 @@ editor_options:
 ---
 
 <!--
-STATUS (2026-11-06). Every number, table and figure below is read from
-analysis/results/*.csv (written by analysis/3_lnr_groups.qmd and
-4_lnr_correlates.qmd) and from the open data, so re-rendering this file after
+STATUS (2026-11-18). The model is the drift diffusion model (ddm5 in
+analysis/server/models.R); the version of this file before the switch is
+paper_before_ddm_2026-11-18.qmd. Every number, table and figure below is read
+from analysis/results/ddm_*.csv (written by analysis/3_ddm_groups.qmd and
+4_ddm_correlates.qmd) and from the open data, so re-rendering this file after
 the reports have been re-rendered updates the article. The reports rest on
-the final 16-chain fit (pulled 2026-11-06). After any refit the sequence is:
-./hpc combine lnr, ./hpc pull, re-render 3_lnr_groups.qmd and
-4_lnr_correlates.qmd, then this file. The only numbers typed by hand are the
+the 117-participant 8-chain fit (pulled 2026-11-22; the 118-participant fit of
+2026-11-18 is kept as analysis/models/ddm5_n118.rds). After any refit the sequence is:
+./hpc combine ddm5, ./hpc pull, re-render 3_ddm_groups.qmd and
+4_ddm_correlates.qmd, then this file. The only numbers typed by hand are the
 convergence diagnostics in the Methods, the cluster settings, and the rounded
 numbers of the abstract.
 
@@ -125,23 +148,26 @@ library(patchwork)
 # Renders from paper/ (quarto) or from the repo root (interactively).
 root <- if (file.exists("paper.qmd")) ".." else "."
 res <- function(file) read.csv(file.path(root, "analysis/results", file))
-averaged <- res("lnr_groups_averaged.csv")
-contrasts <- res("lnr_groups_contrasts.csv")
-slopes <- res("lnr_groups_slopes.csv")
-correlates <- res("lnr_correlates.csv")
-correlations <- res("lnr_correlations.csv")
-curves <- res("lnr_groups_means.csv")
-ppc_curves <- res("lnr_ppc_curves.csv")
-avg_means <- res("lnr_groups_averaged_means.csv")
+averaged <- res("ddm_groups_averaged.csv")
+contrasts <- res("ddm_groups_contrasts.csv")
+slopes <- res("ddm_groups_slopes.csv")
+correlates <- res("ddm_correlates.csv")
+correlations <- res("ddm_correlations.csv")
+curves <- res("ddm_groups_means.csv")
+ppc_curves <- res("ddm_ppc_curves.csv")
+avg_means <- res("ddm_groups_averaged_means.csv")
 participants <- read.csv(file.path(root, "data/open/participants.csv"))
 groups <- read.csv(file.path(root, "data/groups.csv"))
 questionnaires <- read.csv(file.path(root, "data/questionnaires.csv"))
 trials <- read.csv(file.path(root, "data/data_illusiongame.csv"))
 # The group-level parameters (posterior medians) at the condition that Figure
 # 2A draws: the strongest conflicting Ebbinghaus illusion, at mid difficulty.
-race_par <- with(curves[curves$Illusion_Type == "Ebbinghaus" & curves$Illusion_Strength == 1 & curves$Task_Difficulty == 0, ],
-                 tapply(Median, list(Group, Quantity), function(v) v))
-stopifnot(dim(race_par) == c(3, 8))
+# mu is the drift towards the error boundary and delta = -mu the drift towards
+# the correct one; bias is the start point as a share of the boundary
+# separation, from the correct boundary.
+ddm_par <- with(curves[curves$Illusion_Type == "Ebbinghaus" & curves$Illusion_Strength == 1 & curves$Task_Difficulty == 0, ],
+                tapply(Median, list(Group, Quantity), function(v) v))
+stopifnot(dim(ddm_par) == c(3, 7))
 
 group_col <- c(Never = "#7a7a75", Past = "#2a78d6", Recent = "#00dcff")
 # Display labels. The data, the model and the reports keep Never / Past /
@@ -155,6 +181,17 @@ theme_paper <- theme_minimal(base_size = 9) +
         strip.text = element_text(face = "bold", hjust = 0, size = 8),
         legend.position = "top", legend.justification = "left",
         plot.background = element_rect(fill = "white", colour = NA))
+
+# Each figure is also written to paper/figures/ as a vector PDF and a 300-dpi
+# PNG, at the size it has in the article, for uploading at submission. The
+# number in the file name is set by hand in each chunk: keep it in step with
+# the figures' order in the text.
+save_figure <- function(p, name, width, height) {
+  dir <- file.path(root, "paper/figures")
+  ggsave(file.path(dir, paste0(name, ".pdf")), p, width = width, height = height, device = cairo_pdf)
+  ggsave(file.path(dir, paste0(name, ".png")), p, width = width, height = height, dpi = 300, device = ragg::agg_png)
+  p
+}
 
 # One row of a results table, and its "median [low, high]".
 pick <- function(df, ...) {
@@ -188,10 +225,56 @@ cor_mag <- function(pair) fmt(pick(correlations, Quantity = "Illusion magnitude 
 eff_all <- function(q, contrast, ill = names(illusions)) sapply(ill, function(il) eff(q, contrast, il)$Median)
 idx_all <- function(contrast) sapply(names(illusions), function(il) idx_c(contrast, il)$Median)
 med_rng <- function(v, digits = 2) minus(paste(sprintf(paste0("%.", digits, "f"), range(v)), collapse = " to "))
-# The Results say that, one illusion at a time, the 95% intervals of the
-# magnitude's user - naive contrasts exclude zero for the Ebbinghaus illusion only.
+# The Results say that, one illusion at a time, the 95% intervals of all six of
+# the magnitude's user - naive contrasts exclude zero.
 idx_below <- sapply(c("Past - Never", "Recent - Never"), function(cn) sapply(names(illusions), function(il) idx_c(cn, il)$CI_high < 0))
-stopifnot(all(idx_below["Ebbinghaus", ]), !any(idx_below[c("MullerLyer", "VerticalHorizontal"), ]))
+stopifnot(all(idx_below))
+# The other qualitative claims of the Results, which a refit could change:
+# whether a 95% interval includes zero.
+ci0 <- function(x) x$CI_low < 0 & x$CI_high > 0
+vs_naive <- c("Past - Never", "Recent - Never")
+stopifnot(
+  # General performance: wider boundaries and fewer errors in both user groups,
+  # a non-decision time that is not reliably longer, a higher drift rate in
+  # recent users only, no difference in start point or drift variability.
+  !any(sapply(vs_naive, function(cn) ci0(avg("boundary", cn)) | ci0(avg("perror", cn)))),
+  all(sapply(vs_naive, function(cn) ci0(avg("ndt", cn)))),
+  !ci0(avg("delta", "Recent - Never")), !ci0(avg("delta", "Recent - Past")), ci0(avg("delta", "Past - Never")),
+  all(sapply(c(vs_naive, "Recent - Past"), function(cn) ci0(avg("bias", cn)) & ci0(avg("sigmadrift", cn)))),
+  # Illusion sensitivity: the illusion's effect on discriminability does not
+  # differ from naive on any illusion; on errors, not on the Muller-Lyer.
+  all(sapply(vs_naive, function(cn) sapply(names(illusions), function(il) ci0(eff("delta", cn, il))))),
+  all(sapply(vs_naive, function(cn) ci0(eff("perror", cn, "MullerLyer")))),
+  # ... on the Ebbinghaus it does, on the vertical-horizontal it does not.
+  !any(sapply(vs_naive, function(cn) ci0(eff("perror", cn, "Ebbinghaus")))),
+  all(sapply(vs_naive, function(cn) ci0(eff("perror", cn, "VerticalHorizontal"))))
+)
+# And those of the age paragraphs: with age in the regression, the
+# non-decision time and past users' error rate no longer differ from naive,
+# while the boundaries and recent users' error rate and drift rate still do.
+age_adj <- function(q, cn) cov(q, "Group + age", cn)
+stopifnot(
+  all(sapply(vs_naive, function(cn) ci0(age_adj("Non-decision time (s), no illusion", cn)))),
+  !any(sapply(vs_naive, function(cn) ci0(age_adj("Boundary, no illusion", cn)))),
+  ci0(age_adj("P(error), no illusion", "Past - Never")), !ci0(age_adj("P(error), no illusion", "Recent - Never")),
+  !ci0(age_adj("Discriminability, no illusion", "Recent - Never"))
+)
+
+# Psychedelic use by degree, among users: neither the illusion magnitude nor
+# the boundary follows the time since the last use or the lifetime number of
+# uses.
+use_days <- function(q) cov(q, "Days since last use (users)", "Days since last use (per tenfold)")
+use_life <- function(q) cov(q, "Group + lifetime use (users)", "Lifetime use (per category)")
+stopifnot(ci0(use_days("Illusion magnitude (strength / difficulty)")), ci0(use_life("Illusion magnitude (strength / difficulty)")),
+          ci0(use_days("Boundary, no illusion")), ci0(use_life("Boundary, no illusion")))
+# The exclusions listed in the Participants section (2 + 3 + 3 + 1 + 1), and
+# the three past users classified from the yes/no question.
+no_days <- groups[groups$Group != "Never" & is.na(groups$Days), ]
+stopifnot(nrow(participants) - nrow(groups) == 10, nrow(no_days) == 3, no_days$Group == "Past", no_days$Psychedelics_LastMonth == "No")
+# The reduction of the illusion magnitude in users per illusion (percent of the
+# naive value, averaged over the two user groups).
+idx_pct_ill <- tapply(idx_pct, names(idx_pct), mean)
+stopifnot(setequal(names(idx_pct_ill), names(illusions)))
 
 n_group <- table(factor(groups$Group, levels = names(group_col)))
 n_trials <- nrow(trials)
@@ -204,15 +287,17 @@ stars <- function(pd) ifelse(pd >= 0.9995, "***", ifelse(pd >= 0.995, "**", ifel
 
 # Introduction
 
-Classic psychedelics such as psilocybin, LSD and DMT act on serotonin 2A (5-HT2A) receptors and alter perception, cognition and self-experience [@vollenweider2020psychedelic]. An influential account of how they do so is the relaxed beliefs under psychedelics (REBUS) model. It holds that 5-HT2A agonism makes high-level prior expectations less precise, so that perception relies more on sensory evidence and less on what is expected [@carhartharris2019rebus; @clark2013whatever]. Geometrical illusions are often explained by such priors: expectations about the layout of the world are applied to a display that violates them [@gregory1997knowledge; @howe2005muller]. REBUS therefore predicts that psychedelics should weaken visual illusions. The same reasoning has been applied to schizophrenia, where a reduced susceptibility to some illusions, though debated, is attributed to weakened priors [@notredame2014visual; @king2017review]. The prediction holds only as far as an illusion depends on higher-level priors, and geometrical illusions have also been related to earlier stages of visual processing [@morgan1990biases; @schwarzkopf2011surface]. Whether psychedelics weaken illusions beyond the acute state is a separate question. A subacute "afterglow" lasting days to weeks has been described after psychedelic use, with changes in mood, openness and cognitive flexibility [@evens2023afterglow], and animal work reports relaxed predictive processing in visual cortex for days after a single dose [@west2026psychedelics].
+Classic psychedelics such as psilocybin, LSD and DMT act on serotonin 2A (5-HT2A) receptors and alter perception, cognition and self-experience [@vollenweider2020psychedelic]. An influential account of how they do so is the relaxed beliefs under psychedelics (REBUS) model. It holds that 5-HT2A agonism makes high-level prior expectations less precise, so that perception relies more on sensory evidence and less on what is expected [@carhartharris2019rebus; @clark2013whatever]. Geometrical illusions are often explained by such priors: expectations about the layout of the world are applied to a display that violates them [@gregory1997knowledge; @howe2005muller]. To the extent that an illusion depends on such high-level priors, REBUS predicts that psychedelics should weaken it. That extent is not established and may differ from one illusion to another, as geometrical illusions have also been related to earlier stages of visual processing [@morgan1990biases; @schwarzkopf2011surface]. The same reasoning has been applied to schizophrenia, where a reduced susceptibility to some illusions, though debated, is attributed to weakened priors [@notredame2014visual; @king2017review].
 
-The evidence on illusions is thin and inconsistent. Under acute psilocybin, the Ebbinghaus illusion became *larger* while surround suppression in early visual cortex decreased [@aqil2025psilocybin]. Surround suppression of contrast was enhanced at the peak of psilocybin in one pilot trial [@swanson2024enhanced] and unchanged under low-dose LSD in another [@jaeckel2026lowdose]. Beyond the acute state, experienced users reported lasting changes in self-experience but did not differ from controls on a bodily illusion [@harduf2023bodily]. These studies measured different things on different time scales. To our knowledge, none has measured classic geometrical illusions in psychedelic users outside the acute state.
+The evidence on illusions is thin and inconsistent. Under acute psilocybin, the Ebbinghaus illusion became *larger* while surround suppression in early visual cortex decreased [@aqil2025psilocybin]. Surround suppression of contrast was enhanced at the peak of psilocybin in one pilot trial [@swanson2024enhanced] and unchanged under low-dose LSD in another [@jaeckel2026lowdose].
 
-Measuring susceptibility to illusions is not straightforward either, because illusion paradigms are prone to conflating the illusion with other effects. Subjective ratings and adjustment procedures can reflect metacognitive judgements and response criteria as well as perception, and error rates can reflect perceptual discrimination and overall task performance. In autistic children, for instance, a group difference in susceptibility appeared with only one of three methods, and was attributed to the criterion for responding rather than to perception [@manning2017susceptibility]. 
+Whether psychedelics weaken illusions beyond the acute state is a separate question, and one of practical interest. The relaxation of priors has been proposed as the mechanism by which psychedelics benefit mental health [@carhartharris2019rebus], and these benefits, like changes in personality and attitudes, have been documented long after one or a few doses [@aday2020longterm; @knudsen2023sustained]. A subacute "afterglow" lasting days to weeks has also been described after psychedelic use, with changes in mood, openness and cognitive flexibility [@evens2023afterglow], and animal work reports relaxed predictive processing in visual cortex for days after a single dose [@west2026psychedelics]. If relaxed priors outlast the acute state, their perceptual consequences should too. Yet experienced users, who reported lasting changes in self-experience, did not differ from controls on a bodily illusion [@harduf2023bodily], and to our knowledge no study has measured classic geometrical illusions in psychedelic users outside the acute state.
 
-The Illusion Game is a paradigm that tries to accommodate these issues [@makowski2021parametric; @makowski2023novel]. Each stimulus is generated from two parameters that vary independently and continuously. The *task difficulty* is the real (objective) difference between the two targets: the smaller the difference, the harder the trial. The *illusion strength* is the magnitude of the context that biases how the targets look, and this context can work with the real difference or against it. Participants say which target is bigger or longer as fast as they can, so the illusion is measured by what it does to their choices and response times, not by what they report seeing. An evidence accumulation model fitted to both [@heathcote2012linear] describes performance by a few parameters, and estimates how each of them changes with the illusion separately from its level without one. In addition to these parameters, we computed an index to facilitate comparisons between groups that differ in average performance. Because the real difference varies as well, the effect of the illusion can be expressed relative to that of the real difference, that is, as the real difference that the illusion is equivalent to. This is analogous to the shift of the point of subjective equality, which psychophysics distinguishes from the precision of the judgement [@morgan1990biases]. We call this index the *illusion magnitude*.
+Measuring susceptibility to illusions is not straightforward either, because illusion paradigms are prone to conflating the illusion with other effects. Subjective ratings and adjustment procedures can reflect metacognitive judgements and response criteria as well as perception, and error rates can reflect perceptual discrimination and overall task performance. In autistic children, for instance, a group difference in susceptibility to the Müller-Lyer illusion appeared with a method of adjustment, but not with same-different judgements or with a forced choice designed to minimise decision biases, and was attributed to the criterion for responding rather than to perception [@manning2017susceptibility].
 
-Here we compared adults who had never used a classic psychedelic with two groups of users, split by whether their last use was within the preceding 30 days, the window used in the afterglow literature [@evens2023afterglow]. All completed the Illusion Game with three illusions (Ebbinghaus, Müller-Lyer and vertical-horizontal), and a hierarchical log-normal race model was fitted to every trial. We examined all of the model's parameters, to describe how the groups differ in general performance as well as in illusion sensitivity. Under REBUS, the illusions should affect recent users less than naïve participants, and past users should fall in between. We report the effect of the illusions on how well the targets are told apart (their discriminability, the difference between the model's two rates) and on errors, together with the illusion magnitude. As the groups were recruited through different routes and differed in other characteristics, we additionally tested whether age, language, student status, psychological flexibility, distress or the intensity of the last psychedelic experience account for the differences observed.
+The Illusion Game is a paradigm that tries to accommodate these issues [@makowski2021parametric; @makowski2023novel], with three advantages over classical procedures. First, the judgement is objective and speeded. Participants indicate which of two targets is bigger or longer as fast as they can, every trial has a correct answer, and the illusion is measured by what it does to accuracy and response times, not by a rating or an adjustment of how large it appears. Second, each stimulus is generated from two parameters that vary independently and continuously. The *task difficulty* is the real (objective) difference between the two targets: the smaller the difference, the harder the trial. The *illusion strength* is the magnitude of the context that biases how the targets look, and this context can work in favour of the real difference, which makes the task easier, or against it, which makes it harder. The effect of the illusion can therefore be separated from the ability to tell the targets apart. Third, choices and response times can be modelled together with an evidence accumulation model [@ratcliff2008diffusion], which describes performance by a few parameters and estimates how each of them changes with the illusion separately from its level without one. In addition to these parameters, we computed an index to facilitate comparisons between groups that differ in average performance. Because the real difference varies as well, the effect of the illusion can be expressed relative to that of the real difference, that is, as the real difference that the illusion is equivalent to. We call this index the *illusion magnitude*.
+
+Here we compared adults who had never used a classic psychedelic with two groups of users, split by whether their last use was within the preceding 30 days, the window used in the afterglow literature [@evens2023afterglow]. All completed the Illusion Game with three illusions (Ebbinghaus, Müller-Lyer and vertical-horizontal), <!-- TODO (Marco's comment): say why these three illusions were chosen. --> and a hierarchical drift diffusion model was fitted to every trial. We examined all of the model's parameters, to describe how the groups differ in general performance as well as in illusion sensitivity. If the relaxation of priors outlasts the acute state and then fades, as the afterglow suggests, the illusions should affect recent users less than naïve participants, and past users should fall in between. We report the effect of the illusions on how well the targets are told apart (their discriminability) and on errors, together with the illusion magnitude. As the groups were recruited through different routes and differed in other characteristics, we additionally tested whether age, language, student status, psychological flexibility or distress account for the differences observed, and whether, among users, these differences follow the intensity of the last psychedelic experience, the time since it or the lifetime number of uses.
 
 # Methods
 
@@ -220,7 +305,7 @@ Here we compared adults who had never used a classic psychedelic with two groups
 
 Participants were recruited online, in French or in English, for a study of psychedelic experience, perception and cognition, which also included a self-association task not reported in the current study. Psychedelic users were reached through psychedelic societies and related online communities, and psychedelic-naïve participants through word of mouth and the researchers' social media. All participants were at least 18 years old, took part on a desktop or laptop computer, gave informed consent and were not paid. The Ethics Committee of Université Paris Cité approved the study (IRB No. 00012023-105).
 
-Sessions ran from March 2024 to April 2026, when the data were frozen. Of the `r nrow(participants)` sessions in the four recruitment arms, `r nrow(participants) - nrow(groups)` were excluded before analysis: two did not reach the end of the protocol, three were tested after the data freeze, three controls reported having used a classic psychedelic, and one user reported experience only with non-classic substances. One control entered an age of 16, probably a typing error, and was kept with age treated as missing. The analysed sample comprises `r sum(n_group)` adults in three mutually exclusive groups: `r n_group[["Never"]]` who had never taken a classic psychedelic (psychedelic-naïve; Naïve in contrasts), `r n_group[["Recent"]]` whose last classic psychedelic was 30 days ago or less (recent users; Recent) and `r n_group[["Past"]]` whose last was longer ago (past users; Past). Users were assigned from the number of days since their last use, which they gave as free text, or from a yes/no question about use in the last month when that answer could not be read.
+Sessions ran from March 2024 to April 2026, when the data were frozen. Of the `r nrow(participants)` sessions in the four recruitment arms, `r nrow(participants) - nrow(groups)` were excluded before analysis: two did not reach the end of the protocol, three were tested after the data freeze, three controls reported having used a classic psychedelic, one user reported experience only with non-classic substances, and one control stated an age of 16. The analysed sample comprises `r sum(n_group)` adults in three mutually exclusive groups: `r n_group[["Never"]]` who had never taken a classic psychedelic (psychedelic-naïve; Naïve in contrasts), `r n_group[["Recent"]]` whose last classic psychedelic was 30 days ago or less (recent users; Recent) and `r n_group[["Past"]]` whose last was more than 30 days before the session (past users; Past). Users were assigned to these two groups according to the number of days since their last use, which they gave as free text. Three users gave a date or no number, and were assigned to the past users because they answered no to a yes/no question about use in the last month.
 
 ```{r}
 #| label: tbl-sample
@@ -252,6 +337,9 @@ describe <- function(g) {
     "DASS-21, mean (SD)" = mean_sd(g$DASS_Total, 2))
 }
 tab1 <- sapply(split(included, included$Group), describe)
+# For the Discussion: how many of each group are aged 31 to 50.
+age_mid <- tapply(included$Age, included$Group, function(a) sum(a >= 31 & a <= 50, na.rm = TRUE))
+stopifnot(age_mid[["Never"]] == 1)
 knitr::kable(tab1, col.names = group_lab[colnames(tab1)])
 ```
 
@@ -261,7 +349,7 @@ knitr::kable(tab1, col.names = group_lab[colnames(tab1)])
 #| label: tbl-use
 #| apa-twocolumn: true
 #| tbl-cap: "Psychedelic use in the two user groups."
-#| apa-note: "Values are n (%) unless stated. Days since last use: of the answers that gave a number of days. Lifetime use: number of occasions; one past user answered \"never\" but described a last experience with ayahuasca, and is in none of the three rows. Dose and intention: of the last classic psychedelic experience, as judged by the participant. Other substance: any other substance taken during that experience. MEQ-30: Mystical Experience Questionnaire, about that experience (0 to 5); complete: at least 3 on each of its four factors."
+#| apa-note: "Values are n (%) unless stated. Days since last use: of the answers that gave a number of days. Lifetime use: number of occasions, chosen among seven categories from never to more than 100 times; one past user answered \"never\" but described a last experience with ayahuasca, and is in none of the three rows. Dose and intention: of the last classic psychedelic experience, as judged by the participant. Other substance: any other substance taken during that experience. MEQ-30: Mystical Experience Questionnaire, about that experience (0 to 5); complete: at least 3 on each of its four factors."
 users <- droplevels(included[included$Group != "Never", ])
 users$Other_Substance <- rowSums(users[grep("^Drug_", names(users))] == "Yes", na.rm = TRUE) > 0
 iqr <- function(x) sprintf("%.0f (%.0f–%.0f)", median(x, na.rm = TRUE), quantile(x, 0.25, na.rm = TRUE), quantile(x, 0.75, na.rm = TRUE))
@@ -301,9 +389,11 @@ days_txt <- function(d) if (d >= 730) sprintf("%.0f years", d / 365.25) else spr
 
 ## The Illusion Game
 
-Participants completed a shortened online version of the Illusion Game [@makowski2023novel] with three illusions (@fig-data A), generated with Pyllusion [@makowski2021parametric]. In the Ebbinghaus illusion, two red circles are shown side by side, each surrounded by black circles, and the participant says which red circle is bigger. A circle surrounded by large circles looks smaller, so the illusion strength is the relative size of the surrounding circles. In the Müller-Lyer illusion, two horizontal red lines are shown one above the other, with black fins at their ends, and the participant says which line is longer. The illusion strength is the angle of the fins. In the vertical-horizontal illusion, two red lines are shown side by side, one of them rotated towards the vertical, and the participant says which is longer. Vertical lines look longer, so the illusion strength is the angle of rotation. In each illusion, the context can work with the real difference between the targets, which makes the correct answer more obvious (a *facilitating* illusion), or against it (a *conflicting* illusion).
+Participants completed a shortened online version of the Illusion Game [@makowski2023novel] with three illusions (@fig-data A), generated with Pyllusion [@makowski2021parametric]. In the Ebbinghaus illusion, two red circles are shown side by side, each surrounded by black circles, and the participant says which red circle is bigger. A circle surrounded by large circles looks smaller, so the illusion strength is the relative size of the surrounding circles. In the Müller-Lyer illusion, two horizontal red lines are shown one above the other, with black fins at their ends, and the participant says which line is longer. The illusion strength is the angle of the fins: the more they are tilted, the stronger the illusion. In the vertical-horizontal illusion, two red lines are shown side by side, one of them rotated towards the vertical, and the participant says which is longer. Lines closer to the vertical look longer, so the illusion strength is the angle of rotation: the larger the rotation, the stronger the illusion. In each illusion, the context biases the apparent difference between the targets in one direction. It can work in favour of the real difference, exaggerating it and making the discrimination easier (a *facilitating* illusion), or against it, making the discrimination harder (a *conflicting* illusion). The illusion is present in both cases, and only its direction relative to the real difference changes.
 
-Each trial began with a fixation cross lasting 600 to 1,100 ms, followed by the stimulus, which stayed on screen until the participant pressed one of two arrow keys. Participants were asked to respond as fast as possible without making errors. Each illusion had a practice block of 8 trials and two test blocks of 80 trials, which gives 480 test trials in all. Trials were in random order within a block, and the order of the illusions was fixed. Each illusion used 20 illusion strengths (10 facilitating and 10 conflicting) and 8 real differences, split between its two blocks.
+Each trial began with a fixation cross lasting 600 to 1,100 ms, followed by the stimulus, which stayed on screen until the participant pressed one of two arrow keys. Participants were asked to respond as fast as possible without making errors. Each illusion had a practice block of 8 trials and two test blocks of 80 trials, which gives 480 test trials in all. Trials were in random order within a block. The order of the illusions (Müller-Lyer, Ebbinghaus, vertical-horizontal) was the same in both series of test blocks and for every participant, so that it cannot differ between the groups. After each test block, participants were shown a score combining their speed and accuracy (derived from their mean correct response time divided by their proportion of correct responses). The Illusion Game followed the self-association task, and the AAQ-II and DASS-21 (see Questionnaires) were completed between its first and second series of test blocks.
+
+Each illusion used 20 illusion strengths (10 facilitating and 10 conflicting) and 8 real differences, split between its two blocks. The real difference is relative: the larger target exceeded the smaller one by 5 to 50% in the Ebbinghaus illusion, by 4.5 to 45% in the Müller-Lyer illusion and by 3 to 30% in the vertical-horizontal illusion. At the strongest illusions, the surrounding circles were 150% larger than the circle they surrounded, the fins were tilted by 30 degrees and the line was rotated by 45 degrees. The stimuli were images of 800 by 800 pixels, shown at that size in full-screen mode. Their physical size therefore depended on the display, but the real differences, being relative, did not.
 
 Both predictors were normalized: Illusion strength runs from −1 (the strongest facilitating illusion) through 0 (no illusion) to +1 (the strongest conflicting illusion). Task difficulty runs from −1 (the largest difference shown, the easiest trials) to +1 (the smallest, the hardest trials), so that the whole range of difficulty spans 2 units.
 
@@ -324,11 +414,11 @@ a <- sapply(c(AAQ = "^AAQ_", DASS = "^DASS_", Depression = "^DASS_Depression_", 
 a2 <- function(k) sprintf("%.2f", a[[k]])
 ```
 
-Psychological flexibility was measured with the seven-item Acceptance and Action Questionnaire-II [AAQ-II; @bond2011preliminary; French version by @monestes2009french]. Its score is the sum of the items, each rated from 1 to 7, and a higher score means *less* flexibility (Cronbach's α = `r a2("AAQ")`). Distress was measured with the 21-item Depression Anxiety Stress Scales [DASS-21; @lovibond1995manual]. Each subscale score is the mean of its seven items, rated from 0 to 3, and the total is the mean of the three subscales (α = `r a2("DASS")` for the total, `r a2("Depression")`, `r a2("Anxiety")` and `r a2("Stress")` for Depression, Anxiety and Stress). Users also rated their last classic psychedelic experience on the 30-item Mystical Experience Questionnaire [MEQ-30; @barrett2015validation; @maclean2012factor]. The total and the four factor scores are means of the items, rated from 0 to 5 (α = `r a2("MEQ")` for the total, `r a2("Mystical")`, `r a2("PositiveMood")`, `r a2("Transcendence")` and `r a2("Ineffability")` for mystical experience, positive mood, transcendence of time and space, and ineffability). A scale was scored when at most one of its items was missing, as the mean of the answered items.
+Psychological flexibility was measured with the seven-item Acceptance and Action Questionnaire-II [AAQ-II; @bond2011preliminary; French version by @monestes2009french]. Its score is the sum of the items, each rated from 1 to 7, and a higher score means *less* flexibility (Cronbach's α in this sample = `r a2("AAQ")`, as for the values that follow). Distress was measured with the 21-item Depression Anxiety Stress Scales [DASS-21; @lovibond1995manual]. Each subscale score is the mean of its seven items, rated from 0 to 3, and the total is the mean of the three subscales (α = `r a2("DASS")` for the total, `r a2("Depression")`, `r a2("Anxiety")` and `r a2("Stress")` for Depression, Anxiety and Stress). Users also rated their last classic psychedelic experience on the 30-item Mystical Experience Questionnaire [MEQ-30; @barrett2015validation; @maclean2012factor]. The total and the four factor scores are means of the items, rated from 0 to 5 (α = `r a2("MEQ")` for the total, `r a2("Mystical")`, `r a2("PositiveMood")`, `r a2("Transcendence")` and `r a2("Ineffability")` for mystical experience, positive mood, transcendence of time and space, and ineffability). A scale was scored when at most one of its items was missing, as the mean of the answered items.
 
 ## Data Cleaning
 
-The data preprocessing followed that of a larger modelling study of the same task [@makowski2026illusiongamecomputational], which also provided the priors described below. Trials with a response time of zero, or of six seconds or more, were removed. A participant's block of one illusion was removed when the error rate on its facilitating trials reached one third (indicates guessing or reversed keys).
+The data preprocessing followed that of a larger modelling study of the same task (<https://github.com/RealityBending/IllusionGameComputational>), which also provided the priors described below.
 
 ```{r}
 #| label: cleaning
@@ -342,31 +432,42 @@ block_error <- tapply(kept$Error[facilitating], block[facilitating], mean)
 bad_blocks <- names(block_error)[block_error >= 1 / 3]
 n_block_removed <- sum(block %in% bad_blocks)
 stopifnot(sum(!block %in% bad_blocks) == n_trials)
+# The same per group, in the order naive, past, recent. No trial has a missing
+# or null response time: all those removed are slow. Every removed block is of
+# the Ebbinghaus illusion.
+trial_group <- factor(groups$Group[match(open_trials$Participant, groups$Participant)], levels = names(group_col))
+block_group <- factor(groups$Group[match(sub(" .*", "", bad_blocks), groups$Participant)], levels = names(group_col))
+stopifnot(!anyNA(open_trials$RT), open_trials$RT > 0, grepl(" Ebbinghaus ", bad_blocks), !anyNA(trial_group))
+three <- function(x) paste0(x[1], ", ", x[2], " and ", x[3])
+rt_by_group <- three(table(trial_group[bad_rt]))
+blocks_by_group <- three(table(block_group))
 ```
 
-This removed `r sum(bad_rt)` trials for their response time and `r n_block_removed` trials in `r length(bad_blocks)` blocks, and left `r format(n_trials, big.mark = ",")` trials from `r length(unique(trials$Participant))` participants.
+As in that study, trials with a response time of six seconds or more were removed (`r sprintf("%.1f", 100 * mean(bad_rt))`% of the trials). The other atypical responses, fast or slow, were left to the mixture component of the model described below. A participant's block of one illusion was removed when the error rate on its facilitating trials reached one third. Errors are rare on these trials (`r sprintf("%.0f", 100 * median(block_error))`% in the median block, and at most `r sprintf("%.0f", 100 * quantile(block_error, 0.95))`% in 95% of the blocks), so such a rate indicates that the block was not done as instructed, for instance with the keys reversed.
+
+This removed `r sum(bad_rt)` trials for their response time (`r rt_by_group` in naïve participants, past users and recent users) and `r n_block_removed` trials in `r length(bad_blocks)` blocks (`r blocks_by_group` blocks, all of the Ebbinghaus illusion), and left `r format(n_trials, big.mark = ",")` trials from `r length(unique(trials$Participant))` participants.
 
 ## Data Analysis
 
 ### The Model
 
-The task is a speeded choice between two alternatives which can be modelled in terms of evidence accumulation [@ratcliff2008diffusion], with the illusion adding a graded conflict [@ulrich2015automatic]. The choice and the response time of every trial were modelled jointly with a log-normal race [LNR; @heathcote2012linear], which @fig-model A illustrates. Two accumulators race, one for the correct response (accumulator 0) and one for the error (accumulator 1), and the response given is that of the first to finish. Accumulator $k$ finishes after a non-decision time $\tau$ plus a log-normally distributed time, $T_k = \tau + \mathrm{LogNormal}(-\nu_k, \sigma_k)$. A larger rate $\nu_k$ means a faster finish, and the noise $\sigma_k$ sets the spread of the finishing times. The race can be read as a linear accumulation of evidence: each accumulator rises in a straight line to a fixed threshold, at a speed that is constant within a trial and varies from trial to trial, with a log-normal distribution of median $e^{\nu_k}$ thresholds per second. The model thus has five parameters: the two rates $\nu_0$ and $\nu_1$, the two noise terms $\sigma_0$ and $\sigma_1$, and the non-decision time $\tau$.
+The task is a speeded choice between two alternatives which can be modelled in terms of evidence accumulation [@ratcliff2008diffusion], with the illusion adding a graded conflict [@ulrich2015automatic]. The choice and the response time of every trial were modelled jointly with a drift diffusion model [@ratcliff2008diffusion], which @fig-model A illustrates. After a non-decision time $\tau$, which covers encoding the stimulus and executing the response, evidence accumulates noisily between two boundaries, one for the correct response and one for the error, until it reaches one of them, which determines the decision. The model has five parameters. The *drift rate* $v$ is the average rate at which the evidence moves towards the correct response; it is negative when the evidence favours the error. The *boundary separation* $a$ is the amount of evidence gathered before responding: wider boundaries make responses slower and errors rarer, so it measures caution. The *start point* $w$ is where the accumulation begins, as a share of $a$ from the correct boundary (0.5 is unbiased). The *non-decision time* $\tau$ is the time outside the decision, and the *drift variability* $s_v$ is the standard deviation of the drift rate across trials [@ratcliff2008diffusion]. The trial-to-trial ranges of the start point and of the non-decision time were fixed to zero.
 
-Each parameter had the same linear predictor. For each illusion it had an intercept, a slope on illusion strength, a slope on task difficulty and their interaction, and each of these terms could differ between the groups (Naïve, Past, Recent; treatment-coded, with Naïve as the reference). Participants had random effects: all twelve of these terms (four per illusion) for each of the two rates, and one intercept per illusion for the two noise terms and the non-decision time, with a correlation matrix per parameter. A small mixture component captured stray responses. Its probability had an intercept and a participant random intercept, and no group term. The threshold of the race is fixed, so the LNR has no separate parameter for caution. The average of the two rates serves instead as the overall speed of evidence accumulation.
+Each parameter had the same linear predictor. For each illusion it had an intercept, a slope on illusion strength, a slope on task difficulty and their interaction, and each of these terms could differ between the groups (Naïve, Past, Recent; treatment-coded, with Naïve as the reference). Participants had random effects: all twelve of these terms (four per illusion) for the drift rate, and one intercept per illusion for the four other parameters, with a correlation matrix per parameter. A small mixture component captured atypical responses, such as anticipations and lapses. Its probability had an intercept and a participant random intercept, and no group term.
 
-The priors for the naïve group, the reference, came from a hierarchical fit of the same model to about 2,200 participants per illusion [@makowski2026illusiongamecomputational]. For each illusion, the intercepts, the slopes on strength and difficulty and their interaction, and the standard deviations of the participant effects were centred on that study's estimates, with prior standard deviations wide enough to allow for a different population. The coefficients for the group differences had weak priors centred on zero, normal(0, 1) for the rates and the software's defaults for the other parameters, because these differences are what the study estimates.
+The priors for the naïve group, the reference, came from that larger study's hierarchical fits of the same model to about 2,200 participants per illusion. For the Ebbinghaus and Müller-Lyer illusions, the intercepts, the slopes on strength and difficulty and their interaction, and the standard deviations of the participant effects were centred on that study's estimates, with prior standard deviations wide enough to allow for a different population. The vertical-horizontal illusion, for which no comparable fit was available, took the average of the two with twice the prior standard deviation. The coefficients for the group differences had weak priors centred on zero, normal(0, 2.5) for the drift rate and the software's defaults for the other parameters, because these differences are what the study estimates.
 
-The model was fitted with brms 2.21 [@burkner2017brms] and the cogmod family [@makowski2026cogmod] in Stan [@carpenter2017stan], on a computing cluster. Sixteen chains, each with 1,500 warm-up and 1,000 retained iterations, gave 16,000 draws. <!-- Diagnostics typed by hand from the 16-chain fit of 2026-11-06 (AGENTS.md, status step 3). --> Convergence at the population level fell just short of the recommended $\widehat{R}$ below 1.01 and effective sample size above 400 [@vehtari2021rank]: the largest $\widehat{R}$ was 1.044 and the smallest bulk effective sample size 279. Part of this came from two chains that settled in a second mode for one participant. Without them, the illusion magnitudes, their group contrasts and the group contrasts averaged over the design changed by less than 0.01, so all sixteen chains were kept.
+The model was fitted with brms 2.21 [@burkner2017brms] and the cogmod 0.3.6 family [@makowski2026cogmod] in Stan [@carpenter2017stan], on a computing cluster. Eight chains, each with 1,500 warm-up and 1,000 retained iterations, gave 8,000 draws. <!-- Diagnostics typed by hand from the 117-participant 8-chain fit of 2026-11-22 (population level: analysis/3_ddm_groups.qmd, "Loading"; participant level: the largest Rhat of the r_ parameters, AGENTS.md, DDM-5 entry). --> There were no divergent transitions. At the population level, the largest $\widehat{R}$ was 1.022 (4 of 181 coefficients above the recommended 1.01) and the smallest bulk effective sample size 494, above the recommended 400 [@vehtari2021rank]. At the participant level, the largest $\widehat{R}$ was 1.033.
 
 ### Indices
 
-Posterior distributions were summarised by its median, its 95% equal-tailed interval and its probability of direction (*pd*), the share of draws with the same sign as the median [@makowski2019indices]. Three quantities were derived from the five parameters of the model. *Discriminability*, $\delta = \nu_0 - \nu_1$, is the advantage of the correct accumulator over the error accumulator: the larger it is, the more often the correct response wins the race. *Speed*, $(\nu_0 + \nu_1) / 2$, is the average rate of the two accumulators. The *probability of an error* follows from the race, $\Phi(-\delta / \sqrt{\sigma_0^2 + \sigma_1^2})$.
+Posterior distributions were summarised by their median, their 95% equal-tailed interval and their probability of direction (*pd*), the share of draws with the same sign as the median [@makowski2019indices]. We describe a difference as reliable when its 95% interval excludes zero, that is, when its *pd* is at least 0.975. *Discriminability* is the drift rate $v$: the larger it is, the more strongly the evidence favours the correct response. The *probability of an error* is the probability that the accumulation reaches the error boundary first. It follows from the drift rate, the boundary separation and the start point, and was averaged over the trial-to-trial variability of the drift rate.
 
-Three kinds of contrast answer the study's questions. For *general performance*, each quantity was averaged over the whole design, that is, over every combination of strength and difficulty that the task showed, for each illusion and across the three. The *effect of the illusion* is the change in a quantity from no illusion (strength 0) to the strongest conflicting illusion (strength 1), at mid difficulty. For the parameters, this is their slope on illusion strength, computed with `estimate_slopes()`. The third contrast is the *illusion magnitude*, defined as the effect of illusion strength on discriminability relative to the effect of task difficulty. It is computed from two slopes of discriminability, both taken at no illusion and mid difficulty, where $\delta(s, d)$ is the discriminability at strength $s$ and difficulty $d$. The first is the slope on illusion strength, $b_s = \delta(1, 0) - \delta(0, 0)$: how much discriminability the strongest conflicting illusion removes. The second is the slope on task difficulty, $b_d = \delta(0, 1) - \delta(0, 0)$: how much discriminability is lost per unit of difficulty. Both slopes are negative. Their ratio, $b_s / b_d$, is the number of units of task difficulty that one unit of illusion strength is worth. It corresponds to the shift of the point of subjective equality, expressed in the units of the task. This ratio is independent from overall task performance.
+Three kinds of contrast answer the study's questions. For *general performance*, each quantity was averaged over the whole design, that is, over every combination of strength and difficulty that the task showed, for each illusion and across the three. The *effect of the illusion* is the change in a quantity from no illusion (strength 0) to the strongest conflicting illusion (strength 1), at mid difficulty. For the parameters, this is their slope on illusion strength, computed with `estimate_slopes()`. The third contrast is the *illusion magnitude*, defined as the effect of illusion strength on discriminability relative to the effect of task difficulty. It is computed from two slopes of discriminability, both taken at no illusion and mid difficulty, where $v(s, d)$ is the drift rate at strength $s$ and difficulty $d$. The first is the slope on illusion strength, $b_s = v(1, 0) - v(0, 0)$: how much discriminability the strongest conflicting illusion removes. The second is the slope on task difficulty, $b_d = v(0, 1) - v(0, 0)$: how much discriminability is lost per unit of difficulty. Both slopes are negative. Their ratio, $b_s / b_d$, is the number of units of task difficulty that one unit of illusion strength is worth. It corresponds to the shift of the point of subjective equality, expressed in the units of the task. This ratio is independent from overall task performance.
 
 ### Participant-level Analyses
 
-Correlations between illusions were computed across participants. To assess what the covariates account for, each participant's index, averaged over the three illusions, was regressed on Group alone; on Group and age; on Group, age, native language and student status; and on Group and each questionnaire score. The MEQ-30 regressions include users only and so compare Recent with Past. For each draw, the regression coefficients were themselves drawn from their sampling distribution, so that the intervals carry both the uncertainty of the participant estimates and that of a regression on about a hundred people. Native language and student status are each largely confined to one group, which limits what adjusting for them can show.
+Correlations between illusions were computed across participants. To assess what the covariates account for, each participant's index, averaged over the three illusions, was regressed on Group alone; on Group and age; on Group, age, native language and student status; and on Group and each questionnaire score. The MEQ-30 regressions include users only and so compare Recent with Past. Two further regressions, also on users only, asked whether the indices follow psychedelic use by degree, which the split at 30 days cannot show. The first was on the time since the last use (the logarithm of the number of days, alone and with age), and the second on Group and the lifetime number of uses (the six answer categories from one time to more than 100 times, scored 1 to 6). For each draw, the regression coefficients were themselves drawn from their sampling distribution, so that the intervals carry both the uncertainty of the participant estimates and that of a regression on about a hundred people. Native language and student status are each largely confined to one group, which limits what adjusting for them can show.
 
 
 ## Transparency and openness
@@ -399,101 +500,127 @@ p_curves <- ggplot(cv, aes(Illusion_Strength)) +
   labs(x = "Illusion strength", y = NULL, colour = NULL, fill = NULL) +
   theme_paper + theme(strip.placement = "outside")
 aspect <- dim(stim)[1] / dim(stim)[2]
-(p_stim / p_curves) + plot_layout(heights = c(7 * aspect, 3.6)) + plot_annotation(tag_levels = "A")
+save_figure((p_stim / p_curves) + plot_layout(heights = c(7 * aspect, 3.6)) + plot_annotation(tag_levels = "A"),
+            "Figure1", width = 7, height = 7.5)
 ```
 
 ## General Performance
 
-@fig-data B shows each group's error rate and median response time across illusion strength, together with the model's predictions, which follow the observed values closely. Users did the task differently from naïve participants, even when the illusion was weakest. Averaged over the whole design and the three illusions (@fig-model B), both user groups had a longer non-decision time than naïve participants (Past − Naïve `r ms(avg("ndt", "Past - Never"))`; Recent − Naïve `r ms(avg("ndt", "Recent - Never"))`) and a much slower error accumulator (`r fmt(avg("nuone", "Past - Never"))` and `r fmt(avg("nuone", "Recent - Never"))` on $\nu_1$). Their evidence therefore accumulated more slowly overall (speed: `r fmt(avg("speed", "Past - Never"))` and `r fmt(avg("speed", "Recent - Never"))`) but favoured the correct response more (discriminability: `r fmt(avg("delta", "Past - Never"))` and `r fmt(avg("delta", "Recent - Never"))`), and they made fewer errors (`r pts(avg("perror", "Past - Never"))` and `r pts(avg("perror", "Recent - Never"))`). Recent and past users did not differ on any of these.
+@fig-data B shows each group's error rate and median response time across illusion strength, together with the model's predictions, which follow the observed values closely. Users did the task differently from naïve participants, even when the illusion was weakest. Averaged over the whole design and the three illusions (@fig-model B), both user groups set wider boundaries than naïve participants (Past − Naïve `r fmt(avg("boundary", "Past - Never"))`; Recent − Naïve `r fmt(avg("boundary", "Recent - Never"))`): they gathered more evidence before responding. They made fewer errors (`r pts(avg("perror", "Past - Never"))` and `r pts(avg("perror", "Recent - Never"))`), and their non-decision time was slightly longer, though not reliably so (`r ms(avg("ndt", "Past - Never"))` and `r ms(avg("ndt", "Recent - Never"))`). Recent users also discriminated the targets better than naïve participants (drift rate: `r fmt(avg("delta", "Recent - Never"))`) and than past users (Recent − Past `r fmt(avg("delta", "Recent - Past"))`), whereas past users did not reliably differ from naïve participants (`r fmt(avg("delta", "Past - Never"))`). The start point and the drift variability did not differ between the groups.
 
-@fig-model A shows the race for a typical participant of each group at one condition, the strongest conflicting Ebbinghaus illusion at mid difficulty. In the naïve group, the median trial of the correct and of the error accumulator finish at about the same time (`r sprintf("%.2f", exp(-race_par["Never", "mu"]))` and `r sprintf("%.2f", exp(-race_par["Never", "nuone"]))` s after the non-decision time). In past and recent users, the error accumulator takes about twice as long (`r sprintf("%.2f", exp(-race_par["Past", "nuone"]))` and `r sprintf("%.2f", exp(-race_par["Recent", "nuone"]))` s), so that fewer of their races end in a fast error: they make fewer errors and respond later.
+@fig-model A illustrates the model with the group-level parameters of each group (those of a participant whose individual deviations from the group are null) at one condition, the strongest conflicting Ebbinghaus illusion at mid difficulty. How the model reproduces the data of all participants is shown in @fig-data B. In the naïve group, the drift rate points towards the error (`r minus(sprintf("%.2f", ddm_par["Never", "delta"]))`), and `r sprintf("%.0f%%", 100 * ddm_par["Never", "perror"])` of the trials end in an error. In past and recent users, it points slightly towards the correct response (`r sprintf("%.2f", ddm_par["Past", "delta"])` and `r sprintf("%.2f", ddm_par["Recent", "delta"])`), and their boundaries are further apart (`r sprintf("%.2f", ddm_par["Past", "boundary"])` and `r sprintf("%.2f", ddm_par["Recent", "boundary"])`, against `r sprintf("%.2f", ddm_par["Never", "boundary"])`), so that fewer of their trials end in an error (`r sprintf("%.0f%%", 100 * ddm_par["Past", "perror"])` and `r sprintf("%.0f%%", 100 * ddm_par["Recent", "perror"])`) and their responses take longer.
 
 ```{r}
 #| label: fig-model
 #| apa-twocolumn: true
-#| fig-cap: "A: the model at one condition, the strongest conflicting Ebbinghaus illusion at mid difficulty, for a typical participant of each group (posterior medians of the group-level parameters). After the non-decision time, the correct accumulator (drawn upwards) and the error accumulator (drawn downwards) each rise in a straight line to their threshold, at a rate that varies from trial to trial: the thick line is the median trial, and the shaded fan around it spans the middle half of the trials, its width set by the noise σ. The first to finish gives the response. The densities beyond the thresholds are the resulting distributions of correct and of error response times, each scaled by its share of responses. Dashed lines repeat the other groups (grey: naïve; colour: the other user group). B: the model's parameters and derived quantities per group, averaged over the whole design and the three illusions. C: the illusion magnitude per group and illusion, that is, the number of units of task difficulty that one unit of illusion strength is worth (the strength slope of discriminability divided by its difficulty slope, at no illusion and mid difficulty). B and C: posterior medians and 95% intervals. Brackets mark the group differences with a probability of direction of at least 0.975 (one asterisk), 0.995 (two) or 0.9995 (three), the Bayesian counterparts of p < .05, .01 and .001."
+#| fig-cap: "A: the model at one condition, the strongest conflicting Ebbinghaus illusion at mid difficulty, with each group's group-level parameters (posterior medians). After the non-decision time, the evidence starts between the correct boundary (top) and the error boundary (bottom), and drifts noisily until it reaches one of them, which determines the decision. The thick line is the average drift, and the shaded fan around it spans the middle half of the trials' drift rates; the thin lines are three simulated trials. The densities beyond the boundaries are the resulting distributions of correct and of error response times, each scaled by its share of responses. Dashed grey lines repeat the naïve group. B: the model's parameters and derived quantities per group, averaged over the whole design and the three illusions. C: the illusion magnitude per group and illusion, that is, the number of units of task difficulty that one unit of illusion strength is worth (the strength slope of discriminability divided by its difficulty slope, at no illusion and mid difficulty). B and C: posterior medians and 95% intervals. Brackets mark the group differences with a probability of direction of at least 0.975 (one asterisk), 0.995 (two) or 0.9995 (three), the Bayesian counterparts of p < .05, .01 and .001."
 #| fig-width: 7
 #| fig-height: 7.4
-# A: the race at one condition (the strongest conflicting Ebbinghaus illusion,
-# mid difficulty), drawn like a diffusion model, from the posterior medians of
-# the group-level parameters (race_par, setup chunk). Accumulator k rises in a
-# straight line to a threshold of 1, at a rate that is LogNormal(nu_k, sigma_k)
-# across trials, so it finishes after LogNormal(-nu_k, sigma_k). The first to
-# finish gives the response, at ndt + its finishing time. The correct
-# accumulator is drawn upwards and the error one downwards.
+# A: the diffusion at one condition (the strongest conflicting Ebbinghaus
+# illusion, mid difficulty), from the posterior medians of the group-level
+# parameters (ddm_par, setup chunk). The evidence runs between the correct
+# boundary, drawn on top at +a/2, and the error boundary at -a/2. It starts
+# w * a below the correct boundary after the non-decision time, and drifts
+# towards the correct boundary at v (= delta, the drift towards the correct
+# response), which varies across trials with SD sv.
 grp <- names(group_col)
 as_group <- function(g) factor(g, levels = grp)
-race_xmax <- 2.2     # s
-race_k <- 1.35       # height of one unit of density, in threshold units
-half <- qnorm(0.75)  # the fan: the middle half of the trials
-rt <- seq(0, race_xmax, by = 0.005)
-# Response-time densities: the winner's finishing time, shifted by ndt.
-race_dens <- do.call(rbind, lapply(grp, function(g) {
-  a <- race_par[g, ]
-  d <- pmax(rt - a[["ndt"]], 0)
-  f0 <- dlnorm(d, -a[["mu"]], a[["sigmazero"]]); s0 <- plnorm(d, -a[["mu"]], a[["sigmazero"]], lower.tail = FALSE)
-  f1 <- dlnorm(d, -a[["nuone"]], a[["sigmaone"]]); s1 <- plnorm(d, -a[["nuone"]], a[["sigmaone"]], lower.tail = FALSE)
-  rbind(data.frame(Group = as_group(g), Response = "Correct", RT = rt, y = 1 + race_k * f0 * s1, base = 1),
-        data.frame(Group = as_group(g), Response = "Error", RT = rt, y = -1 - race_k * f1 * s0, base = -1))
+ddm_xmax <- 2.2      # s
+ddm_k <- 0.6         # height of one unit of density, in evidence units
+half <- qnorm(0.75)  # the fan: the middle half of the trials' drift rates
+rt <- seq(0.005, ddm_xmax, by = 0.005)
+geo <- lapply(setNames(grp, grp), function(g) {
+  a <- ddm_par[g, ]
+  list(top = a[["boundary"]] / 2, bottom = -a[["boundary"]] / 2,
+       start = a[["boundary"]] / 2 - a[["bias"]] * a[["boundary"]],
+       v = a[["delta"]], sv = a[["sigmadrift"]], ndt = a[["ndt"]])
+})
+# Response-time densities (cogmod's first-passage densities; response 0 is
+# the correct boundary, 1 the error one), drawn beyond each boundary.
+ddm_dens <- do.call(rbind, lapply(grp, function(g) {
+  a <- ddm_par[g, ]
+  f <- function(r) cogmod::dcogmod_ddm(rt, drift = a[["mu"]], boundary = a[["boundary"]], bias = a[["bias"]],
+                                       ndt = a[["ndt"]], response = r, sigmadrift = a[["sigmadrift"]])
+  p <- geo[[g]]
+  rbind(data.frame(Group = as_group(g), Response = "Correct", RT = rt, y = p$top + ddm_k * f(0), base = p$top),
+        data.frame(Group = as_group(g), Response = "Error", RT = rt, y = p$bottom - ddm_k * f(1), base = p$bottom))
 }))
-# Accumulation: the median trial, and the middle half of the trials.
-race_acc <- do.call(rbind, lapply(grp, function(g) {
-  a <- race_par[g, ]
-  data.frame(Group = as_group(g), Response = c("Correct", "Error"), ndt = a[["ndt"]], end = c(1, -1),
-             nu = c(a[["mu"]], a[["nuone"]]), sigma = c(a[["sigmazero"]], a[["sigmaone"]]))
+# Where a straight path from the start point at slope s meets a boundary (or
+# the right edge).
+ray_end <- function(p, s) {
+  t_hit <- ifelse(s > 0, (p$top - p$start) / s, ifelse(s < 0, (p$bottom - p$start) / s, Inf))
+  t_end <- pmin(p$ndt + t_hit, ddm_xmax)
+  data.frame(x = t_end, y = p$start + s * (t_end - p$ndt))
+}
+ddm_drift <- do.call(rbind, lapply(grp, function(g) {
+  p <- geo[[g]]
+  data.frame(Group = as_group(g), x0 = p$ndt, y0 = p$start, ray_end(p, p$v))
 }))
-race_acc$t_median <- race_acc$ndt + exp(-race_acc$nu)
-race_acc$t_fast <- race_acc$ndt + exp(-race_acc$nu - half * race_acc$sigma)
-race_acc$t_slow <- race_acc$ndt + exp(-race_acc$nu + half * race_acc$sigma)
-race_fan <- do.call(rbind, lapply(seq_len(nrow(race_acc)), function(i) {
-  a <- race_acc[i, ]
-  data.frame(Group = a$Group, id = i, x = c(a$ndt, a$t_fast, a$t_slow), y = c(0, a$end, a$end))
+ddm_fan <- do.call(rbind, lapply(grp, function(g) {
+  p <- geo[[g]]
+  ends <- ray_end(p, seq(p$v - half * p$sv, p$v + half * p$sv, length.out = 40))
+  data.frame(Group = as_group(g), x = c(p$ndt, ends$x), y = c(p$start, ends$y))
 }))
-race_err <- data.frame(Group = as_group(grp), label = sprintf("%.0f%% errors", 100 * race_par[grp, "perror"]))
-# The other groups, repeated in the two user panels as dashed outlines: the
-# naive group in grey and the other user group in its colour.
+ddm_bounds <- do.call(rbind, lapply(grp, function(g) {
+  p <- geo[[g]]
+  data.frame(Group = as_group(g), y = c(p$top, p$bottom))
+}))
+ddm_ndt <- do.call(rbind, lapply(grp, function(g) data.frame(Group = as_group(g), ndt = geo[[g]]$ndt, start = geo[[g]]$start)))
+# Three simulated trials per group: a drift drawn from Normal(v, sv), then
+# unit-variance noise in 2 ms steps until a boundary. Illustrative only.
+set.seed(7)
+ddm_paths <- do.call(rbind, lapply(grp, function(g) {
+  p <- geo[[g]]
+  do.call(rbind, lapply(1:3, function(i) {
+    vi <- stats::rnorm(1, p$v, p$sv)
+    dt <- 0.002
+    y <- p$start
+    t <- p$ndt
+    while (y[length(y)] < p$top && y[length(y)] > p$bottom && t[length(t)] < ddm_xmax) {
+      y <- c(y, y[length(y)] + vi * dt + sqrt(dt) * stats::rnorm(1))
+      t <- c(t, t[length(t)] + dt)
+    }
+    data.frame(Group = as_group(g), id = paste(g, i), x = t, y = pmin(pmax(y, p$bottom), p$top))
+  }))
+}))
+ddm_err <- data.frame(Group = as_group(grp), label = sprintf("%.0f%% errors", 100 * ddm_par[grp, "perror"]),
+                      y = sapply(geo, `[[`, "bottom") - 0.95)
+# The naive group, repeated in the two user panels as a dashed grey outline.
 as_naive <- function(d) {
   d <- d[d$Group == "Never", ]
   do.call(rbind, lapply(c("Past", "Recent"), function(g) { d$Group <- as_group(g); d }))
 }
-as_other <- function(d) {
-  d <- d[d$Group != "Never", ]
-  d$Shown <- d$Group
-  d$Group <- as_group(ifelse(d$Group == "Past", "Recent", "Past"))
-  d
-}
-race_lab <- data.frame(Group = as_group("Never"),
-                       x = c(0.02, 0.02, 0.02, 1.2), y = c(2.2, -2.15, 0.5, 0.22),
-                       label = c("Correct responses", "Errors", "Non-\ndecision\ntime (τ)",
-                                 "Median trial:\ndrift rate exp(ν)"))
-p_race <- ggplot() +
-  annotate("segment", x = 0, xend = race_xmax, y = c(-1, 1), yend = c(-1, 1), colour = "#9a9a95", linewidth = 0.4) +
-  annotate("segment", x = 0, xend = race_xmax, y = 0, yend = 0, colour = "#d5d5d0", linewidth = 0.3, linetype = "22") +
-  geom_line(data = as_naive(race_dens), aes(RT, y, group = Response), colour = group_col[["Never"]], linewidth = 0.3, linetype = "31") +
-  geom_line(data = as_other(race_dens), aes(RT, y, group = Response, colour = Shown), linewidth = 0.35, linetype = "31", alpha = 0.75) +
-  geom_ribbon(data = race_dens, aes(RT, ymin = pmin(base, y), ymax = pmax(base, y), fill = Group, group = Response), alpha = 0.25) +
-  geom_line(data = race_dens, aes(RT, y, colour = Group, group = Response), linewidth = 0.5) +
-  geom_polygon(data = race_fan, aes(x, y, fill = Group, group = id), alpha = 0.22) +
-  geom_segment(data = as_naive(race_acc), aes(x = ndt, xend = t_median, y = 0, yend = end), colour = group_col[["Never"]], linewidth = 0.3, linetype = "31") +
-  geom_segment(data = as_other(race_acc), aes(x = ndt, xend = t_median, y = 0, yend = end, colour = Shown), linewidth = 0.35, linetype = "31", alpha = 0.75) +
-  geom_segment(data = race_acc, aes(x = ndt, xend = t_median, y = 0, yend = end, colour = Group), linewidth = 0.7) +
-  # an arrowhead part-way along the median trial, for its direction
-  geom_segment(data = race_acc, aes(x = ndt, xend = ndt + 0.55 * (t_median - ndt), y = 0, yend = 0.55 * end, colour = Group),
-               linewidth = 0.7, arrow = arrow(length = unit(0.07, "in"), angle = 25, type = "closed")) +
-  geom_point(data = race_acc, aes(t_median, end, colour = Group), size = 1.1) +
-  geom_segment(data = race_acc[race_acc$Response == "Correct", ], aes(x = 0, xend = ndt, y = 0, yend = 0, colour = Group), linewidth = 0.9) +
-  geom_text(data = race_err, aes(x = race_xmax - 0.03, y = -2.15, label = label, colour = Group), hjust = 1, size = 2.6) +
-  geom_text(data = race_lab, aes(x, y, label = label), hjust = 0, size = 2.3, colour = "#55554f", lineheight = 0.95) +
+p_never <- geo[["Never"]]
+ddm_lab <- data.frame(Group = as_group("Never"),
+                      x = c(0.02, 0.02, 0.02, 1.05),
+                      y = c(p_never$top + 0.95, p_never$bottom - 0.95, p_never$start + 0.45, p_never$top - 0.3),
+                      label = c("Correct responses", "Errors", "Non-decision\ntime (τ)", "Drift rate (v)"))
+p_ddm <- ggplot() +
+  geom_hline(data = as_naive(ddm_bounds), aes(yintercept = y), colour = group_col[["Never"]], linewidth = 0.3, linetype = "31") +
+  geom_line(data = as_naive(ddm_dens), aes(RT, y, group = Response), colour = group_col[["Never"]], linewidth = 0.3, linetype = "31") +
+  geom_hline(data = ddm_bounds, aes(yintercept = y, colour = Group), linewidth = 0.5) +
+  geom_ribbon(data = ddm_dens, aes(RT, ymin = pmin(base, y), ymax = pmax(base, y), fill = Group, group = Response), alpha = 0.25) +
+  geom_line(data = ddm_dens, aes(RT, y, colour = Group, group = Response), linewidth = 0.5) +
+  geom_polygon(data = ddm_fan, aes(x, y, fill = Group, group = Group), alpha = 0.18) +
+  geom_path(data = ddm_paths, aes(x, y, colour = Group, group = id), linewidth = 0.15, alpha = 0.35) +
+  geom_segment(data = as_naive(ddm_ndt), aes(x = 0, xend = ndt, y = start, yend = start), colour = group_col[["Never"]], linewidth = 0.3, linetype = "31") +
+  geom_segment(data = as_naive(ddm_drift), aes(x = x0, xend = x, y = y0, yend = y), colour = group_col[["Never"]], linewidth = 0.3, linetype = "31") +
+  geom_segment(data = ddm_drift, aes(x = x0, xend = x, y = y0, yend = y, colour = Group), linewidth = 0.7,
+               arrow = arrow(length = unit(0.07, "in"), angle = 25, type = "closed")) +
+  geom_segment(data = ddm_ndt, aes(x = 0, xend = ndt, y = start, yend = start, colour = Group), linewidth = 0.9) +
+  geom_point(data = ddm_ndt, aes(ndt, start, colour = Group), size = 1.1) +
+  geom_text(data = ddm_err, aes(x = ddm_xmax - 0.03, y = y, label = label, colour = Group), hjust = 1, size = 2.6) +
+  geom_text(data = ddm_lab, aes(x, y, label = label), hjust = 0, size = 2.3, colour = "#55554f", lineheight = 0.95) +
   facet_wrap(~ Group, nrow = 1, labeller = as_labeller(group_lab)) +
   scale_colour_manual(values = group_col, guide = "none") +
   scale_fill_manual(values = group_col, guide = "none") +
   scale_x_continuous(breaks = seq(0, 2, 0.5), expand = expansion(mult = c(0, 0.01))) +
-  scale_y_continuous(breaks = c(-1, 0, 1), labels = c("Error\nthreshold", "Start", "Correct\nthreshold")) +
-  coord_cartesian(xlim = c(0, race_xmax), ylim = c(-2.3, 2.3)) +
-  labs(x = "Time from stimulus onset (s)", y = NULL, subtitle = "Ebbinghaus illusion, strongest conflicting strength") +
+  scale_y_continuous(breaks = NULL) +
+  coord_cartesian(xlim = c(0, ddm_xmax), ylim = c(min(ddm_err$y) - 0.15, max(sapply(geo, `[[`, "top")) + 1.1)) +
+  labs(x = "Time from stimulus onset (s)", y = "Evidence", subtitle = "Ebbinghaus illusion, strongest conflicting strength") +
   theme_paper +
   theme(panel.grid.major.y = element_blank(), panel.spacing.x = unit(0.8, "lines"),
-        plot.subtitle = element_text(size = 8, colour = "#55554f"), axis.text.y = element_text(lineheight = 0.9))
+        plot.subtitle = element_text(size = 8, colour = "#55554f"))
 
 # Group values as dots and intervals, with a bracket for every contrast with
 # pd >= 0.975: Never-Past and Past-Recent in a first column, Never-Recent in a
@@ -539,7 +666,7 @@ dots_groups <- function(values, contrasts, xlab = NULL) {
   }
   p
 }
-panel_lab <- c(ndt = "Non-decision time (s)", speed = "Speed", delta = "Discriminability", perror = "P(error)")
+panel_lab <- c(boundary = "Boundary separation", ndt = "Non-decision time (s)", delta = "Discriminability", perror = "P(error)")
 general_m <- avg_means[avg_means$Illusion_Type == "All" & avg_means$Quantity %in% names(panel_lab), ]
 general_m$Panel <- factor(panel_lab[general_m$Quantity], levels = panel_lab)
 general_c <- averaged[averaged$Illusion_Type == "All" & averaged$Quantity %in% names(panel_lab), ]
@@ -550,12 +677,13 @@ index_c <- slopes[slopes$Quantity == "index" & !is.na(slopes$Contrast), ]
 index_c$Panel <- factor(illusions[index_c$Illusion_Type], levels = illusions)
 p_general <- dots_groups(general_m, general_c)
 p_index <- dots_groups(index_m, index_c, xlab = "Illusion magnitude (difficulty units per unit of strength)")
-(p_race / p_general / p_index) + plot_layout(heights = c(1.9, 1, 1.1)) + plot_annotation(tag_levels = "A")
+save_figure((p_ddm / p_general / p_index) + plot_layout(heights = c(1.9, 1, 1.1)) + plot_annotation(tag_levels = "A"),
+            "Figure2", width = 7, height = 7.4)
 ```
 
 ## Illusion Sensitivity
 
-@fig-model C shows the illusion magnitude of each group, the measure of illusion sensitivity that does not depend on overall performance. In the naïve group, one unit of illusion strength was worth `r sprintf("%.2f", idx("Never", "Ebbinghaus")$Median)`, `r sprintf("%.2f", idx("Never", "MullerLyer")$Median)` and `r sprintf("%.2f", idx("Never", "VerticalHorizontal")$Median)` units of task difficulty on the Ebbinghaus, Müller-Lyer and vertical-horizontal illusions: the strongest conflicting illusion lowered discriminability as much as moving that far along the difficulty scale, whose whole range spans 2 units. The magnitude was lower in both user groups on every illusion, by `r round(min(idx_pct))` to `r round(max(idx_pct))`% of the naïve value (`r round(mean(idx_pct))`% on average). Taken one illusion at a time, the 95% intervals of these differences excluded zero only on the Ebbinghaus illusion (@tbl-scales). Averaged over the three illusions, participants' magnitudes were lower in both user groups (Past − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group", "Past - Never"))`; Recent − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group", "Recent - Never"))`). Recent and past users did not differ (Recent − Past `r med_rng(idx_all("Recent - Past"))` across illusions).
+@fig-model C shows the illusion magnitude of each group, the measure of illusion sensitivity that does not depend on overall performance. In the naïve group, one unit of illusion strength was worth `r sprintf("%.2f", idx("Never", "Ebbinghaus")$Median)`, `r sprintf("%.2f", idx("Never", "MullerLyer")$Median)` and `r sprintf("%.2f", idx("Never", "VerticalHorizontal")$Median)` units of task difficulty on the Ebbinghaus, Müller-Lyer and vertical-horizontal illusions: the strongest conflicting illusion lowered discriminability as much as moving that far along the difficulty scale, whose whole range spans 2 units. The magnitude was lower in both user groups on every illusion, by `r round(min(idx_pct))` to `r round(max(idx_pct))`% of the naïve value (`r round(mean(idx_pct))`% on average). Taken one illusion at a time, the 95% intervals of all six differences excluded zero (@tbl-scales). Averaged over the three illusions, participants' magnitudes were lower in both user groups (Past − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group", "Past - Never"))`; Recent − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group", "Recent - Never"))`). Recent and past users did not differ (Recent − Past `r med_rng(idx_all("Recent - Past"))` across illusions).
 
 ```{r}
 #| label: tbl-scales
@@ -573,31 +701,33 @@ ts <- do.call(rbind, lapply(c("Past - Never", "Recent - Never"), function(cn) {
 knitr::kable(ts, row.names = FALSE)
 ```
 
-The two other measures of the illusion's effect, which depend on overall performance, pointed in opposite directions (@tbl-scales). In discriminability, the strongest conflicting illusion cost users more than naïve participants, most clearly recent users (Recent − Naïve `r med_rng(eff_all("delta", "Recent - Never"))` across illusions; Past − Naïve `r med_rng(eff_all("delta", "Past - Never"))`). An analysis of errors would show this as a steeper rise of errors with illusion strength in users. In errors, the same illusions cost users less: they added `r err_ev <- -100 * c(eff_all("perror", "Past - Never", c("Ebbinghaus", "VerticalHorizontal")), eff_all("perror", "Recent - Never", c("Ebbinghaus", "VerticalHorizontal"))); sprintf("%.0f to %.0f", min(err_ev), max(err_ev))` points fewer errors on the Ebbinghaus and vertical-horizontal illusions, and about as many on the Müller-Lyer illusion, which at its strongest brings every group to the same error rate. The two do not contradict each other: users start from a higher discriminability, so even after a larger drop they remain further from the point where errors become likely. Their discriminability also dropped more with task difficulty, and proportionally more than with the illusion, which is why their illusion magnitude was smaller.
+The two other measures of the illusion's effect depend on overall performance (@tbl-scales). In discriminability, the strongest conflicting illusion cost users about as much as naïve participants: the group differences were small and their intervals included zero on every illusion (Past − Naïve `r med_rng(eff_all("delta", "Past - Never"))` across illusions; Recent − Naïve `r med_rng(eff_all("delta", "Recent - Never"))`). In errors, the same illusions cost users less on the Ebbinghaus illusion, where they added `r sprintf("%.0f and %.0f", -100 * eff("perror", "Past - Never", "Ebbinghaus")$Median, -100 * eff("perror", "Recent - Never", "Ebbinghaus")$Median)` points fewer errors in past and recent users. They cost them somewhat less on the vertical-horizontal illusion (`r sprintf("%.0f and %.0f", -100 * eff("perror", "Past - Never", "VerticalHorizontal")$Median, -100 * eff("perror", "Recent - Never", "VerticalHorizontal")$Median)` points fewer, with intervals that included zero), and about as much on the Müller-Lyer illusion, which at its strongest brings every group to the same error rate. Users' discriminability thus dropped as much with the illusion as naïve participants', but more with task difficulty, which is why their illusion magnitude was smaller.
 
 ## Across Illusions
 
-Do the three illusions measure one common sensitivity to illusions? Across participants, the illusion magnitude was only weakly correlated between illusions (Ebbinghaus and Müller-Lyer `r cor_mag("Ebbinghaus & Müller-Lyer")`; Ebbinghaus and vertical-horizontal `r cor_mag("Ebbinghaus & Vertical-Horizontal")`; Müller-Lyer and vertical-horizontal `r cor_mag("Müller-Lyer & Vertical-Horizontal")`), whereas general performance was strongly shared: the discriminability with no illusion correlated from `r med_rng(correlations$Median[correlations$Quantity == "Discriminability, no illusion"])` between illusions. A participant with a large illusion of one type thus did not necessarily have large illusions of the other types.
+Do the three illusions measure one common sensitivity to illusions? Across participants, the illusion magnitude was moderately correlated between illusions (Ebbinghaus and Müller-Lyer `r cor_mag("Ebbinghaus & Müller-Lyer")`; Ebbinghaus and vertical-horizontal `r cor_mag("Ebbinghaus & Vertical-Horizontal")`; Müller-Lyer and vertical-horizontal `r cor_mag("Müller-Lyer & Vertical-Horizontal")`). General performance was more strongly shared: the discriminability with no illusion correlated from `r med_rng(correlations$Median[correlations$Quantity == "Discriminability, no illusion"])` between illusions. The illusions thus share part of their sensitivity, but less than they share general performance.
 
-## Age, Demographics and Questionnaires
+## Age, Demographics, Questionnaires and Psychedelic Use
 
-Age accounted for about half of the users' longer non-decision time, which increased by `r ms(cov("Non-decision time (s), no illusion", "Group + age", "Age (per 10 years)"))` per decade of age. With age in the regression, the Past − Naïve difference fell from `r minus(sprintf("%+.0f", 1000 * cov("Non-decision time (s), no illusion", "Group", "Past - Never")$Median))` to `r ms(cov("Non-decision time (s), no illusion", "Group + age", "Past - Never"))`, and the Recent − Naïve difference from `r minus(sprintf("%+.0f", 1000 * cov("Non-decision time (s), no illusion", "Group", "Recent - Never")$Median))` to `r ms(cov("Non-decision time (s), no illusion", "Group + age", "Recent - Never"))`. Age did not account for the users' smaller illusion magnitude, which did not change with age (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + age", "Age (per 10 years)"), 3)` per decade). Its group differences stayed the same with age, native language and student status in the regression (Past − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + age + native + student", "Past - Never"))`, Recent − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + age + native + student", "Recent - Never"))`). The illusion magnitude was unrelated to the AAQ-II (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + AAQ-II", "AAQ-II (per SD)"), 3)` per standard deviation), the DASS-21 (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + DASS-21", "DASS-21 (per SD)"), 3)`) and, among users, the MEQ-30 total (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + MEQ-30 total (users)", "MEQ-30 total (per SD)"), 3)`) or any of its four factors. Higher AAQ-II and DASS-21 scores went only with a slightly shorter non-decision time (`r ms(cov("Non-decision time (s), no illusion", "Group + AAQ-II", "AAQ-II (per SD)"))` and `r ms(cov("Non-decision time (s), no illusion", "Group + DASS-21", "DASS-21 (per SD)"))` per standard deviation).
+Age accounted for the users' slightly longer non-decision time, which increased by `r ms(cov("Non-decision time (s), no illusion", "Group + age", "Age (per 10 years)"))` per decade of age. With age in the regression, the Past − Naïve difference went from `r minus(sprintf("%+.0f", 1000 * cov("Non-decision time (s), no illusion", "Group", "Past - Never")$Median))` to `r ms(cov("Non-decision time (s), no illusion", "Group + age", "Past - Never"))`, and the Recent − Naïve difference from `r minus(sprintf("%+.0f", 1000 * cov("Non-decision time (s), no illusion", "Group", "Recent - Never")$Median))` to `r ms(cov("Non-decision time (s), no illusion", "Group + age", "Recent - Never"))`. Age did not account for the users' wider boundaries (with age in the regression: Past − Naïve `r fmt(cov("Boundary, no illusion", "Group + age", "Past - Never"))`; Recent − Naïve `r fmt(cov("Boundary, no illusion", "Group + age", "Recent - Never"))`), nor for their smaller illusion magnitude, which did not change with age (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + age", "Age (per 10 years)"), 3)` per decade). Its group differences stayed the same with age, native language and student status in the regression (Past − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + age + native + student", "Past - Never"))`, Recent − Naïve `r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + age + native + student", "Recent - Never"))`). The illusion magnitude was unrelated to the AAQ-II (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + AAQ-II", "AAQ-II (per SD)"), 3)` per standard deviation), the DASS-21 (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + DASS-21", "DASS-21 (per SD)"), 3)`) and, among users, the MEQ-30 total (`r fmt(cov("Illusion magnitude (strength / difficulty)", "Group + MEQ-30 total (users)", "MEQ-30 total (per SD)"), 3)`) or any of its four factors. Higher AAQ-II and DASS-21 scores went only with a slightly shorter non-decision time (`r ms(cov("Non-decision time (s), no illusion", "Group + AAQ-II", "AAQ-II (per SD)"))` and `r ms(cov("Non-decision time (s), no illusion", "Group + DASS-21", "DASS-21 (per SD)"))` per standard deviation), and, among users, a higher MEQ-30 total with a slightly longer one (`r ms(cov("Non-decision time (s), no illusion", "Group + MEQ-30 total (users)", "MEQ-30 total (per SD)"))`). None of these covariates accounted for the users' wider boundaries.
+
+Among users, the illusion magnitude did not reliably follow the time since the last use (`r fmt(use_days("Illusion magnitude (strength / difficulty)"), 3)` per tenfold increase in the number of days) or the lifetime number of uses (`r fmt(use_life("Illusion magnitude (strength / difficulty)"), 3)` per answer category), and neither did the boundary separation (`r fmt(use_days("Boundary, no illusion"))` and `r fmt(use_life("Boundary, no illusion"))`). Discriminability with no illusion changed by `r fmt(use_days("Discriminability, no illusion"))` per tenfold increase in the time since the last use, and by `r fmt(use_life("Discriminability, no illusion"))` per category of lifetime use.
 
 # Discussion
 
-Adults who had used a classic psychedelic differed from psychedelic-naïve adults on the Illusion Game in two ways, which we tried to disentangle. First, they performed the task differently overall. Their non-decision time was longer and they accumulated evidence for either response more slowly, and they told the targets apart better and made fewer errors, with or without an illusion. Second, they were somewhat less sensitive to the illusions. Their illusion magnitude, the effect of illusion strength on performance relative to the effect of the real difference, was `r round(mean(idx_pct))`% lower than that of naïve participants on average (`r round(min(idx_pct))`–`r round(max(idx_pct))`% across illusions). Neither difference distinguished people who had used a psychedelic in the last month from people who had used one longer ago.
+We asked whether people who use classic psychedelics differ from psychedelic-naïve adults in their susceptibility to visual illusions outside the acute state. Adults who had used a classic psychedelic differed from psychedelic-naïve adults on the Illusion Game in two ways, which we tried to disentangle. First, they performed the task differently overall. They set wider decision boundaries, gathering more evidence before responding, and made fewer errors, with or without an illusion. Second, they were somewhat less sensitive to the illusions. Their illusion magnitude, the effect of illusion strength on performance relative to the effect of the real difference, was `r round(mean(idx_pct))`% lower than that of naïve participants on average (`r round(min(idx_pct))`–`r round(max(idx_pct))`% across illusions). Neither difference distinguished people who had used a psychedelic in the last month from people who had used one longer ago.
 
-The first difference is the larger one, and is not an effect of the illusions. It could be related to more caution when doing the task. Half of the difference in non-decision time is explained by age (the naïve group was twelve years younger). Earlier comparisons of users with non-users on neuropsychological tests found no uniform difference, and better performance in some samples [@basedow2021neuropsychological; @bouso2012personality]. Better performance in users is thus not without precedent, though those comparisons share the confounds of this one. The rest of the differences were not explained by age, language, student status, psychological flexibility, distress or the reported intensity of the last experience.
+The first difference, in the decision boundaries, is the larger one, and is not an effect of the illusions. In the model, it is a matter of caution: users required more evidence before responding, so they responded later and erred less. Age is an obvious candidate explanation. Both user groups were about twelve years older than the naïve group, and older adults have been reported to set wider boundaries and to have longer non-decision times [@ratcliff2001effects; @theisen2021age]. In our regressions, age accounted for the users' slightly longer non-decision time and for part of the past users' lower error rate, whereas its estimated effect on the boundaries (`r fmt(cov("Boundary, no illusion", "Group + age", "Age (per 10 years)"))` per decade) was small relative to the difference between the groups. This does not rule age out. Its effect is estimated from the variation of age within the groups, which is limited: only one of the `r n_group[["Never"]]` naïve participants was aged 31 to 50, against `r age_mid[["Recent"]]` of the `r n_group[["Recent"]]` recent users. Earlier comparisons of users with non-users on neuropsychological tests found no uniform difference, and better performance in some samples [@basedow2021neuropsychological; @bouso2012personality]. Better performance in users is thus not without precedent, though those comparisons share the confounds of this one. The one general difference between the two user groups was a higher discriminability in recent users, with or without an illusion. None of the other differences was explained by age, language, student status, psychological flexibility, distress or the reported intensity of the last experience.
 
-The second difference is the one that bears on the predictive-processing account, with three indices used to describe it (@tbl-scales). The first is the illusion's effect on discriminability, which measures how much the illusory context reduces the advantage of the evidence for the correct response over the evidence for the error. This effect was larger in users, most clearly in recent users, but it does not mean that the illusion affected them more: users' discriminability also changed more with the real difference between the targets, and proportionally more than with the illusion. In other words, any change in the stimulus, real or illusory, had a larger effect on users' discriminability. The second is the illusion's effect on errors, which measures how often the illusion turns a correct judgement into an error. It was smaller in users on the Ebbinghaus and vertical-horizontal illusions, and similar on the Müller-Lyer illusion, which suggests that the illusion less often led users to the wrong answer. The third is the illusion magnitude, which expresses the illusion's effect as the real difference between the targets that it is equivalent to, like the shift of the point of subjective equality in psychophysics. It was smaller in both user groups, on every illusion, which suggests that users' perception of the targets was less biased by the illusion. The three indices thus answer different questions. The first two describe what the illusion does to the evidence and to the response, whereas the illusion magnitude describes the size of the perceptual bias, which is what REBUS makes predictions about. By this index, users were less sensitive to the illusions, and none of the covariates that we measured changed it.
+The second difference is the one that bears on the predictive-processing account, with three indices used to describe it (@tbl-scales). The first is the illusion's effect on discriminability, which measures how much the illusory context reduces the drift of the evidence towards the correct response. This effect did not differ between the groups: the illusion cost users as much discriminability as naïve participants. Users' discriminability, however, changed more with the real difference between the targets, so that the same illusory effect weighed less against it. The second is the illusion's effect on errors, which measures how often the illusion turns a correct judgement into an error. This effect was smaller in users on the Ebbinghaus illusion, less clearly so on the vertical-horizontal illusion, and similar on the Müller-Lyer illusion. Only the Ebbinghaus illusion, then, reliably led users to the wrong answer less often. The third is the illusion magnitude, which expresses the illusion's effect as the real difference between the targets that it is equivalent to, like the shift of the point of subjective equality in psychophysics. It was smaller in both user groups, on every illusion, which suggests that users' perception of the targets was less biased by the illusion. The three indices thus answer different questions. The first two describe what the illusion does to the evidence and to the response, whereas the illusion magnitude describes the size of the perceptual bias, which is what REBUS makes predictions about. By this index, users were less sensitive to the illusions, and none of the covariates that we measured changed it.
 
-Although this is the direction that REBUS predicts, the pattern across the groups was not what we expected. Recent users did not differ from past users, and the illusion magnitude was unrelated to the intensity of the last experience. If priors relaxed for days after a dose and then recovered, the illusions would be smaller in recent users and not in past users. What we observe instead is a difference between a population of psychedelic users and a population of young controls, most of them students, whether the last use was weeks or years ago. One interpretation could be that of a lasting change after psychedelic use. A second is that of a difference that was there before, in the people who choose to use psychedelics: in perceptual style, in familiarity with altered perception, or in how they approach a visual task. A third is that of some other difference between the two populations. Unfortunately, our cross-sectional study cannot tell them apart.
+Although this is the direction that REBUS predicts, the pattern across the groups was not what we expected. Recent users did not differ from past users in their sensitivity to the illusions, and the illusion magnitude was unrelated to the intensity of the last experience, to the time since it and to the lifetime number of uses. If priors relaxed for days after a dose and then recovered, the illusions would be smaller in recent users and not in past users. What we observe instead is a difference between a population of psychedelic users and a population of young controls, most of them students, whether the last use was weeks or years ago. One interpretation is that of a lasting change after psychedelic use. Enduring changes in personality, attitudes and well-being have been documented long after one or a few doses [@aday2020longterm; @knudsen2023sustained], and long-term ayahuasca users differed from matched controls in the thickness of the posterior cingulate cortex, to a degree that followed the intensity and duration of their use [@bouso2015longterm]. A lasting change in perception would be of the same kind. It would, however, be expected to grow with use, and we found no relation between the illusion magnitude and the lifetime number of uses. A second interpretation is that of a difference that was there before, in the people who choose to use psychedelics: in perceptual style, in familiarity with altered perception, or in how they approach a visual task. A third is that of some other difference between the two populations. Our cross-sectional design cannot tell them apart.
 
-These results also differ from those of the acute studies. Under psilocybin the Ebbinghaus illusion became larger, not smaller [@aqil2025psilocybin], and experienced users did not differ from controls on a bodily illusion [@harduf2023bodily]. Our users were tested days to years after their last dose, and a different measure was used in each of these studies, so the results do not contradict one another. But together they give little support to a single account in which psychedelics weaken illusions by relaxing priors. Such an account would also need the three illusions to depend on priors to a similar degree, which is not established, since geometrical illusions have also been related to earlier stages of visual processing [@morgan1990biases; @schwarzkopf2011surface].
+These results also differ from those of the acute studies. Under psilocybin the Ebbinghaus illusion became larger, not smaller [@aqil2025psilocybin], and experienced users did not differ from controls on a bodily illusion [@harduf2023bodily]. Our users were tested days to years after their last dose, and a different measure was used in each of these studies, so the results do not contradict one another. But together they give little support to a single account in which psychedelics weaken illusions by relaxing priors. Such an account would also need the three illusions to depend on priors to a similar degree, which is not established. Geometrical illusions have also been related to earlier stages of visual processing [@morgan1990biases; @schwarzkopf2011surface], although the relation with the surface area of the primary visual cortex was not replicated [@jastrzebowska2026neural]. Nor do they behave as one phenomenon. Susceptibility is typically only weakly correlated between illusions [@cretenoud2019factors; @jastrzebowska2026neural], even if some similarity between geometrical illusions has been reported [@axelrod2017perceptual], and susceptibility to the Müller-Lyer illusion, but not to the Ebbinghaus illusion, varies with autistic traits [@chouinard2013global] and with age during development [@navarrete2025heterochronic]. Our data agree. The illusion magnitude was only moderately correlated across the three illusions, and its reduction in users ranged from `r round(min(idx_pct_ill))`% on the `r illusions[[names(which.min(idx_pct_ill))]]` illusion to `r round(max(idx_pct_ill))`% on the `r illusions[[names(which.max(idx_pct_ill))]]` illusion. A difference between users and non-users may therefore not have the same origin for each illusion.
 
-The study has several limitations. The design is cross-sectional, and the groups were recruited through different routes. Every difference between users and naïve participants is therefore confounded with age, education, language and whatever else draws a person to a psychedelic society. The groups overlap in age in only a few participants, so we did not adjust the model for age. Instead, we reported what age and the other covariates account for, and relied on the comparison of recent with past users, which holds them constant. The sample is modest and its size was not planned for a given power. Psychedelic use was self-reported and not verified, and the 30-day window groups together experiences with different substances, doses and settings. Testing was online, on displays that we did not control. The model also predicts distributions of response times that are broader around their mode than the observed ones, and therefore overpredicts median response times a little, most in past users, and its noise and rate parameters may partly absorb a shape that it cannot produce.
+The study has several limitations. The design is cross-sectional, and the groups were recruited through different routes. Every difference between users and naïve participants is therefore confounded with age, education, language and whatever else draws a person to a psychedelic society. The groups overlap in age in only a few participants, so we did not adjust the model for age. Instead, we reported what age and the other covariates account for, and relied on the comparison of recent with past users, which holds them constant. The sample is modest and its size was not planned for a given power. Psychedelic use was self-reported and not verified, and the 30-day window groups together experiences with different substances, doses and settings. Testing was online, on displays that we did not control. The model reproduces the error rates and the median response times closely, but predicts a longer tail of slow errors than observed. Its boundary separation and start point were allowed to vary with illusion strength and task difficulty, like its other parameters, although the trials were mixed within blocks, so that participants could not set them for the coming trial. These terms may therefore absorb effects of the stimulus that the drift rate alone does not capture.
 
-In sum, people who use classic psychedelics did this task more slowly and more accurately than younger, psychedelic-naïve adults, and were a little less sensitive to the illusions, adjusting for perceptual performance. This second finding is in the direction that relaxed priors would predict, but it characterises the population of users and not the recent dose. Whether a dose produces it, and for how long, is a question for future within-subject designs that measure the illusion magnitude before and after.
+In sum, people who use classic psychedelics did this task more cautiously and more accurately than younger, psychedelic-naïve adults, and were somewhat less sensitive to the illusions, adjusting for perceptual performance. This second finding is in the direction that relaxed priors would predict, but it characterises the population of users and not the recent dose. Whether a dose produces it, and for how long, is a question for future within-subject designs that measure the illusion magnitude before and after.
 
 # References
 

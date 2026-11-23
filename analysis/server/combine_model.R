@@ -47,7 +47,8 @@ shards <- lapply(files, function(f) {
 stamp <- vapply(shards, function(s) {
   paste(if (is.null(s$cogmod$version)) "?" else s$cogmod$version,
         s$fit@sim$warmup, s$fit@sim$iter,
-        if (is.null(s$stanli$version)) "cmdstanr" else paste("stanli", s$stanli$version))
+        if (is.null(s$stanli$version)) "cmdstanr" else
+          paste(if (identical(s$stanli$sampler, "nutpie")) "nutpie, stanli" else "stanli", s$stanli$version))
 }, "")
 if (length(unique(stamp)) > 1) {
   stop("shards differ in cogmod / warmup / iterations / sampler: ",
@@ -59,7 +60,7 @@ m <- brms::combine_models(mlist = shards)
 m$file <- NULL
 m$cogmod <- shards[[1]]$cogmod
 if (!is.null(shards[[1]]$stanli)) {
-  m$stanli <- list(version = shards[[1]]$stanli$version,
+  m$stanli <- list(version = shards[[1]]$stanli$version, sampler = shards[[1]]$stanli$sampler,
                    elapsed = lapply(shards, function(s) s$stanli$elapsed))
 }
 rm(shards)

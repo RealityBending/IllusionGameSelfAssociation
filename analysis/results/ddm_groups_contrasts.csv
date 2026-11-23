@@ -1,0 +1,127 @@
+"Contrast","Illusion_Type","Quantity","Measure","Median","CI_low","CI_high","pd"
+"Past - Never","Ebbinghaus","mu","No illusion (strength 0)",-0.46160074,-0.907616838,-0.0387202062249999,0.982625
+"Past - Never","MullerLyer","mu","No illusion (strength 0)",-0.2931744145,-0.770679896200001,0.176800917249999,0.897375
+"Past - Never","VerticalHorizontal","mu","No illusion (strength 0)",-0.07745566,-0.4904113185,0.31372987875,0.652125
+"Recent - Never","Ebbinghaus","mu","No illusion (strength 0)",-1.1167751,-1.5655813925,-0.70296410025,1
+"Recent - Never","MullerLyer","mu","No illusion (strength 0)",-0.51897562,-0.9876300145,-0.0394085394999999,0.984
+"Recent - Never","VerticalHorizontal","mu","No illusion (strength 0)",-0.848896580000001,-1.290386903675,-0.417412568000001,1
+"Recent - Past","Ebbinghaus","mu","No illusion (strength 0)",-0.65739266,-1.15007123075,-0.135735849250001,0.993875
+"Recent - Past","MullerLyer","mu","No illusion (strength 0)",-0.225993070000001,-0.76121206355,0.333224242999999,0.792125
+"Recent - Past","VerticalHorizontal","mu","No illusion (strength 0)",-0.765747365,-1.23924203,-0.28606284875,0.9995
+"Past - Never","Ebbinghaus","boundary","No illusion (strength 0)",0.565362684638578,0.246644987969844,0.875718916719655,0.999875
+"Past - Never","MullerLyer","boundary","No illusion (strength 0)",0.519776758686459,0.192510386073093,0.860361724886301,0.999625
+"Past - Never","VerticalHorizontal","boundary","No illusion (strength 0)",0.506286604905394,0.244968198112919,0.773629702467691,1
+"Recent - Never","Ebbinghaus","boundary","No illusion (strength 0)",0.65503209296891,0.323666873570946,0.982852072926402,1
+"Recent - Never","MullerLyer","boundary","No illusion (strength 0)",0.424787577020671,0.0732288649905761,0.750521829094765,0.99125
+"Recent - Never","VerticalHorizontal","boundary","No illusion (strength 0)",0.514498542890655,0.23702671024298,0.78794376059837,1
+"Recent - Past","Ebbinghaus","boundary","No illusion (strength 0)",0.0895512747351868,-0.291984066378743,0.468609191831584,0.681
+"Recent - Past","MullerLyer","boundary","No illusion (strength 0)",-0.101345225531913,-0.484422026625187,0.281533098555743,0.70175
+"Recent - Past","VerticalHorizontal","boundary","No illusion (strength 0)",0.00968692137401383,-0.292844880823942,0.312944854003731,0.520125
+"Past - Never","Ebbinghaus","bias","No illusion (strength 0)",0.00894609952234249,-0.03131044423946,0.0471845734840265,0.662875
+"Past - Never","MullerLyer","bias","No illusion (strength 0)",-0.00111094470610423,-0.0333619637082856,0.0321749729797456,0.5275
+"Past - Never","VerticalHorizontal","bias","No illusion (strength 0)",-0.0289995021396668,-0.0615367088825032,0.00295605788472415,0.963625
+"Recent - Never","Ebbinghaus","bias","No illusion (strength 0)",0.00305123909994603,-0.032216526285194,0.0393967689255821,0.565
+"Recent - Never","MullerLyer","bias","No illusion (strength 0)",-0.0262709180628005,-0.0593025599948119,0.00498057505427327,0.951125
+"Recent - Never","VerticalHorizontal","bias","No illusion (strength 0)",-0.0160027822396228,-0.0500044834825113,0.0182711820895274,0.82075
+"Recent - Past","Ebbinghaus","bias","No illusion (strength 0)",-0.00584713519195185,-0.0528370246923709,0.0422832462275386,0.58825
+"Recent - Past","MullerLyer","bias","No illusion (strength 0)",-0.0252903201424728,-0.0627039194093307,0.0111928320197637,0.911875
+"Recent - Past","VerticalHorizontal","bias","No illusion (strength 0)",0.0131192500662469,-0.0268473388563448,0.0524324877729782,0.73775
+"Past - Never","Ebbinghaus","ndt","No illusion (strength 0)",0.013584863407604,-0.0171065103027056,0.0448488049509184,0.80325
+"Past - Never","MullerLyer","ndt","No illusion (strength 0)",0.0217602958706486,-0.00449411755211387,0.0488863069177284,0.9465
+"Past - Never","VerticalHorizontal","ndt","No illusion (strength 0)",0.0189314187380415,-0.0083942081708995,0.0464684071780591,0.916625
+"Recent - Never","Ebbinghaus","ndt","No illusion (strength 0)",0.00983963267166776,-0.0185683521689414,0.0389985508076162,0.7465
+"Recent - Never","MullerLyer","ndt","No illusion (strength 0)",0.0149931237505127,-0.00933721241520205,0.0407115455786157,0.88775
+"Recent - Never","VerticalHorizontal","ndt","No illusion (strength 0)",0.0177328543092715,-0.00850604122403896,0.0438199256747318,0.90575
+"Recent - Past","Ebbinghaus","ndt","No illusion (strength 0)",-0.00348670364042014,-0.0382699870945338,0.0308772611879961,0.5865
+"Recent - Past","MullerLyer","ndt","No illusion (strength 0)",-0.00649245655708738,-0.0353565653856607,0.021688989424204,0.67975
+"Recent - Past","VerticalHorizontal","ndt","No illusion (strength 0)",-0.00134071086391369,-0.0318605071861599,0.028654119762887,0.53325
+"Past - Never","Ebbinghaus","sigmadrift","No illusion (strength 0)",0.0463128230766382,-0.1784842400302,0.281065403674798,0.65325
+"Past - Never","MullerLyer","sigmadrift","No illusion (strength 0)",0.378796326794566,0.0810601455796603,0.680203310674325,0.994
+"Past - Never","VerticalHorizontal","sigmadrift","No illusion (strength 0)",-0.127722103224375,-0.370259843767185,0.136675854803235,0.838375
+"Recent - Never","Ebbinghaus","sigmadrift","No illusion (strength 0)",-0.00120783336244928,-0.21826234236553,0.223611928382896,0.50575
+"Recent - Never","MullerLyer","sigmadrift","No illusion (strength 0)",0.141498437784177,-0.147743650391404,0.428112964460999,0.8325
+"Recent - Never","VerticalHorizontal","sigmadrift","No illusion (strength 0)",-0.0571622900230527,-0.311971985836687,0.195716604682103,0.66975
+"Recent - Past","Ebbinghaus","sigmadrift","No illusion (strength 0)",-0.050047743262846,-0.313227320816799,0.216832316598499,0.63725
+"Recent - Past","MullerLyer","sigmadrift","No illusion (strength 0)",-0.238301926465784,-0.564239909902707,0.0891692859845029,0.922875
+"Recent - Past","VerticalHorizontal","sigmadrift","No illusion (strength 0)",0.0701672958620412,-0.203870333698769,0.342360911302473,0.693
+"Past - Never","Ebbinghaus","delta","No illusion (strength 0)",0.46160074,0.0387202062249998,0.907616838,0.982625
+"Past - Never","MullerLyer","delta","No illusion (strength 0)",0.2931744145,-0.176800917249999,0.7706798962,0.897375
+"Past - Never","VerticalHorizontal","delta","No illusion (strength 0)",0.07745566,-0.31372987875,0.4904113185,0.652125
+"Recent - Never","Ebbinghaus","delta","No illusion (strength 0)",1.1167751,0.70296410025,1.5655813925,1
+"Recent - Never","MullerLyer","delta","No illusion (strength 0)",0.51897562,0.0394085394999999,0.9876300145,0.984
+"Recent - Never","VerticalHorizontal","delta","No illusion (strength 0)",0.848896580000001,0.417412568,1.290386903675,1
+"Recent - Past","Ebbinghaus","delta","No illusion (strength 0)",0.65739266,0.13573584925,1.15007123075,0.993875
+"Recent - Past","MullerLyer","delta","No illusion (strength 0)",0.225993070000001,-0.333224242999999,0.76121206355,0.792125
+"Recent - Past","VerticalHorizontal","delta","No illusion (strength 0)",0.765747365,0.28606284875,1.23924203,0.9995
+"Past - Never","Ebbinghaus","perror","No illusion (strength 0)",-0.0160735042374121,-0.029984060401934,-0.00483005599441215,0.99625
+"Past - Never","MullerLyer","perror","No illusion (strength 0)",0.000866467391089622,-0.0094119591022598,0.0122329921936538,0.560625
+"Past - Never","VerticalHorizontal","perror","No illusion (strength 0)",-0.0245748131718053,-0.0406787602015596,-0.0113116077662728,0.999875
+"Recent - Never","Ebbinghaus","perror","No illusion (strength 0)",-0.0214651791796166,-0.0351098746611432,-0.0120932607235016,1
+"Recent - Never","MullerLyer","perror","No illusion (strength 0)",-0.00917880365837738,-0.0176766254987621,-0.00226677693025044,0.99475
+"Recent - Never","VerticalHorizontal","perror","No illusion (strength 0)",-0.0307617313859528,-0.0463064500938969,-0.0192088930541094,1
+"Recent - Past","Ebbinghaus","perror","No illusion (strength 0)",-0.0051921818123085,-0.0122398570618922,-0.00123224512798333,0.996625
+"Recent - Past","MullerLyer","perror","No illusion (strength 0)",-0.0100289792196032,-0.0201357203485105,-0.00242589833997593,0.994
+"Recent - Past","VerticalHorizontal","perror","No illusion (strength 0)",-0.00597166442465844,-0.0136360844962877,-0.000683313756014883,0.98825
+"Past - Never","Ebbinghaus","mu","Effect of the illusion (strength 0 to 1)",-0.371985365,-0.894831287,0.16212340725,0.91525
+"Past - Never","MullerLyer","mu","Effect of the illusion (strength 0 to 1)",0.0320913944999996,-0.59670012525,0.664366510999999,0.5385
+"Past - Never","VerticalHorizontal","mu","Effect of the illusion (strength 0 to 1)",-0.357259215,-0.875206366,0.156335092,0.914125
+"Recent - Never","Ebbinghaus","mu","Effect of the illusion (strength 0 to 1)",0.0189155564999999,-0.4871191455,0.5462407465,0.53125
+"Recent - Never","MullerLyer","mu","Effect of the illusion (strength 0 to 1)",0.347271885,-0.27567547125,0.97422991525,0.85575
+"Recent - Never","VerticalHorizontal","mu","Effect of the illusion (strength 0 to 1)",0.297910615,-0.2168398745,0.8425015905,0.8645
+"Recent - Past","Ebbinghaus","mu","Effect of the illusion (strength 0 to 1)",0.389437145,-0.20673569565,0.99197275325,0.896125
+"Recent - Past","MullerLyer","mu","Effect of the illusion (strength 0 to 1)",0.31465823,-0.412031518324999,1.02002248825,0.80675
+"Recent - Past","VerticalHorizontal","mu","Effect of the illusion (strength 0 to 1)",0.65687959,0.076980811475,1.2306632795,0.987875
+"Past - Never","Ebbinghaus","boundary","Effect of the illusion (strength 0 to 1)",-0.0812212323764921,-0.241684743234299,0.0715793905538354,0.845875
+"Past - Never","MullerLyer","boundary","Effect of the illusion (strength 0 to 1)",-0.0246480234971681,-0.192395418215601,0.137140416888905,0.61225
+"Past - Never","VerticalHorizontal","boundary","Effect of the illusion (strength 0 to 1)",-0.0887907242034048,-0.224323834465642,0.0479422429492865,0.8955
+"Recent - Never","Ebbinghaus","boundary","Effect of the illusion (strength 0 to 1)",-0.233150768778108,-0.41477584505554,-0.0619344839794065,0.99675
+"Recent - Never","MullerLyer","boundary","Effect of the illusion (strength 0 to 1)",0.0884241394102306,-0.0656979697481353,0.245117665439063,0.870625
+"Recent - Never","VerticalHorizontal","boundary","Effect of the illusion (strength 0 to 1)",-0.120469405376549,-0.274921015233324,0.0305244337397516,0.943875
+"Recent - Past","Ebbinghaus","boundary","Effect of the illusion (strength 0 to 1)",-0.149800482605859,-0.371550144935232,0.0643505847608554,0.919
+"Recent - Past","MullerLyer","boundary","Effect of the illusion (strength 0 to 1)",0.114000972249628,-0.0776567169290221,0.303092019093626,0.8815
+"Recent - Past","VerticalHorizontal","boundary","Effect of the illusion (strength 0 to 1)",-0.032347369553258,-0.209229713422487,0.142900848766572,0.633875
+"Past - Never","Ebbinghaus","bias","Effect of the illusion (strength 0 to 1)",0.0680292487070093,0.0202879698116557,0.117416913558489,0.996
+"Past - Never","MullerLyer","bias","Effect of the illusion (strength 0 to 1)",0.0114390122739956,-0.0303890565817268,0.0521093495169773,0.70875
+"Past - Never","VerticalHorizontal","bias","Effect of the illusion (strength 0 to 1)",0.0453296449689166,0.00799100636047107,0.0809323852455228,0.99
+"Recent - Never","Ebbinghaus","bias","Effect of the illusion (strength 0 to 1)",0.102261392664768,0.0598819546211964,0.145212201147989,1
+"Recent - Never","MullerLyer","bias","Effect of the illusion (strength 0 to 1)",0.0250302937609597,-0.0143399241597532,0.0638838797268258,0.896375
+"Recent - Never","VerticalHorizontal","bias","Effect of the illusion (strength 0 to 1)",0.0570071090108371,0.0187799681652323,0.0931676026183327,0.99825
+"Recent - Past","Ebbinghaus","bias","Effect of the illusion (strength 0 to 1)",0.0340355230647703,-0.0221906951924733,0.0898016356971455,0.88175
+"Recent - Past","MullerLyer","bias","Effect of the illusion (strength 0 to 1)",0.0138109167320384,-0.0302432258669308,0.0561118405093741,0.726125
+"Recent - Past","VerticalHorizontal","bias","Effect of the illusion (strength 0 to 1)",0.0117575435887685,-0.0291495389896917,0.0527733353960057,0.714
+"Past - Never","Ebbinghaus","ndt","Effect of the illusion (strength 0 to 1)",-0.0109327779810078,-0.0270869443772636,0.00612611264165808,0.9
+"Past - Never","MullerLyer","ndt","Effect of the illusion (strength 0 to 1)",-0.0030732104902558,-0.0167918820075873,0.0108253040538782,0.65875
+"Past - Never","VerticalHorizontal","ndt","Effect of the illusion (strength 0 to 1)",0.00213680088353926,-0.0106780126963155,0.0156697844483768,0.633625
+"Recent - Never","Ebbinghaus","ndt","Effect of the illusion (strength 0 to 1)",-0.00415344106108262,-0.017747003356724,0.0102046637008991,0.717375
+"Recent - Never","MullerLyer","ndt","Effect of the illusion (strength 0 to 1)",-0.0189407338373493,-0.03024654759681,-0.00808069907908454,0.999625
+"Recent - Never","VerticalHorizontal","ndt","Effect of the illusion (strength 0 to 1)",-0.00217751323594503,-0.0147157314709656,0.010835555066612,0.6345
+"Recent - Past","Ebbinghaus","ndt","Effect of the illusion (strength 0 to 1)",0.00681920814428205,-0.0119882832303485,0.0253959992134282,0.753875
+"Recent - Past","MullerLyer","ndt","Effect of the illusion (strength 0 to 1)",-0.015960756680477,-0.0303762411183403,-0.001619095355699,0.984625
+"Recent - Past","VerticalHorizontal","ndt","Effect of the illusion (strength 0 to 1)",-0.00443215687018658,-0.0191800483700876,0.0106946244307224,0.720125
+"Past - Never","Ebbinghaus","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.0654061861540388,-0.198242908579324,0.065974790012832,0.830625
+"Past - Never","MullerLyer","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.2179826378242,-0.385225007187531,-0.0585007589212795,0.99675
+"Past - Never","VerticalHorizontal","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.0882291991817803,-0.234521234857705,0.0557392300797857,0.88375
+"Recent - Never","Ebbinghaus","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.137056166288646,-0.272984809541117,-0.00593831280780738,0.979
+"Recent - Never","MullerLyer","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.0785498794024698,-0.240118012228333,0.0829413686580106,0.837625
+"Recent - Never","VerticalHorizontal","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.110124160728068,-0.264359449861095,0.0367068413661323,0.926375
+"Recent - Past","Ebbinghaus","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.0704641532348926,-0.224980330172226,0.0801120512852249,0.821375
+"Recent - Past","MullerLyer","sigmadrift","Effect of the illusion (strength 0 to 1)",0.14097031703436,-0.040299570353289,0.326465459112235,0.934875
+"Recent - Past","VerticalHorizontal","sigmadrift","Effect of the illusion (strength 0 to 1)",-0.0218014050442008,-0.170877387569297,0.127028527071058,0.61125
+"Past - Never","Ebbinghaus","delta","Effect of the illusion (strength 0 to 1)",0.371985365,-0.16212340725,0.894831287,0.91525
+"Past - Never","MullerLyer","delta","Effect of the illusion (strength 0 to 1)",-0.0320913944999996,-0.664366511,0.59670012525,0.5385
+"Past - Never","VerticalHorizontal","delta","Effect of the illusion (strength 0 to 1)",0.357259215,-0.156335092,0.875206365999999,0.914125
+"Recent - Never","Ebbinghaus","delta","Effect of the illusion (strength 0 to 1)",-0.0189155564999999,-0.5462407465,0.4871191455,0.53125
+"Recent - Never","MullerLyer","delta","Effect of the illusion (strength 0 to 1)",-0.347271885,-0.97422991525,0.27567547125,0.85575
+"Recent - Never","VerticalHorizontal","delta","Effect of the illusion (strength 0 to 1)",-0.297910615,-0.8425015905,0.2168398745,0.8645
+"Recent - Past","Ebbinghaus","delta","Effect of the illusion (strength 0 to 1)",-0.389437145,-0.99197275325,0.20673569565,0.896125
+"Recent - Past","MullerLyer","delta","Effect of the illusion (strength 0 to 1)",-0.31465823,-1.02002248825,0.412031518324999,0.80675
+"Recent - Past","VerticalHorizontal","delta","Effect of the illusion (strength 0 to 1)",-0.65687959,-1.2306632795,-0.0769808114750007,0.987875
+"Past - Never","Ebbinghaus","perror","Effect of the illusion (strength 0 to 1)",-0.238747197007994,-0.411143928385497,-0.0526340480606388,0.994625
+"Past - Never","MullerLyer","perror","Effect of the illusion (strength 0 to 1)",-0.0440148930115712,-0.147636552669751,0.048820786302063,0.819375
+"Past - Never","VerticalHorizontal","perror","Effect of the illusion (strength 0 to 1)",-0.126297185950271,-0.282203495870966,0.0319478160836644,0.9405
+"Recent - Never","Ebbinghaus","perror","Effect of the illusion (strength 0 to 1)",-0.336801584706474,-0.489896996188979,-0.166212744597057,0.99975
+"Recent - Never","MullerLyer","perror","Effect of the illusion (strength 0 to 1)",-0.00116444835565349,-0.0961988169728609,0.0855242062331669,0.5105
+"Recent - Never","VerticalHorizontal","perror","Effect of the illusion (strength 0 to 1)",-0.143323103612638,-0.284971222250446,0.00747192807703694,0.9675
+"Recent - Past","Ebbinghaus","perror","Effect of the illusion (strength 0 to 1)",-0.097686056168586,-0.287747911020402,0.103674953385798,0.828375
+"Recent - Past","MullerLyer","perror","Effect of the illusion (strength 0 to 1)",0.0431605329529452,-0.0630439017739987,0.150738931138688,0.787375
+"Recent - Past","VerticalHorizontal","perror","Effect of the illusion (strength 0 to 1)",-0.0145452111766542,-0.19213879257158,0.1624900173785,0.563

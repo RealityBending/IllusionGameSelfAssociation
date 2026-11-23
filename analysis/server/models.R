@@ -43,6 +43,14 @@
 #
 # sigmabias = 0 is the plain LNR. Omitting it does not error: it silently
 # becomes a freely estimated start-point range.
+#
+# ddm5 is the paper's model since 2026-11-18 (fitted 2026-11-17 as a check on
+# the LNR; analysis/5_ddm_vs_lnr.qmd compares the two): IllusionGameComputational's
+# DDM-5 (drift, boundary, bias, ndt and the between-trial drift SD sigmadrift;
+# sigmabias = sigmandt = 0) on the same design. dec(Error) makes the upper boundary the error, so a negative drift
+# favours the correct response, and bias > 0.5 starts closer to the error.
+# The drift carries the full participant surface, as the LNR's two rates do;
+# the other four get an intercept per illusion.
 
 igsa_nest <- "Illusion_Type / (Illusion_Strength * Task_Difficulty)"
 igsa_fixed <- paste0("Group * (", igsa_nest, ")")
@@ -113,7 +121,11 @@ igsa_igc <- list(
   intercept = c(mu = 0.99, nuone = -1.16, sigmazero = -0.17, sigmaone = 0.90, ndt = -1.07),
   intercept_sd = c(mu = 0.4, nuone = 0.6, sigmazero = 0.4, sigmaone = 0.4, ndt = 0.25),
   participant_sd = c(mu = 0.37, nuone = 0.65, sigmazero = 0.27, sigmaone = 0.28, ndt = 0.16),
-  poutlier_sd = 2.2
+  # SD of the illusions' intercept differences: tau
+  illusion_sd = c(mu = 0.37, nuone = 0.65, sigmazero = 0.27, sigmaone = 0.28, ndt = 0.16),
+  poutlier_sd = 2.2,
+  # The Group coefficients (point 1); the other dpars keep cogmod's
+  group_sd = c(mu = 1, nuone = 1)
 )
 
 # IGC's surfaces as this model's slopes (analysis/2_priors.R; link scale)
@@ -136,65 +148,127 @@ igsa_igc_b <- data.frame(
   )
 )
 
-igsa_priors <- function(f, data) {
-  priors <- cogmod::cogmod_priors(f, data)
+# DDM-5 (ddm5): the same four edits, from IGC's gam_ddm5 fits (cogmod 0.3.5,
+# cmdstanr; analysis/2_priors.R reads them). Its MullerLyer and Ebbinghaus
+# fits converged (2026-11-16) and are used; its VerticalHorizontal one was a
+# stanli stand-in, so VerticalHorizontal takes the ML-Ebbinghaus average
+# with twice the SD, as Ebbinghaus does for the LNR.
+#   1. The drift's Group coefficients: normal(0, 2.5), half of IGC's largest
+#      drift slope (5.4), as the LNR's normal(0, 1) is of its 2.1. brms
+#      would leave them flat. The others keep cogmod's: normal(0, 0.5) for
+#      boundary, bias and sigmadrift, normal(0, 0.2) for ndt.
+#   2. Never's slopes: the same rule.
+#   3. The intercepts: SDs picked by hand, as for the LNR, to cover another
+#      population (the drift's is wider because its scale is). The participant
+#      SDs: IGC's posterior medians, averaged over the two illusions, with
+#      normal(tau, 0.4 tau). The illusions' intercept differences take
+#      normal(0, max(tau, |ML - Ebbinghaus| in IGC)), since IGC's own gap
+#      exceeds tau for the drift and the bias.
+#   4. lkj(2).
+#    IGC posteriors (median; link scale; Intercept = average over this grid):
+#                  Intercept        participant SD
+#                  ML     Ebb       ML     Ebb
+#      mu         -4.01  -3.11      0.47   0.69
+#      boundary    2.23   2.02      0.92   0.84
+#      bias        0.77   0.43      0.09   0.18
+#      ndt        -1.15  -1.05      0.16   0.16
+#      sigmadrift  1.31   0.67      0.85   0.97
+#      poutlier                     2.07   2.32
 
-  igc <- list(
-    brms::prior_string("normal(0, 1)", class = "b"),
-    brms::prior_string("normal(0, 1)", class = "b", dpar = "nuone")
+igsa_igc_ddm5 <- list(
+  intercept = c(mu = -3.56, boundary = 2.13, bias = 0.60, ndt = -1.10, sigmadrift = 0.99),
+  intercept_sd = c(mu = 1, boundary = 0.5, bias = 0.5, ndt = 0.25, sigmadrift = 0.5),
+  participant_sd = c(mu = 0.58, boundary = 0.88, bias = 0.14, ndt = 0.16, sigmadrift = 0.91),
+  illusion_sd = c(mu = 0.90, boundary = 0.88, bias = 0.34, ndt = 0.16, sigmadrift = 0.91),
+  poutlier_sd = 2.2,
+  group_sd = c(mu = 2.5)
+)
+
+igsa_igc_ddm5_b <- data.frame(
+  dpar = rep(c("mu", "boundary", "bias", "ndt", "sigmadrift"), each = 3),
+  term = rep(c("Illusion_Strength", "Task_Difficulty", "Illusion_Strength:Task_Difficulty"), 5),
+  MullerLyer = c(
+    5.37, 2.61, 1.64,    # mu
+    -0.58, -0.15, 0.16,  # boundary
+    -0.64, -0.36, -0.19, # bias
+    0.13, 0.05, -0.02,   # ndt
+    -1.19, -0.04, 0.47   # sigmadrift
+  ),
+  Ebbinghaus = c(
+    4.11, 2.02, 0.41,
+    -0.53, -0.16, 0.28,
+    -1.14, -0.19, -0.07,
+    0.08, 0.07, -0.04,
+    -1.27, 0.22, 0.74
   )
-  tau <- igsa_igc$participant_sd
-  for (i in seq_len(nrow(igsa_igc_b))) {
-    r <- igsa_igc_b[i, ]
-    dpar <- if (r$dpar == "mu") "" else r$dpar
-    centre <- c(MullerLyer = r$MullerLyer, VerticalHorizontal = r$VerticalHorizontal)
-    centre[["Ebbinghaus"]] <- mean(centre)
+)
+
+# The priors of one model, from its IGC numbers: `igc` as igsa_igc, and
+# `igc_b` as igsa_igc_b, with a column for each of the two illusions that IGC
+# informs. The third illusion takes their average, with twice the SD.
+igsa_priors_igc <- function(f, data, igc, igc_b) {
+  priors <- cogmod::cogmod_priors(f, data)
+  dp <- function(par) if (par == "mu") "" else par
+
+  out <- lapply(names(igc$group_sd), function(par) {
+    brms::prior_string(sprintf("normal(0, %g)", igc$group_sd[[par]]), class = "b", dpar = dp(par))
+  })
+  have <- setdiff(names(igc_b), c("dpar", "term"))
+  missing <- setdiff(levels(data$Illusion_Type), have)
+  stopifnot(length(have) == 2, length(missing) == 1)
+  tau <- igc$participant_sd
+  for (i in seq_len(nrow(igc_b))) {
+    r <- igc_b[i, ]
+    centre <- unlist(r[have])
+    centre[[missing]] <- mean(centre)
     for (illusion in names(centre)) {
       s <- sqrt((0.4 * centre[[illusion]])^2 + (tau[[r$dpar]] / 2)^2)
-      if (illusion == "Ebbinghaus") s <- 2 * s
-      igc[[length(igc) + 1]] <- brms::prior_string(
+      if (illusion == missing) s <- 2 * s
+      out[[length(out) + 1]] <- brms::prior_string(
         sprintf("normal(%.3g, %.3g)", centre[[illusion]], s),
-        class = "b", dpar = dpar, coef = paste0("Illusion_Type", illusion, ":", r$term)
+        class = "b", dpar = dp(r$dpar), coef = paste0("Illusion_Type", illusion, ":", r$term)
       )
     }
   }
-  for (par in names(igsa_igc$intercept)) {
-    dpar <- if (par == "mu") "" else par
-    igc[[length(igc) + 1]] <- brms::prior_string(
-      sprintf("normal(%g, %g)", igsa_igc$intercept[[par]], igsa_igc$intercept_sd[[par]]),
-      class = "Intercept", dpar = dpar
+  for (par in names(igc$intercept)) {
+    out[[length(out) + 1]] <- brms::prior_string(
+      sprintf("normal(%g, %g)", igc$intercept[[par]], igc$intercept_sd[[par]]),
+      class = "Intercept", dpar = dp(par)
     )
     for (illusion in levels(data$Illusion_Type)[-1]) {
-      igc[[length(igc) + 1]] <- brms::prior_string(
-        sprintf("normal(0, %g)", tau[[par]]),
-        class = "b", dpar = dpar, coef = paste0("Illusion_Type", illusion)
+      out[[length(out) + 1]] <- brms::prior_string(
+        sprintf("normal(0, %g)", igc$illusion_sd[[par]]),
+        class = "b", dpar = dp(par), coef = paste0("Illusion_Type", illusion)
       )
     }
     s <- tau[[par]]
     for (illusion in levels(data$Illusion_Type)) {
-      igc[[length(igc) + 1]] <- brms::prior_string(
+      out[[length(out) + 1]] <- brms::prior_string(
         sprintf("normal(%g, %g)", s, 0.4 * s),
-        class = "sd", group = "Participant", dpar = dpar,
+        class = "sd", group = "Participant", dpar = dp(par),
         coef = paste0("Illusion_Type", illusion)
       )
     }
   }
-  s <- igsa_igc$poutlier_sd
-  igc[[length(igc) + 1]] <- brms::prior_string(
+  s <- igc$poutlier_sd
+  out[[length(out) + 1]] <- brms::prior_string(
     sprintf("normal(%g, %g)", s, 0.4 * s),
     class = "sd", group = "Participant", dpar = "poutlier", coef = "Intercept"
   )
   # cogmod_priors() returns validate_prior()'s table, where a newer brms
   # (2.23) has already turned the default `cor` row into `L`; adding a `cor`
   # row to that is a duplicate. Edit whichever one is there.
-  igc[[length(igc) + 1]] <- if ("L" %in% priors$class) {
+  out[[length(out) + 1]] <- if ("L" %in% priors$class) {
     brms::prior_string("lkj_corr_cholesky(2)", class = "L")
   } else {
     brms::prior_string("lkj(2)", class = "cor")
   }
 
-  do.call(c, c(list(priors), igc, list(replace = TRUE)))
+  do.call(c, c(list(priors), out, list(replace = TRUE)))
 }
+
+igsa_priors <- function(f, data) igsa_priors_igc(f, data, igsa_igc, igsa_igc_b)
+igsa_priors_ddm5 <- function(f, data) igsa_priors_igc(f, data, igsa_igc_ddm5, igsa_igc_ddm5_b)
 
 
 # Registry ----------------------------------------------------------------
@@ -215,6 +289,27 @@ igsa_models <- list(
       )
     },
     priors = igsa_priors
+  ),
+
+  # The paper's model (see "Formula"), fitted with cogmod >= 0.3.6: 0.3.5's
+  # likelihood is off by up to a log unit per trial in the tails once
+  # sigmadrift is estimated, and costs ~3.4x as much per gradient (cogmod's
+  # NEWS). README.md, "DDM-5", has the library and the commands.
+  ddm5 = list(
+    formula = function() {
+      brms::bf(
+        igsa_f("RT | dec(Error)", igsa_re_full),
+        igsa_f("boundary", igsa_re_light),
+        igsa_f("bias", igsa_re_light),
+        igsa_f("ndt", igsa_re_light),
+        igsa_f("sigmadrift", igsa_re_light),
+        sigmabias = 0,
+        sigmandt = 0,
+        poutlier ~ 1 + (1 | Participant),
+        family = cogmod::cogmod_ddm()
+      )
+    },
+    priors = igsa_priors_ddm5
   )
 
 )

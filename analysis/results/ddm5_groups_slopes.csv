@@ -1,0 +1,82 @@
+"Kind","Group","Illusion_Type","Quantity","Median","CI_low","CI_high","pd","Contrast"
+"Group value","Never","Ebbinghaus","delta_strength",-3.44768485,-3.7830231125,-3.127913255,1,NA
+"Group value","Past","Ebbinghaus","delta_strength",-3.182410615,-3.6405693055,-2.7543850525,1,NA
+"Group value","Recent","Ebbinghaus","delta_strength",-3.5746345535,-3.99561101275,-3.18664942925,1,NA
+"Group value","Never","MullerLyer","delta_strength",-4.7237612,-5.1590037225,-4.318483875,1,NA
+"Group value","Past","MullerLyer","delta_strength",-4.807468668,-5.3527526755,-4.27906611275,1,NA
+"Group value","Recent","MullerLyer","delta_strength",-5.132747935,-5.65128126,-4.644407540725,1,NA
+"Group value","Never","VerticalHorizontal","delta_strength",-3.2859138,-3.6302274875,-2.9482495125,1,NA
+"Group value","Past","VerticalHorizontal","delta_strength",-2.93700879,-3.352926313225,-2.55474915625,1,NA
+"Group value","Recent","VerticalHorizontal","delta_strength",-3.602213019,-4.0215153365,-3.178837059125,1,NA
+"Group value","Never","Ebbinghaus","delta_difficulty",-1.8614432,-2.1021746775,-1.633025715,1,NA
+"Group value","Past","Ebbinghaus","delta_difficulty",-2.51865134,-2.8682776915,-2.185695896,1,NA
+"Group value","Recent","Ebbinghaus","delta_difficulty",-3.0286379,-3.37484897,-2.69983338575,1,NA
+"Group value","Never","MullerLyer","delta_difficulty",-2.8060262,-3.097374345,-2.5206463425,1,NA
+"Group value","Past","MullerLyer","delta_difficulty",-3.328488565,-3.74276493525,-2.93442943375,1,NA
+"Group value","Recent","MullerLyer","delta_difficulty",-3.516426015,-3.91470979075,-3.148152865775,1,NA
+"Group value","Never","VerticalHorizontal","delta_difficulty",-2.34722265,-2.61538611,-2.083137075,1,NA
+"Group value","Past","VerticalHorizontal","delta_difficulty",-2.4799133715,-2.785033535,-2.1989336895,1,NA
+"Group value","Recent","VerticalHorizontal","delta_difficulty",-3.16270821,-3.50385014,-2.83088292275,1,NA
+"Group value","Never","Ebbinghaus","index",1.85242254382421,1.64734232109128,2.09766158102754,1,NA
+"Group value","Past","Ebbinghaus","index",1.26384599300562,1.11721516541666,1.42674764012566,1,NA
+"Group value","Recent","Ebbinghaus","index",1.17967208919602,1.06619236267715,1.30689012390152,1,NA
+"Group value","Never","MullerLyer","index",1.68505232493784,1.55686255150829,1.83380289282472,1,NA
+"Group value","Past","MullerLyer","index",1.44281508299571,1.32574010823862,1.58188077113457,1,NA
+"Group value","Recent","MullerLyer","index",1.45849221068235,1.35430305722146,1.57769790876249,1,NA
+"Group value","Never","VerticalHorizontal","index",1.40007234363069,1.26296584503978,1.56002842192865,1,NA
+"Group value","Past","VerticalHorizontal","index",1.18385915048039,1.05803732154093,1.3220369634335,1,NA
+"Group value","Recent","VerticalHorizontal","index",1.13846217055259,1.03950499022251,1.24616753142786,1,NA
+"Difference",NA,"Ebbinghaus","delta_strength",0.266560385,-0.2815253035,0.798947356,0.831125,"Past - Never"
+"Difference",NA,"MullerLyer","delta_strength",-0.0759199515,-0.7190043625,0.572429142,0.588625,"Past - Never"
+"Difference",NA,"VerticalHorizontal","delta_strength",0.3478517,-0.17757995525,0.857231315,0.901625,"Past - Never"
+"Difference",NA,"Ebbinghaus","delta_strength",-0.1248075,-0.65150037525,0.37165749475,0.6925,"Recent - Never"
+"Difference",NA,"MullerLyer","delta_strength",-0.40547291,-1.0539672125,0.212257422249999,0.902875,"Recent - Never"
+"Difference",NA,"VerticalHorizontal","delta_strength",-0.32024309,-0.84591697875,0.19489757,0.882,"Recent - Never"
+"Difference",NA,"Ebbinghaus","delta_strength",-0.3956442955,-0.9810168605,0.194707309749999,0.90175,"Recent - Past"
+"Difference",NA,"MullerLyer","delta_strength",-0.335463885,-1.036881957525,0.386597968975,0.811375,"Recent - Past"
+"Difference",NA,"VerticalHorizontal","delta_strength",-0.6569800195,-1.22384115375,-0.100178813925,0.9875,"Recent - Past"
+"Difference",NA,"Ebbinghaus","delta_difficulty",-0.654793475,-1.069711665,-0.255775175750001,0.999375,"Past - Never"
+"Difference",NA,"MullerLyer","delta_difficulty",-0.523787225,-0.99513205875,-0.0585098988250001,0.98575,"Past - Never"
+"Difference",NA,"VerticalHorizontal","delta_difficulty",-0.13628441,-0.52811844225,0.2384354875,0.7565,"Past - Never"
+"Difference",NA,"Ebbinghaus","delta_difficulty",-1.16755225,-1.571141515,-0.781532680500001,1,"Recent - Never"
+"Difference",NA,"MullerLyer","delta_difficulty",-0.712702605,-1.1616490625,-0.2659795955,0.999125,"Recent - Never"
+"Difference",NA,"VerticalHorizontal","delta_difficulty",-0.816468685,-1.23056971,-0.406251218,1,"Recent - Never"
+"Difference",NA,"Ebbinghaus","delta_difficulty",-0.509308105,-0.979369265749999,-0.0312071850000002,0.981,"Recent - Past"
+"Difference",NA,"MullerLyer","delta_difficulty",-0.1853577,-0.72114890625,0.338883382750001,0.756375,"Recent - Past"
+"Difference",NA,"VerticalHorizontal","delta_difficulty",-0.678643285,-1.11656073875,-0.2415147653,0.998875,"Recent - Past"
+"Difference",NA,"Ebbinghaus","index",-0.589413671228087,-0.869408807109071,-0.326370060729759,1,"Past - Never"
+"Difference",NA,"MullerLyer","index",-0.242457918809071,-0.427858853866173,-0.0556502150449632,0.995375,"Past - Never"
+"Difference",NA,"VerticalHorizontal","index",-0.215815449122634,-0.418419480744602,-0.0260231381994483,0.98675,"Past - Never"
+"Difference",NA,"Ebbinghaus","index",-0.671690367708373,-0.936275245071879,-0.436114072123794,1,"Recent - Never"
+"Difference",NA,"MullerLyer","index",-0.225378891891918,-0.407544830224543,-0.052266408669654,0.99425,"Recent - Never"
+"Difference",NA,"VerticalHorizontal","index",-0.262045972755591,-0.448509637122722,-0.0843766928621217,0.998,"Recent - Never"
+"Difference",NA,"Ebbinghaus","index",-0.0838985417828585,-0.281726880940247,0.110847033828955,0.7985,"Recent - Past"
+"Difference",NA,"MullerLyer","index",0.017172214021131,-0.153831287161058,0.181332626725868,0.57525,"Recent - Past"
+"Difference",NA,"VerticalHorizontal","index",-0.0454002401759769,-0.21730825604734,0.118763271732691,0.702,"Recent - Past"
+"Relative difference (%)",NA,"Ebbinghaus","delta_strength",-7.71819116085165,-22.1354529319437,8.67468084048604,0.831125,"Past - Never"
+"Relative difference (%)",NA,"MullerLyer","delta_strength",1.61581029649474,-11.5799540646658,16.0964477649911,0.588625,"Past - Never"
+"Relative difference (%)",NA,"VerticalHorizontal","delta_strength",-10.6071058281149,-24.4837271641787,5.76021647972514,0.901625,"Past - Never"
+"Relative difference (%)",NA,"Ebbinghaus","delta_strength",3.61501918911057,-10.1887052530908,19.9356847110892,0.6925,"Recent - Never"
+"Relative difference (%)",NA,"MullerLyer","delta_strength",8.62226032868837,-4.26465252798063,23.6970250384557,0.902875,"Recent - Never"
+"Relative difference (%)",NA,"VerticalHorizontal","delta_strength",9.7247222841738,-5.5821330816897,27.6988960732138,0.882,"Recent - Never"
+"Relative difference (%)",NA,"Ebbinghaus","delta_strength",12.4267036124248,-5.5017164426847,34.5926957102211,0.90175,"Recent - Past"
+"Relative difference (%)",NA,"MullerLyer","delta_strength",6.98924475498929,-7.49411894077913,23.4045483000231,0.811375,"Recent - Past"
+"Relative difference (%)",NA,"VerticalHorizontal","delta_strength",22.3720955535546,3.04744973539851,45.6743442298697,0.9875,"Recent - Past"
+"Relative difference (%)",NA,"Ebbinghaus","delta_difficulty",35.2524343463069,12.8128624508799,62.3553930483493,0.999375,"Past - Never"
+"Relative difference (%)",NA,"MullerLyer","delta_difficulty",18.6690221105674,1.94886902794149,37.6243473031416,0.98575,"Past - Never"
+"Relative difference (%)",NA,"VerticalHorizontal","delta_difficulty",5.79679081913506,-9.47451595934949,24.2717369540714,0.7565,"Past - Never"
+"Relative difference (%)",NA,"Ebbinghaus","delta_difficulty",62.8784755131811,39.2303969097901,91.7067421347005,1,"Recent - Never"
+"Relative difference (%)",NA,"MullerLyer","delta_difficulty",25.4697233931276,8.92987374287394,44.4125482488663,0.999125,"Recent - Never"
+"Relative difference (%)",NA,"VerticalHorizontal","delta_difficulty",34.7098021907602,16.2469477540306,57.1819709343031,1,"Recent - Never"
+"Relative difference (%)",NA,"Ebbinghaus","delta_difficulty",20.1634837142845,1.14111703906078,43.353557107466,0.981,"Recent - Past"
+"Relative difference (%)",NA,"MullerLyer","delta_difficulty",5.59751739958134,-9.32341270857855,23.5137162806356,0.756375,"Recent - Past"
+"Relative difference (%)",NA,"VerticalHorizontal","delta_difficulty",27.2936504106212,8.97082705203536,49.1694551856482,0.998875,"Recent - Past"
+"Relative difference (%)",NA,"Ebbinghaus","index",-31.8106386868466,-42.5962947612685,-19.2794698779516,1,"Past - Never"
+"Relative difference (%)",NA,"MullerLyer","index",-14.3609881963558,-23.8955272606054,-3.53147359691844,0.995375,"Past - Never"
+"Relative difference (%)",NA,"VerticalHorizontal","index",-15.3919862737695,-27.5968026152955,-1.95602501563271,0.98675,"Past - Never"
+"Relative difference (%)",NA,"Ebbinghaus","index",-36.2916378257725,-45.6318584616912,-25.8496619787595,1,"Recent - Never"
+"Relative difference (%)",NA,"MullerLyer","index",-13.360026378826,-22.6181036526214,-3.29975612308201,0.99425,"Recent - Never"
+"Relative difference (%)",NA,"VerticalHorizontal","index",-18.7375615730959,-29.3314396246146,-6.51199631827524,0.998,"Recent - Never"
+"Relative difference (%)",NA,"Ebbinghaus","index",-6.63648370958699,-20.0858301525363,9.59318573249164,0.7985,"Recent - Past"
+"Relative difference (%)",NA,"MullerLyer","index",1.1887931944315,-10.0242764526281,13.2901844325672,0.57525,"Recent - Past"
+"Relative difference (%)",NA,"VerticalHorizontal","index",-3.84570851999189,-16.8539864023821,11.0534886234249,0.702,"Recent - Past"

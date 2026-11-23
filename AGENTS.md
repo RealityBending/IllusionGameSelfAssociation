@@ -70,13 +70,20 @@ was being redone as a single cognitive model.
       extended and the consent checked, since it was collected for another
       study.
 - **The repo is public, and its history holds the data.** Decided
-  2026-11-02: that stays, but nothing more goes in. `data/*.csv`,
-  `osfstorage-archive/` and `paper/` are in `.gitignore`, and the data were
+  2026-11-02: that stays, but nothing more goes in. `data/*.csv` and
+  `osfstorage-archive/` are in `.gitignore`, and the data were
   taken out of the index on 2026-11-03 (`git rm -r --cached`; the files stay
   on disk). Pulling that commit deletes a collaborator's local copies. The
   files are still in Box and in the history. Never add raw or processed data
-  files, or the unpublished manuscripts in `paper/`, to git. The one
-  exception is `data/open/`.
+  files to git. The one exception is `data/open/`.
+- **The illusion paper is no longer gitignored** (Dom, 2026-11-21: "remove
+  from gitignore the paper and its files (just keep gitignored the other
+  paper on the self association task)"). `paper/*.docx` was the rule; it is
+  now `paper/Article associative memory*.docx` only. So the illusion paper's
+  Word files can be tracked: `paper.docx`, Marco's commented export
+  (`Manuscript_Psychopharmacology_*.docx`) and the earlier
+  `Article_visual_illusions_*.docx` with their reviews. Never add the
+  self-association manuscripts.
 
 ### Open data in `data/open/` (in git)
 
@@ -123,9 +130,12 @@ every analysis script. `data/open/README.md` is its codebook.
 | --- | --- |
 | `analysis/0_deidentify.R` | Box raw files → `data/open/` (and the private key). Only whoever holds the raw files runs it |
 | `analysis/0_preprocessing.qmd` | the open data → the derived files, and the report `analysis/0_preprocessing.html`: Never / Past / Recent with the exclusions → `data/groups.csv`; the sample per group (Table 1, ages); the questionnaire scores, their missing-item rule and reliability → `data/questionnaires.csv`; the test trials of everyone in `groups.csv`, cleaned and scaled → `data/data_illusiongame.csv`. Each section stops the render if a count changes. ~15 s |
-| `analysis/2_priors.R` | IllusionGameComputational's surfaces projected onto this design → the prior centres hard-coded in `models.R`. It reads IGC's prediction files from `../IllusionGameComputational` (`IGSA_IGC_DIR`); run it only when the priors change |
-| `analysis/3_lnr_groups.qmd` | the merged fit (`analysis/models/lnr.rds`) → the report `analysis/3_lnr_groups.html` and `analysis/results/lnr_groups_{means,contrasts,averaged,averaged_means,slopes}.csv` and `lnr_ppc_{densities,errors,curves}.csv`, all at the population level: convergence, each group's parameter surface, the predicted RT distributions per group (correct above, errors below), the posterior predictive check (100 draws simulated with the participant effects in, against the observed error rates, median RTs and RT distributions), the Past − Never, Recent − Never and Recent − Past contrasts per illusion and parameter, across strength and as two numbers (at strength 0; in the 0 → 1 effect) at mid difficulty; the contrasts averaged over the whole design (`modelbased::estimate_contrasts()` per parameter, `marginals.R` for the derived quantities, the two cross-checked) and the per-group values behind them; the marginal slopes of strength and difficulty per parameter (`estimate_slopes()`) with their group contrasts; and the illusion magnitude index per group. ~9 min |
-| `analysis/4_lnr_correlates.qmd` | the fit at the participant level → `analysis/4_lnr_correlates.html`, `analysis/results/lnr_participants.csv` (every participant's indices per illusion and averaged, with age and scores) and `lnr_correlates.csv`: the indices per group, their correlations across illusions, and what age, native language, student status, AAQ-II, DASS-21 and (users only) MEQ-30 account for of the group differences, by per-draw regressions, with the raw-trial summaries as the unshrunk check. Needs `data/questionnaires.csv`. ~2 min |
+| `analysis/2_priors.R` | IllusionGameComputational's surfaces projected onto this design → the prior centres hard-coded in `models.R`, for the LNR and the DDM-5 check. It reads IGC's prediction and prior-check files from `../IllusionGameComputational` (`IGSA_IGC_DIR`); run it only when the priors change |
+| `analysis/3_ddm_groups.qmd` | **the paper's model since 2026-11-18.** The DDM-5 fit (`analysis/models/ddm5.rds`) at the population level → `analysis/3_ddm_groups.html`, `analysis/results/ddm_groups_{means,contrasts,averaged,averaged_means,slopes}.csv` and `ddm_ppc_{densities,errors,curves}.csv`. The same sections as `3_lnr_groups.qmd`, with the DDM's parameters (drift, boundary, start point, ndt, `sigmadrift`; discriminability is −drift), its response-time densities from `cogmod::dcogmod_ddm()`, and its posterior predictive check through cogmod's vectorised `posterior_predict_cogmod_ddm()`. `modelbased` handles its parameters (softplus and logit links included) and agrees with `marginals.R` to 1e-15. Needs cogmod ≥ 0.3.6. ~9 min |
+| `analysis/4_ddm_correlates.qmd` | the DDM-5 at the participant level, as `4_lnr_correlates.qmd` with the boundary in place of speed → `analysis/4_ddm_correlates.html`, `ddm_participants.csv`, `ddm_correlations.csv`, `ddm_correlates.csv`. Since 2026-11-21 also, on users only, the regressions on the time since the last use (log10 days from `data/groups.csv`, alone and with age) and on Group and lifetime use (the six answer categories, scored 1 to 6). ~1 min |
+| `analysis/3_lnr_groups.qmd` | (the paper's model until 2026-11-18; kept as the record) the merged fit (`analysis/models/lnr.rds`) → the report `analysis/3_lnr_groups.html` and `analysis/results/lnr_groups_{means,contrasts,averaged,averaged_means,slopes}.csv` and `lnr_ppc_{densities,errors,curves}.csv`, all at the population level: convergence, each group's parameter surface, the predicted RT distributions per group (correct above, errors below), the posterior predictive check (100 draws simulated with the participant effects in, against the observed error rates, median RTs and RT distributions), the Past − Never, Recent − Never and Recent − Past contrasts per illusion and parameter, across strength and as two numbers (at strength 0; in the 0 → 1 effect) at mid difficulty; the contrasts averaged over the whole design (`modelbased::estimate_contrasts()` per parameter, `marginals.R` for the derived quantities, the two cross-checked) and the per-group values behind them; the marginal slopes of strength and difficulty per parameter (`estimate_slopes()`) with their group contrasts; and the illusion magnitude index per group. ~9 min |
+| `analysis/4_lnr_correlates.qmd` | (LNR, kept as the record) the fit at the participant level → `analysis/4_lnr_correlates.html`, `analysis/results/lnr_participants.csv` (every participant's indices per illusion and averaged, with age and scores) and `lnr_correlates.csv`: the indices per group, their correlations across illusions, and what age, native language, student status, AAQ-II, DASS-21 and (users only) MEQ-30 account for of the group differences, by per-draw regressions, with the raw-trial summaries as the unshrunk check. Needs `data/questionnaires.csv`. ~2 min |
+| `analysis/5_ddm_vs_lnr.qmd` | the DDM-5 fit (`analysis/models/ddm5.rds`) against the LNR's, to decide whether the paper switches model → `analysis/5_ddm_vs_lnr.html` and `analysis/results/ddm5_*.csv`: sampling diagnostics, PSIS-LOO on ~1,000 draws each, posterior predictive checks (error rates, median RTs, RT percentiles, distributions), the matched group contrasts averaged over the design, the illusion magnitude and its components, participant-level agreement, a crude age check, and a summary at the end. Reads `lnr_participants.csv` from `4_lnr_correlates.qmd`. Needs cogmod ≥ 0.3.6. ~20 min. **Stays on the 118-participant fit**, like the LNR it is compared with: re-render it with `IGSA_FIT_DDM=analysis/models/ddm5_n118.rds`, since its default, `ddm5.rds`, is the 117-participant fit since 2026-11-22. The paper does not read its outputs. |
 | `analysis/server/` | the model and its cluster workflow (`README.md` there): `models.R` (formula, priors), `fit_model.R`, `combine_model.R`, `marginals.R`, `./hpc` |
 | `experiment/` | the task: one entry page per arm (`*.html`), `demographics.js` (screening), `questionnaires.js`, `SelfAssociation/`; the Illusion Game stimuli load from `realitybending.github.io/IllusionGame/v3` |
 
@@ -147,8 +157,114 @@ replaced the scripts `0_groups.R` and `1_data.R` on 2026-11-04, with both
 derived files byte-identical before and after. `0_deidentify.R` stays a
 script, because it reads the private raw files.
 
-### Manuscripts (`paper/`, gitignored)
+### Manuscripts (`paper/`; only the self-association paper is gitignored)
 
+- **Revised on 2026-11-21 after Marco Sperduti's review**
+  (`paper/Manuscript_Psychopharmacology_Dominique_UPDATED_MS.docx`: 36
+  comments, in French, and tracked edits, on a Word export of the paper). Dom:
+  "do the refit without the 16, and implement the fixes you recommended". The
+  version before is `paper/paper_before_marco_2026-11-21.{qmd,pdf}`.
+  - **Sample:** the control who stated an age of 16 is excluded (see "Groups"),
+    so 117 participants, and the model was refitted (commands in
+    `analysis/server/README.md`, "The 117-participant refit"; outcome in the
+    DDM-5 entry below). The reports and the paper rest on that fit since
+    2026-11-22, and no finding changed.
+  - **New analysis:** among users, the indices against the time since the last
+    use and the lifetime number of uses (`4_ddm_correlates.qmd`). The paper
+    reports them in "Age, Demographics, Questionnaires and Psychedelic Use",
+    and its setup chunk `stopifnot()`s that neither relates reliably to the
+    illusion magnitude or to the boundary.
+  - **Introduction:** REBUS's prediction is conditional on how much an illusion
+    depends on high-level priors. The afterglow sentences moved into a new
+    paragraph after the acute evidence, with the applied interest (Aday 2020,
+    Knudsen 2023). The Illusion Game paragraph leads with three advantages
+    over classical procedures, and the point-of-subjective-equality analogy is
+    in the Methods only. The graded prediction (recent < past < naïve) is
+    attributed to the afterglow, not to REBUS. Manning's three methods are
+    named.
+  - **Methods, checked in the task's code and the data:** the order of the
+    illusions was Müller-Lyer, Ebbinghaus, vertical-horizontal, block A before
+    B, for every participant (the task's code asks for random orders, but
+    `randomize_order` does nothing on a timeline without variables, and the
+    shuffled list `igs` is never used). A speed-and-accuracy score (100 −
+    IES / 35) was shown after each test block. The self-association task came
+    first, and the AAQ-II and DASS-21 between the two series of blocks. The
+    stimuli are 800 × 800 px images shown at native size, and the real
+    differences are relative (5–50%, 4.5–45%, 3–30%). No trial has a response
+    time of zero: all those removed are ≥ 6 s. The removals are given per
+    group; the six removed blocks are all Ebbinghaus. Lifetime use was a
+    seven-category choice. Three past users gave no number of days and were
+    classified from the yes/no question. "Reliable" is defined as a 95%
+    interval excluding zero.
+  - **Discussion:** age is presented as a candidate explanation of the wider
+    boundaries that the regressions cannot rule out (one naïve participant aged
+    31–50). The error effect is said to hold on the Ebbinghaus only. The
+    lasting-change interpretation cites the long-term literature (Aday 2020,
+    Knudsen 2023, Bouso 2015) but stays one of three. A passage on the
+    differences between illusions cites Cretenoud 2019, Axelrod 2017, Chouinard
+    2013, Navarrete 2025 and Jastrzębowska 2026, which did not replicate the V1
+    surface-area result that the paper cites from Schwarzkopf 2011.
+  - **References:** seven added, each found on Crossref and its PubMed abstract
+    read on 2026-11-21.
+  - **Not taken from Marco:** "sensory processes" for "perception"; "reaction
+    time"; a chance-level criterion for removing blocks (a binomial test
+    against 50% would flag five of the same six); Figure 2A redrawn over all
+    participants; boundary optimality; the lasting change as the main
+    interpretation; "(boosting the illusion)", "for the first time", "as
+    accurate as possible" (the instruction said "without making errors").
+  - **Still open:** why these three illusions were chosen (a TODO comment in
+    the Introduction's last paragraph; nothing in the repository says), and
+    why the data were frozen in April 2026 (Marco asked; the three later users
+    are still out).
+
+- **Switched to the DDM-5 on 2026-11-18** (Dom: "let's swap the model reported
+  in the paper. Let's not mention the lnr at all anymore", after
+  `analysis/5_ddm_vs_lnr.qmd`; no refit with constant boundary and start point,
+  which was proposed and declined). The version before is
+  `paper/paper_before_ddm_2026-11-18.{qmd,pdf}`. The paper now reads
+  `analysis/results/ddm_*.csv` (`3_ddm_groups.qmd`, `4_ddm_correlates.qmd`),
+  and the PDF has no mention of the race (checked by text search). What
+  changed, beyond the numbers:
+  - **Methods:** the model paragraph describes the DDM's five parameters
+    (drift v towards the correct response, boundary a as caution, start point
+    w from the correct boundary, ndt, drift variability s_v; the start point's
+    and ndt's ranges fixed at 0). Priors are from IGC's Ebbinghaus and
+    Müller-Lyer DDM fits, with vertical-horizontal their average at twice the
+    SD, and the Group priors normal(0, 2.5) on the drift. Convergence is typed
+    by hand: no divergences, max Rhat 1.015 (7 of 181 above 1.01), min bulk
+    ESS 640, participant max Rhat 1.024 (the 118-participant fit; the
+    117-participant refit's numbers are in the DDM-5 entry). The derived quantities are
+    discriminability = v and P(error) by quadrature. Speed is gone.
+  - **Figure 2A** is a diffusion diagram from the posterior medians at the
+    same condition: boundaries ±a/2, the start point, the mean drift with a
+    fan of the middle half of drift rates, three simulated paths (seed 7),
+    the predicted RT densities beyond each boundary from
+    `cogmod::dcogmod_ddm()` (so the paper needs cogmod ≥ 0.3.6 too), and the
+    naïve group as a dashed outline. Figure 2B shows boundary, ndt,
+    discriminability and P(error).
+  - **Results:** users set wider boundaries (+0.50 / +0.48) and make fewer
+    errors. ndt is +19 / +17 ms, not reliable. Recent users discriminate better
+    than both other groups. The illusion magnitude is lower in all six
+    contrasts (13–36%, 22% on average; the abstract says 22%). The illusion's
+    effect on discriminability does not differ between groups. On errors it
+    is smaller on the Ebbinghaus, not reliably on the vertical-horizontal,
+    and the same on the Müller-Lyer. The magnitude now correlates
+    *moderately* across illusions (0.29–0.48, against 0.62–0.64 for
+    no-illusion discriminability), so "weakly" became "moderately" in the
+    abstract and Results. Age accounts for all of the ndt gap and part of
+    past users' lower error rate, not for the boundaries. Among users, the
+    MEQ-30 total goes with a slightly longer ndt (+14 ms per SD [0, 26]).
+  - **Guards:** the setup chunk `stopifnot()`s every qualitative claim of the
+    Results (which intervals include zero) and of the age paragraph, so a
+    refit that changes one stops the render.
+  - **Discussion:** the first difference is caution (wider boundaries), with
+    the ageing references (`ratcliff2001effects`, `theisen2021age`, until
+    now in the bib but uncited). The three-indices paragraph says the
+    illusion costs users as much discriminability, while the real difference
+    moves it more. Two model limitations: a too-long tail of slow errors, and
+    boundary and start point varying with strength although trials are mixed
+    within blocks. "Recent did not differ from Past" is now qualified as "in
+    their sensitivity to the illusions".
 - **`paper.qmd`**: the illusion paper, restarted on 2026-11-04 as a Quarto
   article on the lab's `apaquasi` template (`_extensions/apaquasi/`, copied
   from IllusionGameComputational; `references.bib` beside it). It is
@@ -159,8 +275,19 @@ script, because it reads the private raw files.
   `4_lnr_correlates.qmd`, then the paper. The only hand-typed numbers are
   the convergence diagnostics and the cluster settings in its Methods
   (from the 16-chain fit, 2026-11-06), the convergence sentence
-  of its limitations, and the rounded numbers of the abstract. Author order, affiliations, the corresponding author
-  and the data-sharing statement are copied from the docx and marked TODO.
+  of its limitations, and the rounded numbers of the abstract. Author order
+  and affiliations were given by Dom on 2026-11-19 (Makowski, Sperduti,
+  Collins, Daudé, Zogheib, Kervadec, Roméo, Piolino, Fauvel; Makowski also
+  at the Sussex Centre for Consciousness Science, Sperduti also at Tor
+  Vergata's Department of Systems Medicine; Kervadec and Roméo at AP-HP Paul
+  Brousse), with ORCIDs from orcid.org (Fauvel has an empty second record,
+  0000-0003-4435-9480, not used). The corresponding author (Fauvel) and the
+  data-sharing statement are still the docx's and marked TODO. The postcode
+  and town go in each affiliation's `address`, because apaquasi's title
+  block does not print `postal-code`.
+  IllusionGameComputational is not cited (Dom, 2026-11-19: no "unpublished"
+  reference): the Data Cleaning paragraph links its repository, and the
+  priors paragraph refers to "that larger study". Its bib entry is unused.
   Two figures (decided 2026-11-04): Figure 1 is the stimulus panel
   (`paper/stimuli_panel.py` → `paper/figures/stimuli.png`, composed from the
   task's own images in `~/Dropbox/Software/IllusionGame/v3/stimuli`) over
@@ -176,11 +303,19 @@ script, because it reads the private raw files.
   On 2026-11-06 the system Quarto (`C:/Program Files/Quarto`) is 1.10.18
   and renders it, while RStudio's bundled copy is 1.8.25 and refuses it
   ("incompatible with this quarto version"; on 2026-11-05 it was the other
-  way round). Check `--version` first:
+  way round). On 2026-11-19 the system Quarto was gone and RStudio's copy,
+  1.9.38, rendered it. Check `--version` first:
 
   ```bash
-  cd paper && QUARTO_R="C:/Program Files/R/R-4.5.3/bin" "/c/Program Files/Quarto/bin/quarto.exe" render paper.qmd   # paper.pdf, about 35 s
+  cd paper && QUARTO_R="C:/Program Files/R/R-4.5.3/bin" "/c/Program Files/RStudio/resources/app/bin/quarto/bin/quarto.exe" render paper.qmd   # paper.pdf, about 35 s
   ```
+
+  The `fig-model` chunk needs the RWiener package (brms's `dwiener`
+  backend), installed 2026-11-19. Each render also writes the two figures
+  to `paper/figures/Figure1.{pdf,png}` and `Figure2.{pdf,png}` (vector PDF
+  and 300-dpi PNG at the article's size, for submission) through
+  `save_figure()` in the setup chunk; the numbers in the file names are set
+  by hand in each chunk.
 
   Figure conventions (2026-11-05): the model is a line (posterior predictive
   mean) with its 95% band, the data are points. Figure 1's curves pool each
@@ -369,6 +504,9 @@ script, because it reads the private raw files.
   - The two-stage EZ approach throws away uncertainty.
 
 ## The revised analysis: plan and status
+
+**Since 2026-11-18 the paper reports the DDM-5, not the LNR** (step 8 below,
+and "Manuscripts"). What follows describes the LNR, which stays as the record.
 
 **One model replaces the paper's analyses.** It is a log-normal race
 (`cogmod_lnr`, cogmod ≥ 0.3.5) of choice and RT on every trial, congruent and
@@ -635,7 +773,107 @@ param ~ Group * (Illusion_Type / (Illusion_Strength * Task_Difficulty))
    Methods convergence paragraph and the limitation on convergence
    rewritten by hand. Still needed: the co-authors' agreement (Marco,
    Baptiste, Oliver), the prior-versus-posterior check, and the TODOs in its
-   header (authors, data sharing, funding and CRediT).
+   header (corresponding author, data sharing, funding and CRediT; author
+   order and affiliations settled 2026-11-19).
+8. **A DDM-5 as a check on the LNR** (2026-11-17, Dom: to compare with the
+   LNR's results, not necessarily for the paper). `ddm5` in `models.R`:
+   IllusionGameComputational's DDM-5 (drift, boundary, bias, ndt,
+   `sigmadrift`) with the LNR's fixed part, the full participant surface on
+   the drift, and priors from IGC's converged DDM-5 fits (MullerLyer and
+   Ebbinghaus) by the LNR's rules. The LNR's resolved priors are unchanged by
+   the refactor that shares the code (checked with `validate_prior()`).
+   - **cogmod 0.3.6**, from its own library on the cluster (the shared one
+     stays at 0.3.5 for IGC): 0.3.5's likelihood was wrong in the tails with
+     `sigmadrift` estimated. Commands in `analysis/server/README.md`, "DDM-5".
+   - Submitted as job 11757858 on `verylong` (4 shards × 2 chains × 8
+     threads, 1,500 + 1,000), after a local run compiled and sampled.
+     It landed on non-zen5 nodes (`general-01`, `cpu-01`).
+   - **Done (2026-11-18): `analysis/models/ddm5.rds`.** The 4 shards took
+     4.3–5.2 h each, with no divergences and tree depth ~7. Combined (job
+     11763573): 8,000 draws from 8 chains, max Rhat 1.024, min neff_ratio
+     0.023.
+   - **Re-fitted with stanli + nutpie** the same day (Dom): job 11757991,
+     `IGSA_BACKEND=nutpie` in `fit_model.R`, 4 shards × 2 chains × 1 CPU,
+     1,500 + 1,000, into `models_nutpie/`, with brms 2.23.1, stanli 0.26.0
+     and nutpieR 1.9.2 from IGC's `cogmod_nutpie/R_libs`. Two things found on
+     the way (README, "The same model with stanli + nutpie"). First, stanli
+     cannot thread brms's likelihood here, so one core per chain. The cause
+     is the drift's 12 participant terms: above 10 terms in one brms loop,
+     stanli (0.26.0 and 0.27.0) leaves its fast path, ~25x slower and
+     unthreaded; two loops of 6 restore it. Second, stanli 0.26.0's
+     `bridgestan_data()` cuts the data JSON at 1e6 characters
+     (`substring()`'s default `last`); the job patches it, and 0.27.0 is
+     fixed. A local run (6 participants, 40 + 20) sampled, saved and
+     combined. **Cancelled on 2026-11-18** (Dom) once the cmdstanr fit was
+     in, with no shard saved. After ~20–24 h it was 8–20% into sampling on
+     three shards and 60–65% on the fourth: ~130 gradients per draw on one
+     core per chain, about 7x cmdstanr's wall time. It did not have the
+     two-loops split, so it says nothing about nutpie on a threaded program.
+     Its progress lines went to the `.err` log, which `./hpc progress` does
+     not read.
+   - **stanli issue drafted for Dom** (the 10-term cliff, with a brms-only
+     reprex run on 0.26.0 and 0.27.0), not posted. The laptop crashed during
+     an earlier run of that test, but the rerun peaked at under 1.2 GB per
+     process, so the crash's cause is not known.
+   - **Compared with the LNR** (2026-11-18, Dom: "eventually swapping the
+     model from the paper if the new one offers clearer and more
+     interpretable results"), in `analysis/5_ddm_vs_lnr.qmd`.
+     `marginals.R` now takes either family: for the DDM-5, `delta` is −drift
+     (towards the correct response), and `perror` is the first-passage
+     probability averaged over `sigmadrift` by Gauss-Legendre quadrature
+     (`igsa_ddm_perror()`, checked to 1e-7 against numerical integration;
+     Gauss-Hermite was off by up to 0.03). The LNR's path is unchanged.
+     Findings:
+     - **Fit:** LOO ahead by 787 (SE 83), p_loo 2,069 against 2,846. There
+       are many high Pareto k (212 LNR, 82 DDM), so the estimate is
+       approximate. Median RTs are off by 18 against 27 ms, with 70% against
+       51% inside the 95% band. The no-illusion distributions are more
+       peaked, closer to the data, but the errors' slow tail is worse.
+     - **Sampling:** no divergences, max Rhat 1.015 / 1.024 (population /
+       participant) against 1.044 / 1.268, ESS per draw ~5x.
+     - **Groups:** users' slowness is a wider boundary (+0.5, pd 1; ρ = −0.97
+       with the LNR's speed). ndt is +17–19 ms, not credible, and age
+       absorbs all of it. P(error) is the same as in the LNR. New: Recent >
+       Past on drift (+0.51 [0.19, 0.83]).
+     - **Illusion magnitude:** smaller in users in all six contrasts with
+       Never (pd ≥ 0.987; LNR: 2 of 6 at pd ≥ 0.975), 13–36% smaller (most on
+       the Ebbinghaus). Users' illusion effect on the drift equals Never's,
+       and only their precision term is steeper. In the LNR, the illusion
+       effect is also larger in users, the tension the paper's Discussion
+       has to explain.
+     - **Against it as fitted:** boundary and start point vary with
+       strength (Never's boundary 2.53 → 1.77 from −1 to +1, start point
+       0.73 → 0.52), and strengths are mixed within blocks. A refit with
+       boundary and bias on Group × illusion only was proposed; Dom declined
+       it and **adopted the DDM-5 for the paper as fitted** (2026-11-18; see
+       "Manuscripts").
+   - **Refitted on the 117 participants** (without the age-16 control; see
+     "Groups"), the same model and settings, into its own models directory
+     (`models_n117/`; commands in `analysis/server/README.md`). Job 11781109,
+     submitted 2026-11-21: the 4 shards took 4.1–5.3 h, the fourth 13.5 h,
+     with no divergences, tree depth ~7.3 and step size ~0.027. Combined on
+     2026-11-22 (job 11781960) and pulled to `analysis/models/ddm5.rds`; the
+     118-participant fit is kept as `ddm5_n118.rds`. Diagnostics (computed
+     from the fit; the 118 fit's in brackets): population (`b_`, 181) max
+     Rhat 1.022 (1.015), 4 above 1.01 (7), min bulk ESS 494 (640); `sd_` and
+     `cor_` max Rhat 1.009 (1.016); participant (`r_`, 2,925) max Rhat 1.033
+     (1.024), 23 above 1.01 (3), both times on S010's Ebbinghaus ndt. The
+     paper's Methods give these.
+     - **Findings unchanged** (2026-11-22). `3_ddm_groups.qmd`,
+       `4_ddm_correlates.qmd` and the paper were re-rendered, and every
+       `stopifnot()` guard of the paper passed. Its text changed only in its
+       numbers: boundary +0.52 / +0.51, drift Recent − Never 0.74 and
+       Recent − Past 0.50, ndt +18 / +15 ms (not reliable), illusion
+       magnitude 22% lower on average (15–37%; was 13–36%), magnitude
+       correlations 0.29–0.49. Of 800 tested intervals in the six result
+       tables, 8 changed side of zero, all at pd 0.968–0.981 in both fits and
+       none reported in the paper (`sigmadrift`'s illusion effects, two MEQ
+       regressions of the illusion's effect on discriminability, the
+       days-since-use + age regression of discriminability, and the
+       Ebbinghaus–vertical-horizontal correlation of the illusion's effect on
+       P(error)).
+     - `5_ddm_vs_lnr.qmd` stays on the 118-participant fit (see the table
+       of reports).
 
 ## Age and the other group differences: the plan (2026-11-04)
 
@@ -734,8 +972,9 @@ within one participant for Past. The rules, all stated there:
   - Tested by 2026-04-02, the data freeze; three users tested later are out.
     The open data keep only the month, and no session falls between that day
     and May, so the rule is "tested by April 2026".
-  - Did not state an age under 18. The only such answer was the age-16
-    control below, so `0_deidentify.R` handles it, and stops on any other.
+  - Did not state an age under 18. The only such answer is the age-16
+    control below. `0_deidentify.R` blanks that age and stops on any other,
+    so `0_preprocessing.qmd` names the session by its open ID (`under_18`).
 - **Never:** control arm, answering "No" to "ever taken a classic
   psychedelic?". th4rdac2zk answered "Yes" and is out.
 - **Recent vs Past:**
@@ -749,9 +988,19 @@ within one participant for Past. The rules, all stated there:
   - 4eq5nwtp70 and eh9g6rsn2l (no self-association task; chance-level
     illusion responses).
   - jckbwy5hlw (age "XXXX", blank demographics) is not in the open data.
-- **One departure:** 2lm12f31t0, a control who typed age 16, is kept with age
-  missing (decided 2026-11-02). So Never is 44, giving 118 participants and
-  55,937 trials after cleaning.
+- **The age-16 control is out** (2lm12f31t0, S016 in the open data; Dom,
+  2026-11-21, after Marco's review: "do the refit without the 16"). So the
+  groups are the manuscript's 43 / 35 / 39 (Never / Past / Recent): 117
+  participants and 55,470 trials after cleaning, which are the previous trials
+  minus that session's (checked). The record says student, with high school as
+  the highest education, so the age may be real, and the study was open to
+  adults only. From 2026-11-02 to 2026-11-21 the session was kept as a probable
+  typing error with age missing (Never 44, 118 participants, 55,937 trials),
+  and every fit before 2026-11-21 includes it. The session is still in
+  `data/open/`; whether a possible minor's data should stay public is for the
+  PI to decide.
+- **The three post-freeze users stay out** (Marco asked why; not changed on
+  2026-11-21). The paper gives no reason for the freeze date.
 
 ## Participant-level preprocessing
 
@@ -823,7 +1072,11 @@ Decide too whether to include the three post-freeze users.
   (last on 2026-11-06), used a scratch install
   of the local `~/Dropbox/Software/cogmod` (dev, 0.3.5): `R CMD INSTALL
   --library=<dir> ~/Dropbox/Software/cogmod`, then `R_LIBS=<dir>` before
-  `quarto render`.
+  `quarto render`. Since 2026-11-18 the DDM reports and the paper need
+  cogmod ≥ 0.3.6: the same scratch install from the local
+  `~/Dropbox/Software/cogmod` (0.3.6 at `ccf2351`, the cluster's commit).
+  Last done on 2026-11-22 (the 117-participant re-render), with the system
+  Quarto 1.10.18 (`C:/Program Files/Quarto`) for the reports and the paper.
 - **The design is a checkerboard split across blocks.** Block A of each
   illusion shows the odd tenths of strength (±0.1, ±0.3, …, ±0.9) with the
   four easier differences (difficulty −1, −0.28, 0.31, 0.79); block B the
@@ -852,8 +1105,8 @@ Decide too whether to include the three post-freeze users.
   `3_lnr_groups.qmd`. The participant-level correlates (age, language,
   student status, questionnaires) are per-draw regressions in
   `4_lnr_correlates.qmd`, not a refit.
-- **Ages:** a birth year becomes an age; the age-16 control is kept with age
-  missing.
+- **Ages:** a birth year becomes an age; the age-16 control was kept with age
+  missing until 2026-11-21, and is excluded since (see "Groups").
 - **Analysis:** one LNR with Group and the illusion design, reported through
   marginal means. No covariates in the main model.
 - **Age** (2026-11-04): it stays out of the main model, and no control group
@@ -863,6 +1116,10 @@ Decide too whether to include the three post-freeze users.
 - **Priors:** the Never group's whole surface comes from
   IllusionGameComputational (its slopes added 2026-11-03); group effects stay
   weak.
+- **Model** (2026-11-18, Dom): the paper reports the DDM-5 and no longer
+  mentions the LNR, which stays in `analysis/` as the record. The refit with
+  boundary and start point constant across strength was proposed and
+  declined; the paper states the limitation instead.
 - **Sampler:** cmdstanr (2026-11-03). stanli was the default for a day, on
   IllusionGameComputational's evidence, until the smoke tests showed it
   several times slower per chain on this model (it cannot thread it).

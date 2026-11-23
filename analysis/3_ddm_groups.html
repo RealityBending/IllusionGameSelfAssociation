@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>IllusionGameSelfAssociation - DDM: group differences</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="3_ddm_groups_files/libs/clipboard/clipboard.min.js"></script>
+<script src="3_ddm_groups_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="3_ddm_groups_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="3_ddm_groups_files/libs/quarto-html/popper.min.js"></script>
+<script src="3_ddm_groups_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="3_ddm_groups_files/libs/quarto-html/anchor.min.js"></script>
+<link href="3_ddm_groups_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="3_ddm_groups_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="3_ddm_groups_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="3_ddm_groups_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="3_ddm_groups_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#loading" id="toc-loading" class="nav-link active" data-scroll-target="#loading">Loading</a></li>
+  <li><a href="#draws" id="toc-draws" class="nav-link" data-scroll-target="#draws">Draws</a></li>
+  <li><a href="#each-groups-surface" id="toc-each-groups-surface" class="nav-link" data-scroll-target="#each-groups-surface">Each group’s surface</a></li>
+  <li><a href="#predicted-rt-distributions" id="toc-predicted-rt-distributions" class="nav-link" data-scroll-target="#predicted-rt-distributions">Predicted RT distributions</a></li>
+  <li><a href="#posterior-predictive-check" id="toc-posterior-predictive-check" class="nav-link" data-scroll-target="#posterior-predictive-check">Posterior predictive check</a></li>
+  <li><a href="#group-differences-across-strength" id="toc-group-differences-across-strength" class="nav-link" data-scroll-target="#group-differences-across-strength">Group differences across strength</a></li>
+  <li><a href="#with-no-illusion-and-in-its-effect" id="toc-with-no-illusion-and-in-its-effect" class="nav-link" data-scroll-target="#with-no-illusion-and-in-its-effect">With no illusion, and in its effect</a></li>
+  <li><a href="#averaged-over-the-design" id="toc-averaged-over-the-design" class="nav-link" data-scroll-target="#averaged-over-the-design">Averaged over the design</a></li>
+  <li><a href="#slopes-strength-difficulty-and-the-illusion-index" id="toc-slopes-strength-difficulty-and-the-illusion-index" class="nav-link" data-scroll-target="#slopes-strength-difficulty-and-the-illusion-index">Slopes: strength, difficulty and the illusion index</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">IllusionGameSelfAssociation - DDM: group differences</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The merged fit of the drift diffusion model (<code>analysis/models/ddm5.rds</code>, from <code>./hpc pull</code>; <code>ddm5</code> in <code>analysis/server/models.R</code>) at the population level: how the groups differ on every parameter and derived quantity, for each illusion, across illusion strength, and what that predicts for the RT distributions; then the group differences averaged over the whole design, the marginal slopes of strength and difficulty, and the illusion magnitude index. The participant level, and what age and the questionnaires account for, is in <code>4_ddm_correlates.qmd</code>. Render from the repo root (about 10 min; it needs cogmod ≥ 0.3.6):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render analysis/3_ddm_groups.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The model (<code>cogmod_ddm</code>) has five parameters: the drift rate, the boundary separation, the start point (<code>bias</code>), the non-decision time and the trial-to-trial drift SD (<code>sigmadrift</code>); the start point’s and the non-decision time’s trial-to-trial ranges are fixed at 0. <code>dec(Error)</code> puts the error on the upper boundary, so the drift is negative when the correct response is favoured, and the start point is a share of the boundary from the correct one (above 0.5: closer to the error). Discriminability (<code>delta</code>) is the drift towards the correct response, −drift.</p>
+<p>Unless said otherwise, everything is at <code>Task_Difficulty = 0</code> (mid difficulty). <code>poutlier</code> has no Group term, so it is the same in every group and left out of the comparisons. The quantities, their scales and the contrasts come from <code>analysis/server/marginals.R</code>; see there. The numbers behind the figures are written to <code>analysis/results/ddm_groups_*.csv</code> and <code>ddm_ppc_*.csv</code>.</p>
+<section id="loading" class="level2">
+<h2 class="anchored" data-anchor-id="loading">Loading</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelbased)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Runs from analysis/ (quarto) or from the repo root (interactively).</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>root <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">dir.exists</span>(<span class="st">"server"</span>)) <span class="st">"."</span> <span class="cf">else</span> <span class="st">"analysis"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">file.path</span>(root, <span class="st">"server/models.R"</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">file.path</span>(root, <span class="st">"server/marginals.R"</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(utils<span class="sc">::</span><span class="fu">packageVersion</span>(<span class="st">"cogmod"</span>) <span class="sc">&gt;=</span> <span class="st">"0.3.6"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>fit_file <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"IGSA_FIT"</span>, <span class="at">unset =</span> <span class="fu">file.path</span>(root, <span class="st">"models/ddm5.rds"</span>))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>out_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(root, <span class="st">"results"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(out_dir, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(fit_file)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Population-level convergence, the part the marginals below rest on.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> posterior<span class="sc">::</span><span class="fu">summarise_draws</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_array</span>(m, <span class="at">variable =</span> <span class="st">"^b_"</span>, <span class="at">regex =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"rhat"</span>, <span class="st">"ess_bulk"</span>, <span class="st">"ess_tail"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">nuts_params</span>(m)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>divergent <span class="ot">&lt;-</span> <span class="fu">sum</span>(np<span class="sc">$</span>Value[np<span class="sc">$</span>Parameter <span class="sc">==</span> <span class="st">"divergent__"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Fit: ddm5.rds, 8 chains, 8000 draws, 0 divergent transitions. Population-level coefficients (181): max Rhat 1.022 (4 above 1.01), min bulk ESS 494, min tail ESS 919.</p>
+</section>
+<section id="draws" class="level2">
+<h2 class="anchored" data-anchor-id="draws">Draws</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">igsa_grid</span>(m, <span class="at">strength =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.1</span>), <span class="dv">2</span>), <span class="at">difficulty =</span> <span class="dv">0</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">igsa_draws</span>(m, grid)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>poutlier <span class="ot">&lt;-</span> d<span class="sc">$</span>poutlier</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>poutlier <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(d, grid)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(means, <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_groups_means.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>contrasts <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_contrasts</span>(d, grid))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The two numbers per contrast that the curves come down to: the difference</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># with no illusion, and the difference in the effect of the illusion.</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>at0 <span class="ot">&lt;-</span> grid<span class="sc">$</span>Illusion_Strength <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_contrasts</span>(<span class="fu">lapply</span>(d, <span class="cf">function</span>(x) x[, at0, <span class="at">drop =</span> <span class="cn">FALSE</span>]), grid[at0, ]))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>base<span class="sc">$</span>Measure <span class="ot">&lt;-</span> <span class="st">"No illusion (strength 0)"</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>slope <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_contrasts</span>(<span class="fu">igsa_slopes</span>(d, grid, <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>)))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>slope<span class="sc">$</span>Measure <span class="ot">&lt;-</span> <span class="st">"Effect of the illusion (strength 0 to 1)"</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Quantity"</span>, <span class="st">"Measure"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>summary_tab <span class="ot">&lt;-</span> <span class="fu">rbind</span>(base[cols], slope[cols])</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(summary_tab, <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_groups_contrasts.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Labels and colours</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>quantities <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu =</span> <span class="st">"drift (towards the error)"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">boundary =</span> <span class="st">"a: boundary separation"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bias =</span> <span class="st">"w: start point"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ndt =</span> <span class="st">"Non-decision time (s)"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigmadrift =</span> <span class="st">"sv: trial-to-trial drift SD"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="st">"v = -drift: discriminability"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">perror =</span> <span class="st">"P(error)"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"boundary"</span>, <span class="st">"bias"</span>, <span class="st">"ndt"</span>, <span class="st">"sigmadrift"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>derived <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"delta"</span>, <span class="st">"perror"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>illusions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Ebbinghaus =</span> <span class="st">"Ebbinghaus"</span>, <span class="at">MullerLyer =</span> <span class="st">"Müller-Lyer"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">VerticalHorizontal =</span> <span class="st">"Vertical-Horizontal"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Never is the reference, in neutral grey; each contrast against it takes the</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># other group's hue, and Recent - Past the next categorical slot.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>group_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Never =</span> <span class="st">"#7a7a75"</span>, <span class="at">Past =</span> <span class="st">"#2a78d6"</span>, <span class="at">Recent =</span> <span class="st">"#eb6834"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>contrast_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Past - Never"</span> <span class="ot">=</span> <span class="st">"#2a78d6"</span>, <span class="st">"Recent - Never"</span> <span class="ot">=</span> <span class="st">"#eb6834"</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Recent - Past"</span> <span class="ot">=</span> <span class="st">"#1baf7a"</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>contrast_lty <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Past - Never"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"Recent - Never"</span> <span class="ot">=</span> <span class="st">"solid"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Recent - Past"</span> <span class="ot">=</span> <span class="st">"22"</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>tidy <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>Quantity <span class="ot">&lt;-</span> <span class="fu">factor</span>(quantities[x<span class="sc">$</span>Quantity], <span class="at">levels =</span> quantities)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(illusions[<span class="fu">as.character</span>(x<span class="sc">$</span>Illusion_Type)], <span class="at">levels =</span> illusions)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(x<span class="sc">$</span>Contrast)) x<span class="sc">$</span>Contrast <span class="ot">&lt;-</span> <span class="fu">factor</span>(x<span class="sc">$</span>Contrast, <span class="at">levels =</span> <span class="fu">names</span>(contrast_col))</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">tidy</span>(means)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>contrasts <span class="ot">&lt;-</span> <span class="fu">tidy</span>(contrasts)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>summary_tab <span class="ot">&lt;-</span> <span class="fu">tidy</span>(summary_tab)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>theme_igsa <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"#ebebe8"</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>),</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>),</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.justification =</span> <span class="st">"left"</span>,</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#6b6b66"</span>, <span class="at">hjust =</span> <span class="dv">0</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Population level, mid task difficulty. Lines: posterior medians; bands: 95% intervals.</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Strength: + pushes towards the error (conflicting), - towards the right answer (facilitating)."</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="each-groups-surface" class="level2">
+<h2 class="anchored" data-anchor-id="each-groups-surface">Each group’s surface</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The drift itself is the discriminability with its sign flipped: it is shown</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as discriminability only.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(means[means<span class="sc">$</span>Quantity <span class="sc">!=</span> quantities[[<span class="st">"mu"</span>]], ], <span class="fu">aes</span>(Illusion_Strength, Median)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_low, <span class="at">ymax =</span> CI_high, <span class="at">fill =</span> Group), <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour =</span> Group), <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Quantity <span class="sc">~</span> Illusion_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">switch =</span> <span class="st">"y"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">Quantity =</span> <span class="fu">label_wrap_gen</span>(<span class="dv">20</span>))) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Illusion strength"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"DDM parameters per group"</span>, <span class="at">caption =</span> caption) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  theme_igsa <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">strip.placement =</span> <span class="st">"outside"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="predicted-rt-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="predicted-rt-distributions">Predicted RT distributions</h2>
+<p>What the population-level parameters imply for the responses themselves: the density of correct responses above the axis and of errors below it (as negative heights). Each is the diffusion’s defective density (the first passage at that boundary), so the area under a curve is the proportion of responses of that kind, and the error curve’s area is the P(error) above. The lines are posterior means of the density, the bands 95% intervals, from 500 evenly spaced draws. Each row has its own y scale, so compare heights within a row, not between rows. The outlier component is left out: at the population level it is 0.06% of responses, the same in every group.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Defective first-passage densities, from cogmod, for draws x time points.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ddm_density <span class="ot">&lt;-</span> <span class="cf">function</span>(t, p, response) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(p<span class="sc">$</span>mu)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(cogmod<span class="sc">::</span><span class="fu">dcogmod_ddm</span>(<span class="fu">rep</span>(t, <span class="at">each =</span> n), <span class="at">drift =</span> p<span class="sc">$</span>mu, <span class="at">boundary =</span> p<span class="sc">$</span>boundary, <span class="at">bias =</span> p<span class="sc">$</span>bias,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ndt =</span> p<span class="sc">$</span>ndt, <span class="at">response =</span> response, <span class="at">sigmadrift =</span> p<span class="sc">$</span>sigmadrift),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">nrow =</span> n)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>strength_lab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"-1"</span> <span class="ot">=</span> <span class="st">"Facilitating (strength -1)"</span>, <span class="st">"0"</span> <span class="ot">=</span> <span class="st">"No illusion (strength 0)"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Conflicting (strength +1)"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>rt <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>draw_ids <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">ndraws</span>(m), <span class="at">length.out =</span> <span class="dv">500</span>))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">which</span>(grid<span class="sc">$</span>Illusion_Strength <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>dens <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(cells, <span class="cf">function</span>(j) {</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">lapply</span>(d, <span class="cf">function</span>(x) x[draw_ids, j])</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Correct =</span> <span class="fu">ddm_density</span>(rt, p, <span class="dv">0</span>),</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">Error =</span> <span class="fu">ddm_density</span>(rt, p, <span class="dv">1</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(f), <span class="cf">function</span>(r) {</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Errors hang below the axis.</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> <span class="cf">if</span> (r <span class="sc">==</span> <span class="st">"Error"</span>) <span class="sc">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="dv">1</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    q <span class="ot">&lt;-</span> s <span class="sc">*</span> <span class="fu">apply</span>(f[[r]], <span class="dv">2</span>, stats<span class="sc">::</span>quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(grid[j, <span class="fu">c</span>(<span class="st">"Group"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Illusion_Strength"</span>)], <span class="at">Response =</span> r,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>               <span class="at">RT =</span> rt, <span class="at">Density =</span> s <span class="sc">*</span> <span class="fu">colMeans</span>(f[[r]]),</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>               <span class="at">CI_low =</span> <span class="fu">pmin</span>(q[<span class="dv">1</span>, ], q[<span class="dv">2</span>, ]), <span class="at">CI_high =</span> <span class="fu">pmax</span>(q[<span class="dv">1</span>, ], q[<span class="dv">2</span>, ]),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>               <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>dens<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(illusions[<span class="fu">as.character</span>(dens<span class="sc">$</span>Illusion_Type)], <span class="at">levels =</span> illusions)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>dens<span class="sc">$</span>Strength <span class="ot">&lt;-</span> <span class="fu">factor</span>(strength_lab[<span class="fu">as.character</span>(dens<span class="sc">$</span>Illusion_Strength)], <span class="at">levels =</span> strength_lab)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co"># P(error) per group, printed in the empty top right, as the error curve is</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># often too flat to see. The posterior mean, which is the area of the mean</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co"># density.</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>perr <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grid[cells, <span class="fu">c</span>(<span class="st">"Group"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Illusion_Strength"</span>)],</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>                   <span class="at">PError =</span> <span class="fu">colMeans</span>(d<span class="sc">$</span>perror[, cells]), <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>perr<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(illusions[<span class="fu">as.character</span>(perr<span class="sc">$</span>Illusion_Type)], <span class="at">levels =</span> illusions)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>perr<span class="sc">$</span>Strength <span class="ot">&lt;-</span> <span class="fu">factor</span>(strength_lab[<span class="fu">as.character</span>(perr<span class="sc">$</span>Illusion_Strength)], <span class="at">levels =</span> strength_lab)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>perr<span class="sc">$</span>Label <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%s: %.1f%%"</span>, perr<span class="sc">$</span>Group, <span class="dv">100</span> <span class="sc">*</span> perr<span class="sc">$</span>PError)</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>shown <span class="ot">&lt;-</span> dens<span class="sc">$</span>RT <span class="sc">&lt;=</span> <span class="fl">2.5</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> <span class="fu">tapply</span>(dens<span class="sc">$</span>CI_high[shown], dens<span class="sc">$</span>Strength[shown], max)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> top <span class="sc">-</span> <span class="fu">tapply</span>(dens<span class="sc">$</span>CI_low[shown], dens<span class="sc">$</span>Strength[shown], min)</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>row <span class="ot">&lt;-</span> <span class="fu">as.character</span>(perr<span class="sc">$</span>Strength)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>perr<span class="sc">$</span>y <span class="ot">&lt;-</span> top[row] <span class="sc">-</span> <span class="fl">0.1</span> <span class="sc">*</span> height[row] <span class="sc">*</span> (<span class="fu">as.integer</span>(perr<span class="sc">$</span>Group) <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dens, <span class="fu">aes</span>(RT, Density)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#9a9a95"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_low, <span class="at">ymax =</span> CI_high, <span class="at">fill =</span> Group,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group =</span> <span class="fu">interaction</span>(Group, Response)), <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour =</span> Group, <span class="at">group =</span> <span class="fu">interaction</span>(Group, Response)), <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> perr, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> y, <span class="at">label =</span> Label, <span class="at">colour =</span> Group),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">2.8</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Strength <span class="sc">~</span> Illusion_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(y) <span class="fu">abs</span>(y)) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>)) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"RT (s)"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Density: correct above, errors below (area = proportion of responses)"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Predicted RT distributions per group"</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="fu">paste0</span>(</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Population level, mid task difficulty. Lines: posterior mean densities; bands: 95% intervals.</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Text: P(error), posterior mean (the area of the error curve). Each row has its own y scale."</span>)) <span class="sc">+</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  theme_igsa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="posterior-predictive-check" class="level2">
+<h2 class="anchored" data-anchor-id="posterior-predictive-check">Posterior predictive check</h2>
+<p>The model against the data. One hundred evenly spaced posterior draws simulate a choice and a response time for every trial, with the participant effects in (cogmod’s <code>posterior_predict()</code> method), and the simulated trials are summarised the way the observed ones are: the error rate and the median response time in each pair of neighbouring strengths, pooled over difficulty and participants; and, in three bands of strength (facilitating, strength ≤ −0.6; none, |strength| ≤ 0.3; conflicting, strength ≥ 0.6), the distributions of correct and of erroneous response times, as histograms with 50 ms bins, each scaled by its share of responses. The summaries are written to <code>analysis/results/ddm_ppc_*.csv</code>, which the paper draws from.</p>
+<p>Why pairs: the two blocks of an illusion split the design. Block A shows the odd tenths of strength (±0.1, ±0.3, …, ±0.9) with the four easier objective differences (difficulty −1, −0.28, 0.31, 0.79), block B the even tenths (±0.2, …, ±1) with the four harder ones (−0.62, 0.03, 0.56, 1). A curve per strength therefore zigzags with difficulty (and block), in the data and in the model alike. Each pair of neighbours (−1 and −0.9, …, 0.1 and 0.2, …, 0.9 and 1) takes one strength from each block, so it covers all eight differences, and its point sits at the pair’s mean strength.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ppc_ids <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">ndraws</span>(m), <span class="at">length.out =</span> <span class="dv">100</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> m<span class="sc">$</span>data</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>n_obs <span class="ot">&lt;-</span> <span class="fu">nrow</span>(trials)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior_predict() calls the family once per trial; cogmod's method also</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># takes a vector of trials and returns their draws stacked, trial by trial</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (cogmod's ?rcogmod_ddm, "Predicting many observations at once"). Column 1</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># is the response time, column 2 the choice (1 = the error boundary).</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>prep <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">prepare_predictions</span>(m, <span class="at">draw_ids =</span> ppc_ids)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (dp <span class="cf">in</span> <span class="fu">names</span>(prep<span class="sc">$</span>dpars)) prep<span class="sc">$</span>dpars[[dp]] <span class="ot">&lt;-</span> brms<span class="sc">::</span><span class="fu">get_dpar</span>(prep, dp)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">split</span>(<span class="fu">seq_len</span>(n_obs), <span class="fu">ceiling</span>(<span class="fu">seq_len</span>(n_obs) <span class="sc">/</span> <span class="dv">50</span>)),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                            cogmod<span class="sc">::</span>posterior_predict_cogmod_ddm, <span class="at">prep =</span> prep))</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(pp) <span class="sc">==</span> <span class="fu">length</span>(ppc_ids) <span class="sc">*</span> n_obs)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>rt_pred <span class="ot">&lt;-</span> <span class="fu">matrix</span>(pp[, <span class="dv">1</span>], <span class="at">nrow =</span> <span class="fu">length</span>(ppc_ids))</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>ch_pred <span class="ot">&lt;-</span> <span class="fu">matrix</span>(pp[, <span class="dv">2</span>], <span class="at">nrow =</span> <span class="fu">length</span>(ppc_ids))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(ch_pred <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)))</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(pp, prep)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>band <span class="ot">&lt;-</span> <span class="cf">function</span>(s) <span class="fu">ifelse</span>(s <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.6</span>, <span class="st">"Facilitating"</span>, <span class="fu">ifelse</span>(s <span class="sc">&gt;=</span> <span class="fl">0.6</span>, <span class="st">"Conflicting"</span>, <span class="fu">ifelse</span>(<span class="fu">abs</span>(s) <span class="sc">&lt;=</span> <span class="fl">0.3</span>, <span class="st">"None"</span>, <span class="cn">NA</span>)))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>trials<span class="sc">$</span>Bin <span class="ot">&lt;-</span> <span class="fu">band</span>(trials<span class="sc">$</span>Illusion_Strength)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>cell <span class="ot">&lt;-</span> <span class="fu">paste</span>(trials<span class="sc">$</span>Group, trials<span class="sc">$</span>Illusion_Type, trials<span class="sc">$</span>Bin, <span class="at">sep =</span> <span class="st">"|"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">unique</span>(cell[<span class="sc">!</span><span class="fu">is.na</span>(trials<span class="sc">$</span>Bin)])</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Defective histograms: 50 ms bins (three frames at 60 Hz) up to 2.5 s, the</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co"># density of each response among all responses, so the two areas sum to the</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># share of responses below 2.5 s. RT is the bin's centre.</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>tgrid <span class="ot">&lt;-</span> breaks[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">-</span> <span class="fu">diff</span>(breaks) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>defective <span class="ot">&lt;-</span> <span class="cf">function</span>(rt, err) {</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(rt)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="at">Correct =</span> <span class="dv">0</span>, <span class="at">Error =</span> <span class="dv">1</span>), <span class="cf">function</span>(r) {</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> rt[err <span class="sc">==</span> r]</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabulate</span>(<span class="fu">findInterval</span>(x, breaks), <span class="at">nbins =</span> <span class="fu">length</span>(tgrid)) <span class="sc">/</span> n <span class="sc">/</span> <span class="fu">diff</span>(breaks)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>ppc_dens <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(cells, <span class="cf">function</span>(k) {</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  parts <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(k, <span class="st">"|"</span>, <span class="at">fixed =</span> <span class="cn">TRUE</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="fu">which</span>(cell <span class="sc">==</span> k)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  observed <span class="ot">&lt;-</span> <span class="fu">defective</span>(trials<span class="sc">$</span>RT[i], trials<span class="sc">$</span>Error[i])</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  per_draw <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(ppc_ids), <span class="cf">function</span>(j) <span class="fu">defective</span>(rt_pred[j, i], ch_pred[j, i]))</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">"Correct"</span>, <span class="st">"Error"</span>), <span class="cf">function</span>(r) {</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    M <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(per_draw, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, r))</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">Group =</span> parts[<span class="dv">1</span>], <span class="at">Illusion_Type =</span> parts[<span class="dv">2</span>], <span class="at">Bin =</span> parts[<span class="dv">3</span>], <span class="at">Response =</span> r, <span class="at">N =</span> <span class="fu">length</span>(i),</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>               <span class="at">RT =</span> tgrid, <span class="at">Observed =</span> observed[[r]], <span class="at">Pred_mean =</span> <span class="fu">colMeans</span>(M),</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>               <span class="at">Pred_low =</span> <span class="fu">apply</span>(M, <span class="dv">2</span>, quantile, <span class="fl">0.025</span>), <span class="at">Pred_high =</span> <span class="fu">apply</span>(M, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>))</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ppc_dens, <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_ppc_densities.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>ppc_errs <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(cells, <span class="cf">function</span>(k) {</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>  parts <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(k, <span class="st">"|"</span>, <span class="at">fixed =</span> <span class="cn">TRUE</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="fu">which</span>(cell <span class="sc">==</span> k)</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(ch_pred[, i, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Group =</span> parts[<span class="dv">1</span>], <span class="at">Illusion_Type =</span> parts[<span class="dv">2</span>], <span class="at">Bin =</span> parts[<span class="dv">3</span>], <span class="at">N =</span> <span class="fu">length</span>(i),</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>             <span class="at">Observed =</span> <span class="fu">mean</span>(trials<span class="sc">$</span>Error[i]), <span class="at">Pred_mean =</span> <span class="fu">mean</span>(p),</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>             <span class="at">Pred_low =</span> <span class="fu">quantile</span>(p, <span class="fl">0.025</span>), <span class="at">Pred_high =</span> <span class="fu">quantile</span>(p, <span class="fl">0.975</span>))</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ppc_errs, <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_ppc_errors.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Pairs of neighbouring strengths (see above): -1 and -0.9 -&gt; -0.95, ...,</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.1 and 0.2 -&gt; 0.15, ..., 0.9 and 1 -&gt; 0.95.</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>strength_pair <span class="ot">&lt;-</span> <span class="cf">function</span>(s) <span class="fu">sign</span>(s) <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">floor</span>((<span class="fu">round</span>(<span class="dv">10</span> <span class="sc">*</span> <span class="fu">abs</span>(s)) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">1.5</span>) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">strength_pair</span>(trials<span class="sc">$</span>Illusion_Strength))) <span class="sc">==</span> <span class="dv">10</span>)</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">paste</span>(trials<span class="sc">$</span>Group, trials<span class="sc">$</span>Illusion_Type, <span class="fu">strength_pair</span>(trials<span class="sc">$</span>Illusion_Strength), <span class="at">sep =</span> <span class="st">"|"</span>)</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>ppc_curves <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">unique</span>(key), <span class="cf">function</span>(k) {</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>  parts <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(k, <span class="st">"|"</span>, <span class="at">fixed =</span> <span class="cn">TRUE</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="fu">which</span>(key <span class="sc">==</span> k)</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>  e <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(ch_pred[, i, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">apply</span>(rt_pred[, i, <span class="at">drop =</span> <span class="cn">FALSE</span>], <span class="dv">1</span>, median)</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>  head <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Group =</span> parts[<span class="dv">1</span>], <span class="at">Illusion_Type =</span> parts[<span class="dv">2</span>], <span class="at">Illusion_Strength =</span> <span class="fu">as.numeric</span>(parts[<span class="dv">3</span>]), <span class="at">N =</span> <span class="fu">length</span>(i))</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cbind</span>(head, <span class="at">Measure =</span> <span class="st">"Error rate"</span>, <span class="at">Observed =</span> <span class="fu">mean</span>(trials<span class="sc">$</span>Error[i]), <span class="at">Pred_mean =</span> <span class="fu">mean</span>(e),</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>          <span class="at">Pred_low =</span> <span class="fu">quantile</span>(e, <span class="fl">0.025</span>), <span class="at">Pred_high =</span> <span class="fu">quantile</span>(e, <span class="fl">0.975</span>)),</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cbind</span>(head, <span class="at">Measure =</span> <span class="st">"Median RT (s)"</span>, <span class="at">Observed =</span> <span class="fu">median</span>(trials<span class="sc">$</span>RT[i]), <span class="at">Pred_mean =</span> <span class="fu">mean</span>(r),</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>          <span class="at">Pred_low =</span> <span class="fu">quantile</span>(r, <span class="fl">0.025</span>), <span class="at">Pred_high =</span> <span class="fu">quantile</span>(r, <span class="fl">0.975</span>)))</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ppc_curves, <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_ppc_curves.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(rt_pred, ch_pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Overall, the simulated trials have an error rate of 18.9% against 18.9% observed in the same bands.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cv <span class="ot">&lt;-</span> ppc_curves</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cv<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(illusions[<span class="fu">as.character</span>(cv<span class="sc">$</span>Illusion_Type)], <span class="at">levels =</span> illusions)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>cv<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(cv<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">names</span>(group_col))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cv, <span class="fu">aes</span>(Illusion_Strength)) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#9a9a95"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Pred_low, <span class="at">ymax =</span> Pred_high, <span class="at">fill =</span> Group), <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Pred_mean, <span class="at">colour =</span> Group), <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> Observed, <span class="at">colour =</span> Group), <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Measure <span class="sc">~</span> Illusion_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">switch =</span> <span class="st">"y"</span>) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Illusion strength"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Observed summaries and posterior predictions across strength"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="fu">paste0</span>(<span class="st">"Points: observed, per pair of neighbouring strengths, pooled over difficulty and participants.</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"Lines and bands: posterior predictive mean and 95% interval."</span>)) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  theme_igsa <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">strip.placement =</span> <span class="st">"outside"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bin_lab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Facilitating =</span> <span class="st">"Facilitating illusion"</span>, <span class="at">None =</span> <span class="st">"No illusion"</span>, <span class="at">Conflicting =</span> <span class="st">"Conflicting illusion"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> ppc_dens</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sgn <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x<span class="sc">$</span>Response <span class="sc">==</span> <span class="st">"Error"</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>lo <span class="ot">&lt;-</span> sgn <span class="sc">*</span> x<span class="sc">$</span>Pred_low; hi <span class="ot">&lt;-</span> sgn <span class="sc">*</span> x<span class="sc">$</span>Pred_high</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>Observed <span class="ot">&lt;-</span> sgn <span class="sc">*</span> x<span class="sc">$</span>Observed</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>Pred_mean <span class="ot">&lt;-</span> sgn <span class="sc">*</span> x<span class="sc">$</span>Pred_mean</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>Pred_low <span class="ot">&lt;-</span> <span class="fu">pmin</span>(lo, hi); x<span class="sc">$</span>Pred_high <span class="ot">&lt;-</span> <span class="fu">pmax</span>(lo, hi)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>Bin <span class="ot">&lt;-</span> <span class="fu">factor</span>(bin_lab[x<span class="sc">$</span>Bin], <span class="at">levels =</span> bin_lab)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(illusions[<span class="fu">as.character</span>(x<span class="sc">$</span>Illusion_Type)], <span class="at">levels =</span> illusions)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(x<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">names</span>(group_col))</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> ppc_errs</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>e<span class="sc">$</span>Bin <span class="ot">&lt;-</span> <span class="fu">factor</span>(bin_lab[e<span class="sc">$</span>Bin], <span class="at">levels =</span> bin_lab)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>e<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(illusions[<span class="fu">as.character</span>(e<span class="sc">$</span>Illusion_Type)], <span class="at">levels =</span> illusions)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>e<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(e<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">names</span>(group_col))</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>e<span class="sc">$</span>Label <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%s: %.0f%% (%.0f%%)"</span>, e<span class="sc">$</span>Group, <span class="dv">100</span> <span class="sc">*</span> e<span class="sc">$</span>Observed, <span class="dv">100</span> <span class="sc">*</span> e<span class="sc">$</span>Pred_mean)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> <span class="fu">tapply</span>(<span class="fu">pmax</span>(x<span class="sc">$</span>Pred_high, x<span class="sc">$</span>Observed), <span class="fu">list</span>(x<span class="sc">$</span>Bin, x<span class="sc">$</span>Illusion_Type), max)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>bottom <span class="ot">&lt;-</span> <span class="fu">tapply</span>(<span class="fu">pmin</span>(x<span class="sc">$</span>Pred_low, x<span class="sc">$</span>Observed), <span class="fu">list</span>(x<span class="sc">$</span>Bin, x<span class="sc">$</span>Illusion_Type), min)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>ix <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.character</span>(e<span class="sc">$</span>Bin), <span class="fu">as.character</span>(e<span class="sc">$</span>Illusion_Type))</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>e<span class="sc">$</span>y <span class="ot">&lt;-</span> top[ix] <span class="sc">-</span> <span class="fl">0.11</span> <span class="sc">*</span> (top <span class="sc">-</span> bottom)[ix] <span class="sc">*</span> (<span class="fu">as.integer</span>(e<span class="sc">$</span>Group) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(RT, <span class="at">group =</span> <span class="fu">interaction</span>(Group, Response))) <span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#9a9a95"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Pred_low, <span class="at">ymax =</span> Pred_high, <span class="at">fill =</span> Group), <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Pred_mean, <span class="at">colour =</span> Group), <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> Observed, <span class="at">colour =</span> Group), <span class="at">size =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> e, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">2.45</span>, <span class="at">y =</span> y, <span class="at">label =</span> Label, <span class="at">colour =</span> Group), <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">2.6</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Bin <span class="sc">~</span> Illusion_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> group_col) <span class="sc">+</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(y) <span class="fu">abs</span>(y)) <span class="sc">+</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>)) <span class="sc">+</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Response time (s)"</span>, <span class="at">y =</span> <span class="st">"Density: correct above, errors below"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Observed and posterior predictive RT distributions"</span>,</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="fu">paste0</span>(<span class="st">"Points: observed (50 ms bins). Lines and bands: posterior predictive mean and 95% interval.</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"Text: error rate, observed (predicted)."</span>)) <span class="sc">+</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>  theme_igsa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="group-differences-across-strength" class="level2">
+<h2 class="anchored" data-anchor-id="group-differences-across-strength">Group differences across strength</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot_contrasts <span class="ot">&lt;-</span> <span class="cf">function</span>(x, title) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(x, <span class="fu">aes</span>(Illusion_Strength, Median)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#9a9a95"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_low, <span class="at">ymax =</span> CI_high, <span class="at">fill =</span> Contrast), <span class="at">alpha =</span> <span class="fl">0.12</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour =</span> Contrast, <span class="at">linetype =</span> Contrast), <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_grid</span>(Quantity <span class="sc">~</span> Illusion_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">switch =</span> <span class="st">"y"</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> contrast_col) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> contrast_col) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> contrast_lty) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Illusion strength"</span>, <span class="at">y =</span> <span class="st">"Difference between groups"</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>, <span class="at">linetype =</span> <span class="cn">NULL</span>, <span class="at">title =</span> title, <span class="at">caption =</span> caption) <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    theme_igsa <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">strip.placement =</span> <span class="st">"outside"</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_contrasts</span>(contrasts[contrasts<span class="sc">$</span>Quantity <span class="sc">%in%</span> quantities[<span class="fu">setdiff</span>(parameters, <span class="st">"mu"</span>)], ],</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Group differences in the DDM parameters"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_contrasts</span>(contrasts[contrasts<span class="sc">$</span>Quantity <span class="sc">%in%</span> quantities[derived], ],</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Group differences in discriminability and P(error)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="with-no-illusion-and-in-its-effect" class="level2">
+<h2 class="anchored" data-anchor-id="with-no-illusion-and-in-its-effect">With no illusion, and in its effect</h2>
+<p>The two numbers per contrast that the curves come down to: the difference at strength 0, and the difference in the change from strength 0 to 1 (the strongest conflicting illusion).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>summary_tab<span class="sc">$</span>Measure <span class="ot">&lt;-</span> <span class="fu">factor</span>(summary_tab<span class="sc">$</span>Measure, <span class="at">levels =</span> <span class="fu">unique</span>(summary_tab<span class="sc">$</span>Measure))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>summary_tab<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(summary_tab<span class="sc">$</span>Illusion_Type, <span class="at">levels =</span> <span class="fu">rev</span>(illusions))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dodged bottom-up, so reverse the groups to read top-down in legend order.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>summary_tab<span class="sc">$</span>Dodge <span class="ot">&lt;-</span> <span class="fu">factor</span>(summary_tab<span class="sc">$</span>Contrast, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">levels</span>(summary_tab<span class="sc">$</span>Contrast)))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_tab, <span class="fu">aes</span>(Median, Illusion_Type, <span class="at">colour =</span> Contrast, <span class="at">group =</span> Dodge)) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#9a9a95"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> CI_low, <span class="at">xmax =</span> CI_high), <span class="at">linewidth =</span> <span class="fl">0.7</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.6</span>)) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> Contrast), <span class="at">size =</span> <span class="fl">2.2</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.6</span>)) <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Quantity <span class="sc">+</span> Measure, <span class="at">scales =</span> <span class="st">"free_x"</span>, <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="cf">function</span>(l) <span class="fu">label_value</span>(l, <span class="at">multi_line =</span> <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> contrast_col) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Past - Never"</span> <span class="ot">=</span> <span class="dv">16</span>, <span class="st">"Recent - Never"</span> <span class="ot">=</span> <span class="dv">17</span>, <span class="st">"Recent - Past"</span> <span class="ot">=</span> <span class="dv">15</span>)) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Difference between groups (median, 95% interval)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Group differences per illusion: with no illusion, and in its effect"</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Population level, mid task difficulty. Effect of the illusion: the change from strength 0 to 1 (the strongest conflicting illusion)."</span>) <span class="sc">+</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  theme_igsa <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hits <span class="ot">&lt;-</span> summary_tab[summary_tab<span class="sc">$</span>pd <span class="sc">&gt;=</span> <span class="fl">0.95</span>, ]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>hits<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(hits<span class="sc">$</span>Illusion_Type, <span class="at">levels =</span> illusions)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>hits <span class="ot">&lt;-</span> hits[<span class="fu">order</span>(hits<span class="sc">$</span>Measure, hits<span class="sc">$</span>Quantity, hits<span class="sc">$</span>Contrast, hits<span class="sc">$</span>Illusion_Type), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The 43 contrasts (of 126) whose probability of direction is at least 0.95:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  hits[<span class="fu">c</span>(<span class="st">"Measure"</span>, <span class="st">"Quantity"</span>, <span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)],</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Measure"</span>, <span class="st">"Quantity"</span>, <span class="st">"Contrast"</span>, <span class="st">"Illusion"</span>, <span class="st">"Median"</span>, <span class="st">"2.5%"</span>, <span class="st">"97.5%"</span>, <span class="st">"pd"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 21%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Measure</th>
+<th style="text-align: left;">Quantity</th>
+<th style="text-align: left;">Contrast</th>
+<th style="text-align: left;">Illusion</th>
+<th style="text-align: right;">Median</th>
+<th style="text-align: right;">2.5%</th>
+<th style="text-align: right;">97.5%</th>
+<th style="text-align: right;">pd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.462</td>
+<td style="text-align: right;">-0.908</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">0.983</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-1.117</td>
+<td style="text-align: right;">-1.566</td>
+<td style="text-align: right;">-0.703</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">-0.519</td>
+<td style="text-align: right;">-0.988</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">0.984</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.849</td>
+<td style="text-align: right;">-1.290</td>
+<td style="text-align: right;">-0.417</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.657</td>
+<td style="text-align: right;">-1.150</td>
+<td style="text-align: right;">-0.136</td>
+<td style="text-align: right;">0.994</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.766</td>
+<td style="text-align: right;">-1.239</td>
+<td style="text-align: right;">-0.286</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">0.565</td>
+<td style="text-align: right;">0.247</td>
+<td style="text-align: right;">0.876</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">0.520</td>
+<td style="text-align: right;">0.193</td>
+<td style="text-align: right;">0.860</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">0.506</td>
+<td style="text-align: right;">0.245</td>
+<td style="text-align: right;">0.774</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">0.655</td>
+<td style="text-align: right;">0.324</td>
+<td style="text-align: right;">0.983</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">0.425</td>
+<td style="text-align: right;">0.073</td>
+<td style="text-align: right;">0.751</td>
+<td style="text-align: right;">0.991</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">0.514</td>
+<td style="text-align: right;">0.237</td>
+<td style="text-align: right;">0.788</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">-0.062</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.964</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">-0.026</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.951</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">sv: trial-to-trial drift SD</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">0.379</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">0.680</td>
+<td style="text-align: right;">0.994</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">0.462</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.908</td>
+<td style="text-align: right;">0.983</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">1.117</td>
+<td style="text-align: right;">0.703</td>
+<td style="text-align: right;">1.566</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">0.519</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.988</td>
+<td style="text-align: right;">0.984</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">0.849</td>
+<td style="text-align: right;">0.417</td>
+<td style="text-align: right;">1.290</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">0.657</td>
+<td style="text-align: right;">0.136</td>
+<td style="text-align: right;">1.150</td>
+<td style="text-align: right;">0.994</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">0.766</td>
+<td style="text-align: right;">0.286</td>
+<td style="text-align: right;">1.239</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">-0.030</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.996</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.025</td>
+<td style="text-align: right;">-0.041</td>
+<td style="text-align: right;">-0.011</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.021</td>
+<td style="text-align: right;">-0.035</td>
+<td style="text-align: right;">-0.012</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">-0.009</td>
+<td style="text-align: right;">-0.018</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.995</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.031</td>
+<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">-0.019</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">-0.012</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.997</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">-0.010</td>
+<td style="text-align: right;">-0.020</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.994</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No illusion (strength 0)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.988</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">0.657</td>
+<td style="text-align: right;">0.077</td>
+<td style="text-align: right;">1.231</td>
+<td style="text-align: right;">0.988</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.233</td>
+<td style="text-align: right;">-0.415</td>
+<td style="text-align: right;">-0.062</td>
+<td style="text-align: right;">0.997</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.117</td>
+<td style="text-align: right;">0.996</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">0.990</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">0.102</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.145</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">0.998</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">Non-decision time (s)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">-0.019</td>
+<td style="text-align: right;">-0.030</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">Non-decision time (s)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">-0.030</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.985</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">sv: trial-to-trial drift SD</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: right;">-0.218</td>
+<td style="text-align: right;">-0.385</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">0.997</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">sv: trial-to-trial drift SD</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.137</td>
+<td style="text-align: right;">-0.273</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">0.979</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.657</td>
+<td style="text-align: right;">-1.231</td>
+<td style="text-align: right;">-0.077</td>
+<td style="text-align: right;">0.988</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.239</td>
+<td style="text-align: right;">-0.411</td>
+<td style="text-align: right;">-0.053</td>
+<td style="text-align: right;">0.995</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: right;">-0.337</td>
+<td style="text-align: right;">-0.490</td>
+<td style="text-align: right;">-0.166</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Effect of the illusion (strength 0 to 1)</td>
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: right;">-0.143</td>
+<td style="text-align: right;">-0.285</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.968</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="averaged-over-the-design" class="level2">
+<h2 class="anchored" data-anchor-id="averaged-over-the-design">Averaged over the design</h2>
+<p>One number per parameter and contrast: the group difference averaged over every strength × difficulty point the task showed (80 per illusion), per illusion and across the three. For the parameters it is <code>modelbased::estimate_contrasts()</code> on the fit, predicting each distributional parameter at the population level over that grid; for the derived quantities it is the same average of the per-draw grid in <code>marginals.R</code>, and the two are checked against each other on the parameters. The design has mean strength 0, with strength orthogonal to difficulty, so for the drift (identity link) the average is the value at strength 0 and the design’s mean difficulty (0.098, a little hard of the midpoint used above). For the other parameters (log, softplus and logit links) and for P(error) it is a genuine average, and the P(error) one should sit close to the raw error-rate differences in <code>0_preprocessing.qmd</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">igsa_design_grid</span>(m)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>mb_contrasts <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(x)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Contrast =</span> <span class="fu">paste</span>(x<span class="sc">$</span>Level1, <span class="st">"-"</span>, x<span class="sc">$</span>Level2),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">Illusion_Type =</span> <span class="cf">if</span> (<span class="st">"Illusion_Type"</span> <span class="sc">%in%</span> <span class="fu">names</span>(x)) <span class="fu">as.character</span>(x<span class="sc">$</span>Illusion_Type) <span class="cf">else</span> <span class="st">"All"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">Median =</span> x<span class="sc">$</span>Median, <span class="at">CI_low =</span> x<span class="sc">$</span>CI_low, <span class="at">CI_high =</span> x<span class="sc">$</span>CI_high, <span class="at">pd =</span> x<span class="sc">$</span>pd)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>averaged <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(parameters, <span class="cf">function</span>(p) <span class="fu">rbind</span>(</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="at">Quantity =</span> p, <span class="fu">mb_contrasts</span>(<span class="fu">estimate_contrasts</span>(m, <span class="at">contrast =</span> <span class="st">"Group"</span>, <span class="at">by =</span> <span class="st">"Illusion_Type"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">newdata =</span> design, <span class="at">predict =</span> p, <span class="at">re_formula =</span> <span class="cn">NA</span>))),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="at">Quantity =</span> p, <span class="fu">mb_contrasts</span>(<span class="fu">estimate_contrasts</span>(m, <span class="at">contrast =</span> <span class="st">"Group"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">newdata =</span> design, <span class="at">predict =</span> p, <span class="at">re_formula =</span> <span class="cn">NA</span>)))</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>)))</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The derived quantities the same way, per draw.</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">igsa_draws</span>(m, design)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>poutlier <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Quantity"</span>, <span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>b_ill <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_contrasts</span>(<span class="fu">igsa_average</span>(dd, design)))</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>b_all <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_contrasts</span>(<span class="fu">igsa_average</span>(dd, design, <span class="at">by =</span> <span class="st">"Group"</span>)))</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>b_all<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="st">"All"</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># The per-group values behind the contrasts, for the paper.</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>a_ill <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_average</span>(dd, design))</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>a_all <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_average</span>(dd, design, <span class="at">by =</span> <span class="st">"Group"</span>))</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>a_all<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="st">"All"</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>mean_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Group"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Quantity"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="fu">rbind</span>(a_ill[mean_cols], a_all[mean_cols]), <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_groups_averaged_means.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>bespoke <span class="ot">&lt;-</span> <span class="fu">rbind</span>(b_ill[cols], b_all[cols])</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>bespoke<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">as.character</span>(bespoke<span class="sc">$</span>Illusion_Type)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Same draws, same grid, same average: the two code paths must agree.</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">merge</span>(averaged, bespoke, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Quantity"</span>, <span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>), <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">"_mb"</span>, <span class="st">"_r"</span>))</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(check) <span class="sc">==</span> <span class="fu">nrow</span>(averaged), <span class="fu">max</span>(<span class="fu">abs</span>(check<span class="sc">$</span>Median_mb <span class="sc">-</span> check<span class="sc">$</span>Median_r)) <span class="sc">&lt;</span> <span class="fl">1e-6</span>)</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>averaged <span class="ot">&lt;-</span> <span class="fu">rbind</span>(averaged[cols], bespoke[bespoke<span class="sc">$</span>Quantity <span class="sc">%in%</span> derived, cols])</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(averaged, <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_groups_averaged.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plot_dots <span class="ot">&lt;-</span> <span class="cf">function</span>(x, title, caption, <span class="at">ncol =</span> <span class="dv">2</span>) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  lab <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x<span class="sc">$</span>Quantity <span class="sc">%in%</span> <span class="fu">names</span>(quantities), quantities[<span class="fu">as.character</span>(x<span class="sc">$</span>Quantity)], <span class="fu">as.character</span>(x<span class="sc">$</span>Quantity))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>Quantity <span class="ot">&lt;-</span> <span class="fu">factor</span>(lab, <span class="at">levels =</span> <span class="fu">unique</span>(lab))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  ill <span class="ot">&lt;-</span> <span class="fu">c</span>(illusions, <span class="at">All =</span> <span class="st">"All illusions"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>Illusion_Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(ill[<span class="fu">as.character</span>(x<span class="sc">$</span>Illusion_Type)], <span class="at">levels =</span> <span class="fu">c</span>(<span class="fu">rev</span>(illusions), <span class="st">"All illusions"</span>))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>Contrast <span class="ot">&lt;-</span> <span class="fu">factor</span>(x<span class="sc">$</span>Contrast, <span class="at">levels =</span> <span class="fu">names</span>(contrast_col))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>Dodge <span class="ot">&lt;-</span> <span class="fu">factor</span>(x<span class="sc">$</span>Contrast, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">levels</span>(x<span class="sc">$</span>Contrast)))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(x, <span class="fu">aes</span>(Median, Illusion_Type, <span class="at">colour =</span> Contrast, <span class="at">group =</span> Dodge)) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#9a9a95"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> CI_low, <span class="at">xmax =</span> CI_high), <span class="at">linewidth =</span> <span class="fl">0.7</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.6</span>)) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> Contrast), <span class="at">size =</span> <span class="fl">2.2</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.6</span>)) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Quantity, <span class="at">scales =</span> <span class="st">"free_x"</span>, <span class="at">ncol =</span> ncol) <span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> contrast_col) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Past - Never"</span> <span class="ot">=</span> <span class="dv">16</span>, <span class="st">"Recent - Never"</span> <span class="ot">=</span> <span class="dv">17</span>, <span class="st">"Recent - Past"</span> <span class="ot">=</span> <span class="dv">15</span>)) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Difference between groups (median, 95% interval)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">shape =</span> <span class="cn">NULL</span>, <span class="at">title =</span> title, <span class="at">caption =</span> caption) <span class="sc">+</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    theme_igsa <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">8</span>))</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_dots</span>(averaged, <span class="st">"Group differences averaged over the design"</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Population level, averaged over every strength x difficulty point shown. For the drift this is the value at strength 0 and the mean difficulty of the design."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Across the three illusions:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>all_tab <span class="ot">&lt;-</span> averaged[averaged<span class="sc">$</span>Illusion_Type <span class="sc">==</span> <span class="st">"All"</span>, ]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>all_tab<span class="sc">$</span>Quantity <span class="ot">&lt;-</span> quantities[<span class="fu">as.character</span>(all_tab<span class="sc">$</span>Quantity)]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(all_tab[<span class="fu">c</span>(<span class="st">"Quantity"</span>, <span class="st">"Contrast"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)],</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Quantity"</span>, <span class="st">"Contrast"</span>, <span class="st">"Median"</span>, <span class="st">"2.5%"</span>, <span class="st">"97.5%"</span>, <span class="st">"pd"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 21%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Quantity</th>
+<th style="text-align: left;">Contrast</th>
+<th style="text-align: right;">Median</th>
+<th style="text-align: right;">2.5%</th>
+<th style="text-align: right;">97.5%</th>
+<th style="text-align: right;">pd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: right;">-0.238</td>
+<td style="text-align: right;">-0.529</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.956</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: right;">-0.743</td>
+<td style="text-align: right;">-1.032</td>
+<td style="text-align: right;">-0.453</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">drift (towards the error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: right;">-0.503</td>
+<td style="text-align: right;">-0.821</td>
+<td style="text-align: right;">-0.174</td>
+<td style="text-align: right;">0.999</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: right;">0.519</td>
+<td style="text-align: right;">0.250</td>
+<td style="text-align: right;">0.785</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: right;">0.511</td>
+<td style="text-align: right;">0.225</td>
+<td style="text-align: right;">0.775</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a: boundary separation</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: right;">-0.010</td>
+<td style="text-align: right;">-0.318</td>
+<td style="text-align: right;">0.294</td>
+<td style="text-align: right;">0.529</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">-0.026</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">0.758</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: right;">-0.011</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.875</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">w: start point</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: right;">-0.004</td>
+<td style="text-align: right;">-0.026</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.646</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-decision time (s)</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-0.004</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.939</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Non-decision time (s)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.912</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-decision time (s)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: right;">-0.003</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.605</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sv: trial-to-trial drift SD</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">-0.062</td>
+<td style="text-align: right;">0.283</td>
+<td style="text-align: right;">0.890</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sv: trial-to-trial drift SD</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">-0.118</td>
+<td style="text-align: right;">0.220</td>
+<td style="text-align: right;">0.733</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sv: trial-to-trial drift SD</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: right;">-0.056</td>
+<td style="text-align: right;">-0.239</td>
+<td style="text-align: right;">0.124</td>
+<td style="text-align: right;">0.726</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: right;">0.238</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">0.529</td>
+<td style="text-align: right;">0.956</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: right;">0.743</td>
+<td style="text-align: right;">0.453</td>
+<td style="text-align: right;">1.032</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">v = -drift: discriminability</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: right;">0.503</td>
+<td style="text-align: right;">0.174</td>
+<td style="text-align: right;">0.821</td>
+<td style="text-align: right;">0.999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: right;">-0.034</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">-0.017</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: right;">-0.047</td>
+<td style="text-align: right;">-0.063</td>
+<td style="text-align: right;">-0.032</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">P(error)</td>
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: right;">-0.013</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.948</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="slopes-strength-difficulty-and-the-illusion-index" class="level2">
+<h2 class="anchored" data-anchor-id="slopes-strength-difficulty-and-the-illusion-index">Slopes: strength, difficulty and the illusion index</h2>
+<p>The marginal effect of illusion strength and of task difficulty on each parameter, per group and illusion, at strength 0 and mid difficulty (<code>modelbased::estimate_slopes()</code>: the derivative at that point, which for the drift is the whole slope since the surface is linear, and for the other parameters the local slope on their natural scale). Their group contrasts come from the kept posterior iterations. Then, from the per-draw grid, the two slopes of discriminability and their ratio, the <strong>illusion magnitude</strong>: how many units of difficulty one unit of strength costs, the PSE shift in stimulus units, which nothing that scales the whole surface can change (<code>igsa_index()</code> in <code>marginals.R</code>).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>grid00 <span class="ot">&lt;-</span> <span class="fu">igsa_grid</span>(m, <span class="at">strength =</span> <span class="dv">0</span>, <span class="at">difficulty =</span> <span class="dv">0</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>trend_lab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Illusion_Strength =</span> <span class="st">"strength"</span>, <span class="at">Task_Difficulty =</span> <span class="st">"difficulty"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>slope_of <span class="ot">&lt;-</span> <span class="cf">function</span>(p, v) {</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">estimate_slopes</span>(m, <span class="at">trend =</span> v, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Group"</span>, <span class="st">"Illusion_Type"</span>), <span class="at">newdata =</span> grid00,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">predict =</span> p, <span class="at">re_formula =</span> <span class="cn">NA</span>, <span class="at">keep_iterations =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  iterations <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">as.matrix</span>(s[<span class="fu">grep</span>(<span class="st">"^iter_"</span>, <span class="fu">names</span>(s))]))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Group =</span> <span class="fu">as.character</span>(s<span class="sc">$</span>Group), <span class="at">Illusion_Type =</span> <span class="fu">as.character</span>(s<span class="sc">$</span>Illusion_Type))</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  means <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Quantity =</span> p, <span class="at">Trend =</span> trend_lab[[v]], g, <span class="at">Median =</span> s<span class="sc">$</span>Median,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">CI_low =</span> s<span class="sc">$</span>CI_low, <span class="at">CI_high =</span> s<span class="sc">$</span>CI_high, <span class="at">pd =</span> s<span class="sc">$</span>pd)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  ctr <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_contrasts</span>(<span class="fu">list</span>(<span class="at">slope =</span> iterations), g))</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  ctr <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Quantity =</span> p, <span class="at">Trend =</span> trend_lab[[v]],</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                    ctr[<span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)])</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">means =</span> means, <span class="at">contrasts =</span> ctr)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>sl <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(parameters, <span class="cf">function</span>(p) <span class="fu">lapply</span>(<span class="fu">names</span>(trend_lab), <span class="cf">function</span>(v) <span class="fu">slope_of</span>(p, v))),</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">recursive =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>slope_means <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sl, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"means"</span>))</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>slope_contrasts <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sl, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"contrasts"</span>))</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="co"># For the drift the derivative is the 0-to-1 change of the earlier</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co"># section, on the same draws: check it.</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">merge</span>(<span class="fu">igsa_summary</span>(<span class="fu">igsa_slopes</span>(d, grid, <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>), <span class="at">what =</span> <span class="st">"mu"</span>),</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>               slope_means[slope_means<span class="sc">$</span>Quantity <span class="sc">==</span> <span class="st">"mu"</span> <span class="sc">&amp;</span> slope_means<span class="sc">$</span>Trend <span class="sc">==</span> <span class="st">"strength"</span>, ],</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Group"</span>, <span class="st">"Illusion_Type"</span>))</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(check) <span class="sc">==</span> <span class="dv">9</span>, <span class="fu">max</span>(<span class="fu">abs</span>(check<span class="sc">$</span>Median.x <span class="sc">-</span> check<span class="sc">$</span>Median.y)) <span class="sc">&lt;</span> <span class="fl">1e-5</span>)</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="co"># The illusion index, from the per-draw grid.</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>g4 <span class="ot">&lt;-</span> <span class="fu">igsa_grid</span>(m, <span class="at">strength =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">difficulty =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>ix <span class="ot">&lt;-</span> <span class="fu">igsa_index</span>(<span class="fu">igsa_draws</span>(m, g4), g4)</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>index_means <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(ix)</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>index_contrasts <span class="ot">&lt;-</span> <span class="fu">igsa_summary</span>(<span class="fu">igsa_contrasts</span>(ix))</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>index_lab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">delta_strength =</span> <span class="st">"v ~ strength (illusion effect)"</span>,</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>               <span class="at">delta_difficulty =</span> <span class="st">"v ~ difficulty (precision)"</span>,</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>               <span class="at">index =</span> <span class="st">"Illusion magnitude: strength / difficulty"</span>)</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>slopes_out <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(slope_means[<span class="fu">c</span>(<span class="st">"Quantity"</span>, <span class="st">"Trend"</span>, <span class="st">"Group"</span>)], <span class="at">Contrast =</span> <span class="cn">NA</span>,</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>             slope_means[<span class="fu">c</span>(<span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)]),</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(slope_contrasts[<span class="fu">c</span>(<span class="st">"Quantity"</span>, <span class="st">"Trend"</span>)], <span class="at">Group =</span> <span class="cn">NA</span>,</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>             slope_contrasts[<span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)]),</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Quantity =</span> index_means<span class="sc">$</span>Quantity, <span class="at">Trend =</span> <span class="cn">NA</span>, <span class="at">Group =</span> index_means<span class="sc">$</span>Group, <span class="at">Contrast =</span> <span class="cn">NA</span>,</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>             index_means[<span class="fu">c</span>(<span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)]),</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Quantity =</span> index_contrasts<span class="sc">$</span>Quantity, <span class="at">Trend =</span> <span class="cn">NA</span>, <span class="at">Group =</span> <span class="cn">NA</span>,</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>             index_contrasts[<span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)])</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(slopes_out, <span class="fu">file.path</span>(out_dir, <span class="st">"ddm_groups_slopes.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The index per group and illusion (median, 95% interval), and its group differences:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fmt <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sprintf</span>(<span class="st">"%.2f [%.2f, %.2f]"</span>, x<span class="sc">$</span>Median, x<span class="sc">$</span>CI_low, x<span class="sc">$</span>CI_high)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>im <span class="ot">&lt;-</span> index_means[index_means<span class="sc">$</span>Quantity <span class="sc">==</span> <span class="st">"index"</span>, ]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>im<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">fmt</span>(im)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>im<span class="sc">$</span>Illusion <span class="ot">&lt;-</span> illusions[<span class="fu">as.character</span>(im<span class="sc">$</span>Illusion_Type)]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>im_wide <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">reshape</span>(im[<span class="fu">c</span>(<span class="st">"Illusion"</span>, <span class="st">"Group"</span>, <span class="st">"Value"</span>)], <span class="at">idvar =</span> <span class="st">"Illusion"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">timevar =</span> <span class="st">"Group"</span>, <span class="at">direction =</span> <span class="st">"wide"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(im_wide) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"^Value</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">""</span>, <span class="fu">names</span>(im_wide))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(im_wide, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Illusion</th>
+<th style="text-align: left;">Never</th>
+<th style="text-align: left;">Past</th>
+<th style="text-align: left;">Recent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">1.86 [1.65, 2.11]</td>
+<td style="text-align: left;">1.26 [1.11, 1.43]</td>
+<td style="text-align: left;">1.18 [1.07, 1.30]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: left;">1.71 [1.58, 1.87]</td>
+<td style="text-align: left;">1.45 [1.33, 1.58]</td>
+<td style="text-align: left;">1.46 [1.36, 1.58]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: left;">1.41 [1.26, 1.57]</td>
+<td style="text-align: left;">1.19 [1.06, 1.32]</td>
+<td style="text-align: left;">1.14 [1.04, 1.25]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ic <span class="ot">&lt;-</span> index_contrasts[index_contrasts<span class="sc">$</span>Quantity <span class="sc">==</span> <span class="st">"index"</span>, ]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ic<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">fmt</span>(ic)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>ic<span class="sc">$</span>Illusion <span class="ot">&lt;-</span> illusions[<span class="fu">as.character</span>(ic<span class="sc">$</span>Illusion_Type)]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>ic<span class="sc">$</span>pd <span class="ot">&lt;-</span> <span class="fu">round</span>(ic<span class="sc">$</span>pd, <span class="dv">3</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ic[<span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion"</span>, <span class="st">"Value"</span>, <span class="st">"pd"</span>)], <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion"</span>, <span class="st">"Difference"</span>, <span class="st">"pd"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Contrast</th>
+<th style="text-align: left;">Illusion</th>
+<th style="text-align: left;">Difference</th>
+<th style="text-align: right;">pd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">-0.60 [-0.89, -0.33]</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: left;">-0.27 [-0.46, -0.08]</td>
+<td style="text-align: right;">0.997</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Past - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: left;">-0.22 [-0.42, -0.02]</td>
+<td style="text-align: right;">0.984</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">-0.68 [-0.95, -0.44]</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: left;">-0.25 [-0.45, -0.08]</td>
+<td style="text-align: right;">0.998</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Recent - Never</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: left;">-0.27 [-0.46, -0.09]</td>
+<td style="text-align: right;">0.997</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Ebbinghaus</td>
+<td style="text-align: left;">-0.08 [-0.28, 0.11]</td>
+<td style="text-align: right;">0.798</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Müller-Lyer</td>
+<td style="text-align: left;">0.01 [-0.15, 0.18]</td>
+<td style="text-align: right;">0.559</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Recent - Past</td>
+<td style="text-align: left;">Vertical-Horizontal</td>
+<td style="text-align: left;">-0.05 [-0.22, 0.12]</td>
+<td style="text-align: right;">0.713</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>slopes_fig <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Quantity =</span> <span class="fu">paste</span>(quantities[slope_contrasts<span class="sc">$</span>Quantity], <span class="st">"~"</span>, slope_contrasts<span class="sc">$</span>Trend),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>             slope_contrasts[<span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)]),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Quantity =</span> index_lab[index_contrasts<span class="sc">$</span>Quantity],</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>             index_contrasts[<span class="fu">c</span>(<span class="st">"Contrast"</span>, <span class="st">"Illusion_Type"</span>, <span class="st">"Median"</span>, <span class="st">"CI_low"</span>, <span class="st">"CI_high"</span>, <span class="st">"pd"</span>)])</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_dots</span>(slopes_fig, <span class="st">"Group differences in the marginal slopes, and in the illusion magnitude"</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Population level, at strength 0 and mid difficulty. Slopes: the derivative of the parameter per unit of strength or difficulty."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_ddm_groups_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
